@@ -106,11 +106,16 @@ def apply(ranked, wl=None, asof=None):
             n_shows=r['n_shows'], action=r['action'],
             export_ready=r['export']['ready']))
         e.update(human)                      # human always wins
-        e.setdefault('history', []).append(
-            dict(run=asof, quadrant=r['quadrant'], stature=r['stature']['value'],
-                 momentum=r['momentum']['value']))
-        # The history is the future back-test set. Trim only the oldest, keep it long.
-        e['history'] = e['history'][-104:]
+        # ONE ENTRY PER RUN DATE — replaced, not appended. Re-running a date is routine: a crawl
+        # gets retried, a parser gets fixed, a report gets regenerated. An append-only history
+        # turned every one of those into a duplicate row. That matters because this history IS
+        # the back-test set — duplicated same-day entries would weight one week several times
+        # over and corrupt the very measurement it exists to make possible.
+        hist = [h for h in (e.get('history') or []) if h.get('run') != asof]
+        hist.append(dict(run=asof, quadrant=r['quadrant'], stature=r['stature']['value'],
+                         momentum=r['momentum']['value']))
+        hist.sort(key=lambda h: h['run'])
+        e['history'] = hist[-104:]          # two years of weekly runs
     return wl
 
 
@@ -175,6 +180,13 @@ def _selftest():
         ('contact note survived', len(b['contact_notes']) == 1),
         ('history accumulating', len(wl['artists']['a-one']['history']) == 2),
     ]
+    # Re-running the SAME date must not duplicate a history row — it is the back-test set.
+    wl3 = apply(wk2, asof='2026-08-08')
+    checks.append(('re-running a date replaces, does not duplicate',
+                   len(wl3['artists']['a-one']['history']) == 2))
+    checks.append(('history stays sorted by run date',
+                   [h['run'] for h in wl3['artists']['a-one']['history']]
+                   == sorted(h['run'] for h in wl3['artists']['a-one']['history'])))
     ok = True
     for label, good in checks:
         print(f'  [{"ok " if good else "FAIL"}] {label}')
