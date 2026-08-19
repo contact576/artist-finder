@@ -1,0 +1,34 @@
+# =============================================================================
+# CREDENTIALS — never, under any circumstances.
+#
+# data/config.json holds a Google Ads developer token plus an OAuth client secret and refresh
+# token. That refresh token is a long-lived key to a manager account with 49 live advertiser
+# accounts under it. data/config.example.json is the tracked template and carries no values.
+# =============================================================================
+data/config.json
+*.key
+*.pem
+.env
+
+# -----------------------------------------------------------------------------
+# Reproducible bulk. Raw crawls can be re-fetched, digests are regenerated from the snapshots.
+#
+# NOTE WHAT IS *NOT* HERE: data/snapshots/ IS TRACKED, deliberately. It is the accumulated
+# weekly measurement and the only thing in this repository that cannot be regenerated —
+# losing it resets the tool to day one and throws away every week of trajectory history.
+# -----------------------------------------------------------------------------
+data/raw/
+out/
+data/source_probe.json
+
+# -----------------------------------------------------------------------------
+# Noise
+# -----------------------------------------------------------------------------
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+Thumbs.db
+desktop.ini
+*.bak
+~$*

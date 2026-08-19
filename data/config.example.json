@@ -1,0 +1,37 @@
+{
+ "_doc": [
+  "TEMPLATE ONLY. Copy to config.json and fill in. config.json is gitignored and must stay",
+  "that way — a Google Ads refresh token is a long-lived key to a manager account holding 49",
+  "live advertiser accounts.",
+  "",
+  "google_ads — powers tools/fetch_search_volume.py, which runs MONTHLY (Google refreshes",
+  "Keyword Planner monthly; weekly polling just redraws the same number four times).",
+  "  developer_token    apply at ads.google.com/aw/apicenter, signed in to the PPC Guru.ca",
+  "                     manager account. Needs a live company website and a monitored contact",
+  "                     address — a dead site is the usual rejection. Basic access is enough.",
+  "  client_id/secret   an OAuth 2.0 Desktop client in Google Cloud, Google Ads API enabled.",
+  "  refresh_token      one-time consent with access_type=offline on that client.",
+  "  login_customer_id  the MCC itself. Digits only, no dashes.",
+  "  customer_id        the account the request bills against; the MCC is fine.",
+  "",
+  "bandsintown_app_id — free, granted on accepting their terms. Strong for music, THIN FOR",
+  "COMEDY: a blank result means 'not found on Bandsintown', never 'does not tour abroad'.",
+  "",
+  "apify_token — lets tools/fetch_listings.py render BOOKMYSHOW itself. BookMyShow refuses",
+  "plain requests (403) but serves the same schema.org JSON-LD once a browser loads it on an",
+  "Indian IP, so Apify supplies only the browser and the IP; the same local parser reads it.",
+  "Get it at console.apify.com -> Settings -> Integrations -> API token. Without it BookMyShow",
+  "is simply skipped and the free sources still run."
+ ],
+ "google_ads": {
+  "developer_token": "",
+  "client_id": "",
+  "client_secret": "",
+  "refresh_token": "",
+  "login_customer_id": "1632013729",
+  "customer_id": "1632013729",
+  "api_version": "v21"
+ },
+ "bandsintown_app_id": "",
+ "apify_token": ""
+}

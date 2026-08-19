@@ -1,0 +1,305 @@
+{
+ "_doc": [
+  "WHERE WE LOOK, AND WHY THE TIER MATTERS MORE THAN THE LIST.",
+  "",
+  "Indian ticketing is stratified, and the stratification is the whole signal. Self-serve",
+  "platforms (tier 'longtail') will list anybody who uploads an event, so that is where an",
+  "artist first appears. Curated platforms (tier 'major') are gatekept — a promoter or the",
+  "platform itself decides you are worth a slot. An artist moving from longtail to major is",
+  "the single loudest early-phase event this tool can observe, because somebody with money",
+  "changed their mind about them. That transition is PLATFORM GRADUATION and signals.py",
+  "scores it heavily.",
+  "",
+  "BOOKMYSHOW IS PRIMARY AND IS CRAWLED STRICTLY. It carries the majority of ticketed live",
+  "events in India across every genre, so it gets several times the page budget of anything",
+  "else and all of its categories, not just comedy. The long-tail sites still matter — they",
+  "are where a name appears FIRST — but BookMyShow is where the market actually is.",
+  "",
+  "against the live site. THE FIRST RUN IS A DISCOVERY PASS: map the real category paths, then",
+  "write them back here with verified_at set. Do not trust the guessed listing_paths below.",
+  "BookMyShow in particular refuses plain fetching (confirmed 2026-08-19), so it needs browser",
+  "rendering and a residential proxy — see needs_browser / needs_proxy.",
+  "",
+  "EVERY PATH BELOW WAS PROBED ON 2026-08-19 and carries `access` and `verified_at`. See",
+  "_access_legend: three sources serve structured JSON-LD to plain Python (no Apify, no cost),",
+  "three need Apify for HTML, BookMyShow needs a browser and a residential proxy, and Insider is",
+  "dead and disabled. Re-run tools/probe_sources.py after any change — this file should record",
+  "what was OBSERVED, never what was assumed.",
+  "",
+  "'categories' is not decoration. The platform's own category label is the PRIMARY genre",
+  "signal in genres.classify_genre(), because a large share of clean listings carry no genre",
+  "word in the title at all ('Kanan Gill: Yes I'm Fine'). The crawler must capture it."
+ ],
+ "sources": [
+  {
+   "key": "bookmyshow",
+   "name": "BookMyShow",
+   "domain": "bookmyshow.com",
+   "tier": "major",
+   "primary": false,
+   "crawl_budget_pages": 20,
+   "needs_browser": true,
+   "needs_proxy": "RESIDENTIAL",
+   "cities": [
+    "Mumbai",
+    "Delhi NCR",
+    "Bengaluru",
+    "Hyderabad",
+    "Chennai",
+    "Kolkata",
+    "Pune",
+    "Ahmedabad",
+    "Chandigarh",
+    "Jaipur",
+    "Kochi",
+    "Indore"
+   ],
+   "categories": [
+    "comedy",
+    "music",
+    "theatre",
+    "workshops",
+    "sports",
+    "devotional",
+    "kids",
+    "exhibitions",
+    "nightlife"
+   ],
+   "listing_paths": [
+    "/explore/home/{city}",
+    "/explore/comedy-shows-{city}",
+    "/explore/music-shows-{city}",
+    "/explore/theatre-shows-{city}",
+    "/explore/events-{city}"
+   ],
+   "notes": "SUPPLEMENTARY, NOT PRIMARY — corrected 2026-08-19 by measurement. BookMyShow is the biggest ticketing site in India, but what it EXPOSES is a 10-item JSON-LD teaser of featured events; the real listing grid renders client-side. Measured yield is ~3 upcoming events per rendered page against 15-64 free ones from AllEvents. Worse for this tool specifically: the featured carousel skews to acts that are ALREADY BIG, which is the ESTABLISHED end of the market, while the artists this scout exists to find are on the self-serve platforms. Kept at a small budget because it does catch large-room bookings the long tail misses (arena and festival dates). Extracting its full grid would need its internal API intercepted — a real project, only worth starting if the long-tail sources prove insufficient.",
+   "verify": true,
+   "verified_at": "2026-08-19",
+   "access": "apify-browser-proxy",
+   "enabled": true,
+   "yield_measured": {
+    "date": "2026-08-19",
+    "events_per_page_jsonld": 10,
+    "upcoming_per_page": 3,
+    "note": "JSON-LD is capped at numberOfItems:10 and roughly two thirds of those are stale or venue entries. Measured across 3 pages: 30 events, 9 upcoming. comedy-shows-bengaluru returned ZERO upcoming."
+   }
+  },
+  {
+   "key": "district",
+   "name": "District (Zomato)",
+   "domain": "district.in",
+   "tier": "major",
+   "crawl_budget_pages": 60,
+   "needs_browser": true,
+   "categories": [
+    "comedy",
+    "music",
+    "nightlife",
+    "theatre",
+    "sports"
+   ],
+   "listing_paths": [
+    "/events"
+   ],
+   "notes": "Serves plain HTTP with schema.org JSON-LD. Only /events works — /mumbai/events, /comedy and /mumbai all 404. Small yield (12 events) and NO category field, so everything from here lands in genre=unknown unless the title carries a keyword.",
+   "verify": true,
+   "verified_at": "2026-08-19",
+   "access": "direct-jsonld",
+   "enabled": true
+  },
+  {
+   "key": "insider",
+   "name": "Insider.in (legacy)",
+   "domain": "insider.in",
+   "tier": "major",
+   "crawl_budget_pages": 20,
+   "categories": [
+    "comedy",
+    "music",
+    "theatre"
+   ],
+   "listing_paths": [
+    "/all-events"
+   ],
+   "notes": "DISABLED. 502 Bad Gateway on every path (probe 2026-08-19). Superseded by District after the Paytm Insider migration. Kept in this file so old snapshots stay resolvable; re-enable only if it starts answering again.",
+   "verify": true,
+   "verified_at": "2026-08-19",
+   "access": "dead",
+   "enabled": false
+  },
+  {
+   "key": "skillbox",
+   "name": "Skillbox",
+   "domain": "skillboxes.com",
+   "tier": "curated",
+   "crawl_budget_pages": 50,
+   "categories": [
+    "comedy",
+    "music",
+    "workshop",
+    "theatre"
+   ],
+   "listing_paths": [
+    "/events",
+    "/all-events",
+    "/"
+   ],
+   "notes": "All three paths return 200 to a plain request but publish NO JSON-LD, so the listings must be parsed out of HTML — that is Apify work, not urllib work.",
+   "verify": true,
+   "verified_at": "2026-08-19",
+   "access": "apify-html",
+   "enabled": true
+  },
+  {
+   "key": "townscript",
+   "name": "Townscript",
+   "domain": "townscript.com",
+   "tier": "longtail",
+   "crawl_budget_pages": 80,
+   "categories": [
+    "comedy",
+    "music",
+    "theatre",
+    "workshop",
+    "devotional",
+    "spiritual"
+   ],
+   "listing_paths": [
+    "/in/all-events",
+    "/in/comedy",
+    "/india/events"
+   ],
+   "notes": "Reachable on all four probed paths, no JSON-LD. Self-serve, so still the richest early-phase source once an HTML adapter exists.",
+   "verify": true,
+   "verified_at": "2026-08-19",
+   "access": "apify-html",
+   "enabled": true
+  },
+  {
+   "key": "allevents",
+   "name": "AllEvents",
+   "domain": "allevents.in",
+   "tier": "longtail",
+   "crawl_budget_pages": 80,
+   "categories": [
+    "comedy",
+    "music",
+    "theatre",
+    "nightlife",
+    "devotional",
+    "magic",
+    "workshop",
+    "sports"
+   ],
+   "listing_paths": [
+    "/{city}/comedy",
+    "/{city}/music",
+    "/{city}/theatre",
+    "/{city}/parties",
+    "/{city}/all"
+   ],
+   "notes": "BEST SOURCE SO FAR. Plain HTTP + JSON-LD, 15-64 structured events per page, venue and date on 100% of rows. TWO TRAPS. (1) Some cities ignore the category segment and serve the same list for every path — measured Mumbai 0% comedy/music overlap (real filtering) vs Bengaluru 92% (none). fetch_listings.py detects this per city and drops the labels. (2) PUNE IS UNREACHABLE: /pune 404s and /pune-city 302s to /pine-city, a different place entirely. Excluded until a working slug is found.",
+   "verify": true,
+   "verified_at": "2026-08-19",
+   "access": "direct-jsonld",
+   "enabled": true
+  },
+  {
+   "key": "meraevents",
+   "name": "MeraEvents",
+   "domain": "meraevents.com",
+   "tier": "longtail",
+   "crawl_budget_pages": 30,
+   "categories": [
+    "comedy",
+    "music",
+    "theatre",
+    "devotional",
+    "workshop"
+   ],
+   "listing_paths": [
+    "/"
+   ],
+   "notes": "/india-events now 404s; only the homepage answers, with no JSON-LD. Lowest priority.",
+   "verify": true,
+   "verified_at": "2026-08-19",
+   "access": "apify-html",
+   "enabled": true
+  },
+  {
+   "key": "highape",
+   "name": "HighApe",
+   "domain": "highape.com",
+   "tier": "longtail",
+   "crawl_budget_pages": 30,
+   "categories": [
+    "nightlife",
+    "music",
+    "comedy"
+   ],
+   "listing_paths": [
+    "/",
+    "/mumbai/events",
+    "/bangalore/events"
+   ],
+   "notes": "Plain HTTP + JSON-LD, 265 structured events on the homepage alone. NO category field, so genre comes from the title or stays unknown. Metro nightlife bias.",
+   "verify": true,
+   "verified_at": "2026-08-19",
+   "access": "direct-jsonld",
+   "enabled": true
+  }
+ ],
+ "tier_rank": {
+  "longtail": 1,
+  "curated": 2,
+  "major": 3
+ },
+ "discovery_queries": {
+  "_doc": "SERP fallbacks for when a listing crawl is blocked, and the mechanism that finds platforms NOT in this file. Any ticketing domain appearing in these results that is not registered above is reported as a candidate NEW CHANNEL — that is the 'new channels of entertainment' half of the brief, and it is genre-agnostic on purpose: the next format nobody has named yet will surface here first.",
+  "templates": [
+   "site:{domain} {genre} {city} {year}",
+   "\"{city}\" {genre} tickets {month} {year}",
+   "\"live in concert\" tickets {city} {year} -bookmyshow",
+   "book tickets \"{artist}\" india",
+   "new {genre} tour india {year} tickets"
+  ],
+  "genres": [
+   "standup comedy",
+   "live music concert",
+   "bhajan sandhya",
+   "qawwali night",
+   "kavi sammelan",
+   "magic show",
+   "theatre play",
+   "DJ night",
+   "sufi night",
+   "classical music",
+   "storytelling"
+  ],
+  "cities": [
+   "Mumbai",
+   "Delhi",
+   "Bengaluru",
+   "Pune",
+   "Hyderabad",
+   "Chennai",
+   "Kolkata",
+   "Ahmedabad",
+   "Chandigarh",
+   "Jaipur",
+   "Indore",
+   "Kochi"
+  ]
+ },
+ "_access_legend": {
+  "direct-jsonld": "Plain HTTP + schema.org JSON-LD. tools/fetch_listings.py handles these in Python — free, fast, structured, no Apify and no LLM in the loop.",
+  "apify-html": "Answers a plain request but publishes no JSON-LD; listings need parsing out of HTML. Claude fetches these with Apify.",
+  "apify-browser-proxy": "Refuses plain requests. Needs browser rendering behind a residential proxy. Currently only BookMyShow.",
+  "dead": "Not answering. Disabled; left here so historical snapshots resolve."
+ },
+ "_probe": {
+  "last_run": "2026-08-19",
+  "tool": "tools/probe_sources.py",
+  "note": "Re-run after any source change. It records what was OBSERVED, and those observations belong in this file rather than in anyone memory."
+ }
+}

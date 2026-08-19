@@ -1,0 +1,449 @@
+{
+ "_doc": [
+  "ROOM SIZE IS THE SIGNAL. THE BAND IS THE UNIT, NOT THE SEAT COUNT.",
+  "",
+  "This tool never learns how many tickets an Indian show sold — no platform publishes it.",
+  "What it can see is the ROOM the promoter booked, and a promoter books a bigger room only",
+  "when they believe they can fill it. Room size is therefore a revealed-preference proxy for",
+  "demand, made by somebody spending their own money.",
+  "",
+  "Capacities below are approximate and mostly UNVERIFIED. That is deliberate and it is fine,",
+  "because the code scores the BAND, not the number. 'club' -> 'theatre_mid' is a real",
+  "escalation whether the theatre seats 900 or 1,200; a 30% error in the seat count does not",
+  "change the band. Anything that depends on the exact number is a bug.",
+  "",
+  "Unknown venues are the common case, not the exception. classify_venue() falls back to",
+  "keyword patterns, and a venue it cannot place at all gets band null — which propagates as",
+  "'unknown', never as 'small'. An unmeasured room must not read as a weak one."
+ ],
+ "bands": {
+  "openmic": {
+   "rank": 1,
+   "min": 0,
+   "max": 149,
+   "label": "open mic / bar room"
+  },
+  "club": {
+   "rank": 2,
+   "min": 150,
+   "max": 349,
+   "label": "comedy club"
+  },
+  "theatre_sm": {
+   "rank": 3,
+   "min": 350,
+   "max": 799,
+   "label": "small theatre"
+  },
+  "theatre_mid": {
+   "rank": 4,
+   "min": 800,
+   "max": 1499,
+   "label": "mid theatre"
+  },
+  "theatre_lg": {
+   "rank": 5,
+   "min": 1500,
+   "max": 2999,
+   "label": "large auditorium"
+  },
+  "arena": {
+   "rank": 6,
+   "min": 3000,
+   "max": 100000,
+   "label": "arena / stadium"
+  }
+ },
+ "name_patterns": {
+  "_doc": "Fallback classification for venues not listed below — matched case-insensitively against the venue string, FIRST match wins, so order is significance order. This is how the tool copes with the long tail, which is most of it: the first real crawl produced 264 distinct unclassified venues across 383 shows. Bands here are DEFAULTS for a shape of room, not claims about a specific one; a named room in `venues` always wins.",
+  "ordered": [
+   [
+    "arena",
+    [
+     "stadium",
+     "arena",
+     "indoor stadium",
+     "dome",
+     "grounds",
+     "race course",
+     "bharat mandapam",
+     "exhibition centre",
+     "exhibition center",
+     "expo centre",
+     "convention centre",
+     "convention center",
+     "jio world"
+    ]
+   ],
+   [
+    "theatre_lg",
+    [
+     "shanmukhananda",
+     "talkatora",
+     "siri fort",
+     "shilpakala",
+     "jawaharlal nehru",
+     "nehru centre",
+     "kamarajar",
+     "netaji indoor"
+    ]
+   ],
+   [
+    "theatre_mid",
+    [
+     "auditorium",
+     "rangmandir",
+     "rang mandir",
+     "rangmanch",
+     "kalakshetra",
+     "town hall",
+     "music academy",
+     "sabha",
+     "mancha",
+     "mandapam",
+     "kala bhawan",
+     "kala mandir",
+     "arts council",
+     "academy of fine arts",
+     "cultural centre",
+     "cultural center",
+     "concert hall",
+     "ravindra",
+     "bhavan",
+     "bhawan",
+     "international centre",
+     "cultural relations",
+     "gandharva",
+     "hall"
+    ]
+   ],
+   [
+    "theatre_sm",
+    [
+     "theatre",
+     "theater",
+     "playhouse",
+     "prithvi",
+     "ranga shankara",
+     "little theatre",
+     "amphitheatre",
+     "amphitheater",
+     "black box",
+     "the stage",
+     "medai"
+    ]
+   ],
+   [
+    "club",
+    [
+     "comedy club",
+     "canvas laugh",
+     "laugh club",
+     "laugh store",
+     "laugh casa",
+     "the habitat",
+     "comedy store",
+     "satire",
+     "laugh",
+     "comedy",
+     "studio",
+     "social",
+     "antisocial",
+     "hard rock",
+     "phoenix",
+     "cafe",
+     "café",
+     "lounge",
+     "pub",
+     "brewery",
+     "brewhouse",
+     "brewing",
+     "bar",
+     "club",
+     "hotel",
+     "marriott",
+     "hyatt",
+     "taj ",
+     "regis",
+     "courtyard",
+     "radisson",
+     "novotel",
+     "sheraton",
+     "banquet",
+     "resort",
+     "mall",
+     "kitchen",
+     "bistro",
+     "terrace",
+     "rooftop",
+     "haveli"
+    ]
+   ],
+   [
+    "openmic",
+    [
+     "open mic",
+     "open-mic",
+     "mic night",
+     "basement"
+    ]
+   ]
+  ]
+ },
+ "venues": {
+  "_doc": "Named rooms worth pinning because they are rungs people actually climb. capacity_approx is indicative; confidence 'low' means nobody has checked it against the venue's own published number.",
+  "the habitat, mumbai": {
+   "city": "Mumbai",
+   "band": "club",
+   "capacity_approx": 150,
+   "confidence": "low",
+   "note": "The canonical Indian comedy proving room. First paid gigs happen here."
+  },
+  "canvas laugh club, mumbai": {
+   "city": "Mumbai",
+   "band": "club",
+   "capacity_approx": 250,
+   "confidence": "low"
+  },
+  "sophia bhabha hall, mumbai": {
+   "city": "Mumbai",
+   "band": "theatre_mid",
+   "capacity_approx": 800,
+   "confidence": "low"
+  },
+  "st andrews auditorium, mumbai": {
+   "city": "Mumbai",
+   "band": "theatre_mid",
+   "capacity_approx": 1000,
+   "confidence": "low"
+  },
+  "tata theatre, mumbai": {
+   "city": "Mumbai",
+   "band": "theatre_mid",
+   "capacity_approx": 1000,
+   "confidence": "low",
+   "note": "NCPA"
+  },
+  "jamshed bhabha theatre, mumbai": {
+   "city": "Mumbai",
+   "band": "theatre_mid",
+   "capacity_approx": 1100,
+   "confidence": "low",
+   "note": "NCPA"
+  },
+  "shanmukhananda hall, mumbai": {
+   "city": "Mumbai",
+   "band": "theatre_lg",
+   "capacity_approx": 2700,
+   "confidence": "low",
+   "note": "A major step up. Booking this is a statement."
+  },
+  "prithvi theatre, mumbai": {
+   "city": "Mumbai",
+   "band": "theatre_sm",
+   "capacity_approx": 200,
+   "confidence": "low"
+  },
+  "kamani auditorium, delhi": {
+   "city": "Delhi",
+   "band": "theatre_sm",
+   "capacity_approx": 600,
+   "confidence": "low"
+  },
+  "siri fort auditorium, delhi": {
+   "city": "Delhi",
+   "band": "theatre_lg",
+   "capacity_approx": 1700,
+   "confidence": "low"
+  },
+  "talkatora stadium, delhi": {
+   "city": "Delhi",
+   "band": "arena",
+   "capacity_approx": 3000,
+   "confidence": "low"
+  },
+  "the piano man, delhi": {
+   "city": "Delhi",
+   "band": "club",
+   "capacity_approx": 150,
+   "confidence": "low"
+  },
+  "that comedy club, bengaluru": {
+   "city": "Bengaluru",
+   "band": "club",
+   "capacity_approx": 150,
+   "confidence": "low"
+  },
+  "ranga shankara, bengaluru": {
+   "city": "Bengaluru",
+   "band": "theatre_sm",
+   "capacity_approx": 320,
+   "confidence": "low"
+  },
+  "good shepherd auditorium, bengaluru": {
+   "city": "Bengaluru",
+   "band": "theatre_mid",
+   "capacity_approx": 900,
+   "confidence": "low"
+  },
+  "chowdiah memorial hall, bengaluru": {
+   "city": "Bengaluru",
+   "band": "theatre_mid",
+   "capacity_approx": 1000,
+   "confidence": "low"
+  },
+  "balgandharva rangmandir, pune": {
+   "city": "Pune",
+   "band": "theatre_mid",
+   "capacity_approx": 1000,
+   "confidence": "low"
+  },
+  "shilpakala vedika, hyderabad": {
+   "city": "Hyderabad",
+   "band": "theatre_lg",
+   "capacity_approx": 2000,
+   "confidence": "low"
+  },
+  "music academy, chennai": {
+   "city": "Chennai",
+   "band": "theatre_lg",
+   "capacity_approx": 1500,
+   "confidence": "low"
+  },
+  "kala mandir, kolkata": {
+   "city": "Kolkata",
+   "band": "theatre_mid",
+   "capacity_approx": 1000,
+   "confidence": "low"
+  },
+  "nazrul mancha, kolkata": {
+   "city": "Kolkata",
+   "band": "theatre_mid",
+   "capacity_approx": 1000,
+   "confidence": "low"
+  },
+  "bohemians": {
+   "city": "Delhi",
+   "band": "club",
+   "capacity_approx": 200,
+   "confidence": "low",
+   "note": "Most-listed unclassified room in the first crawl (22 shows)."
+  },
+  "the laugh store": {
+   "city": "Delhi",
+   "band": "club",
+   "capacity_approx": 200,
+   "confidence": "low"
+  },
+  "the satire club": {
+   "city": "Delhi",
+   "band": "club",
+   "capacity_approx": 150,
+   "confidence": "low"
+  },
+  "prayogshala": {
+   "city": "Mumbai",
+   "band": "club",
+   "capacity_approx": 120,
+   "confidence": "low",
+   "note": "Experimental/new-material room."
+  },
+  "the humming tree": {
+   "city": "Bengaluru",
+   "band": "club",
+   "capacity_approx": 250,
+   "confidence": "low"
+  },
+  "bharat mandapam": {
+   "city": "Delhi",
+   "band": "arena",
+   "capacity_approx": 7000,
+   "confidence": "low"
+  },
+  "uttam mancha": {
+   "city": "Kolkata",
+   "band": "theatre_mid",
+   "capacity_approx": 900,
+   "confidence": "low"
+  },
+  "madhusudan mancha": {
+   "city": "Kolkata",
+   "band": "theatre_mid",
+   "capacity_approx": 900,
+   "confidence": "low"
+  },
+  "bal gandharva rang mandir": {
+   "city": "Mumbai",
+   "band": "theatre_mid",
+   "capacity_approx": 1000,
+   "confidence": "low"
+  },
+  "academy of fine arts": {
+   "city": "Kolkata",
+   "band": "theatre_mid",
+   "capacity_approx": 1000,
+   "confidence": "low"
+  },
+  "punjab kala bhawan": {
+   "city": "Chandigarh",
+   "band": "theatre_mid",
+   "capacity_approx": 800,
+   "confidence": "low"
+  },
+  "bangalore international centre": {
+   "city": "Bengaluru",
+   "band": "theatre_sm",
+   "capacity_approx": 400,
+   "confidence": "low"
+  },
+  "sir mutha venkatasubba rao concert hall": {
+   "city": "Chennai",
+   "band": "theatre_mid",
+   "capacity_approx": 1000,
+   "confidence": "low"
+  }
+ },
+ "tier1_cities": [
+  "Mumbai",
+  "Delhi",
+  "Bengaluru",
+  "Hyderabad",
+  "Chennai",
+  "Kolkata",
+  "Pune",
+  "Ahmedabad"
+ ],
+ "diaspora_relevant_note": "City spread inside India measures Indian demand. It does NOT measure diaspora demand, which is what a North American tour sells against. See CLAUDE.md, 'The India-to-diaspora gap'.",
+ "tba_markers": {
+  "_doc": "Venue strings that mean \"not decided yet\", not \"we cannot classify it\". Reported separately so the venue-map backlog only lists rooms that actually exist.",
+  "exact": [
+   "venue to be announced",
+   "tba",
+   "to be announced",
+   "venue tba",
+   "online",
+   "multiple venues",
+   "various venues"
+  ],
+  "bare_city": [
+   "mumbai",
+   "delhi",
+   "new delhi",
+   "bengaluru",
+   "bangalore",
+   "pune",
+   "hyderabad",
+   "chennai",
+   "kolkata",
+   "ahmedabad",
+   "chandigarh",
+   "jaipur",
+   "kochi",
+   "indore",
+   "goa",
+   "noida",
+   "gurgaon",
+   "gurugram"
+  ]
+ }
+}
