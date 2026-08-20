@@ -167,6 +167,10 @@ def main(argv=None):
                  if r['candidate_eligible'] and (r['quadrant'] == 'RISING' or r['slug'] in tipped)]
 
     deltas = watchlist.diff(ranked, asof=a.date)
+    if not obs['trajectory_observable']:
+        for key in ('moved', 'momentum_jump', 'momentum_drop'):
+            deltas[key] = []
+
     print(f"\n  {len(ranked)} entities · new={len(deltas['new'])} "
           f"moved={len(deltas['moved'])} surging={len(deltas['momentum_jump'])} "
           f"cooling={len(deltas['momentum_drop'])}")

@@ -16,9 +16,11 @@ BASE = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 
 import demand  # noqa: E402
+import gazetteer  # noqa: E402
 import model  # noqa: E402
 
 SOURCES_PATH = os.path.join(BASE, 'data', 'sources.json')
+IDENTITY_REVIEWS_PATH = os.path.join(BASE, 'data', 'identity_reviews.json')
 CANDIDATE_KINDS = {'artist', 'dj_night'}
 PRIMARY_ROLES = {'primary', 'primary_validation'}
 STAGES = ('Discovered', 'Major-platform confirmed', 'Diaspora validated', 'Forecast ready')
@@ -56,6 +58,18 @@ def load_sources(path=None):
         return json.load(f)
 
 
+def load_identity_reviews(path=None):
+    """Load small human-audited identity attestations; this is not an aliases file."""
+    path = path or IDENTITY_REVIEWS_PATH
+    if not os.path.exists(path):
+        return dict(schema_version=1, reviews={})
+    with open(path, encoding='utf-8') as f:
+        data = json.load(f)
+    if not isinstance(data, dict) or not isinstance(data.get('reviews'), dict):
+        raise ValueError('identity reviews must contain a reviews object')
+    return data
+
+
 def _source_rows(config=None):
     config = load_sources() if config is None else config
     if isinstance(config, dict):
@@ -86,12 +100,39 @@ def _brief_show(show):
         show_id=show.get('show_id'), source=show.get('source'), title=show.get('title'),
         url=show.get('url'), show_date=show.get('show_date'), city=show.get('city'),
         venue=show.get('venue'), venue_band=show.get('venue_band'), role=show.get('role'),
+        role_certain=show.get('role_certain'), parse_confidence=show.get('parse_confidence'),
+        parse_reason=show.get('parse_reason'), trusted=show.get('trusted'),
+        identity_provenance=list(show.get('identity_provenance') or []),
         status_history=list(show.get('status_history') or []),
         first_seen=show.get('first_seen'), last_seen=show.get('last_seen'),
     )
 
 
-def _accepted_identity(show, slug):
+def _identity_attestation(slug, name, reviews):
+    """Require an exact established identity or one explicit human review."""
+    if gazetteer.exact_known(name):
+        return True, dict(kind='exact_gazetteer', name=name), None
+    record = (reviews.get('reviews') or {}).get(slug)
+    if not isinstance(record, dict):
+        return False, None, 'no exact gazetteer identity or audited identity review for this performer'
+    if record.get('status') != 'verified':
+        return False, None, 'identity review is not marked verified'
+    reviewed_at = _as_date(record.get('reviewed_at'))
+    if reviewed_at is None:
+        return False, None, 'identity review has no valid review date'
+    review_name = record.get('name')
+    if not isinstance(review_name, str) or review_name.casefold() != name.casefold():
+        return False, None, 'identity review name does not exactly match the canonical performer'
+    source_evidence = record.get('source_evidence')
+    if not isinstance(source_evidence, str) or not source_evidence.strip():
+        return False, None, 'identity review is missing an actionable source-evidence reason'
+    return True, dict(kind='audited_review', name=review_name,
+                      reviewed_at=reviewed_at.isoformat(), source_evidence=source_evidence), None
+
+
+def _accepted_identity(show, slug, reviews):
+    if show.get('trusted') is not True:
+        return False, None, 'listing was held for review or lacks trusted parser provenance'
     matches = [e for e in (show.get('entities') or []) if e.get('slug') == slug]
     if len(matches) != 1:
         return False, None, ('entity missing from the ledger row' if not matches else
@@ -107,18 +148,22 @@ def _accepted_identity(show, slug):
     kind = entity.get('kind') or show.get('entity_type')
     if kind not in CANDIDATE_KINDS:
         return False, None, 'matched entity is not a candidate performer'
+    attested, attestation, reason = _identity_attestation(slug, name, reviews)
+    if not attested:
+        return False, None, reason
     return True, dict(slug=slug, name=name, kind=kind,
-                      parser_state='trusted ledger row; one canonical entity match'), None
+                      parser_state='trusted ledger row; one canonical entity match',
+                      attestation=attestation), None
 
 
-def _primary_evidence(entity, source_map, asof):
+def _primary_evidence(entity, source_map, asof, reviews):
     evidence, rejected = [], []
     for show in entity.get('shows') or []:
         source = source_map.get(show.get('source'))
         if source is None:
             continue
         date = _as_date(show.get('show_date'))
-        accepted_identity, identity, identity_reason = _accepted_identity(show, entity['slug'])
+        accepted_identity, identity, identity_reason = _accepted_identity(show, entity['slug'], reviews)
         url_ok = _url_for_domain(show.get('url'), source.get('domain'))
         date_ok = date is not None and date >= asof
         if accepted_identity and url_ok and date_ok:
@@ -148,7 +193,7 @@ def _discovery_evidence(entity, source_map):
     return out
 
 
-def _classifiable_identity(entity):
+def _classifiable_identity(entity, reviews):
     name, slug = entity.get('name'), entity.get('slug')
     if entity.get('kind') not in CANDIDATE_KINDS:
         return False, 'entity kind is not a performer/DJ-night candidate'
@@ -156,7 +201,10 @@ def _classifiable_identity(entity):
         return False, 'canonical artist name is missing or too short to review'
     if not isinstance(slug, str) or model.slugify(name) != slug:
         return False, 'canonical artist name and slug do not agree'
-    return True, 'canonical artist identity is classifiable'
+    attested, attestation, reason = _identity_attestation(slug, name, reviews)
+    if not attested:
+        return False, reason
+    return True, 'identity attested by ' + attestation['kind']
 
 
 def _diaspora_evidence(slug, demand_data, asof):
@@ -185,7 +233,10 @@ def _diaspora_evidence(slug, demand_data, asof):
 
     contamination = entry.get('contamination') or {}
     share = contamination.get('qualified_share')
-    contaminated = isinstance(share, (int, float)) and share < demand.CONTAMINATION_FLOOR
+    checked_at = _as_date(contamination.get('checked_at'))
+    share_numeric = isinstance(share, (int, float)) and not isinstance(share, bool)
+    contamination_reviewed = share_numeric and checked_at is not None
+    contaminated = contamination_reviewed and share < demand.CONTAMINATION_FLOOR
     international = entry.get('international') or {}
     foreign = []
     for item in international.get('dates') or []:
@@ -199,11 +250,18 @@ def _diaspora_evidence(slug, demand_data, asof):
     # Name contamination applies to query evidence only. A separately sourced, qualifying
     # foreign booking remains useful diaspora evidence, but it is not a substitute for clean
     # US/CA search data at the final handoff gate.
-    search_usable = bool(usable_geos) and not contaminated
+    search_usable = bool(usable_geos) and contamination_reviewed and not contaminated
     foreign_date_usable = bool(foreign)
     diaspora_validated = search_usable or foreign_date_usable
     forecast_ready = search_usable
-    if contaminated and foreign_date_usable:
+    if not contamination_reviewed and foreign_date_usable:
+        note = ('search is unvalidated: a numeric qualified share at or above the contamination '
+                'floor and a review timestamp are required; independent foreign-date evidence '
+                'still validates diaspora interest')
+    elif not contamination_reviewed:
+        note = ('search is unvalidated: a numeric qualified share at or above the contamination '
+                'floor and a review timestamp are required')
+    elif contaminated and foreign_date_usable:
         note = (f'search is unusable: qualified share {share:.0%} is below the '
                 f'{demand.CONTAMINATION_FLOOR:.0%} contamination floor; independent foreign '
                 'date evidence validates diaspora interest but cannot establish forecast readiness')
@@ -246,11 +304,12 @@ def _stage(primary, diaspora, identity_ready, primary_configured):
             'this is readiness only, not a ticket forecast.')
 
 
-def build(ledger, demand_data=None, asof=None, sources_config=None):
+def build(ledger, demand_data=None, asof=None, sources_config=None, identity_reviews=None):
     """Derive lifecycle records for candidate performers from a ledger without mutating it."""
     asof = _as_date(asof) or dt.date.today()
     demand_data = demand.load() if demand_data is None else demand_data
     source_map = primary_sources(sources_config)
+    reviews = load_identity_reviews() if identity_reviews is None else identity_reviews
     entities = {}
     for show in (ledger.get('shows') or []):
         for item in show.get('entities') or []:
@@ -266,9 +325,9 @@ def build(ledger, demand_data=None, asof=None, sources_config=None):
     for entity in entities.values():
         if entity.get('kind') not in CANDIDATE_KINDS:
             continue
-        primary, rejected = _primary_evidence(entity, source_map, asof)
+        primary, rejected = _primary_evidence(entity, source_map, asof, reviews)
         diaspora = _diaspora_evidence(entity['slug'], demand_data, asof)
-        identity_ready, identity_note = _classifiable_identity(entity)
+        identity_ready, identity_note = _classifiable_identity(entity, reviews)
         stage, next_action = _stage(primary, diaspora, identity_ready, bool(source_map))
         out.append(dict(
             slug=entity['slug'], name=entity.get('name'), kind=entity.get('kind'),
@@ -287,79 +346,87 @@ def build(ledger, demand_data=None, asof=None, sources_config=None):
 
 def _selftest():
     primary_config = dict(sources=[
-        dict(key='book', name='Book fixture', domain='book.example', role='primary_validation'),
         dict(key='district', name='District fixture', domain='district.example', primary=True),
         dict(key='longtail', name='Longtail fixture', domain='long.example', tier='longtail'),
     ])
+    previous_cache = gazetteer._CACHE
+    gazetteer._CACHE = dict(known={'Known Artist': ['known', 'artist']}, explicit={})
 
-    def show(sid, source, name, slug, date, url, kind='artist'):
-        return dict(show_id=sid, source=source, title=name + ' Live', url=url, show_date=date,
+    def show(sid, source, name, slug, trusted=True):
+        return dict(show_id=sid, source=source, title=name + ' Live',
+                    url='https://' + source + '.example/' + sid, show_date='2026-08-30',
                     city='Mumbai', venue='Fixture Hall', venue_band='club', role='headline',
-                    entity_type=kind, entities=[dict(name=name, slug=slug, kind=kind)],
-                    status_history=[dict(date='2026-08-20', status='available')],
-                    first_seen='2026-08-20', last_seen='2026-08-20')
+                    role_certain=True, parse_confidence=0.9, parse_reason='fixture explicit performer',
+                    trusted=trusted, entity_type='artist',
+                    entities=[dict(name=name, slug=slug, kind='artist')],
+                    status_history=[], first_seen='2026-08-20', last_seen='2026-08-20')
 
-    ledger = dict(shows=[
-        show('1', 'longtail', 'Discovery Act', 'discovery-act', '2026-08-30', 'https://long.example/1'),
-        show('2', 'book', 'Primary Only', 'primary-only', '2026-08-30', 'https://book.example/2'),
-        show('3', 'district', 'X', 'x', '2026-08-30', 'https://district.example/3'),
-        show('4', 'district', 'Ready Artist', 'ready-artist', '2026-08-30', 'https://district.example/4'),
-        show('5', 'district', 'Contaminated Name', 'contaminated-name', '2026-08-30',
-             'https://district.example/5'),
-        show('6', 'book', 'Past Booking', 'past-booking', '2026-08-19', 'https://book.example/6'),
-        show('7', 'district', 'Foreign Only', 'foreign-only', '2026-08-30',
-             'https://district.example/7'),
-    ])
-    dem = dict(entities={
-        'x': dict(search={
-            'us': dict(avg_monthly=800, fetched_at='2026-08-21', source='keyword planner', monthly=[]),
-            'ca': dict(avg_monthly=1200, fetched_at='2026-08-21', source='keyword planner', monthly=[]),
-        }),
-        'ready-artist': dict(search={
-            'us': dict(avg_monthly=1000, fetched_at='2026-08-21', source='keyword planner', monthly=[]),
-            'ca': dict(avg_monthly=2000, fetched_at='2026-08-21', source='keyword planner', monthly=[]),
-        }),
-        'contaminated-name': dict(search={
-            'us': dict(avg_monthly=5000, fetched_at='2026-08-21', source='keyword planner', monthly=[]),
-            'ca': dict(avg_monthly=None, fetched_at='2026-08-21', source='keyword planner', monthly=[]),
-        }, contamination=dict(qualified_share=0.02, checked_at='2026-08-21'),
-           international=dict(status='found', dates=[dict(country='United Kingdom', city='London',
-                                                         date='2026-09-30', source='serp')])),
-        'foreign-only': dict(search={}, international=dict(status='found', dates=[
-            dict(country='Canada', city='Toronto', date='2026-09-15', source='bandsintown')
-        ])),
+    def review(name):
+        return dict(name=name, status='verified', reviewed_at='2026-08-21',
+                    source_evidence='fixture primary title explicitly names this performer')
+
+    reviews = dict(schema_version=1, reviews={
+        'reviewed-artist': review('Reviewed Artist'),
+        'known-unchecked': review('Known Unchecked'),
+        'foreign-only': review('Foreign Only'),
+        'contaminated-name': review('Contaminated Name'),
+        'untrusted-reviewed': review('Untrusted Reviewed'),
     })
-    rows = {row['slug']: row for row in build(ledger, dem, '2026-08-21', primary_config)}
-    ready = rows['ready-artist']
+    ledger = dict(shows=[
+        show('1', 'longtail', 'Discovery Act', 'discovery-act'),
+        show('2', 'district', 'Just Go', 'just-go'),
+        show('3', 'district', 'Symphonic Experience', 'symphonic-experience'),
+        show('4', 'district', 'Known Artist', 'known-artist'),
+        show('5', 'district', 'Reviewed Artist', 'reviewed-artist'),
+        show('6', 'district', 'Corrected But Unreviewed', 'corrected-but-unreviewed'),
+        show('7', 'district', 'Untrusted Reviewed', 'untrusted-reviewed', trusted=False),
+        show('8', 'district', 'Known Unchecked', 'known-unchecked'),
+        show('9', 'district', 'Foreign Only', 'foreign-only'),
+        show('10', 'district', 'Contaminated Name', 'contaminated-name'),
+    ])
+    def clean(us, ca):
+        return dict(search={
+            'us': dict(avg_monthly=us, fetched_at='2026-08-21', source='fixture'),
+            'ca': dict(avg_monthly=ca, fetched_at='2026-08-21', source='fixture'),
+        }, contamination=dict(qualified_share=0.8, checked_at='2026-08-21'))
+    dem = dict(entities={
+        'known-artist': clean(1000, 2000),
+        'reviewed-artist': clean(900, 700),
+        'known-unchecked': dict(search={'us': dict(avg_monthly=600, fetched_at='2026-08-21', source='fixture')}),
+        'foreign-only': dict(international=dict(status='found', dates=[dict(
+            country='Canada', city='Toronto', date='2026-09-15', source='fixture')])),
+        'contaminated-name': dict(search={'us': dict(avg_monthly=5000, fetched_at='2026-08-21', source='fixture')},
+            contamination=dict(qualified_share=0.02, checked_at='2026-08-21'),
+            international=dict(status='found', dates=[dict(country='United Kingdom', city='London',
+                date='2026-09-30', source='fixture')])),
+    })
+    rows = {row['slug']: row for row in build(ledger, dem, '2026-08-21', primary_config, reviews)}
+    known = rows['known-artist']
     checks = [
-        ('long-tail listing never confirms a primary platform',
-         rows['discovery-act']['stage'] == 'Discovered' and not rows['discovery-act']['primary_confirmed']),
-        ('primary URL + future date establish confirmation',
-         rows['primary-only']['stage'] == 'Major-platform confirmed'),
-        ('US and Canada are separate and stronger geo is labelled',
-         ready['evidence']['diaspora']['us']['avg_monthly'] == 1000 and
-         ready['evidence']['diaspora']['ca']['avg_monthly'] == 2000 and
-         ready['evidence']['diaspora']['representative']['geo'] == 'ca'),
-        ('unclassifiable identity stops at diaspora validation', rows['x']['stage'] == 'Diaspora validated'),
-        ('primary + clean export + identity becomes handoff ready', ready['stage'] == 'Forecast ready'),
-        ('contaminated search does not invalidate an independent foreign date',
-         rows['contaminated-name']['stage'] == 'Diaspora validated' and
-         rows['contaminated-name']['evidence']['diaspora']['foreign_date_usable'] and
-         not rows['contaminated-name']['evidence']['diaspora']['search_usable']),
-        ('contaminated plus foreign evidence cannot become forecast ready',
-         not rows['contaminated-name']['evidence']['diaspora']['forecast_ready'] and
-         rows['contaminated-name']['stage'] != 'Forecast ready'),
-        ('foreign-date-only evidence stops at diaspora validation',
+        ('unchecked generic Just Go remains discovered with actionable primary rejection',
+         rows['just-go']['stage'] == 'Discovered' and rows['just-go']['evidence']['rejected_primary']),
+        ('unchecked Symphonic Experience remains discovered with actionable primary rejection',
+         rows['symphonic-experience']['stage'] == 'Discovered' and rows['symphonic-experience']['evidence']['rejected_primary']),
+        ('exact known identity plus reviewed clean search is forecast ready', known['stage'] == 'Forecast ready'),
+        ('new explicit reviewed identity can be forecast ready', rows['reviewed-artist']['stage'] == 'Forecast ready'),
+        ('ordinary canonicalisation without attestation cannot promote', rows['corrected-but-unreviewed']['stage'] == 'Discovered'),
+        ('trusted false evidence cannot promote', rows['untrusted-reviewed']['stage'] == 'Discovered'),
+        ('missing contamination review makes positive search unvalidated',
+         rows['known-unchecked']['stage'] == 'Major-platform confirmed' and
+         not rows['known-unchecked']['evidence']['diaspora']['search_usable']),
+        ('foreign-only evidence independently validates diaspora but not forecast readiness',
          rows['foreign-only']['stage'] == 'Diaspora validated' and
          rows['foreign-only']['evidence']['diaspora']['foreign_date_usable'] and
          not rows['foreign-only']['evidence']['diaspora']['forecast_ready']),
-        ('past primary listing is rejected', rows['past-booking']['stage'] == 'Discovered' and
-         rows['past-booking']['evidence']['rejected_primary']),
-        ('one-snapshot workflow makes no trajectory claim',
-         ready['trajectory_required'] is False and 'trajectory' in ready['trajectory_note'].lower()),
-        ('primary role comes from configuration, not source names',
-         set(primary_sources(primary_config)) == {'book', 'district'}),
+        ('contaminated search does not invalidate independent foreign evidence',
+         rows['contaminated-name']['stage'] == 'Diaspora validated' and
+         not rows['contaminated-name']['evidence']['diaspora']['search_usable']),
+        ('US and Canada remain separate and the stronger geography is labelled',
+         known['evidence']['diaspora']['us']['avg_monthly'] == 1000 and
+         known['evidence']['diaspora']['ca']['avg_monthly'] == 2000 and
+         known['evidence']['diaspora']['representative']['geo'] == 'ca'),
     ]
+    gazetteer._CACHE = previous_cache
     ok = True
     for label, good in checks:
         print(f'  [{"ok " if good else "FAIL"}] {label}')

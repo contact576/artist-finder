@@ -1,0 +1,25 @@
+{
+ "schema_version": 1,
+ "reviewed_at": "2026-08-21",
+ "reviews": {
+  "abijit-ganguly": {"name": "Abijit Ganguly", "status": "verified", "reviewed_at": "2026-08-21", "source_evidence": "District primary listing manually reviewed; performer is named in Abijit Ganguly Live."},
+  "anand-rathnam": {"name": "Anand Rathnam", "status": "verified", "reviewed_at": "2026-08-21", "source_evidence": "District primary listing manually reviewed; performer is named after by."},
+  "anirban-dasgupta": {"name": "Anirban Dasgupta", "status": "verified", "reviewed_at": "2026-08-21", "source_evidence": "District primary listing manually reviewed; performer is named in the title."},
+  "appurv-gupta": {"name": "Appurv Gupta", "status": "verified", "reviewed_at": "2026-08-21", "source_evidence": "District primary listing manually reviewed; performer is explicitly billed before the lineup label."},
+  "ashish-bhatt": {"name": "Ashish Bhatt", "status": "verified", "reviewed_at": "2026-08-21", "source_evidence": "District primary listing manually reviewed; performer is named after by."},
+  "avinash-agarwal": {"name": "Avinash Agarwal", "status": "verified", "reviewed_at": "2026-08-21", "source_evidence": "District primary-listing identity audit manually resolved the performer from dated source evidence."},
+  "harpriya-bains": {"name": "Harpriya Bains", "status": "verified", "reviewed_at": "2026-08-21", "source_evidence": "Live listing identity audit manually confirmed the performer named after by."},
+  "harshit-mahawar": {"name": "Harshit Mahawar", "status": "verified", "reviewed_at": "2026-08-21", "source_evidence": "District primary listing manually reviewed; performer is named after by."},
+  "inder-sahani": {"name": "Inder Sahani", "status": "verified", "reviewed_at": "2026-08-21", "source_evidence": "District primary listing manually reviewed; performer is named after by."},
+  "mohd-suhel": {"name": "Mohd Suhel", "status": "verified", "reviewed_at": "2026-08-21", "source_evidence": "District primary listing manually reviewed; performer is explicitly billed in the title."},
+  "morgan-jay": {"name": "Morgan Jay", "status": "verified", "reviewed_at": "2026-08-21", "source_evidence": "District primary listing manually reviewed; performer is explicitly billed in the tour title."},
+  "nishant-suri": {"name": "Nishant Suri", "status": "verified", "reviewed_at": "2026-08-21", "source_evidence": "District primary listing manually reviewed; performer is named in Nishant Suri Live."},
+  "pratyush-chaubey": {"name": "Pratyush Chaubey", "status": "verified", "reviewed_at": "2026-08-21", "source_evidence": "District primary listing manually reviewed; performer is named in Pratyush Chaubey Live."},
+  "rajat-sood": {"name": "Rajat Sood", "status": "verified", "reviewed_at": "2026-08-21", "source_evidence": "District primary listing manually reviewed; performer is named after the featured-artist marker."},
+  "rashmeet-kaur": {"name": "Rashmeet Kaur", "status": "verified", "reviewed_at": "2026-08-21", "source_evidence": "Live listing identity audit manually confirmed the named singer; long-tail evidence remains discovery-only."},
+  "rupali-tyagi": {"name": "Rupali Tyagi", "status": "verified", "reviewed_at": "2026-08-21", "source_evidence": "District primary listing manually reviewed; performer is named in Rupali Tyagi Live."},
+  "saikiran": {"name": "Saikiran", "status": "verified", "reviewed_at": "2026-08-21", "source_evidence": "District primary-listing identity audit manually resolved the performer from dated source evidence."},
+  "trisha-pathak": {"name": "Trisha Pathak", "status": "verified", "reviewed_at": "2026-08-21", "source_evidence": "District primary listing manually reviewed; performer is named after by."},
+  "vivek-samtani": {"name": "Vivek Samtani", "status": "verified", "reviewed_at": "2026-08-21", "source_evidence": "District primary listing manually reviewed; performer is named in Vivek Samtani Live."}
+ }
+}

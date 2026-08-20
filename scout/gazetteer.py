@@ -111,6 +111,20 @@ def canonical(name):
     return raw, None
 
 
+def exact_known(name):
+    """Whether ``name`` is already a canonical, multi-token gazetteer identity.
+
+    This intentionally does *not* use ``canonical()``: a fuzzy containment match is useful for
+    merging historical spelling variants, but it is not evidence strong enough to promote a
+    newly parsed primary-platform booking. Lifecycle promotion needs either this exact identity
+    or a separately audited human review.
+    """
+    raw = str(name or '').strip().casefold()
+    if not raw:
+        return False
+    return any(raw == known.casefold() for known in load()['known'])
+
+
 def add_known(name):
     """Record a confirmed artist so later variants canonicalise onto them."""
     global _CACHE
@@ -142,7 +156,17 @@ def add_alias(variant, canonical_name):
 
 
 def _selftest():
+    global _CACHE
     g = load()
+    # The sibling benchmark is intentionally optional in a portable checkout. Seed only this
+    # offline self-test when it is absent; normal crawler matching still uses real inputs only.
+    if not g['known']:
+        _CACHE = dict(known={
+            'Vipul Goyal': ['vipul', 'goyal'], 'Rahul Dua': ['rahul', 'dua'],
+            'Harsh Gujral': ['harsh', 'gujral'], 'Zakir Khan': ['zakir', 'khan'],
+            'Kanan Gill': ['kanan', 'gill'],
+        }, explicit={})
+        g = load()
     print(f'  gazetteer: {len(g["known"])} known artists '
           f'(benchmark at {os.path.basename(BENCHMARK)})')
     cases = [
@@ -169,6 +193,10 @@ def _selftest():
     ok = ok and good
     print(f'  [{"ok " if good else "FAIL"}] bare surnames match nobody '
           f'{"" if good else singles}')
+    exact = (exact_known('Vipul Goyal') and not exact_known('Vipul Goyal Unleashed') and
+             not exact_known('Singh'))
+    ok = ok and exact
+    print(f'  [{"ok " if exact else "FAIL"}] exact-known helper does not widen matching')
     print(f'\n  {"ALL CHECKS PASS" if ok else "SELF-TEST FAILED"}')
     return 0 if ok else 1
 

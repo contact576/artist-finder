@@ -195,8 +195,15 @@ def _selftest():
         dict(name='Wrong Place', slug='wrong-place', kind='artist'),
         dict(name='DJ At Club', slug='dj-at-club', kind='artist')])
     got_expo = apply_event(expo, rules)
+    format_event = dict(show_id='u:format', entities=[
+        dict(name='A Format', slug='a-format', kind='artist')])
     got_lineup = apply_event(lineup, rules)
 
+    format_rules = dict(schema_version=1, events={}, entities={
+        'a-format': {'set': {'name': 'A Corrected Format', 'kind': 'format'},
+                     'reviewed_at': '2026-08-21',
+                     'reason': 'audited event format must not remain an artist'}})
+    got_format = apply_event(format_event, format_rules)
     invalid = (
         ('missing review date', dict(schema_version=1, events={
             'u:bad': {'action': 'suppress', 'reason': 'missing review date'}}, entities={})),
@@ -232,6 +239,9 @@ def _selftest():
         ('bad co-entity can be removed', len(got_lineup['entities']) == 1),
         ('renamed entity receives matching slug',
          got_lineup['entities'][0]['slug'] == 'dj-correct'),
+        ('entity kind can change through the audited overlay',
+         got_format['entities'][0]['kind'] == 'format' and
+         got_format['entities'][0]['slug'] == 'a-corrected-format'),
         ('input remains immutable', lineup['entities'][1]['slug'] == 'dj-at-club'),
         ('every malformed rule is rejected before application',
          len(invalid_rejected) == len(invalid)),

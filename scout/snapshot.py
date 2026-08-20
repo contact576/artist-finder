@@ -55,6 +55,24 @@ def entities_of(ev):
     return [dict(e, kind=e.get('kind', 'artist')) for e in (ev.get('artists') or [])]
 
 
+def _identity_provenance(observed, canonical, snapshot_date):
+    """Audit trail from raw immutable observation to the derived canonical identity.
+
+    Corrections may change the derived entity name, but must never obscure what the crawler
+    actually recorded. Keep a compact copy per observation so lifecycle can reject an uncertain
+    parse without reopening or changing a snapshot.
+    """
+    return dict(
+        snapshot_date=snapshot_date,
+        parse_confidence=observed.get('parse_confidence'),
+        parse_reason=observed.get('parse_reason'),
+        trusted=observed.get('trusted'),
+        role_certain=observed.get('role_certain'),
+        raw_entities=[dict(entity) for entity in entities_of(observed)],
+        canonical_entities=[dict(entity) for entity in entities_of(canonical)],
+    )
+
+
 def show_id(ev):
     """Stable identity for one show across crawls.
 
@@ -176,13 +194,22 @@ def rebuild_ledger():
             if ev is None:
                 continue
             sid = ev['show_id']
+            provenance = _identity_provenance(observed, ev, d)
             row = ledger.get(sid)
+            created = row is None
             if row is None:
                 ledger[sid] = row = dict(
                     show_id=sid, source=ev['source'], source_tier=ev['source_tier'],
                     title=ev['title'], url=ev['url'],
                     entities=entities_of(ev), role=ev['role'],
+                    role_certain=ev.get('role_certain'),
                     lineup_size=ev['lineup_size'],
+                    parse_confidence=ev.get('parse_confidence'),
+                    parse_reason=ev.get('parse_reason'),
+                    trusted=ev.get('trusted'),
+                    raw_entities=provenance['raw_entities'],
+                    canonical_entities=provenance['canonical_entities'],
+                    identity_provenance=[provenance],
                     genre=ev.get('genre'), genre_confidence=ev.get('genre_confidence'),
                     entity_type=ev.get('entity_type', 'artist'),
                     category=ev.get('category'),
@@ -194,6 +221,12 @@ def rebuild_ledger():
                     first_seen=d, last_seen=d,
                     first_seen_censored=(d == first_run),
                     status_history=[], sold_out_on=None)
+            if not created:
+                row['identity_provenance'].append(provenance)
+                for key in ('role_certain', 'parse_confidence', 'parse_reason', 'trusted'):
+                    row[key] = ev.get(key)
+                row['raw_entities'] = provenance['raw_entities']
+                row['canonical_entities'] = provenance['canonical_entities']
             row['last_seen'] = d
             # Keep the latest non-null room/date info; platforms fill fields in over time.
             for k in ('venue', 'city', 'venue_band', 'venue_rank', 'price_min', 'price_max'):
@@ -276,15 +309,26 @@ def _selftest():
 
     print(' ', ingest(wk1, 'townscript', '2026-08-01'))
     print(' ', ingest(wk2, 'townscript', '2026-08-08'))
+    snapshot_hashes = {name: hashlib.sha256(open(os.path.join(SNAPDIR, name), 'rb').read()).hexdigest()
+                       for name in os.listdir(SNAPDIR)}
     led = rebuild_ledger()
+    immutable = snapshot_hashes == {name: hashlib.sha256(open(os.path.join(SNAPDIR, name), 'rb').read()).hexdigest()
+                                    for name in os.listdir(SNAPDIR)}
     print(f'\n  ledger: {len(led["shows"])} shows across {led["n_snapshots"]} snapshots')
     ok = len(led['shows']) == 3
     for s in led['shows']:
         print(f'    {s["venue"]:22} band={s["venue_band"]:11} first_seen={s["first_seen"]} '
               f'sold_out_on={s["sold_out_on"]} hist={[h["status"] for h in s["status_history"]]}')
     a = by_artist(led)
-    ok = ok and 'neel-sharma' in a and len(a['neel-sharma']['shows']) == 3
+    repeated = next(s for s in led['shows'] if s['show_id'] == 'u:' + hashlib.sha1(b'https://x/1').hexdigest()[:16])
+    provenance = (len(repeated['identity_provenance']) == 2 and repeated['trusted'] is True and
+                  repeated['role_certain'] is True and repeated['parse_reason'] and
+                  repeated['raw_entities'] == repeated['canonical_entities'])
+    ok = ok and 'neel-sharma' in a and len(a['neel-sharma']['shows']) == 3 and immutable and provenance
     print(f'\n  by_artist: {[(k, len(v["shows"])) for k, v in a.items()]}')
+
+    print(f'  [{"ok " if immutable else "FAIL"}] rebuild preserves immutable snapshot hashes')
+    print(f'  [{"ok " if provenance else "FAIL"}] parser and raw/canonical provenance survive ledger rebuild')
 
     legacy_blank = dict(shows=[
         dict(show_id='legacy-1', genre='comedy', entities=[
