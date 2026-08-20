@@ -186,6 +186,106 @@ def looks_bucketed(series):
     return False, 'varies month to month — looks like real data'
 
 
+
+def keyword_key(value):
+    """Canonical comparison key for requested keywords and API text."""
+    return ' '.join(str(value or '').split()).casefold()
+
+
+def map_historical_metrics(requested_keywords, rows):
+    """Map only requested keywords to historical-metric rows without silent overwrites.
+
+    Google may return close variants shared by several queries. Exact returned text always wins
+    for an exact request. A close variant is used only when it is the sole candidate for a
+    requested key; otherwise the key is left unmapped and the collision is returned explicitly.
+    """
+    requested = {}
+    for keyword in requested_keywords:
+        key = keyword_key(keyword)
+        if key:
+            requested.setdefault(key, str(keyword))
+
+    exact, variants = {key: [] for key in requested}, {key: [] for key in requested}
+    for index, row in enumerate(rows or []):
+        text = row.get('text')
+        text_key = keyword_key(text)
+        parsed = parse_metrics(row)
+        candidate = dict(index=index, text=text, parsed=parsed)
+        if text_key in exact:
+            exact[text_key].append(candidate)
+        for variant in row.get('closeVariants') or []:
+            variant_key = keyword_key(variant)
+            if variant_key in variants and variant_key != text_key:
+                variants[variant_key].append(candidate)
+
+    mapped, matches, collisions, missing = {}, {}, {}, []
+    for key, original in requested.items():
+        direct = exact[key]
+        fallback = variants[key]
+        if len(direct) == 1:
+            candidate = direct[0]
+            mapped[key] = candidate['parsed']
+            matches[key] = dict(mode='exact', requested=original,
+                                result_text=candidate['text'], row_index=candidate['index'])
+            # Fallback rows are recorded so an API change cannot quietly replace this exact row.
+            if fallback:
+                collisions[key] = dict(reason='exact result retained over close-variant candidate',
+                                       requested=original, result_texts=[x['text'] for x in fallback],
+                                       nonblocking=True)
+        elif len(direct) > 1:
+            collisions[key] = dict(reason='multiple exact API rows', requested=original,
+                                   result_texts=[x['text'] for x in direct], nonblocking=False)
+            missing.append(key)
+        elif len(fallback) == 1:
+            candidate = fallback[0]
+            mapped[key] = candidate['parsed']
+            matches[key] = dict(mode='close_variant', requested=original,
+                                result_text=candidate['text'], row_index=candidate['index'])
+        elif len(fallback) > 1:
+            collisions[key] = dict(reason='multiple close-variant API rows', requested=original,
+                                   result_texts=[x['text'] for x in fallback], nonblocking=False)
+            missing.append(key)
+        else:
+            missing.append(key)
+    return dict(mapped=mapped, matches=matches, collisions=collisions, missing=missing)
+
+
+def _selftest():
+    def row(text, avg, close=()):
+        return dict(text=text, closeVariants=list(close), keywordMetrics=dict(
+            avgMonthlySearches=avg,
+            monthlySearchVolumes=[dict(year='2026', month='JULY', monthlySearches=str(avg))]))
+
+    exact = map_historical_metrics(['Alpha', 'Beta'], [
+        row('Alpha', 10, ['Beta']), row('Beta', 20),
+    ])
+    fallback = map_historical_metrics(['Spelling'], [row('Speling', 30, ['Spelling'])])
+    collision = map_historical_metrics(['Shared'], [
+        row('First Result', 40, ['Shared']), row('Second Result', 50, ['Shared']),
+    ])
+    duplicate = map_historical_metrics(['Echo'], [row('Echo', 60), row('Echo', 70)])
+    checks = [
+        ('exact response survives a conflicting close variant',
+         exact['mapped']['alpha'][0] == 10 and exact['mapped']['beta'][0] == 20 and
+         exact['matches']['beta']['mode'] == 'exact'),
+        ('exact-versus-close collision is explicit',
+         exact['collisions']['beta']['nonblocking'] is True),
+        ('one unambiguous close variant is a labelled fallback',
+         fallback['mapped']['spelling'][0] == 30 and
+         fallback['matches']['spelling']['mode'] == 'close_variant'),
+        ('ambiguous close variants are not mapped',
+         'shared' not in collision['mapped'] and 'shared' in collision['collisions']),
+        ('duplicate exact results are not silently overwritten',
+         'echo' not in duplicate['mapped'] and 'echo' in duplicate['collisions']),
+    ]
+    ok = True
+    for label, good in checks:
+        print(f'  [{"ok " if good else "FAIL"}] {label}')
+        ok = ok and bool(good)
+    print(f'\n  {"ALL CHECKS PASS" if ok else "SELF-TEST FAILED"}')
+    return 0 if ok else 1
+
+
 def entity_names(args):
     if args.names:
         return [(model.slugify(n.strip()), n.strip(), 'unknown') for n in args.names.split(',') if n.strip()]
@@ -202,10 +302,14 @@ def main(argv=None):
     ap.add_argument('--all', action='store_true', help='every watchlist entity')
     ap.add_argument('--names', help='comma-separated names instead of the watchlist')
     ap.add_argument('--check', action='store_true', help='probe credentials, write nothing')
+    ap.add_argument('--self-test', action='store_true',
+                    help='run pure keyword-result mapping checks; no credentials or API call')
     ap.add_argument('--limit', type=int, default=0)
     ap.add_argument('--history-months', type=int, default=48,
                     help='completed months to request (default 48; Google supports up to 4 years)')
     a = ap.parse_args(argv)
+    if a.self_test:
+        return _selftest()
 
     cfg = load_config()
     if not cfg.get('developer_token'):
@@ -252,25 +356,30 @@ def main(argv=None):
     all_keywords = list(dict.fromkeys(all_keywords))
     print(f'  {len(all_keywords)} keyword variants in geo batches\n')
 
-    fetched = {}
+    fetched, fetched_matches = {}, {}
     request_count = 0
     batch_size = 9000
     for geo in ('us', 'ca'):
-        byk = {}
+        response_rows = []
         for offset in range(0, len(all_keywords), batch_size):
             if request_count:
                 time.sleep(1.1)
             chunk = all_keywords[offset:offset + batch_size]
-            rows = historical_metrics(cfg, token, chunk, GEO[geo], a.history_months)
+            response_rows.extend(historical_metrics(cfg, token, chunk, GEO[geo], a.history_months))
             request_count += 1
-            for r in rows:
-                parsed = parse_metrics(r)
-                variants = [r.get('text')] + list(r.get('closeVariants') or [])
-                for variant in variants:
-                    if variant:
-                        byk[variant.lower()] = parsed
-        fetched[geo] = byk
-        print(f'  {geo.upper()} batch: {len(byk)} mapped keyword variants')
+        mapping = map_historical_metrics(all_keywords, response_rows)
+        fetched[geo] = mapping['mapped']
+        fetched_matches[geo] = mapping['matches']
+        blocking = [item for item in mapping['collisions'].values() if not item['nonblocking']]
+        exact_count = sum(1 for item in mapping['matches'].values() if item['mode'] == 'exact')
+        fallback_count = sum(1 for item in mapping['matches'].values()
+                             if item['mode'] == 'close_variant')
+        print(f'  {geo.upper()} batch: {len(mapping["mapped"])} mapped '
+              f'({exact_count} exact, {fallback_count} unambiguous close variants)')
+        if blocking:
+            print(f'  ⚠ {geo.upper()} skipped {len(blocking)} ambiguous keyword mapping(s); '
+                  'no result was silently chosen.')
+
 
     flagged = 0
     demand_data = demand.load()
@@ -282,19 +391,22 @@ def main(argv=None):
         line = f'  {name[:30]:32}'
         for geo in ('us', 'ca'):
             byk = fetched[geo]
-            bare = byk.get(name.lower(), (None, []))
-            qual = byk.get(qualified_keyword.lower(), (None, [])) if qualified_keyword else (None, [])
-            if bare[0] is None:
+            bare = byk.get(keyword_key(name))
+            qual = byk.get(keyword_key(qualified_keyword)) if qualified_keyword else None
+            if bare is None:
                 line += f' {geo.upper()}=—'
                 continue
+            match = fetched_matches[geo].get(keyword_key(name)) or {}
             demand.record_search(slug, geo, bare[0], bare[1], name=name,
                                  source=f'keyword planner {cfg.get("api_version", DEFAULT_VERSION)}',
+                                 alias_used=(match.get('result_text')
+                                             if match.get('mode') == 'close_variant' else None),
                                  data=demand_data, save_now=False)
             bucketed, why = looks_bucketed(bare[1])
             if bucketed:
                 flagged += 1
             line += f' {geo.upper()}={bare[0]:,}/mo' + ('  [BUCKETED]' if bucketed else '')
-            if geo == 'us' and bare[0] and qual[0] is not None:
+            if geo == 'us' and bare[0] and qual is not None and qual[0] is not None:
                 share = qual[0] / bare[0] if bare[0] else None
                 demand.record_contamination(slug, round(share, 4) if share else 0.0, name=name,
                                             data=demand_data, save_now=False)

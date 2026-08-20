@@ -120,6 +120,56 @@
    "set": {"name": "Razrr"},
    "reviewed_at": "2026-08-20",
    "reason": "Venue tail was attached to DJ name"
+  },
+  "christmas": {
+   "action": "suppress",
+   "reviewed_at": "2026-08-21",
+   "reason": "Holiday word from a road-trip title was parsed as a performer."
+  },
+  "freaky-friday": {
+   "action": "suppress",
+   "reviewed_at": "2026-08-21",
+   "reason": "Standalone nightlife event title contains no performer identity."
+  },
+  "house": {
+   "action": "suppress",
+   "reviewed_at": "2026-08-21",
+   "reason": "Promoter phrase House & Beyond was split and its generic first word became a performer."
+  },
+  "toast": {
+   "action": "suppress",
+   "reviewed_at": "2026-08-21",
+   "reason": "Brunch-event title fragment Toast & Tunes was parsed as an artist."
+  },
+  "board-games": {
+   "action": "suppress",
+   "reviewed_at": "2026-08-21",
+   "reason": "Board-game activity listing is not a performer booking."
+  },
+  "board-game": {
+   "action": "suppress",
+   "reviewed_at": "2026-08-21",
+   "reason": "Board-game activity listing is not a performer booking."
+  },
+  "create": {
+   "action": "suppress",
+   "reviewed_at": "2026-08-21",
+   "reason": "Workshop verb from Sparkle & Create was parsed as a performer."
+  },
+  "year": {
+   "action": "suppress",
+   "reviewed_at": "2026-08-21",
+   "reason": "Date/holiday tail Christmas and New Year was parsed as a performer."
+  },
+  "money-heist": {
+   "action": "suppress",
+   "reviewed_at": "2026-08-21",
+   "reason": "Themed nightlife event title is not a performer identity."
+  },
+  "royal-enfield": {
+   "action": "suppress",
+   "reviewed_at": "2026-08-21",
+   "reason": "Brand travel-event title is not a performer booking."
   }
  }
 }
