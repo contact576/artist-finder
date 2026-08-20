@@ -68,7 +68,22 @@
    },
    "reviewed_at": "2026-08-20",
    "reason": "Expo was falsely classified as classical music from a venue substring"
-  }
+  },
+  "u:41bd40e1ca3acd37": {"action": "suppress", "reviewed_at": "2026-08-21", "reason": "Generic adult-comedy format, not a performer identity."},
+  "u:4e72b9645c0d21b2": {"action": "suppress", "reviewed_at": "2026-08-21", "reason": "Generic adult-comedy format, not a performer identity."},
+  "u:9fd818724fa641b1": {"action": "suppress", "reviewed_at": "2026-08-21", "reason": "Venue-format listing, not a performer identity."},
+  "u:a538418005be307d": {"action": "suppress", "reviewed_at": "2026-08-21", "reason": "Promoter-format listing, not a performer identity."},
+  "u:6d94607d0fa9c2f3": {"action": "suppress", "reviewed_at": "2026-08-21", "reason": "Fight-night afterparty format, not a performer identity."},
+  "u:d340871b8741148d": {"action": "suppress", "reviewed_at": "2026-08-21", "reason": "City label parsed as a performer."},
+  "u:e857a79da4f256a1": {"action": "suppress", "reviewed_at": "2026-08-21", "reason": "Generic comedy format, not a performer identity."},
+  "u:9cf984ff5ac2cda0": {"action": "suppress", "reviewed_at": "2026-08-21", "reason": "Platform promotion label, not a performer identity."},
+  "u:cfdd8977fcbab7a3": {"action": "suppress", "reviewed_at": "2026-08-21", "reason": "Generic roast format, not a performer identity."},
+  "u:fa9805dc06c712f8": {"action": "suppress", "reviewed_at": "2026-08-21", "reason": "Repertoire concept, not a performer identity."},
+  "u:0d230fd7d189326f": {"action": "suppress", "reviewed_at": "2026-08-21", "reason": "Unannounced lineup format, not a performer identity."},
+  "u:731dc4986a6c06f5": {"action": "suppress", "reviewed_at": "2026-08-21", "reason": "Venue/activity listing, not a performer identity."},
+  "u:39717b8e8a93d550": {"action": "suppress", "reviewed_at": "2026-08-21", "reason": "Tribute concept, not a performer identity."},
+  "u:4f8d72233328a144": {"action": "suppress", "reviewed_at": "2026-08-21", "reason": "Generic new-jokes format, not a performer identity."},
+  "u:f9c572a7a3751a13": {"action": "suppress", "reviewed_at": "2026-08-21", "reason": "Generic wildcard format, not a performer identity."}
  },
  "entities": {
   "koramangala": {
@@ -195,6 +210,16 @@
    "set": {"name": "Rajat Sood"},
    "reviewed_at": "2026-08-21",
    "reason": "Title I Am Worth It Ft. Rajat Sood | Delhi identifies Rajat Sood; Delhi is a location tail."
-  }
+  },
+  "friends": {"action": "suppress", "reviewed_at": "2026-08-21", "reason": "Billing formula suffix; preserve the named headliner on the same event."},
+  "just-go": {"set": {"name": "Just Go With It", "kind": "format"}, "reviewed_at": "2026-08-21", "reason": "Improv-comedy show format, not an artist named Just Go."},
+  "symphonic-experience": {"set": {"kind": "production"}, "reviewed_at": "2026-08-21", "reason": "Symphonic presentation descriptor, not a performer identity."},
+  "avinash-agarwal-bengaluru": {"set": {"name": "Avinash Agarwal"}, "reviewed_at": "2026-08-21", "reason": "Exact listing-city tail removed from the billed performer."},
+  "harpriya-bains-kcc": {"set": {"name": "Harpriya Bains"}, "reviewed_at": "2026-08-21", "reason": "KCC venue tail removed from the billed performer."},
+  "mohd-suhel-live-hyderabad": {"set": {"name": "Mohd Suhel"}, "reviewed_at": "2026-08-21", "reason": "Live and listing-city tail removed from the billed performer."},
+  "pratyush-chaubey-live-bengaluru": {"set": {"name": "Pratyush Chaubey"}, "reviewed_at": "2026-08-21", "reason": "Live and listing-city tail removed from the billed performer."},
+  "rajat-sood-noida": {"set": {"name": "Rajat Sood"}, "reviewed_at": "2026-08-21", "reason": "Exact listing-city tail removed from the billed performer."},
+  "rashmeet-kaur-live-mumbai": {"set": {"name": "Rashmeet Kaur"}, "reviewed_at": "2026-08-21", "reason": "Live and listing-city tail removed from the billed performer."},
+  "saikiran-morning": {"set": {"name": "Saikiran"}, "reviewed_at": "2026-08-21", "reason": "Morning Show schedule tail removed from the billed performer."}
  }
 }

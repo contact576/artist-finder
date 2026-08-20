@@ -147,6 +147,16 @@ def trajectory(shows, obs, asof=None):
     cut = _d(asof) - dt.timedelta(days=RECENT_DAYS)
     can = obs['trajectory_observable']
     na = lambda note='insufficient history': dict(value=None, observable=False, note=note)  # noqa: E731
+    if not can:
+        note = obs.get('why') or 'trajectory is not globally observable yet'
+        return dict(
+            room_escalation=na(note), added_nights=na(note), sellout_rate=na(note),
+            sellout_speed_days=na(note), platform_graduation=na(note),
+            announce_cadence=na(note), is_new=na(note),
+        )
+
+
+
 
     early, late = _split_era(shows, cut)
 
@@ -325,6 +335,10 @@ def _selftest():
         ('added night detected', n['added_nights']['value'] == 1),
         ('platform graduation detected', n['platform_graduation']['value'] == 2),
         ('sellout speed measured', n['sellout_speed_days']['observable']),
+        ('global observability gate blocks every trajectory field',
+         all(not item['observable'] and item['value'] is None for item in
+             trajectory([], dict(trajectory_observable=False, why='fixture gate'),
+                        '2026-08-01').values())),
     ]
     for label, good in checks:
         print(f'  [{"ok " if good else "FAIL"}] {label}')

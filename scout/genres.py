@@ -228,10 +228,32 @@ _FESTIVAL_MARKERS = ('sunburn', 'nh7', 'weekender', 'lollapalooza', 'echoes of e
                      'ziro festival', 'magnetic fields', 'supersonic', 'festival', 'fest ',
                      'carnival', 'expo')
 
-_PRODUCTION_MARKERS = ('the musical', ' - a play', 'a play by', 'natak', 'presents the play')
+_PRODUCTION_MARKERS = ('the musical', ' - a play', 'a play by', 'natak', 'presents the play',
+                       'symphonic experience')
 
 _NON_PERFORMANCE_MARKERS = ('fan event', 'fan screening', 'listening party')
 
+
+# These are event formats when no person is explicitly billed. They are intentionally phrases,
+# not a blanket ``show`` rule: "Kanan Gill: Yes I'm Fine" remains an artist-led special.
+_UNNAMED_FORMAT = re.compile(
+    r'\b(?:lineup|line-up|showcase|improv(?:\s+comedy)?\s+show|'
+    r'comedy\s+at\b|tribute\s+to\b)', re.I)
+
+
+def _has_explicit_performer(title):
+    """Conservative escape hatch before an otherwise generic format marker.
+
+    This is classification, not an identity attestation: model.py still has to parse the name
+    and can still route the row to review. It merely avoids throwing away explicit ``ft``/``by``
+    bills, ``Name Live``, and the common ``Name & Friends`` billing form.
+    """
+    t = _fold(title)
+    if re.search(r'\b(?:ft\.?|feat\.?|featuring|by)\s+(?:dj\s+)?[a-z]', t):
+        return True
+    if re.match(r"^[a-z][a-z .'-]{1,55}\s+live\b", t):
+        return True
+    return re.match(r"^[a-z][a-z .'-]{1,55}\s*&\s*friends\b", t) is not None
 
 def entity_type_for(genre, title, lineup_hint=None):
     """artist | production | dj_night | festival.
@@ -251,6 +273,8 @@ def entity_type_for(genre, title, lineup_hint=None):
         return 'festival'
     if any(m in t for m in _PRODUCTION_MARKERS):
         return 'production'
+    if _UNNAMED_FORMAT.search(t) and not _has_explicit_performer(title):
+        return 'format'
     if genre == 'theatre':
         # Artist-led theatre: "<Name> in <Play>" / "<Name>'s <Play>".
         return 'artist' if re.search(r'\b(?:in|presents|starring)\b', t) and lineup_hint \
@@ -308,6 +332,10 @@ def _selftest():
         ("Kanan Gill: Yes I'm Fine", None, 'Comedy', 'comedy', 'artist'),
         ('Zakir Khan Live in Concert', None, 'Stand-Up Comedy', 'comedy', 'artist'),
         ('Arijit Singh Live in Concert', None, 'Concerts', 'music_mainstream', 'artist'),
+        ('JUST GO WITH IT - An Improv Comedy Show', None, 'Comedy', 'comedy', 'format'),
+        ('Yuvan’s Walking Through The Rainbow - A Symphonic Experience', None, 'Concerts', 'music_mainstream', 'production'),
+        ('Comedy Showcase ft. Aakash Gupta', None, 'Comedy', 'comedy', 'artist'),
+        ('Kanan Gill Live', None, 'Comedy', 'comedy', 'artist'),
     ]
     ok = True
     print('  genre + entity classification')

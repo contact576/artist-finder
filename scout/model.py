@@ -106,14 +106,44 @@ _SPLIT_LINEUP = re.compile(r'\s*(?:,|&|\+|\band\b|\bwith\b|\bx\b)\s*', re.I)
 # The lookbehind is what stops it cutting "Noor-e-Ishq" apart at its internal hyphens.
 _DASH_SPLIT = re.compile(r'\s[-–—]\s|(?<=\S)[-–—]\s')
 
+_CITY_ALIASES = {
+    'bangalore': {'bengaluru'}, 'bengaluru': {'bangalore'},
+    'delhi': {'new delhi', 'ncr'}, 'new delhi': {'delhi', 'ncr'},
+    'gurgaon': {'gurugram'}, 'gurugram': {'gurgaon'},
+}
 
-def _clean_fragment(frag, genre=None):
+
+def _listing_city_names(city):
+    """Exact spellings that a source can append after a billed name.
+
+    This is deliberately smaller than ``_CITY_TAIL``. The latter recognizes a city after
+    ``in``/``at`` in free copy; this helper only removes an *exact trailing listing field*.
+    It prevents an otherwise legitimate final word from silently disappearing.
+    """
+    primary = _fold(city or '').lower()
+    return ({primary} | _CITY_ALIASES.get(primary, set())) if primary else set()
+
+
+def _strip_listing_tail(fragment, city=None):
+    """Remove only audited, terminal metadata from an explicit performer span."""
+    f = _fold(fragment).strip()
+    # District and similar routes append the listing city after a pipe. Do not treat any
+    # arbitrary pipe suffix as metadata: it has to equal the source's city or a known alias.
+    for known in sorted(_listing_city_names(city), key=len, reverse=True):
+        f = re.sub(r'\s*\|\s*' + re.escape(known) + r'\s*$', '', f, flags=re.I)
+    # KCC is a known venue brand, and Morning/Evening Show are schedule labels in the audited
+    # primary listings. They are terminal-only so a real name containing these words survives.
+    f = re.sub(r'\s*(?:[:|\-–—]\s*)?(?:kcc|morning show|evening show)\s*$', '', f,
+               flags=re.I)
+    return f.strip()
+
+def _clean_fragment(frag, genre=None, city=None):
     """A candidate name, stripped of decoration. Returns '' if nothing survives.
 
     `genre` widens the noise list: 'bhajan' and 'sandhya' are furniture on a devotional bill,
     'b2b' and 'residency' on a club one, and neither belongs in anybody's name.
     """
-    f = _fold(frag)
+    f = _strip_listing_tail(frag, city)
     f = re.sub(r'\(.*?\)|\[.*?\]', ' ', f)          # parenthetical asides
     f = _CITY_TAIL.sub(' ', f)                       # "... in Mumbai"
     f = re.sub(r'[\"“”‘’]', ' ', f)
@@ -144,7 +174,7 @@ def _looks_like_person(name):
     return alpha / max(len(name), 1) > 0.85
 
 
-def extract_artist(title, venue=None, genre=None):
+def extract_artist(title, venue=None, genre=None, city=None):
     """Pull performer(s) out of a listing title.
 
     Returns dict(names=[...], role=..., lineup_size=int, confidence=float, reason=str).
@@ -184,6 +214,7 @@ def extract_artist(title, venue=None, genre=None):
     # "Ft DJ Senleo At Yeda Republic, Koramangala". The venue is not a second performer.
     if after is not None:
         after = re.split(r'\s+at\s+', after, maxsplit=1, flags=re.I)[0]
+        after = _strip_listing_tail(after, city)
 
 
     if after is not None:
@@ -198,8 +229,8 @@ def extract_artist(title, venue=None, genre=None):
         # So try both and keep whichever half actually looks like a person. When both do, the
         # first wins, because artist-first is the commoner convention.
         left, right = _DASH_SPLIT.split(raw, 1)[0], _DASH_SPLIT.split(raw, 1)[-1]
-        lok = _looks_like_person(_clean_fragment(left, genre))
-        rok = _looks_like_person(_clean_fragment(right, genre))
+        lok = _looks_like_person(_clean_fragment(left, genre, city))
+        rok = _looks_like_person(_clean_fragment(right, genre, city))
         if lok or not rok:
             seg, base_conf, why = left, 0.70, 'before dash'
         else:
@@ -207,10 +238,13 @@ def extract_artist(title, venue=None, genre=None):
     else:
         seg, base_conf, why = raw, 0.60, 'whole title'
 
+    # ``Name & Friends`` is a billing formula, not two artists. Keep the named headliner and
+    # never manufacture a generic artist called Friends.
+    seg = re.sub(r'\s*(?:&|\band\b)\s+friends\s*$', '', seg, flags=re.I)
     parts = [p for p in _SPLIT_LINEUP.split(seg) if p.strip()]
     names, dropped = [], 0
     for p in parts:
-        c = _clean_fragment(p, genre)
+        c = _clean_fragment(p, genre, city)
         if _looks_like_person(c):
             names.append(c.title())
         elif c:
@@ -356,7 +390,7 @@ def normalise_event(raw, source_key, seen_at):
     tier, trank = source_tier(source_key)
 
     if genres.extracts_artist(etype):
-        ex = extract_artist(title, raw.get('venue'), g['genre'])
+        ex = extract_artist(title, raw.get('venue'), g['genre'], raw.get('city'))
         # Canonicalise against known artists so "Vipul Goyal Unleashed" and "Vipul Goyal" are
         # ONE entity. Fragmenting a performer splits the escalation trajectory this whole tool
         # is built to measure — three quiet acts instead of one rising one.
@@ -452,6 +486,26 @@ def _selftest():
     print(f'  [{"ok " if dj_ok else "FAIL"}] HighApe venue tail stripped'
           f' -> {dj["names"]}')
 
+    edge_checks = [
+        ('city tail stops after explicit by marker',
+         extract_artist('NAMASTE TRUMP | A Comedy Show by Avinash Agarwal | Bengaluru',
+                        genre='comedy', city='Bengaluru')['names'] == ['Avinash Agarwal']),
+        ('KCC venue tail stops after ft marker',
+         extract_artist('Trial Show For Baddie ft. Harpriya Bains: KCC',
+                        genre='comedy', city='Bengaluru')['names'] == ['Harpriya Bains']),
+        ('Morning Show schedule tail is not a name',
+         extract_artist('Pure Veg Jokes by Saikiran - Morning Show',
+                        genre='comedy', city='Bengaluru')['names'] == ['Saikiran']),
+        ('Friends billing preserves only named headliner',
+         extract_artist('Appurv Gupta & Friends : A Stand UP Comedy Show',
+                        genre='comedy', city='Delhi')['names'] == ['Appurv Gupta']),
+        ('exact pipe city alias is stripped',
+         extract_artist('I Am Worth It Ft. Rajat Sood | Noida',
+                        genre='comedy', city='Noida')['names'] == ['Rajat Sood']),
+    ]
+    for label, good in edge_checks:
+        print(f'  [{"ok " if good else "FAIL"}] {label}')
+        ok = ok and good
     # --- the trust floor is a separate question from what was extracted.
     # "Soul India" DOES yield a candidate ("Soul"), and that is fine — what matters is that the
     # confidence lands below MIN_TRUST so it goes to the review queue instead of the watchlist.
@@ -480,6 +534,13 @@ def _selftest():
     latin = normalise_event(
         dict(title='Kanan Gill: Yes I am Fine', category='Comedy', url='https://fixture/latin',
              date='2026-09-01'), 'allevents', '2026-08-21')
+    just_go = normalise_event(
+        dict(title='JUST GO WITH IT - An Improv Comedy Show', category='Comedy',
+             url='https://fixture/just-go', date='2026-09-01'), 'allevents', '2026-08-21')
+    symphonic = normalise_event(
+        dict(title='Yuvan’s Walking Through The Rainbow - A Symphonic Experience',
+             category='Concerts', url='https://fixture/symphonic', date='2026-09-01'),
+        'allevents', '2026-08-21')
     slug_checks = [
         ('unkeyable non-Latin artist is review-only with no blank entity',
          not unicode_artist['trusted'] and not unicode_artist['entities'] and
@@ -489,6 +550,12 @@ def _selftest():
          'canonical slug unavailable' in unicode_production['parse_reason']),
         ('Latin canonical slug behavior remains accepted',
          latin['trusted'] and latin['entities'][0]['slug'] == 'kanan-gill'),
+        ('improv format does not create an artist entity',
+         just_go['entity_type'] == 'format' and just_go['entities'][0]['kind'] == 'format'),
+        ('symphonic title does not create Symphonic Experience artist',
+         symphonic['entity_type'] == 'production' and
+         symphonic['entities'][0]['kind'] == 'production' and
+         symphonic['entities'][0]['name'] != 'Symphonic Experience'),
     ]
     print('\n  canonical slug guard:')
     for label, good in slug_checks:

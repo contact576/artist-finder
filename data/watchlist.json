@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-08-21T01:03:56",
+ "updated_at": "2026-08-21T04:20:04",
  "artists": {
   "mika-singh": {
    "slug": "mika-singh",
@@ -251,7 +251,7 @@
    "kind": "artist",
    "genre": "theatre",
    "candidate_eligible": true,
-   "active": true
+   "active": false
   },
   "evergreen-msv-the-musical-tribute": {
    "slug": "evergreen-msv-the-musical-tribute",
@@ -804,10 +804,10 @@
    "do_not_pursue": false,
    "last_seen_run": "2026-08-21",
    "quadrant": "EARLY",
-   "stature": 54,
+   "stature": 57,
    "momentum": null,
    "momentum_coverage": 0.0,
-   "n_shows": 3,
+   "n_shows": 4,
    "action": "WATCH — no action; the next crawls decide",
    "export_ready": false,
    "history": [
@@ -820,7 +820,7 @@
     {
      "run": "2026-08-21",
      "quadrant": "EARLY",
-     "stature": 54,
+     "stature": 57,
      "momentum": null
     }
    ],
@@ -839,12 +839,12 @@
    "first_contacted": null,
    "do_not_pursue": false,
    "last_seen_run": "2026-08-21",
-   "quadrant": "EARLY",
-   "stature": 54,
+   "quadrant": "ESTABLISHED",
+   "stature": 80,
    "momentum": null,
    "momentum_coverage": 0.0,
-   "n_shows": 4,
-   "action": "WATCH — no action; the next crawls decide",
+   "n_shows": 7,
+   "action": "MONITOR — verify whether they are already signed elsewhere",
    "export_ready": false,
    "history": [
     {
@@ -855,8 +855,8 @@
     },
     {
      "run": "2026-08-21",
-     "quadrant": "EARLY",
-     "stature": 54,
+     "quadrant": "ESTABLISHED",
+     "stature": 80,
      "momentum": null
     }
    ],
@@ -984,10 +984,10 @@
    "do_not_pursue": false,
    "last_seen_run": "2026-08-21",
    "quadrant": "ESTABLISHED",
-   "stature": 99,
+   "stature": 100,
    "momentum": null,
    "momentum_coverage": 0.0,
-   "n_shows": 3,
+   "n_shows": 4,
    "action": "MONITOR — verify whether they are already signed elsewhere",
    "export_ready": false,
    "history": [
@@ -1000,7 +1000,7 @@
     {
      "run": "2026-08-21",
      "quadrant": "ESTABLISHED",
-     "stature": 99,
+     "stature": 100,
      "momentum": null
     }
    ],
@@ -1200,10 +1200,10 @@
    "do_not_pursue": false,
    "last_seen_run": "2026-08-21",
    "quadrant": "EARLY",
-   "stature": 48,
+   "stature": 71,
    "momentum": null,
    "momentum_coverage": 0.0,
-   "n_shows": 1,
+   "n_shows": 2,
    "action": "WATCH — no action; the next crawls decide",
    "export_ready": false,
    "history": [
@@ -1216,7 +1216,7 @@
     {
      "run": "2026-08-21",
      "quadrant": "EARLY",
-     "stature": 48,
+     "stature": 71,
      "momentum": null
     }
    ],
@@ -1491,7 +1491,7 @@
    "stature": 47,
    "momentum": null,
    "momentum_coverage": 0.0,
-   "n_shows": 1,
+   "n_shows": 2,
    "action": "WATCH — no action; the next crawls decide",
    "export_ready": true,
    "history": [
@@ -2555,7 +2555,7 @@
    "kind": "artist",
    "genre": "music_indie",
    "candidate_eligible": true,
-   "active": true
+   "active": false
   },
   "rajat-sood-delhi": {
    "slug": "rajat-sood-delhi",
@@ -2591,7 +2591,7 @@
    "kind": "artist",
    "genre": "comedy",
    "candidate_eligible": true,
-   "active": true
+   "active": false
   },
   "habibi-please": {
    "slug": "habibi-please",
@@ -3111,7 +3111,7 @@
    "stature": 24,
    "momentum": null,
    "momentum_coverage": 0.0,
-   "n_shows": 3,
+   "n_shows": 4,
    "action": "WATCH — no action; the next crawls decide",
    "export_ready": false,
    "history": [
@@ -3144,10 +3144,10 @@
    "do_not_pursue": false,
    "last_seen_run": "2026-08-21",
    "quadrant": "EARLY",
-   "stature": 21,
+   "stature": 47,
    "momentum": null,
    "momentum_coverage": 0.0,
-   "n_shows": 3,
+   "n_shows": 6,
    "action": "WATCH — no action; the next crawls decide",
    "export_ready": false,
    "history": [
@@ -3160,7 +3160,7 @@
     {
      "run": "2026-08-21",
      "quadrant": "EARLY",
-     "stature": 21,
+     "stature": 47,
      "momentum": null
     }
    ],
@@ -4476,10 +4476,10 @@
    "do_not_pursue": false,
    "last_seen_run": "2026-08-21",
    "quadrant": "EARLY",
-   "stature": 18,
+   "stature": 41,
    "momentum": null,
    "momentum_coverage": 0.0,
-   "n_shows": 1,
+   "n_shows": 2,
    "action": "WATCH — no action; the next crawls decide",
    "export_ready": false,
    "history": [
@@ -4492,7 +4492,7 @@
     {
      "run": "2026-08-21",
      "quadrant": "EARLY",
-     "stature": 18,
+     "stature": 41,
      "momentum": null
     }
    ],
@@ -4728,10 +4728,10 @@
    "do_not_pursue": false,
    "last_seen_run": "2026-08-21",
    "quadrant": "EARLY",
-   "stature": 18,
+   "stature": 56,
    "momentum": null,
    "momentum_coverage": 0.0,
-   "n_shows": 1,
+   "n_shows": 2,
    "action": "WATCH — no action; the next crawls decide",
    "export_ready": false,
    "history": [
@@ -4744,7 +4744,7 @@
     {
      "run": "2026-08-21",
      "quadrant": "EARLY",
-     "stature": 18,
+     "stature": 56,
      "momentum": null
     }
    ],
@@ -6213,11 +6213,11 @@
    "do_not_pursue": false,
    "last_seen_run": "2026-08-21",
    "quadrant": "ESTABLISHED",
-   "stature": 96,
+   "stature": 100,
    "momentum": null,
    "momentum_coverage": 0.0,
-   "n_shows": 1,
-   "action": "MONITOR — verify whether they are already signed elsewhere",
+   "n_shows": 2,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
    "export_ready": true,
    "history": [
     {
@@ -6229,13 +6229,13 @@
     {
      "run": "2026-08-21",
      "quadrant": "ESTABLISHED",
-     "stature": 96,
+     "stature": 100,
      "momentum": null
     }
    ],
-   "kind": "artist",
+   "kind": "production",
    "genre": "music_unspecified",
-   "candidate_eligible": true,
+   "candidate_eligible": false,
    "active": true
   },
   "krishvi-bhajan-jamming-festival": {
@@ -6848,7 +6848,7 @@
    "kind": "artist",
    "genre": "music_indie",
    "candidate_eligible": true,
-   "active": true
+   "active": false
   },
   "tunes-at-cincin": {
    "slug": "tunes-at-cincin",
@@ -7575,7 +7575,7 @@
    "stature": null,
    "momentum": null,
    "momentum_coverage": 0.0,
-   "n_shows": 1,
+   "n_shows": 2,
    "action": "FIX DATA — venue could not be classified",
    "export_ready": true,
    "history": [
@@ -8135,7 +8135,7 @@
    "kind": "artist",
    "genre": "edm_club",
    "candidate_eligible": true,
-   "active": true
+   "active": false
   },
   "beyond-present": {
    "slug": "beyond-present",
@@ -8581,9 +8581,9 @@
    "last_seen_run": "2026-08-21",
    "quadrant": "UNCLASSIFIED",
    "stature": null,
-   "momentum": null,
-   "momentum_coverage": 0.0,
-   "n_shows": 1,
+   "momentum": 19,
+   "momentum_coverage": 0.37,
+   "n_shows": 2,
    "action": "FIX DATA — venue could not be classified",
    "export_ready": true,
    "history": [
@@ -8597,13 +8597,13 @@
      "run": "2026-08-21",
      "quadrant": "UNCLASSIFIED",
      "stature": null,
-     "momentum": null
+     "momentum": 19
     }
    ],
    "kind": "artist",
    "genre": "comedy",
    "candidate_eligible": true,
-   "active": true
+   "active": false
   },
   "chennaiyil-chinna-kuyil": {
    "slug": "chennaiyil-chinna-kuyil",
@@ -11627,7 +11627,7 @@
    "kind": "artist",
    "genre": "edm_club",
    "candidate_eligible": true,
-   "active": true
+   "active": false
   },
   "tales-of-the-thar": {
    "slug": "tales-of-the-thar",
@@ -12108,10 +12108,10 @@
    "do_not_pursue": false,
    "last_seen_run": "2026-08-21",
    "quadrant": "EARLY",
-   "stature": 18,
+   "stature": 56,
    "momentum": null,
    "momentum_coverage": 0.0,
-   "n_shows": 1,
+   "n_shows": 2,
    "action": "WATCH — no action; the next crawls decide",
    "export_ready": false,
    "history": [
@@ -12124,7 +12124,7 @@
     {
      "run": "2026-08-21",
      "quadrant": "EARLY",
-     "stature": 18,
+     "stature": 56,
      "momentum": null
     }
    ],
@@ -12183,7 +12183,7 @@
    "stature": 18,
    "momentum": null,
    "momentum_coverage": 0.0,
-   "n_shows": 1,
+   "n_shows": 2,
    "action": "WATCH — no action; the next crawls decide",
    "export_ready": true,
    "history": [
@@ -12383,7 +12383,7 @@
    "kind": "artist",
    "genre": "comedy",
    "candidate_eligible": true,
-   "active": true
+   "active": false
   },
   "friday-bollywood-night-party": {
    "slug": "friday-bollywood-night-party",
@@ -13083,7 +13083,7 @@
    "stature": null,
    "momentum": null,
    "momentum_coverage": 0.0,
-   "n_shows": 1,
+   "n_shows": 2,
    "action": "CLASSIFY — genre unknown, held out of the ranking",
    "export_ready": false,
    "history": [
@@ -14307,7 +14307,7 @@
    "stature": null,
    "momentum": null,
    "momentum_coverage": 0.0,
-   "n_shows": 1,
+   "n_shows": 2,
    "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
    "export_ready": false,
    "history": [
@@ -14325,7 +14325,7 @@
     }
    ],
    "kind": "festival",
-   "genre": "unknown",
+   "genre": "theatre",
    "candidate_eligible": false,
    "active": true
   },
@@ -15531,7 +15531,7 @@
    "stature": null,
    "momentum": null,
    "momentum_coverage": 0.0,
-   "n_shows": 2,
+   "n_shows": 3,
    "action": "CLASSIFY — genre unknown, held out of the ranking",
    "export_ready": true,
    "history": [
@@ -15603,8 +15603,8 @@
    "stature": 18,
    "momentum": null,
    "momentum_coverage": 0.0,
-   "n_shows": 1,
-   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "n_shows": 2,
+   "action": "WATCH — no action; the next crawls decide",
    "export_ready": true,
    "history": [
     {
@@ -15621,7 +15621,7 @@
     }
    ],
    "kind": "artist",
-   "genre": "unknown",
+   "genre": "comedy",
    "candidate_eligible": true,
    "active": true
   },
@@ -15927,7 +15927,7 @@
    "stature": null,
    "momentum": null,
    "momentum_coverage": 0.0,
-   "n_shows": 1,
+   "n_shows": 2,
    "action": "CLASSIFY — genre unknown, held out of the ranking",
    "export_ready": true,
    "history": [
@@ -16631,7 +16631,7 @@
    "kind": "artist",
    "genre": "unknown",
    "candidate_eligible": true,
-   "active": true
+   "active": false
   },
   "indian-aperitivo": {
    "slug": "indian-aperitivo",
@@ -16667,7 +16667,7 @@
    "kind": "artist",
    "genre": "unknown",
    "candidate_eligible": true,
-   "active": true
+   "active": false
   },
   "japanese-kintsugi": {
    "slug": "japanese-kintsugi",
@@ -16971,7 +16971,7 @@
    "stature": 18,
    "momentum": null,
    "momentum_coverage": 0.0,
-   "n_shows": 1,
+   "n_shows": 2,
    "action": "CLASSIFY — genre unknown, held out of the ranking",
    "export_ready": false,
    "history": [
@@ -17201,7 +17201,7 @@
    "kind": "artist",
    "genre": "unknown",
    "candidate_eligible": true,
-   "active": true
+   "active": false
   },
   "bolly-budhwar-at-ginza": {
    "slug": "bolly-budhwar-at-ginza",
@@ -17597,7 +17597,7 @@
    "kind": "artist",
    "genre": "unknown",
    "candidate_eligible": true,
-   "active": true
+   "active": false
   },
   "thursday-boiler-room": {
    "slug": "thursday-boiler-room",
@@ -17741,7 +17741,7 @@
    "kind": "artist",
    "genre": "unknown",
    "candidate_eligible": true,
-   "active": true
+   "active": false
   },
   "blurry-saturday": {
    "slug": "blurry-saturday",
@@ -18477,7 +18477,7 @@
    "stature": null,
    "momentum": null,
    "momentum_coverage": 0.0,
-   "n_shows": 3,
+   "n_shows": 4,
    "action": "CLASSIFY — genre unknown, held out of the ranking",
    "export_ready": true,
    "history": [
@@ -20045,7 +20045,7 @@
    "kind": "artist",
    "genre": "unknown",
    "candidate_eligible": true,
-   "active": true
+   "active": false
   },
   "revibe-at-yeda-republic": {
    "slug": "revibe-at-yeda-republic",
@@ -20747,7 +20747,7 @@
    "kind": "artist",
    "genre": "unknown",
    "candidate_eligible": true,
-   "active": true
+   "active": false
   },
   "year": {
    "slug": "year",
@@ -20783,7 +20783,7 @@
    "kind": "artist",
    "genre": "unknown",
    "candidate_eligible": true,
-   "active": true
+   "active": false
   },
   "10-days-finland": {
    "slug": "10-days-finland",
@@ -20999,7 +20999,7 @@
    "kind": "artist",
    "genre": "unknown",
    "candidate_eligible": true,
-   "active": true
+   "active": false
   },
   "the-nomad-festival": {
    "slug": "the-nomad-festival",
@@ -21360,6 +21360,4266 @@
     }
    ],
    "active": true
+  },
+  "rashmeet-kaur-live-mumbai": {
+   "slug": "rashmeet-kaur-live-mumbai",
+   "name": "Rashmeet Kaur Live Mumbai",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 67,
+   "momentum": 0,
+   "momentum_coverage": 0.37,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "music_unspecified",
+   "active": false,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 67,
+     "momentum": 0
+    }
+   ]
+  },
+  "abijit-ganguly": {
+   "slug": "abijit-ganguly",
+   "name": "Abijit Ganguly",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 53,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 53,
+     "momentum": null
+    }
+   ]
+  },
+  "nishant-suri": {
+   "slug": "nishant-suri",
+   "name": "Nishant Suri",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 53,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 53,
+     "momentum": null
+    }
+   ]
+  },
+  "pratyush-chaubey": {
+   "slug": "pratyush-chaubey",
+   "name": "Pratyush Chaubey",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 56,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 2,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 56,
+     "momentum": null
+    }
+   ]
+  },
+  "pratyush-chaubey-live-bengaluru": {
+   "slug": "pratyush-chaubey-live-bengaluru",
+   "name": "Pratyush Chaubey Live Bengaluru",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 53,
+   "momentum": 0,
+   "momentum_coverage": 0.37,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": false,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 53,
+     "momentum": 0
+    }
+   ]
+  },
+  "saikiran-morning": {
+   "slug": "saikiran-morning",
+   "name": "Saikiran - Morning",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 53,
+   "momentum": 0,
+   "momentum_coverage": 0.37,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": false,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 53,
+     "momentum": 0
+    }
+   ]
+  },
+  "ashish-bhatt": {
+   "slug": "ashish-bhatt",
+   "name": "Ashish Bhatt",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 53,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 53,
+     "momentum": null
+    }
+   ]
+  },
+  "kahaniyan-sunaata-hun": {
+   "slug": "kahaniyan-sunaata-hun",
+   "name": "Kahaniyan Sunaata Hun",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 49,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "edm_club",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 49,
+     "momentum": null
+    }
+   ]
+  },
+  "krushnamay-janmashtami-mahotsav": {
+   "slug": "krushnamay-janmashtami-mahotsav",
+   "name": "Krushnamay Janmashtami Mahotsav",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 47,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "devotional",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 47,
+     "momentum": null
+    }
+   ]
+  },
+  "rupali-tyagi": {
+   "slug": "rupali-tyagi",
+   "name": "Rupali Tyagi",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 41,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 2,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 41,
+     "momentum": null
+    }
+   ]
+  },
+  "adultrated-a-stand-up": {
+   "slug": "adultrated-a-stand-up",
+   "name": "Adultrated A Stand-Up",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 38,
+   "momentum": 0,
+   "momentum_coverage": 0.37,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": false,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 38,
+     "momentum": 0
+    }
+   ]
+  },
+  "appurv-gupta": {
+   "slug": "appurv-gupta",
+   "name": "Appurv Gupta",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 38,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 38,
+     "momentum": null
+    }
+   ]
+  },
+  "friends": {
+   "slug": "friends",
+   "name": "Friends",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 38,
+   "momentum": 0,
+   "momentum_coverage": 0.37,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": false,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 38,
+     "momentum": 0
+    }
+   ]
+  },
+  "hitech-city": {
+   "slug": "hitech-city",
+   "name": "Hitech City",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 38,
+   "momentum": 0,
+   "momentum_coverage": 0.37,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": false,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 38,
+     "momentum": 0
+    }
+   ]
+  },
+  "delhi-got-gaytent": {
+   "slug": "delhi-got-gaytent",
+   "name": "Delhi Got Gaytent",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 38,
+   "momentum": 0,
+   "momentum_coverage": 0.37,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": false,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 38,
+     "momentum": 0
+    }
+   ]
+  },
+  "rajat-sood-noida": {
+   "slug": "rajat-sood-noida",
+   "name": "Rajat Sood Noida",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 38,
+   "momentum": 0,
+   "momentum_coverage": 0.37,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": false,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 38,
+     "momentum": 0
+    }
+   ]
+  },
+  "roasting-relationships": {
+   "slug": "roasting-relationships",
+   "name": "Roasting Relationships",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 38,
+   "momentum": 0,
+   "momentum_coverage": 0.37,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": false,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 38,
+     "momentum": 0
+    }
+   ]
+  },
+  "laughter-therapy": {
+   "slug": "laughter-therapy",
+   "name": "Laughter Therapy",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 38,
+   "momentum": 0,
+   "momentum_coverage": 0.37,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": false,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 38,
+     "momentum": 0
+    }
+   ]
+  },
+  "trisha-pathak": {
+   "slug": "trisha-pathak",
+   "name": "Trisha Pathak",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 38,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 38,
+     "momentum": null
+    }
+   ]
+  },
+  "mohd-suhel": {
+   "slug": "mohd-suhel",
+   "name": "Mohd Suhel",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 41,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 2,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 41,
+     "momentum": null
+    }
+   ]
+  },
+  "avinash-agarwal-bengaluru": {
+   "slug": "avinash-agarwal-bengaluru",
+   "name": "Avinash Agarwal Bengaluru",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 38,
+   "momentum": 0,
+   "momentum_coverage": 0.37,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": false,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 38,
+     "momentum": 0
+    }
+   ]
+  },
+  "noc-exclusive": {
+   "slug": "noc-exclusive",
+   "name": "Noc Exclusive",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 38,
+   "momentum": 0,
+   "momentum_coverage": 0.37,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": false,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 38,
+     "momentum": 0
+    }
+   ]
+  },
+  "spender-bender": {
+   "slug": "spender-bender",
+   "name": "Spender Bender",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 38,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 38,
+     "momentum": null
+    }
+   ]
+  },
+  "surprise-star-lineup": {
+   "slug": "surprise-star-lineup",
+   "name": "Surprise Star Lineup",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 38,
+   "momentum": 0,
+   "momentum_coverage": 0.37,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": false,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 38,
+     "momentum": 0
+    }
+   ]
+  },
+  "harpriya-bains-kcc": {
+   "slug": "harpriya-bains-kcc",
+   "name": "Harpriya Bains: Kcc",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 38,
+   "momentum": 0,
+   "momentum_coverage": 0.37,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": false,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 38,
+     "momentum": 0
+    }
+   ]
+  },
+  "anand-rathnam": {
+   "slug": "anand-rathnam",
+   "name": "Anand Rathnam",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 38,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 38,
+     "momentum": null
+    }
+   ]
+  },
+  "wild-card": {
+   "slug": "wild-card",
+   "name": "Wild Card",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 38,
+   "momentum": 0,
+   "momentum_coverage": 0.37,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": false,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 38,
+     "momentum": 0
+    }
+   ]
+  },
+  "all-strings-attached": {
+   "slug": "all-strings-attached",
+   "name": "All Strings Attached",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 36,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "music_unspecified",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 36,
+     "momentum": null
+    }
+   ]
+  },
+  "shubham-shandilya": {
+   "slug": "shubham-shandilya",
+   "name": "Shubham Shandilya",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 33,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 33,
+     "momentum": null
+    }
+   ]
+  },
+  "she-nanigans-at-social-vikhroli": {
+   "slug": "she-nanigans-at-social-vikhroli",
+   "name": "She-Nanigans At Social Vikhroli",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 33,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "edm_club",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 33,
+     "momentum": null
+    }
+   ]
+  },
+  "atul": {
+   "slug": "atul",
+   "name": "Atul",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 18,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 18,
+     "momentum": null
+    }
+   ]
+  },
+  "raunaq": {
+   "slug": "raunaq",
+   "name": "Raunaq",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 18,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 18,
+     "momentum": null
+    }
+   ]
+  },
+  "shashwat-kcc": {
+   "slug": "shashwat-kcc",
+   "name": "Shashwat: Kcc",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 18,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 18,
+     "momentum": null
+    }
+   ]
+  },
+  "gen-z-appa": {
+   "slug": "gen-z-appa",
+   "name": "Gen Z Appa",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 18,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 18,
+     "momentum": null
+    }
+   ]
+  },
+  "rofl-chandigarh": {
+   "slug": "rofl-chandigarh",
+   "name": "🔥 Rofl Chandigarh",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 16,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "music_unspecified",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 16,
+     "momentum": null
+    }
+   ]
+  },
+  "mj-birthday": {
+   "slug": "mj-birthday",
+   "name": "Mj Birthday",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 13,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "edm_club",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 13,
+     "momentum": null
+    }
+   ]
+  },
+  "global-ladies": {
+   "slug": "global-ladies",
+   "name": "Global Ladies",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 13,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "edm_club",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 13,
+     "momentum": null
+    }
+   ]
+  },
+  "sunil-grover": {
+   "slug": "sunil-grover",
+   "name": "Sunil Grover",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "ESTABLISHED",
+   "stature": 98,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "MONITOR — verify whether they are already signed elsewhere",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "ESTABLISHED",
+     "stature": 98,
+     "momentum": null
+    }
+   ]
+  },
+  "remembering-kk": {
+   "slug": "remembering-kk",
+   "name": "Remembering Kk",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "FIX DATA — venue could not be classified",
+   "kind": "artist",
+   "genre": "music_unspecified",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "bollywood-rave": {
+   "slug": "bollywood-rave",
+   "name": "Bollywood Rave",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "FIX DATA — venue could not be classified",
+   "kind": "artist",
+   "genre": "edm_club",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "dj-chetas": {
+   "slug": "dj-chetas",
+   "name": "Dj Chetas",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "FIX DATA — venue could not be classified",
+   "kind": "artist",
+   "genre": "music_unspecified",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "bhajan-jamming": {
+   "slug": "bhajan-jamming",
+   "name": "Bhajan Jamming",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "FIX DATA — venue could not be classified",
+   "kind": "artist",
+   "genre": "music_unspecified",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "alphabet-soup": {
+   "slug": "alphabet-soup",
+   "name": "Alphabet Soup",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "FIX DATA — venue could not be classified",
+   "kind": "artist",
+   "genre": "edm_club",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "loose-yourself-to-dance": {
+   "slug": "loose-yourself-to-dance",
+   "name": "Loose Yourself To Dance",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "FIX DATA — venue could not be classified",
+   "kind": "artist",
+   "genre": "music_unspecified",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "great-bollywood": {
+   "slug": "great-bollywood",
+   "name": "Great Bollywood",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "FIX DATA — venue could not be classified",
+   "kind": "artist",
+   "genre": "magic_variety",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "no-filter": {
+   "slug": "no-filter",
+   "name": "No Filter",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "FIX DATA — venue could not be classified",
+   "kind": "artist",
+   "genre": "music_unspecified",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "baglami-cartel": {
+   "slug": "baglami-cartel",
+   "name": "Baglami Cartel",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "FIX DATA — venue could not be classified",
+   "kind": "artist",
+   "genre": "edm_club",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "delhi-s-finest": {
+   "slug": "delhi-s-finest",
+   "name": "Delhi'S Finest",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": 0,
+   "momentum_coverage": 0.37,
+   "n_shows": 1,
+   "action": "FIX DATA — venue could not be classified",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": false,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": 0
+    }
+   ]
+  },
+  "fight-night-afters": {
+   "slug": "fight-night-afters",
+   "name": "Fight Night Afters",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": 0,
+   "momentum_coverage": 0.37,
+   "n_shows": 1,
+   "action": "FIX DATA — venue could not be classified",
+   "kind": "artist",
+   "genre": "edm_club",
+   "active": false,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": 0
+    }
+   ]
+  },
+  "mohd-suhel-live-hyderabad": {
+   "slug": "mohd-suhel-live-hyderabad",
+   "name": "Mohd Suhel Live Hyderabad",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": 0,
+   "momentum_coverage": 0.37,
+   "n_shows": 1,
+   "action": "FIX DATA — venue could not be classified",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": false,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": 0
+    }
+   ]
+  },
+  "morgan-jay": {
+   "slug": "morgan-jay",
+   "name": "Morgan Jay",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "FIX DATA — venue could not be classified",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "dr-ojas-joshi": {
+   "slug": "dr-ojas-joshi",
+   "name": "Dr. Ojas Joshi",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "FIX DATA — venue could not be classified",
+   "kind": "artist",
+   "genre": "music_unspecified",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "week-new-jokes": {
+   "slug": "week-new-jokes",
+   "name": "Week New Jokes",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": 0,
+   "momentum_coverage": 0.37,
+   "n_shows": 1,
+   "action": "FIX DATA — venue could not be classified",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": false,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": 0
+    }
+   ]
+  },
+  "step-into-the-galaxy": {
+   "slug": "step-into-the-galaxy",
+   "name": "Step Into The Galaxy",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "FIX DATA — venue could not be classified",
+   "kind": "artist",
+   "genre": "music_unspecified",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "mumbai-harold-project": {
+   "slug": "mumbai-harold-project",
+   "name": "Mumbai Harold Project",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "FIX DATA — venue could not be classified",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "tribute-to-kk": {
+   "slug": "tribute-to-kk",
+   "name": "Tribute To Kk",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": 0,
+   "momentum_coverage": 0.37,
+   "n_shows": 1,
+   "action": "FIX DATA — venue could not be classified",
+   "kind": "artist",
+   "genre": "music_unspecified",
+   "active": false,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": 0
+    }
+   ]
+  },
+  "superhit-songs-of-burmans": {
+   "slug": "superhit-songs-of-burmans",
+   "name": "Superhit Songs Of Burmans",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": 0,
+   "momentum_coverage": 0.37,
+   "n_shows": 1,
+   "action": "FIX DATA — venue could not be classified",
+   "kind": "artist",
+   "genre": "music_unspecified",
+   "active": false,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": 0
+    }
+   ]
+  },
+  "bollywood-after-dark": {
+   "slug": "bollywood-after-dark",
+   "name": "Bollywood After Dark",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "FIX DATA — venue could not be classified",
+   "kind": "artist",
+   "genre": "music_mainstream",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "pujo-aashchey": {
+   "slug": "pujo-aashchey",
+   "name": "Pujo Aashchey!",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "fairytale-ss-rakhi-edit": {
+   "slug": "fairytale-ss-rakhi-edit",
+   "name": "Fairytale'Ss Rakhi Edit",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "global-ed-interaction": {
+   "slug": "global-ed-interaction",
+   "name": "Global Ed Interaction",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 21,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 2,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 21,
+     "momentum": null
+    }
+   ]
+  },
+  "harsh-o-ullas": {
+   "slug": "harsh-o-ullas",
+   "name": "Harsh O Ullas",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 18,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 18,
+     "momentum": null
+    }
+   ]
+  },
+  "to-fashion-fridays-models": {
+   "slug": "to-fashion-fridays-models",
+   "name": "To Fashion Fridays Models",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 18,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 18,
+     "momentum": null
+    }
+   ]
+  },
+  "to-boiler-room": {
+   "slug": "to-boiler-room",
+   "name": "To Boiler Room",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 18,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 18,
+     "momentum": null
+    }
+   ]
+  },
+  "to-kollywood-tamil": {
+   "slug": "to-kollywood-tamil",
+   "name": "To Kollywood Tamil",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "sonu-nigam-jam": {
+   "slug": "sonu-nigam-jam",
+   "name": "Sonu Nigam Jam",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "kpop-dance-choreography": {
+   "slug": "kpop-dance-choreography",
+   "name": "Kpop Dance Choreography",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "resin-koi-pond-art": {
+   "slug": "resin-koi-pond-art",
+   "name": "Resin Koi Pond Art",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 18,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 18,
+     "momentum": null
+    }
+   ]
+  },
+  "germany-education-fair-2026": {
+   "slug": "germany-education-fair-2026",
+   "name": "Germany Education Fair 2026",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "dudhsagar-trek-from-hyderabad": {
+   "slug": "dudhsagar-trek-from-hyderabad",
+   "name": "Dudhsagar Trek From Hyderabad",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "dhanunjay-seepana": {
+   "slug": "dhanunjay-seepana",
+   "name": "Dhanunjay Seepana",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "state-level-handwriting-competition": {
+   "slug": "state-level-handwriting-competition",
+   "name": "State Level Handwriting Competition",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "siri-gama-padha-nee": {
+   "slug": "siri-gama-padha-nee",
+   "name": "Siri Gama Padha Nee",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "dinner": {
+   "slug": "dinner",
+   "name": "Dinner",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "founders": {
+   "slug": "founders",
+   "name": "Founders",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "laravel-ahmedabad-meetup": {
+   "slug": "laravel-ahmedabad-meetup",
+   "name": "Laravel Ahmedabad Meetup",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "jm-sessions-01": {
+   "slug": "jm-sessions-01",
+   "name": "Jm Sessions 01",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 18,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 18,
+     "momentum": null
+    }
+   ]
+  },
+  "atham-sadhya": {
+   "slug": "atham-sadhya",
+   "name": "Atham Sadhya",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 18,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 18,
+     "momentum": null
+    }
+   ]
+  },
+  "kochi-folklore-odeum": {
+   "slug": "kochi-folklore-odeum",
+   "name": "Kochi Folklore Odeum",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "angamaly-meals": {
+   "slug": "angamaly-meals",
+   "name": "Angamaly Meals",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 18,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 18,
+     "momentum": null
+    }
+   ]
+  },
+  "fridge-magnet-workshop": {
+   "slug": "fridge-magnet-workshop",
+   "name": "Fridge Magnet Workshop",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "breakfast-buffet": {
+   "slug": "breakfast-buffet",
+   "name": "Breakfast Buffet",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 18,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 18,
+     "momentum": null
+    }
+   ]
+  },
+  "japenese-kintsuki-mug-art": {
+   "slug": "japenese-kintsuki-mug-art",
+   "name": "Japenese Kintsuki Mug Art",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "flower-lamp": {
+   "slug": "flower-lamp",
+   "name": "Flower Lamp",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 18,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 18,
+     "momentum": null
+    }
+   ]
+  },
+  "social-deduction-games-saturday": {
+   "slug": "social-deduction-games-saturday",
+   "name": "Social Deduction Games Saturday",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "wedding-grooming-workshop": {
+   "slug": "wedding-grooming-workshop",
+   "name": "Wedding Grooming Workshop",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "ESTABLISHED",
+   "stature": 98,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "ESTABLISHED",
+     "stature": 98,
+     "momentum": null
+    }
+   ]
+  },
+  "adult-rated": {
+   "slug": "adult-rated",
+   "name": "Adult- Rated",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 38,
+   "momentum": 0,
+   "momentum_coverage": 0.37,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": false,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 38,
+     "momentum": 0
+    }
+   ]
+  },
+  "timezone-dlf-cyberhub-mall": {
+   "slug": "timezone-dlf-cyberhub-mall",
+   "name": "Timezone Dlf Cyberhub Mall",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": 0,
+   "momentum_coverage": 0.37,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": false,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": 0
+    }
+   ]
+  },
+  "welcome-to-the-jungle": {
+   "slug": "welcome-to-the-jungle",
+   "name": "Welcome To The Jungle",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 18,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 18,
+     "momentum": null
+    }
+   ]
+  },
+  "big-friday": {
+   "slug": "big-friday",
+   "name": "Big Friday",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 48,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 48,
+     "momentum": null
+    }
+   ]
+  },
+  "hoot-rewind": {
+   "slug": "hoot-rewind",
+   "name": "Hoot Rewind",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "masquerade-gala-nolimmits-lounge": {
+   "slug": "masquerade-gala-nolimmits-lounge",
+   "name": "Masquerade Gala Nolimmits Lounge",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 18,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 18,
+     "momentum": null
+    }
+   ]
+  },
+  "tollywood-takiles": {
+   "slug": "tollywood-takiles",
+   "name": "Tollywood Takiles",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 18,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 18,
+     "momentum": null
+    }
+   ]
+  },
+  "glowmania-neon-party": {
+   "slug": "glowmania-neon-party",
+   "name": "Glowmania Neon Party",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 18,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 18,
+     "momentum": null
+    }
+   ]
+  },
+  "hoot-mainstage": {
+   "slug": "hoot-mainstage",
+   "name": "Hoot Mainstage",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "sunday-cage-party": {
+   "slug": "sunday-cage-party",
+   "name": "Sunday Cage Party",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 18,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 18,
+     "momentum": null
+    }
+   ]
+  },
+  "sundown-social": {
+   "slug": "sundown-social",
+   "name": "Sundown Social",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "sundaze-at-the-mill": {
+   "slug": "sundaze-at-the-mill",
+   "name": "Sundaze At The Mill",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 18,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 18,
+     "momentum": null
+    }
+   ]
+  },
+  "onam-celebration-at-hod": {
+   "slug": "onam-celebration-at-hod",
+   "name": "Onam Celebration At Hod",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 18,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 18,
+     "momentum": null
+    }
+   ]
+  },
+  "onam-beats-theme": {
+   "slug": "onam-beats-theme",
+   "name": "Onam Beats Theme",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "queens-of": {
+   "slug": "queens-of",
+   "name": "Queens Of",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "sukoon-the-mosoon-jam": {
+   "slug": "sukoon-the-mosoon-jam",
+   "name": "Sukoon The Mosoon Jam",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 18,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 18,
+     "momentum": null
+    }
+   ]
+  },
+  "chrysallis-lifestyle-exhibition": {
+   "slug": "chrysallis-lifestyle-exhibition",
+   "name": "Chrysallis Lifestyle Exhibition",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 18,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "CLASSIFY — genre unknown, held out of the ranking",
+   "kind": "artist",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 18,
+     "momentum": null
+    }
+   ]
+  },
+  "mahakal-musical-theater-play": {
+   "slug": "mahakal-musical-theater-play",
+   "name": "Mahakal | Musical Theater Play",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "ESTABLISHED",
+   "stature": 100,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "production",
+   "genre": "theatre",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "ESTABLISHED",
+     "stature": 100,
+     "momentum": null
+    }
+   ]
+  },
+  "padel-all-stars-coello-tapia-kings-of-the-court": {
+   "slug": "padel-all-stars-coello-tapia-kings-of-the-court",
+   "name": "Padel All Stars - Coello & Tapia: Kings Of The Court",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "ESTABLISHED",
+   "stature": 100,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "production",
+   "genre": "sport",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "ESTABLISHED",
+     "stature": 100,
+     "momentum": null
+    }
+   ]
+  },
+  "bharat-nutraverse-expo-2026": {
+   "slug": "bharat-nutraverse-expo-2026",
+   "name": "Bharat Nutraverse Expo 2026",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "ESTABLISHED",
+   "stature": 98,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "festival",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "ESTABLISHED",
+     "stature": 98,
+     "momentum": null
+    }
+   ]
+  },
+  "wipro-bengaluru-marathon-2026": {
+   "slug": "wipro-bengaluru-marathon-2026",
+   "name": "Wipro Bengaluru Marathon 2026",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "ESTABLISHED",
+   "stature": 93,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "production",
+   "genre": "sport",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "ESTABLISHED",
+     "stature": 93,
+     "momentum": null
+    }
+   ]
+  },
+  "usha-uthup-live-in-concert-mumbai": {
+   "slug": "usha-uthup-live-in-concert-mumbai",
+   "name": "Usha Uthup Live In Concert | Mumbai",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "ESTABLISHED",
+   "stature": 85,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "production",
+   "genre": "theatre",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "ESTABLISHED",
+     "stature": 85,
+     "momentum": null
+    }
+   ]
+  },
+  "best-in-standup-ft-various-artists": {
+   "slug": "best-in-standup-ft-various-artists",
+   "name": "Best in Standup ft. Various Artists",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 65,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "production",
+   "genre": "theatre",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 65,
+     "momentum": null
+    }
+   ]
+  },
+  "gujara-hua-jamana": {
+   "slug": "gujara-hua-jamana",
+   "name": "Gujara Hua Jamana",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 65,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "production",
+   "genre": "theatre",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 65,
+     "momentum": null
+    }
+   ]
+  },
+  "monche-mitra-sure-biswas": {
+   "slug": "monche-mitra-sure-biswas",
+   "name": "Monche Mitra Sure Biswas",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 65,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "production",
+   "genre": "theatre",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 65,
+     "momentum": null
+    }
+   ]
+  },
+  "mujhe-mere-doston-ki-biwiyon-se-badla-lena-hai": {
+   "slug": "mujhe-mere-doston-ki-biwiyon-se-badla-lena-hai",
+   "name": "Mujhe Mere Doston Ki Biwiyon Se Badla Lena Hai",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 65,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "production",
+   "genre": "theatre",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 65,
+     "momentum": null
+    }
+   ]
+  },
+  "rangrez-showcase-mumbai-edition": {
+   "slug": "rangrez-showcase-mumbai-edition",
+   "name": "Rangrez Showcase - Mumbai Edition",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 65,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "production",
+   "genre": "theatre",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 65,
+     "momentum": null
+    }
+   ]
+  },
+  "who-gives-a-shit-ft-jeeveshu-ahluwalia": {
+   "slug": "who-gives-a-shit-ft-jeeveshu-ahluwalia",
+   "name": "Who Gives A Shit ft. Jeeveshu Ahluwalia",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 65,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "production",
+   "genre": "theatre",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 65,
+     "momentum": null
+    }
+   ]
+  },
+  "window-tak-aashiqui": {
+   "slug": "window-tak-aashiqui",
+   "name": "Window Tak Aashiqui",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 65,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "production",
+   "genre": "theatre",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 65,
+     "momentum": null
+    }
+   ]
+  },
+  "poetry-unfiltered-open-mic-ft-tj-coulagi": {
+   "slug": "poetry-unfiltered-open-mic-ft-tj-coulagi",
+   "name": "Poetry Unfiltered Open Mic ft TJ Coulagi",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 45,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "production",
+   "genre": "theatre",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 45,
+     "momentum": null
+    }
+   ]
+  },
+  "90s-vs-2k-tamil-jamming-chennai": {
+   "slug": "90s-vs-2k-tamil-jamming-chennai",
+   "name": "90s vs 2K - Tamil jamming Chennai",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 33,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "production",
+   "genre": "sport",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 33,
+     "momentum": null
+    }
+   ]
+  },
+  "ankur-duos-improv-comedy-show": {
+   "slug": "ankur-duos-improv-comedy-show",
+   "name": "Ankur ++ Duos Improv Comedy Show",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 25,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "production",
+   "genre": "theatre",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 25,
+     "momentum": null
+    }
+   ]
+  },
+  "paarsh-pradhosh-saajan-mere-doodh-biskut-se-ahmedabad": {
+   "slug": "paarsh-pradhosh-saajan-mere-doodh-biskut-se-ahmedabad",
+   "name": "Paarsh Pradhosh - Saajan Mere Doodh Biskut Se | Ahmedabad",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 25,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "production",
+   "genre": "theatre",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 25,
+     "momentum": null
+    }
+   ]
+  },
+  "sumit-singh-live-standup-comedy-solo": {
+   "slug": "sumit-singh-live-standup-comedy-solo",
+   "name": "Sumit Singh Live - Standup Comedy Solo",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 25,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "production",
+   "genre": "theatre",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 25,
+     "momentum": null
+    }
+   ]
+  },
+  "great-education-expo-2027": {
+   "slug": "great-education-expo-2027",
+   "name": "Great Education Expo 2027",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 18,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "festival",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 18,
+     "momentum": null
+    }
+   ]
+  },
+  "90s-vs-2k-tamil-jamming-bengaluru": {
+   "slug": "90s-vs-2k-tamil-jamming-bengaluru",
+   "name": "90s vs 2k - Tamil jamming Bengaluru",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 9,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "production",
+   "genre": "sport",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 9,
+     "momentum": null
+    }
+   ]
+  },
+  "7padel-single-s-mixer-event": {
+   "slug": "7padel-single-s-mixer-event",
+   "name": "7Padel Single's Mixer Event",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "production",
+   "genre": "sport",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "7padel-women-s-americano-i-wtc-cuffe-parade": {
+   "slug": "7padel-women-s-americano-i-wtc-cuffe-parade",
+   "name": "7Padel Women's Americano I WTC, Cuffe Parade",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "production",
+   "genre": "sport",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "abi-expo-2026-architecture-building-interior": {
+   "slug": "abi-expo-2026-architecture-building-interior",
+   "name": "ABI EXPO 2026 – Architecture | Building | Interior",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "festival",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "active-aging-challenge-sports-festival-bengaluru-chapter": {
+   "slug": "active-aging-challenge-sports-festival-bengaluru-chapter",
+   "name": "ACTIVE AGING CHALLENGE & SPORTS FESTIVAL - Bengaluru Chapter",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "festival",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "chennai-kids-running-festival-2026-5th-edition": {
+   "slug": "chennai-kids-running-festival-2026-5th-edition",
+   "name": "Chennai Kids Running Festival 2026 - 5th Edition",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "festival",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "gunther-shooting-sports-foundation": {
+   "slug": "gunther-shooting-sports-foundation",
+   "name": "Gunther Shooting Sports Foundation",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "production",
+   "genre": "sport",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "kahaniyan-sunaata-hun-mumbai-1st-show": {
+   "slug": "kahaniyan-sunaata-hun-mumbai-1st-show",
+   "name": "Kahaniyan Sunaata Hun | Mumbai 1st show",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "production",
+   "genre": "theatre",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "lijo-live-at-sunburn-union": {
+   "slug": "lijo-live-at-sunburn-union",
+   "name": "LIJO LIVE AT SUNBURN UNION",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "festival",
+   "genre": "edm_club",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "mumbai-midnight-cycling-thrillvana": {
+   "slug": "mumbai-midnight-cycling-thrillvana",
+   "name": "Mumbai Midnight Cycling - Thrillvana",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "production",
+   "genre": "sport",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "papon-live-in-concert-mumbai": {
+   "slug": "papon-live-in-concert-mumbai",
+   "name": "Papon Live In Concert | Mumbai",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "production",
+   "genre": "theatre",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "property-expo-2026": {
+   "slug": "property-expo-2026",
+   "name": "Property Expo 2026",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "festival",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "sfl-badminton-championship": {
+   "slug": "sfl-badminton-championship",
+   "name": "SFL Badminton Championship",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "production",
+   "genre": "sport",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "superhuman-unleashed-amateur-mma-fight-event": {
+   "slug": "superhuman-unleashed-amateur-mma-fight-event",
+   "name": "Superhuman Unleashed | Amateur MMA Fight Event",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "production",
+   "genre": "sport",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "the-reading-room-project-by-ttg-baaki-itihaas": {
+   "slug": "the-reading-room-project-by-ttg-baaki-itihaas",
+   "name": "The Reading Room Project by TTG - Baaki Itihaas",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "production",
+   "genre": "theatre",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "times-internet-half-marathon-mumbai": {
+   "slug": "times-internet-half-marathon-mumbai",
+   "name": "Times Internet Half Marathon | Mumbai",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "production",
+   "genre": "sport",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "unscripted": {
+   "slug": "unscripted",
+   "name": "Unscripted",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "production",
+   "genre": "theatre",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "realme-music-fest-delhi-2026": {
+   "slug": "realme-music-fest-delhi-2026",
+   "name": "realme Music Fest | Delhi 2026",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "festival",
+   "genre": "unknown",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
+  },
+  "saikiran": {
+   "slug": "saikiran",
+   "name": "Saikiran",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 53,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 53,
+     "momentum": null
+    }
+   ]
+  },
+  "avinash-agarwal": {
+   "slug": "avinash-agarwal",
+   "name": "Avinash Agarwal",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "EARLY",
+   "stature": 38,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 1,
+   "action": "WATCH — no action; the next crawls decide",
+   "kind": "artist",
+   "genre": "comedy",
+   "active": true,
+   "candidate_eligible": true,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "EARLY",
+     "stature": 38,
+     "momentum": null
+    }
+   ]
+  },
+  "just-go-with-it": {
+   "slug": "just-go-with-it",
+   "name": "Just Go With It",
+   "first_seen_run": "2026-08-21",
+   "status": "new",
+   "owner": null,
+   "contact_notes": [],
+   "first_contacted": null,
+   "do_not_pursue": false,
+   "last_seen_run": "2026-08-21",
+   "quadrant": "UNCLASSIFIED",
+   "stature": null,
+   "momentum": null,
+   "momentum_coverage": 0.0,
+   "n_shows": 2,
+   "action": "TRACK FORMAT - non-artist entity; excluded from the signing radar",
+   "kind": "format",
+   "genre": "comedy",
+   "active": true,
+   "candidate_eligible": false,
+   "export_ready": false,
+   "history": [
+    {
+     "run": "2026-08-21",
+     "quadrant": "UNCLASSIFIED",
+     "stature": null,
+     "momentum": null
+    }
+   ]
   }
  }
 }
