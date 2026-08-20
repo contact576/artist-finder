@@ -232,8 +232,15 @@ def by_entity(ledger=None):
     out = {}
     for s in ledger['shows']:
         for a in (s.get('entities') or []):
-            e = out.setdefault(a['slug'], dict(slug=a['slug'], name=a['name'],
-                                               kind=a.get('kind', 'artist'), shows=[]))
+            slug = a.get('slug')
+            # Immutable historical snapshots can contain an old parser's blank slug. It is not
+            # an entity identity, so skip it rather than merging unrelated rows under ``''``.
+            # The raw row stays in the ledger/review evidence; only derived candidate grouping
+            # refuses to turn it into a false artist.
+            if not isinstance(slug, str) or not slug.strip():
+                continue
+            e = out.setdefault(slug, dict(slug=slug, name=a.get('name'),
+                                          kind=a.get('kind', 'artist'), shows=[]))
             e['shows'].append(s)
     for e in out.values():
         counts = {}
@@ -278,6 +285,20 @@ def _selftest():
     a = by_artist(led)
     ok = ok and 'neel-sharma' in a and len(a['neel-sharma']['shows']) == 3
     print(f'\n  by_artist: {[(k, len(v["shows"])) for k, v in a.items()]}')
+
+    legacy_blank = dict(shows=[
+        dict(show_id='legacy-1', genre='comedy', entities=[
+            dict(name='ಯಕಷ ಕನಸು', slug='', kind='artist')]),
+        dict(show_id='legacy-2', genre='theatre', entities=[
+            dict(name='মেঘের সঙগে চাঁদের দেখা', slug='', kind='production')]),
+        dict(show_id='latin-1', genre='comedy', entities=[
+            dict(name='Kanan Gill', slug='kanan-gill', kind='artist')]),
+    ])
+    grouped = by_entity(legacy_blank)
+    blank_guard = ('' not in grouped and set(grouped) == {'kanan-gill'} and
+                   len(grouped['kanan-gill']['shows']) == 1)
+    ok = ok and blank_guard
+    print(f'  [{"ok " if blank_guard else "FAIL"}] blank legacy slugs are held out, not merged')
     print(f'\n  {"ALL CHECKS PASS" if ok else "SELF-TEST FAILED"}')
     return 0 if ok else 1
 
