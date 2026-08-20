@@ -6,8 +6,21 @@ Every week this crawls Indian ticketing platforms, tracks how each artist's book
 time, and ranks them by how fast they are *rising* rather than how big they already are. The
 credible ones get handed to a calibrated forecaster to size a North American tour.
 
-Built for [Millennial Events](https://millennialevents.ca) by way of the settled 2026 Samay Raina
-tour P&L, which is where every number this tool leans on was measured.
+Built for Millennial Events by way of the settled 2026 Samay Raina tour P&L, which is where
+every number this tool leans on was measured.
+
+### The four documents
+
+| File | What it is |
+|---|---|
+| **README.md** | this — what the project is and where it stands |
+| **[AGENTS.md](AGENTS.md)** | **the handbook.** Cardinal rules, architecture, and every trap already hit. Read before changing anything |
+| **[RUNBOOK.md](RUNBOOK.md)** | how to operate it — the weekly run, the monthly job, the kill list |
+| `CLAUDE.md` | a pointer to AGENTS.md, so Claude Code finds it |
+
+`AGENTS.md` is the name Codex looks for, and Cursor reads it too. It is deliberately **not**
+duplicated into `CLAUDE.md` — two copies of a handbook diverge within a fortnight, and a stale
+handbook is worse than none because it gets believed.
 
 ---
 
@@ -116,15 +129,18 @@ Every source was probed on 2026-08-19 and carries `access` and `verified_at` in
 
 ## Architecture
 
-Python cannot call MCP tools, but it *can* make HTTP requests — so fetching is split three ways
-and everything below the fetch line is deterministic and offline.
+Fetching is split, and everything below the fetch line is deterministic and offline — which is
+why every module self-tests with no network and no data.
 
 ```
 tools/fetch_listings.py     free structured sources (allevents · highape · district)
-Claude + Apify              blocked or HTML-only sources
+an assistant + Apify        blocked or HTML-only sources (bookmyshow, skillbox, townscript)
         both write ->  data/raw/<date>__<source>.json
 scout/run_weekly.py         ingest -> score -> report
 ```
+
+Apify datasets are readable without a token, so the blocked path needs no new credential: an
+assistant starts the run, then `fetch_listings.py --apify-dataset <id>` reads and parses it.
 
 ```
 data/tips.json              human tips, pasted any time
@@ -237,6 +253,24 @@ cd tools && python fetch_search_volume.py --all
   held out of the ranking rather than mis-scored.
 
 ---
+
+## Picking this up in another tool
+
+The repository is self-contained. `AGENTS.md` and `RUNBOOK.md` carry everything, all commands are
+plain Python with no absolute paths, and there are no dependencies beyond the standard library.
+
+Two things do **not** live in the repo and will not travel with a clone:
+
+- **The Claude Code skill** (`artist-scout`) — a convenience trigger. `RUNBOOK.md` is the actual
+  protocol and supersedes it.
+- **The two schedules** — currently Claude Code scheduled tasks, which only fire while that app
+  is open. `RUNBOOK.md` has the Windows Task Scheduler equivalents. Any scheduler works, because
+  every step is an ordinary Python command.
+
+One genuine coupling to know about: this project reads `../Artist Tour Engine/` by relative path,
+for the benchmark gazetteer and for writing dossiers. Both degrade gracefully if it is absent —
+`bridge.engine_available()` returns False and `gazetteer` falls back to `data/aliases.json` — but
+the handoff to the forecaster is the point of the whole thing, so keep them side by side.
 
 ## Relationship to the other projects
 
