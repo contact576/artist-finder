@@ -60,7 +60,7 @@ def render(ranked, deltas, obs, platform_candidates=None, health=None, asof=None
     A('')
 
     # ---------------------------------------------------------------- actions
-    rising = [r for r in ranked if r['quadrant'] == 'RISING']
+    rising = [r for r in ranked if r['candidate_eligible'] and r['quadrant'] == 'RISING']
     A('## Do this week')
     A('')
     if not rising:
@@ -162,8 +162,9 @@ def render(ranked, deltas, obs, platform_candidates=None, health=None, asof=None
       '**Demand** is diaspora-side — US/CA search volume, its growth, and whether a foreign '
       'promoter has already booked them. They are never combined; an artist needs both.')
     A('')
-    ranked_main = [r for r in ranked if r['export_weight'] is not None]
-    held = [r for r in ranked if r['export_weight'] is None]
+    ranked_main = [r for r in ranked if r['candidate_eligible'] and r['export_weight'] is not None]
+    held = [r for r in ranked if r['candidate_eligible'] and r['export_weight'] is None]
+    formats = [r for r in ranked if not r['candidate_eligible']]
     A('| Entity | Genre | Quadrant | Stature | Momentum | Evid. | Demand | Rooms | Cities |')
     A('|---|---|---|--:|--:|--:|--:|---|--:|')
     for r in ranked_main[:40]:
@@ -182,10 +183,18 @@ def render(ranked, deltas, obs, platform_candidates=None, health=None, asof=None
         for r in held[:15]:
             A(f'- {r["name"]} — {r["n_shows"]} listing(s)')
         A('')
+    if formats:
+        A(f'**{len(formats)} non-artist format(s) tracked separately.** Productions, festivals, '
+          f'and fan events can reveal market activity, but they are never signing candidates.')
+        A('')
+        for r in formats[:15]:
+            A(f'- {r["name"]} ? {r["kind"]}, {r["n_shows"]} listing(s)')
+        A('')
+
 
     # genre spread — the "what else is out there" view the brief asked for
     spread = {}
-    for r in ranked:
+    for r in [x for x in ranked if x['candidate_eligible']]:
         spread.setdefault(r['genre'], []).append(r)
     A('**By genre**')
     A('')
@@ -228,7 +237,7 @@ def render(ranked, deltas, obs, platform_candidates=None, health=None, asof=None
             A(f'⚠ {", ".join(h["source"] for h in weak)} parsed under 60%. The adapter or the '
               f'title conventions changed — rows are in the snapshot\'s `review` list, not lost.')
             A('')
-    unclass = sum(1 for r in ranked if r['quadrant'] == 'UNCLASSIFIED')
+    unclass = sum(1 for r in ranked if r['candidate_eligible'] and r['quadrant'] == 'UNCLASSIFIED')
     if unclass:
         A(f'⚠ {unclass} artist(s) have no classifiable room. Add their venues to '
           f'`data/venues_india.json` — until then they cannot be ranked.')

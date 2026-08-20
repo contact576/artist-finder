@@ -1,0 +1,125 @@
+{
+ "schema_version": 1,
+ "_doc": [
+  "AUDITED DERIVED-DATA CORRECTIONS. Snapshots remain immutable.",
+  "",
+  "Use an event rule to suppress or reclassify one observed show. Use an entity rule to",
+  "suppress or canonicalise an entity wherever it appeared historically. Every entry must",
+  "carry reviewed_at and reason so a repaired ledger remains explainable and back-testable."
+ ],
+ "events": {
+  "u:fe9db6e4e3de389d": {
+   "action": "suppress",
+   "reviewed_at": "2026-08-20",
+   "reason": "Taylor Swift fan event; not a live performance by the artist"
+  },
+  "u:c4ea528208bcf079": {
+   "action": "suppress",
+   "reviewed_at": "2026-08-20",
+   "reason": "Taylor Swift fan event; not a live performance by the artist"
+  },
+  "u:c6d313cc5367063c": {
+   "action": "suppress",
+   "reviewed_at": "2026-08-20",
+   "reason": "Taylor Swift fan event; not a live performance by the artist"
+  },
+  "u:6401e71d8e546b6d": {
+   "action": "suppress",
+   "reviewed_at": "2026-08-20",
+   "reason": "Taylor Swift fan event; not a live performance by the artist"
+  },
+  "u:0778c38c6dd66ce8": {
+   "action": "suppress",
+   "reviewed_at": "2026-08-20",
+   "reason": "Taylor Swift fan event; not a live performance by the artist"
+  },
+  "u:7108e4686f6226b1": {
+   "set": {
+    "genre": "unknown",
+    "genre_confidence": 0.0,
+    "genre_evidence": "corrected: raga was a substring of venue Pragati Maidan"
+   },
+   "reviewed_at": "2026-08-20",
+   "reason": "Expo was falsely classified as classical music from a venue substring"
+  },
+  "u:19289fbb774947e9": {
+   "set": {
+    "genre": "unknown",
+    "genre_confidence": 0.0,
+    "genre_evidence": "corrected: raga was a substring of venue Pragati Maidan"
+   },
+   "reviewed_at": "2026-08-20",
+   "reason": "Expo was falsely classified as classical music from a venue substring"
+  },
+  "u:16ecc2a7ba307cb5": {
+   "set": {
+    "genre": "unknown",
+    "genre_confidence": 0.0,
+    "genre_evidence": "corrected: raga was a substring of venue Pragati Maidan"
+   },
+   "reviewed_at": "2026-08-20",
+   "reason": "Expo was falsely classified as classical music from a venue substring"
+  },
+  "u:c7b06e5d021e4870": {
+   "set": {
+    "genre": "unknown",
+    "genre_confidence": 0.0,
+    "genre_evidence": "corrected: raga was a substring of venue Pragati Maidan"
+   },
+   "reviewed_at": "2026-08-20",
+   "reason": "Expo was falsely classified as classical music from a venue substring"
+  }
+ },
+ "entities": {
+  "koramangala": {
+   "action": "suppress",
+   "reviewed_at": "2026-08-20",
+   "reason": "Bengaluru neighbourhood split out of HighApe billing text as a performer"
+  },
+  "fixx-koramangala": {
+   "action": "suppress",
+   "reviewed_at": "2026-08-20",
+   "reason": "Venue and neighbourhood name parsed as a performer"
+  },
+  "senleo-at-yeda-republic": {
+   "set": {"name": "Senleo"},
+   "reviewed_at": "2026-08-20",
+   "reason": "Venue tail was attached to DJ name"
+  },
+  "mishi-at-yeda-republic": {
+   "set": {"name": "Mishi"},
+   "reviewed_at": "2026-08-20",
+   "reason": "Venue tail was attached to DJ name"
+  },
+  "sukant-at-yeda-republic": {
+   "set": {"name": "Sukant"},
+   "reviewed_at": "2026-08-20",
+   "reason": "Venue tail was attached to DJ name"
+  },
+  "aquib-at-yeda-republic": {
+   "set": {"name": "Aquib"},
+   "reviewed_at": "2026-08-20",
+   "reason": "Venue tail was attached to DJ name"
+  },
+  "talon-at-yeda-republic": {
+   "set": {"name": "Talon"},
+   "reviewed_at": "2026-08-20",
+   "reason": "Venue tail was attached to DJ name"
+  },
+  "revibe-at-yeda-republic": {
+   "set": {"name": "Revibe"},
+   "reviewed_at": "2026-08-20",
+   "reason": "Venue tail was attached to DJ name"
+  },
+  "nusha-at-yeda-republic": {
+   "set": {"name": "Nusha"},
+   "reviewed_at": "2026-08-20",
+   "reason": "Venue tail was attached to DJ name"
+  },
+  "razrr-at-yeda-republic": {
+   "set": {"name": "Razrr"},
+   "reviewed_at": "2026-08-20",
+   "reason": "Venue tail was attached to DJ name"
+  }
+ }
+}

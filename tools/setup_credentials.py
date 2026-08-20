@@ -27,7 +27,7 @@ CONFIG = os.path.join(BASE, 'data', 'config.json')
 
 FIELDS = [
     ('google_ads', 'developer_token', 'Google Ads DEVELOPER TOKEN', True,
-     r'^[A-Za-z0-9_\-]{15,}$',
+     r'^[A-Za-z0-9_-]{22}$',
      ['Where: ads.google.com/aw/apicenter, signed in to the PPC Guru.ca manager account.',
       'It looks like a long string of letters, numbers and dashes.',
       'If you have not applied yet, apply first — approval takes a few days.']),
@@ -65,7 +65,7 @@ FIELDS = [
 ]
 
 DEFAULTS = {'login_customer_id': '1632013729', 'customer_id': '1632013729',
-            'api_version': 'v21'}
+            'api_version': 'v25'}
 
 
 def load():
@@ -164,6 +164,70 @@ def prompt_all(cfg):
     return 0
 
 
+def prompt_developer_token(field):
+    section, key, label, required, pattern, help_lines = field
+    cfg = load()
+    print(f'\n{label}')
+    print('=' * 52)
+    for line in help_lines:
+        print(f'  {line}')
+
+    while True:
+        raw = getpass.getpass('\nPaste value (hidden): ').strip()
+        if not raw:
+            print('Nothing entered; existing configuration was not changed.')
+            return 1
+        candidates = re.findall(
+            r'(?<![A-Za-z0-9_-])[A-Za-z0-9_-]{22}(?![A-Za-z0-9_-])', raw)
+        if len(candidates) == 1:
+            raw = candidates[0]
+        if raw.isdigit() and len(raw) in (10, 12):
+            print('That is an account/customer ID, not the Developer token. Please copy the token row.')
+            continue
+        if pattern and not re.match(pattern, raw):
+            print('That is not a Google Ads Developer token.')
+            print('Copy only the value beside Developer token, then paste again.')
+            continue
+        put(cfg, section, key, raw)
+        for default_key, default_value in DEFAULTS.items():
+            cfg.setdefault('google_ads', {}).setdefault(default_key, default_value)
+        save(cfg)
+        print('Saved Google Ads DEVELOPER TOKEN locally. The value was not printed or logged.')
+        return 0
+
+
+def prompt_field(field_key):
+    field = next((f for f in FIELDS if f[1] == field_key), None)
+    if field is None:
+        print(f'Unknown credential field: {field_key}')
+        return 1
+    if field_key == 'developer_token':
+        return prompt_developer_token(field)
+
+
+    section, key, label, required, pattern, help_lines = field
+    cfg = load()
+    print(f'\n{label}')
+    print('=' * 52)
+    for line in help_lines:
+        print(f'  {line}')
+    secret = key in ('developer_token', 'client_secret', 'refresh_token', 'apify_token')
+    raw = (getpass.getpass('\nPaste value (hidden): ') if secret else input('\nPaste value: ')).strip()
+    if not raw:
+        print('Nothing entered; existing configuration was not changed.')
+        return 1
+    if pattern and not re.match(pattern, raw):
+        print(f'That value does not match the expected shape for {label}. Nothing was saved.')
+        return 1
+    put(cfg, section, key, raw)
+    if section == 'google_ads':
+        for default_key, default_value in DEFAULTS.items():
+            cfg.setdefault('google_ads', {}).setdefault(default_key, default_value)
+    save(cfg)
+    print(f'Saved {label} locally. The value was not printed or logged.')
+    return 0
+
+
 OAUTH_HELP = """
 Getting a REFRESH TOKEN
 =======================
@@ -201,11 +265,31 @@ def oauth_flow():
     import webbrowser
 
     print(OAUTH_HELP)
-    cid = input('Paste your OAuth CLIENT ID: ').strip()
-    csec = getpass.getpass('Paste your OAuth CLIENT SECRET (hidden): ').strip()
-    if not cid or not csec:
-        print('Both are needed. Stopping.')
-        return 1
+    cfg = load()
+    google_ads = cfg.get('google_ads') or {}
+    cid = google_ads.get('client_id', '').strip()
+    csec = google_ads.get('client_secret', '').strip()
+    if cid and csec:
+        print('Using the OAuth Client ID and Client Secret already saved locally.')
+    else:
+        cid = input('Paste your OAuth CLIENT ID: ').strip()
+        csec = getpass.getpass('Paste your OAuth CLIENT SECRET (hidden): ').strip()
+        if not cid or not csec:
+            print('Both are needed. Stopping.')
+            return 1
+        if not re.match(r'^[0-9]+-[a-z0-9]+\.apps\.googleusercontent\.com$', cid):
+            print('That Client ID does not have the expected Desktop OAuth format.')
+            print('It must end in .apps.googleusercontent.com. Nothing was saved.')
+            return 1
+        if not re.match(r'^\S{10,}$', csec):
+            print('That Client Secret is too short. Nothing was saved.')
+            return 1
+        put(cfg, 'google_ads', 'client_id', cid)
+        put(cfg, 'google_ads', 'client_secret', csec)
+        for k, v in DEFAULTS.items():
+            cfg['google_ads'].setdefault(k, v)
+        save(cfg)
+        print('Client ID and Client Secret saved locally. Future retries will reuse them.')
 
     sock = socket.socket()
     sock.bind(('127.0.0.1', 0))
@@ -321,7 +405,11 @@ def main(argv=None):
     ap.add_argument('--show', action='store_true', help='what is set, without revealing values')
     ap.add_argument('--test', action='store_true', help='check the credentials actually work')
     ap.add_argument('--oauth', action='store_true', help='walk through getting a refresh token')
+    ap.add_argument('--field', choices=[f[1] for f in FIELDS],
+                    help='prompt for exactly one credential and save it locally')
     a = ap.parse_args(argv)
+    if a.field:
+        return prompt_field(a.field)
     if a.oauth:
         return oauth_flow()
     if a.show:

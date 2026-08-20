@@ -26,7 +26,7 @@ SETUP — data/config.json, which is GITIGNORED because these are credentials:
        "refresh_token":     "...",          one-time OAuth consent, offline access
        "login_customer_id": "1632013729",   the MCC, digits only
        "customer_id":       "1632013729",
-       "api_version":       "v21"}}
+       "api_version":       "v25"}}
 
     python fetch_search_volume.py --all              every watchlist entity
     python fetch_search_volume.py --names "A,B"      specific names
@@ -36,10 +36,12 @@ import argparse
 import json
 import os
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
 
+import datetime as dt
 HERE = os.path.dirname(os.path.abspath(__file__))
 BASE = os.path.dirname(HERE)
 sys.path.insert(0, os.path.join(BASE, 'scout'))
@@ -50,13 +52,42 @@ import watchlist  # noqa: E402
 
 CONFIG = os.path.join(BASE, 'data', 'config.json')
 TOKEN_URL = 'https://oauth2.googleapis.com/token'
-DEFAULT_VERSION = 'v21'
+DEFAULT_VERSION = 'v25'
 TIMEOUT = 45
 
 # Google Ads geo target constants. Kept beside the currencies they imply so nobody wires the
 # two together later — US and CA volumes are reported separately, always.
 GEO = {'us': '2840', 'ca': '2124'}
+QUALIFIER = {
+    'comedy': 'comedian',
+    'music_mainstream': 'singer',
+    'music_indie': 'singer',
+    'music_classical': 'musician',
+    'music_unspecified': 'singer',
+    'devotional': 'singer',
+    'spoken_word': 'poet',
+    'magic_variety': 'magician',
+    'edm_club': 'dj',
+    'theatre': 'actor',
+}
+
 LANG_EN = '1000'
+MONTH_NAMES = ('JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE',
+               'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER')
+
+
+def history_range(months=48, today=None):
+    """The last N completed calendar months, expressed in Google Ads API enums."""
+    today = today or dt.date.today()
+    end_month = today.month - 1
+    end_year = today.year
+    if end_month == 0:
+        end_month, end_year = 12, end_year - 1
+    end_index = end_year * 12 + end_month - 1
+    start_index = end_index - max(1, months) + 1
+    sy, sm0 = divmod(start_index, 12)
+    return dict(start=dict(year=sy, month=MONTH_NAMES[sm0]),
+                end=dict(year=end_year, month=MONTH_NAMES[end_month - 1]))
 
 
 def load_config():
@@ -97,7 +128,7 @@ def access_token(cfg):
     return tok['access_token']
 
 
-def historical_metrics(cfg, token, keywords, geo_id):
+def historical_metrics(cfg, token, keywords, geo_id, history_months=48):
     """One call, one geo. Returns the API's keyword->metrics list."""
     ver = cfg.get('api_version', DEFAULT_VERSION)
     cid = str(cfg['customer_id']).replace('-', '')
@@ -111,7 +142,10 @@ def historical_metrics(cfg, token, keywords, geo_id):
         'keywords': list(keywords),
         'geoTargetConstants': [f'geoTargetConstants/{geo_id}'],
         'language': f'languageConstants/{LANG_EN}',
-        'keywordPlanNetwork': 'GOOGLE_SEARCH_AND_PARTNERS',
+        'keywordPlanNetwork': 'GOOGLE_SEARCH',
+        'historicalMetricsOptions': {
+            'yearMonthRange': history_range(history_months),
+        },
     }
     return _post(url, payload, headers).get('results', []) or []
 
@@ -154,10 +188,12 @@ def looks_bucketed(series):
 
 def entity_names(args):
     if args.names:
-        return [(model.slugify(n.strip()), n.strip()) for n in args.names.split(',') if n.strip()]
+        return [(model.slugify(n.strip()), n.strip(), 'unknown') for n in args.names.split(',') if n.strip()]
     wl = watchlist.load()
-    out = [(s, e.get('name') or s) for s, e in (wl.get('artists') or {}).items()
-           if not e.get('do_not_pursue')]
+    out = [(s, e.get('name') or s, e.get('genre') or 'unknown')
+           for s, e in (wl.get('artists') or {}).items()
+           if not e.get('do_not_pursue') and e.get('active', True) and e.get('candidate_eligible', True)
+           and e.get('kind', 'artist') in ('artist', 'dj_night')]
     return sorted(out)
 
 
@@ -167,6 +203,8 @@ def main(argv=None):
     ap.add_argument('--names', help='comma-separated names instead of the watchlist')
     ap.add_argument('--check', action='store_true', help='probe credentials, write nothing')
     ap.add_argument('--limit', type=int, default=0)
+    ap.add_argument('--history-months', type=int, default=48,
+                    help='completed months to request (default 48; Google supports up to 4 years)')
     a = ap.parse_args(argv)
 
     cfg = load_config()
@@ -180,7 +218,7 @@ def main(argv=None):
           f'login-customer {cfg.get("login_customer_id")} · {cfg.get("api_version", DEFAULT_VERSION)}')
 
     if a.check:
-        res = historical_metrics(cfg, token, ['zakir khan comedian'], GEO['us'])
+        res = historical_metrics(cfg, token, ['zakir khan comedian'], GEO['us'], a.history_months)
         if not res:
             print('  probe returned no rows — check the developer token access level')
             return 1
@@ -199,46 +237,78 @@ def main(argv=None):
         return 0
 
     print(f'  {len(targets)} entities\n')
+    # Google supports up to 10,000 keywords per request. Batch the whole roster instead of
+    # making two calls per artist; Keyword Planning is limited to 1 request/second per CID.
+    plans = []
+    all_keywords = []
+    for slug, name, genre in targets:
+        qualifier = QUALIFIER.get(genre)
+        qualified_keyword = f'{name} {qualifier}' if qualifier else None
+        kws = [name, f'{name} tickets']
+        kws = list(dict.fromkeys(kws + ([qualified_keyword] if qualified_keyword else [])))
+        plans.append(dict(slug=slug, name=name, genre=genre, qualifier=qualifier,
+                          qualified_keyword=qualified_keyword))
+        all_keywords.extend(kws)
+    all_keywords = list(dict.fromkeys(all_keywords))
+    print(f'  {len(all_keywords)} keyword variants in geo batches\n')
+
+    fetched = {}
+    request_count = 0
+    batch_size = 9000
+    for geo in ('us', 'ca'):
+        byk = {}
+        for offset in range(0, len(all_keywords), batch_size):
+            if request_count:
+                time.sleep(1.1)
+            chunk = all_keywords[offset:offset + batch_size]
+            rows = historical_metrics(cfg, token, chunk, GEO[geo], a.history_months)
+            request_count += 1
+            for r in rows:
+                parsed = parse_metrics(r)
+                variants = [r.get('text')] + list(r.get('closeVariants') or [])
+                for variant in variants:
+                    if variant:
+                        byk[variant.lower()] = parsed
+        fetched[geo] = byk
+        print(f'  {geo.upper()} batch: {len(byk)} mapped keyword variants')
+
     flagged = 0
-    for slug, name in targets:
-        # The contamination gate from the tour-pnl protocol: the qualified variant tells us
-        # whether the bare name's volume is even this person's. Measured failures: Jaspreet
-        # Singh 2%, Aakash Gupta 1% — both look huge in search and do not sell tickets.
-        kws = [name, f'{name} comedian', f'{name} tickets']
+    demand_data = demand.load()
+    for plan in plans:
+        slug = plan['slug']
+        name = plan['name']
+        qualifier = plan['qualifier']
+        qualified_keyword = plan['qualified_keyword']
         line = f'  {name[:30]:32}'
         for geo in ('us', 'ca'):
-            try:
-                rows = historical_metrics(cfg, token, kws, GEO[geo])
-            except SystemExit as e:
-                print(f'{line} {geo.upper()} FAILED {e}')
-                continue
-            byk = {}
-            for r in rows:
-                avg, series = parse_metrics(r)
-                byk[(r.get('text') or '').lower()] = (avg, series)
+            byk = fetched[geo]
             bare = byk.get(name.lower(), (None, []))
-            qual = byk.get(f'{name} comedian'.lower(), (None, []))
+            qual = byk.get(qualified_keyword.lower(), (None, [])) if qualified_keyword else (None, [])
             if bare[0] is None:
                 line += f' {geo.upper()}=—'
                 continue
             demand.record_search(slug, geo, bare[0], bare[1], name=name,
-                                 source=f'keyword planner {cfg.get("api_version", DEFAULT_VERSION)}')
+                                 source=f'keyword planner {cfg.get("api_version", DEFAULT_VERSION)}',
+                                 data=demand_data, save_now=False)
             bucketed, why = looks_bucketed(bare[1])
             if bucketed:
                 flagged += 1
             line += f' {geo.upper()}={bare[0]:,}/mo' + ('  [BUCKETED]' if bucketed else '')
             if geo == 'us' and bare[0] and qual[0] is not None:
                 share = qual[0] / bare[0] if bare[0] else None
-                demand.record_contamination(slug, round(share, 4) if share else 0.0, name=name)
+                demand.record_contamination(slug, round(share, 4) if share else 0.0, name=name,
+                                            data=demand_data, save_now=False)
                 if share is not None and share < demand.CONTAMINATION_FLOOR:
                     line += f'  ⚠ only {share:.0%} qualified — name is contaminated'
+                if qualifier:
+                    line += f'  [{qualifier} qualifier]'
         print(line)
-
+    demand.save(demand_data)
     print(f'\n  stored -> {demand.PATH}')
     if flagged:
         print(f'  ⚠ {flagged} response(s) looked bucketed. That means the API answered from an\n'
               f'    account without real spend — check customer_id / login_customer_id.')
-    print('  Growth: MoM is available now; true YoY needs ~13 months of these monthly runs.')
+    print('  Growth: MoM and true YoY are available from multi-year history on the first run.')
     return 0
 
 

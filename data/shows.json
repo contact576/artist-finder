@@ -1,5 +1,5 @@
 {
- "rebuilt_at": "2026-08-19T21:19:38",
+ "rebuilt_at": "2026-08-21T01:03:56",
  "n_snapshots": 1,
  "first_snapshot": "2026-08-19",
  "last_snapshot": "2026-08-19",
@@ -1846,44 +1846,6 @@
    "sold_out_on": null
   },
   {
-   "show_id": "u:fe9db6e4e3de389d",
-   "source": "allevents",
-   "source_tier": "longtail",
-   "title": "Taylor Swift: The Night Of A Showgirl (Fan Event)",
-   "url": "https://allevents.in/mumbai/taylor-swift-the-night-of-a-showgirl-fan-event/3900030573883946",
-   "entities": [
-    {
-     "name": "Taylor Swift",
-     "slug": "taylor-swift",
-     "kind": "artist"
-    }
-   ],
-   "role": "lineup",
-   "lineup_size": 1,
-   "genre": "edm_club",
-   "genre_confidence": 0.85,
-   "entity_type": "dj_night",
-   "category": "nightlife",
-   "venue": "Veranda",
-   "city": "Mumbai",
-   "venue_band": null,
-   "venue_rank": null,
-   "venue_capacity_approx": null,
-   "show_date": "2026-09-05",
-   "price_min": null,
-   "price_max": null,
-   "first_seen": "2026-08-19",
-   "last_seen": "2026-08-19",
-   "first_seen_censored": true,
-   "status_history": [
-    {
-     "date": "2026-08-19",
-     "status": "unknown"
-    }
-   ],
-   "sold_out_on": null
-  },
-  {
    "show_id": "u:05637bfac52cafb7",
    "source": "allevents",
    "source_tier": "longtail",
@@ -2022,8 +1984,8 @@
    ],
    "role": "festival",
    "lineup_size": 1,
-   "genre": "music_classical",
-   "genre_confidence": 0.45,
+   "genre": "unknown",
+   "genre_confidence": 0.0,
    "entity_type": "festival",
    "category": null,
    "venue": "Hall - 12, Bhagwan Das Road, Pragati Maidan, New Delhi, Delhi, India",
@@ -2402,8 +2364,8 @@
    ],
    "role": "festival",
    "lineup_size": 1,
-   "genre": "music_classical",
-   "genre_confidence": 0.45,
+   "genre": "unknown",
+   "genre_confidence": 0.0,
    "entity_type": "festival",
    "category": null,
    "venue": "Pragati Maidan",
@@ -2440,8 +2402,8 @@
    ],
    "role": "festival",
    "lineup_size": 1,
-   "genre": "music_classical",
-   "genre_confidence": 0.45,
+   "genre": "unknown",
+   "genre_confidence": 0.0,
    "entity_type": "festival",
    "category": null,
    "venue": "Hall No. 14, GF, Pragati Maidan, New Delhi, India",
@@ -3167,8 +3129,8 @@
    ],
    "role": "festival",
    "lineup_size": 1,
-   "genre": "music_classical",
-   "genre_confidence": 0.45,
+   "genre": "unknown",
+   "genre_confidence": 0.0,
    "entity_type": "festival",
    "category": null,
    "venue": "Pragati Maidan New Delhi",
@@ -4179,44 +4141,6 @@
    "sold_out_on": null
   },
   {
-   "show_id": "u:c4ea528208bcf079",
-   "source": "allevents",
-   "source_tier": "longtail",
-   "title": "Taylor Swift: The Night Of A Showgirl (Fan Event)",
-   "url": "https://allevents.in/new-delhi/taylor-swift-the-night-of-a-showgirl-fan-event/3900030573886609",
-   "entities": [
-    {
-     "name": "Taylor Swift",
-     "slug": "taylor-swift",
-     "kind": "artist"
-    }
-   ],
-   "role": "lineup",
-   "lineup_size": 1,
-   "genre": "edm_club",
-   "genre_confidence": 0.85,
-   "entity_type": "dj_night",
-   "category": "nightlife",
-   "venue": "Drama",
-   "city": "New Delhi",
-   "venue_band": null,
-   "venue_rank": null,
-   "venue_capacity_approx": null,
-   "show_date": "2026-09-13",
-   "price_min": null,
-   "price_max": null,
-   "first_seen": "2026-08-19",
-   "last_seen": "2026-08-19",
-   "first_seen_censored": true,
-   "status_history": [
-    {
-     "date": "2026-08-19",
-     "status": "unknown"
-    }
-   ],
-   "sold_out_on": null
-  },
-  {
    "show_id": "u:c9d46bc1785ee385",
    "source": "allevents",
    "source_tier": "longtail",
@@ -4749,44 +4673,6 @@
     {
      "date": "2026-08-19",
      "status": "available"
-    }
-   ],
-   "sold_out_on": null
-  },
-  {
-   "show_id": "u:c6d313cc5367063c",
-   "source": "allevents",
-   "source_tier": "longtail",
-   "title": "Taylor Swift: The Night Of A Showgirl (Fan Event)",
-   "url": "https://allevents.in/bangalore/taylor-swift-the-night-of-a-showgirl-fan-event/3900030573884452",
-   "entities": [
-    {
-     "name": "Taylor Swift",
-     "slug": "taylor-swift",
-     "kind": "artist"
-    }
-   ],
-   "role": "headline",
-   "lineup_size": 1,
-   "genre": "unknown",
-   "genre_confidence": 0.0,
-   "entity_type": "artist",
-   "category": null,
-   "venue": "Gypsy Tower",
-   "city": "Bangalore",
-   "venue_band": null,
-   "venue_rank": null,
-   "venue_capacity_approx": null,
-   "show_date": "2026-09-06",
-   "price_min": null,
-   "price_max": null,
-   "first_seen": "2026-08-19",
-   "last_seen": "2026-08-19",
-   "first_seen_censored": true,
-   "status_history": [
-    {
-     "date": "2026-08-19",
-     "status": "unknown"
     }
    ],
    "sold_out_on": null
@@ -6659,44 +6545,6 @@
    "sold_out_on": null
   },
   {
-   "show_id": "u:6401e71d8e546b6d",
-   "source": "allevents",
-   "source_tier": "longtail",
-   "title": "Taylor Swift: The Night Of A Showgirl (Fan Event)",
-   "url": "https://allevents.in/hyderabad/taylor-swift-the-night-of-a-showgirl-fan-event/3900030573885803",
-   "entities": [
-    {
-     "name": "Taylor Swift",
-     "slug": "taylor-swift",
-     "kind": "artist"
-    }
-   ],
-   "role": "headline",
-   "lineup_size": 1,
-   "genre": "unknown",
-   "genre_confidence": 0.0,
-   "entity_type": "artist",
-   "category": null,
-   "venue": "Butterfly High",
-   "city": "Hyderabad",
-   "venue_band": null,
-   "venue_rank": null,
-   "venue_capacity_approx": null,
-   "show_date": "2026-09-12",
-   "price_min": null,
-   "price_max": null,
-   "first_seen": "2026-08-19",
-   "last_seen": "2026-08-19",
-   "first_seen_censored": true,
-   "status_history": [
-    {
-     "date": "2026-08-19",
-     "status": "unknown"
-    }
-   ],
-   "sold_out_on": null
-  },
-  {
    "show_id": "u:bb7c319b892cf161",
    "source": "allevents",
    "source_tier": "longtail",
@@ -8441,44 +8289,6 @@
    "venue_rank": null,
    "venue_capacity_approx": null,
    "show_date": "2026-08-22",
-   "price_min": null,
-   "price_max": null,
-   "first_seen": "2026-08-19",
-   "last_seen": "2026-08-19",
-   "first_seen_censored": true,
-   "status_history": [
-    {
-     "date": "2026-08-19",
-     "status": "unknown"
-    }
-   ],
-   "sold_out_on": null
-  },
-  {
-   "show_id": "u:0778c38c6dd66ce8",
-   "source": "allevents",
-   "source_tier": "longtail",
-   "title": "Taylor Swift: The Night Of A Showgirl (Fan Event)",
-   "url": "https://allevents.in/chennai/taylor-swift-the-night-of-a-showgirl-fan-event/3900030573884857",
-   "entities": [
-    {
-     "name": "Taylor Swift",
-     "slug": "taylor-swift",
-     "kind": "artist"
-    }
-   ],
-   "role": "headline",
-   "lineup_size": 1,
-   "genre": "music_unspecified",
-   "genre_confidence": 0.85,
-   "entity_type": "artist",
-   "category": "music",
-   "venue": "Rhapsody - Courtyard by Marriott",
-   "city": "Chennai",
-   "venue_band": "club",
-   "venue_rank": 2,
-   "venue_capacity_approx": null,
-   "show_date": "2026-09-11",
    "price_min": null,
    "price_max": null,
    "first_seen": "2026-08-19",
@@ -19651,44 +19461,6 @@
    "sold_out_on": null
   },
   {
-   "show_id": "u:20041d3e1a1f3843",
-   "source": "highape",
-   "source_tier": "longtail",
-   "title": "The Fixx Koramangala",
-   "url": "https://www.highape.com/bangalore/events/the-fixx-koramangala-p0aw45b6gv",
-   "entities": [
-    {
-     "name": "Fixx Koramangala",
-     "slug": "fixx-koramangala",
-     "kind": "artist"
-    }
-   ],
-   "role": "headline",
-   "lineup_size": 1,
-   "genre": "unknown",
-   "genre_confidence": 0.0,
-   "entity_type": "artist",
-   "category": null,
-   "venue": "The Fixx",
-   "city": "Bangalore",
-   "venue_band": null,
-   "venue_rank": null,
-   "venue_capacity_approx": null,
-   "show_date": "2026-08-19",
-   "price_min": null,
-   "price_max": null,
-   "first_seen": "2026-08-19",
-   "last_seen": "2026-08-19",
-   "first_seen_censored": true,
-   "status_history": [
-    {
-     "date": "2026-08-19",
-     "status": "unknown"
-    }
-   ],
-   "sold_out_on": null
-  },
-  {
    "show_id": "u:3583c4ac19c06ba3",
    "source": "highape",
    "source_tier": "longtail",
@@ -20152,13 +19924,8 @@
    "url": "https://www.highape.com/bangalore/events/midweek-madness-ft-dj-senleo-at-yeda-republic-koramangala-lmbs950hmj",
    "entities": [
     {
-     "name": "Senleo At Yeda Republic",
-     "slug": "senleo-at-yeda-republic",
-     "kind": "artist"
-    },
-    {
-     "name": "Koramangala",
-     "slug": "koramangala",
+     "name": "Senleo",
+     "slug": "senleo",
      "kind": "artist"
     }
    ],
@@ -21259,13 +21026,8 @@
    "url": "https://www.highape.com/bangalore/events/gala-queens-ft-dj-mishi-at-yeda-republic-koramangala-fdpdbnt4k7",
    "entities": [
     {
-     "name": "Mishi At Yeda Republic",
-     "slug": "mishi-at-yeda-republic",
-     "kind": "artist"
-    },
-    {
-     "name": "Koramangala",
-     "slug": "koramangala",
+     "name": "Mishi",
+     "slug": "mishi",
      "kind": "artist"
     }
    ],
@@ -21302,8 +21064,8 @@
    "url": "https://www.highape.com/bangalore/events/bolly-afro-ft-dj-sukant-at-yeda-republic-7cnhi8tff2",
    "entities": [
     {
-     "name": "Sukant At Yeda Republic",
-     "slug": "sukant-at-yeda-republic",
+     "name": "Sukant",
+     "slug": "sukant",
      "kind": "artist"
     }
    ],
@@ -22328,13 +22090,8 @@
    "url": "https://www.highape.com/bangalore/events/chandni-bar-night-ft-dj-aquib-at-yeda-republic-koramangala-ns5kfy9ttq",
    "entities": [
     {
-     "name": "Aquib At Yeda Republic",
-     "slug": "aquib-at-yeda-republic",
-     "kind": "artist"
-    },
-    {
-     "name": "Koramangala",
-     "slug": "koramangala",
+     "name": "Aquib",
+     "slug": "aquib",
      "kind": "artist"
     }
    ],
@@ -24005,13 +23762,8 @@
    "url": "https://www.highape.com/bangalore/events/house-of-punjab-ft-dj-talon-at-yeda-republic-koramangala-3ec8pdgwen",
    "entities": [
     {
-     "name": "Talon At Yeda Republic",
-     "slug": "talon-at-yeda-republic",
-     "kind": "artist"
-    },
-    {
-     "name": "Koramangala",
-     "slug": "koramangala",
+     "name": "Talon",
+     "slug": "talon",
      "kind": "artist"
     }
    ],
@@ -24276,13 +24028,8 @@
    "url": "https://www.highape.com/bangalore/events/music-take-over-ft-revibe-at-yeda-republic-koramangala-gj13v3a67l",
    "entities": [
     {
-     "name": "Revibe At Yeda Republic",
-     "slug": "revibe-at-yeda-republic",
-     "kind": "artist"
-    },
-    {
-     "name": "Koramangala",
-     "slug": "koramangala",
+     "name": "Revibe",
+     "slug": "revibe",
      "kind": "artist"
     }
    ],
@@ -24471,13 +24218,8 @@
    "url": "https://www.highape.com/bangalore/events/show-time-tuesday-ft-sukant-at-yeda-republic-koramangala-34xgwxd30w",
    "entities": [
     {
-     "name": "Sukant At Yeda Republic",
-     "slug": "sukant-at-yeda-republic",
-     "kind": "artist"
-    },
-    {
-     "name": "Koramangala",
-     "slug": "koramangala",
+     "name": "Sukant",
+     "slug": "sukant",
      "kind": "artist"
     }
    ],
@@ -24552,13 +24294,8 @@
    "url": "https://www.highape.com/bangalore/events/midweek-madness-ft-dj-senleo-at-yeda-republic-koramangala-jphk2pbz2h",
    "entities": [
     {
-     "name": "Senleo At Yeda Republic",
-     "slug": "senleo-at-yeda-republic",
-     "kind": "artist"
-    },
-    {
-     "name": "Koramangala",
-     "slug": "koramangala",
+     "name": "Senleo",
+     "slug": "senleo",
      "kind": "artist"
     }
    ],
@@ -24595,8 +24332,8 @@
    "url": "https://www.highape.com/bangalore/events/bolly-afro-ft-dj-sukant-at-yeda-republic-uyqtpvwqak",
    "entities": [
     {
-     "name": "Sukant At Yeda Republic",
-     "slug": "sukant-at-yeda-republic",
+     "name": "Sukant",
+     "slug": "sukant",
      "kind": "artist"
     }
    ],
@@ -24633,13 +24370,8 @@
    "url": "https://www.highape.com/bangalore/events/gala-queens-ft-dj-nusha-at-yeda-republic-koramangala-5r9l29ghiu",
    "entities": [
     {
-     "name": "Nusha At Yeda Republic",
-     "slug": "nusha-at-yeda-republic",
-     "kind": "artist"
-    },
-    {
-     "name": "Koramangala",
-     "slug": "koramangala",
+     "name": "Nusha",
+     "slug": "nusha",
      "kind": "artist"
     }
    ],
@@ -24714,8 +24446,8 @@
    "url": "https://www.highape.com/bangalore/events/urbn-takeover-ft-razrr-at-yeda-republic-ssfc7keuol",
    "entities": [
     {
-     "name": "Razrr At Yeda Republic",
-     "slug": "razrr-at-yeda-republic",
+     "name": "Razrr",
+     "slug": "razrr",
      "kind": "artist"
     }
    ],
@@ -24828,13 +24560,8 @@
    "url": "https://www.highape.com/bangalore/events/music-take-over-ft-revibe-at-yeda-republic-koramangala-9zs91qg4pn",
    "entities": [
     {
-     "name": "Revibe At Yeda Republic",
-     "slug": "revibe-at-yeda-republic",
-     "kind": "artist"
-    },
-    {
-     "name": "Koramangala",
-     "slug": "koramangala",
+     "name": "Revibe",
+     "slug": "revibe",
      "kind": "artist"
     }
    ],

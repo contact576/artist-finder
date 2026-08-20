@@ -67,8 +67,10 @@ def load():
 
 def save(d):
     d['updated_at'] = dt.datetime.now().isoformat(timespec='seconds')
-    with open(PATH, 'w', encoding='utf-8') as f:
+    tmp = PATH + '.tmp'
+    with open(tmp, 'w', encoding='utf-8') as f:
         json.dump(d, f, indent=1, ensure_ascii=False)
+    os.replace(tmp, PATH)
     return PATH
 
 
@@ -80,12 +82,14 @@ def _entry(d, slug, name=None):
         history={g: [] for g in GEOS},          # our own accumulating record, for true YoY
         contamination=dict(qualified_share=None, checked_at=None),
         trends=dict(direction=None, slope=None, fetched_at=None),
-        international=dict(dates=[], checked_at=None)))
+        international=dict(dates=[], checked_at=None, status='not_checked',
+                           note=None, method=None)))
 
 
 # ------------------------------------------------------------------ recording
 
-def record_search(slug, geo, avg_monthly, monthly, name=None, source=None, alias_used=None):
+def record_search(slug, geo, avg_monthly, monthly, name=None, source=None, alias_used=None,
+                  data=None, save_now=True):
     """Store one geo's Keyword Planner result.
 
     `monthly` is a list of {'year', 'month', 'searches'} oldest first. Appending each fetch into
@@ -94,7 +98,7 @@ def record_search(slug, geo, avg_monthly, monthly, name=None, source=None, alias
     """
     if geo not in GEOS:
         raise ValueError(f'geo must be one of {GEOS}')
-    d = load()
+    d = data if data is not None else load()
     e = _entry(d, slug, name)
     e['search'][geo] = dict(avg_monthly=avg_monthly, monthly=list(monthly or []),
                             fetched_at=dt.date.today().isoformat(), source=source,
@@ -104,16 +108,18 @@ def record_search(slug, geo, avg_monthly, monthly, name=None, source=None, alias
         if (m['year'], m['month']) not in seen:
             e['history'][geo].append(dict(m))
     e['history'][geo].sort(key=lambda m: (m['year'], m['month']))
-    save(d)
+    if save_now:
+        save(d)
     return e['search'][geo]
 
 
-def record_contamination(slug, qualified_share, name=None):
-    d = load()
+def record_contamination(slug, qualified_share, name=None, data=None, save_now=True):
+    d = data if data is not None else load()
     e = _entry(d, slug, name)
     e['contamination'] = dict(qualified_share=qualified_share,
                               checked_at=dt.date.today().isoformat())
-    save(d)
+    if save_now:
+        save(d)
     return e['contamination']
 
 
@@ -129,12 +135,14 @@ def record_trend(slug, direction, slope=None, name=None):
     return e['trends']
 
 
-def record_international(slug, dates, name=None):
+def record_international(slug, dates, name=None, status=None, note=None, method=None):
     """`dates` = [{'country','city','date','source','url'}]. Replaces the stored list."""
     d = load()
     e = _entry(d, slug, name)
-    e['international'] = dict(dates=list(dates or []),
-                              checked_at=dt.date.today().isoformat())
+    dates = list(dates or [])
+    e['international'] = dict(dates=dates, checked_at=dt.date.today().isoformat(),
+                              status=status or ('found' if dates else 'checked_none'),
+                              note=note, method=method)
     save(d)
     return e['international']
 
@@ -287,7 +295,11 @@ def export_signal(slug, d=None):
 
     # --- international validation
     intl = (e.get('international') or {})
-    if intl.get('checked_at'):
+    dates = intl.get('dates') or []
+    status = intl.get('status')
+    if not status:
+        status = 'found' if dates else ('checked_none' if intl.get('checked_at') else 'not_checked')
+    if status == 'found' and dates:
         sc, note = _international_score(intl.get('dates'))
         parts.append(dict(signal='international', weight=W['international'],
                           unit=round(sc / 100, 3),
@@ -296,8 +308,14 @@ def export_signal(slug, d=None):
         used += sc / 100 * W['international']
         total_w += W['international']
     else:
+        note = intl.get('note') or {
+            'not_checked': 'not checked yet',
+            'unconfigured': 'source not configured',
+            'error': 'source check failed',
+            'checked_none': 'none found; source coverage is incomplete',
+        }.get(status, 'international status unknown')
         parts.append(dict(signal='international', weight=W['international'], unit=None,
-                          contribution=None, observable=False, note='not checked yet'))
+                          contribution=None, observable=False, note=note))
 
     if total_w == 0:
         return dict(value=None, observable=False, coverage=0.0, parts=parts,

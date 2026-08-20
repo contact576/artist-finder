@@ -63,7 +63,7 @@ def is_domestic(country):
     return canon_country(country).lower() in ('india', 'in', 'bharat')
 
 
-def fetch_bandsintown(artist_name, app_id=None, timeout=TIMEOUT):
+def _fetch_bandsintown_legacy(artist_name, app_id=None, timeout=TIMEOUT):
     """-> (dates, note). Never raises: a dead API must not take down the weekly run.
 
     Returns [] with an explanatory note when unconfigured, unreachable, or when the artist
@@ -89,6 +89,19 @@ def fetch_bandsintown(artist_name, app_id=None, timeout=TIMEOUT):
                         venue=v.get('name'), date=(e.get('datetime') or '')[:10],
                         source='bandsintown', url=e.get('url')))
     return out, f'{len(out)} dates from bandsintown'
+def fetch_bandsintown(artist_name, app_id=None, timeout=TIMEOUT):
+    """Return dates, explanatory note, and an explicit source status."""
+    configured = app_id or load_config().get('bandsintown_app_id')
+    rows, note = _fetch_bandsintown_legacy(artist_name, app_id, timeout)
+    if rows:
+        status = 'found'
+    elif not configured:
+        status = 'unconfigured'
+    elif 'unreachable' in note:
+        status = 'error'
+    else:
+        status = 'checked_none'
+    return rows, note, status
 
 
 def normalise_dates(rows, drop_domestic=True, future_only=True, asof=None):
@@ -112,10 +125,12 @@ def normalise_dates(rows, drop_domestic=True, future_only=True, asof=None):
     return out
 
 
-def record(slug, rows, name=None, method=None, asof=None):
+def record(slug, rows, name=None, method=None, asof=None, status=None, source_note=None):
     """Store the cleaned dates against the entity and return a summary."""
     clean = normalise_dates(rows, asof=asof)
-    demand.record_international(slug, clean, name=name)
+    final_status = 'found' if clean else (status or 'checked_none')
+    demand.record_international(slug, clean, name=name, status=final_status,
+                                note=source_note, method=method)
     countries = sorted({r['country'] for r in clean if r['country']})
     dia = [c for c in countries if c.lower() in demand.DIASPORA_MARKETS]
     return dict(slug=slug, n_dates=len(clean), countries=countries,
@@ -126,7 +141,7 @@ def record(slug, rows, name=None, method=None, asof=None):
 
 def check(slug, name, serp_rows=None, app_id=None, asof=None):
     """One artist, both routes. SERP findings from Claude are merged with the API result."""
-    api_rows, note = fetch_bandsintown(name, app_id)
+    api_rows, note, api_status = fetch_bandsintown(name, app_id)
     merged = list(api_rows) + list(serp_rows or [])
     seen, uniq = set(), []
     for r in merged:
@@ -137,7 +152,8 @@ def check(slug, name, serp_rows=None, app_id=None, asof=None):
         seen.add(k)
         uniq.append(r)
     res = record(slug, uniq, name=name,
-                 method='bandsintown + serp' if serp_rows else 'bandsintown', asof=asof)
+                 method='bandsintown + serp' if serp_rows is not None else 'bandsintown',
+                 asof=asof, status=api_status, source_note=note)
     res['api_note'] = note
     return res
 
@@ -159,7 +175,7 @@ def _selftest():
     CONFIG = os.path.join(tmp, 'config.json')       # deliberately absent -> API skipped
     demand.PATH = os.path.join(tmp, 'demand.json')
 
-    rows, note = fetch_bandsintown('Anybody')
+    rows, note, status = fetch_bandsintown('Anybody')
     print(f'  unconfigured API: {len(rows)} rows — {note}')
 
     found = [
@@ -189,7 +205,7 @@ def _selftest():
     print(f'  no-dates wording: "{empty["note"]}"')
 
     checks = [
-        ('missing app_id is skipped, not an error', rows == [] and 'not set' in note),
+        ('missing app_id is skipped, not an error', rows == [] and status == 'unconfigured'),
         ('UK and England both canonicalise',
          all(r['country'] == 'United Kingdom' for r in clean if r['city'] in
              ('London', 'Birmingham'))),
@@ -198,6 +214,8 @@ def _selftest():
         ('multi-country diaspora scores high', (intl['unit'] or 0) >= 0.9),
         ('absence phrased as "none found", not "no tours"',
          'none found via' in empty['note']),
+        ('empty result remains unobservable',
+         not demand.export_signal('quiet-one')['parts'][-1]['observable']),
     ]
     ok = True
     print()

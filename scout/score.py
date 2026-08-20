@@ -222,6 +222,7 @@ def score_artist(sig, dossier=None, dem=None):
     ex = export_readiness(sig, dossier, dem)
     xs = demand.export_signal(sig['slug'], dem)
     weight = genres.export_weight(genre)
+    candidate_eligible = sig.get('kind', 'artist') in ('artist', 'dj_night')
 
     action = ACTIONS[q]
     if q == 'RISING':
@@ -231,11 +232,14 @@ def score_artist(sig, dossier=None, dem=None):
             action = 'CALL — strong diaspora demand; run the Tour Engine and open a conversation'
         else:
             action = 'SCREEN — run the Tour Engine; diaspora demand looks thin so far'
+    if not candidate_eligible:
+        action = 'TRACK FORMAT - non-artist entity; excluded from the signing radar'
 
     return dict(
         slug=sig['slug'], name=sig['name'], n_shows=sig['n_shows'],
         kind=sig.get('kind', 'artist'), genre=genre, export_weight=weight,
         stature=st, momentum=mo, export_signal=xs,
+        candidate_eligible=candidate_eligible,
         quadrant=q, quadrant_why=why,
         export=ex, action=action,
         calibrated=False,
@@ -270,12 +274,14 @@ def rank(sigs, dossiers=None, dem=None):
                 -(r['momentum']['coverage'] or 0),
                 -(r['stature']['value'] or 0))
 
-    ranked = [r for r in out if r['export_weight'] is not None]
-    held = [r for r in out if r['export_weight'] is None]
+    ranked = [r for r in out if r['candidate_eligible'] and r['export_weight'] is not None]
+    held = [r for r in out if r['candidate_eligible'] and r['export_weight'] is None]
+    formats = [r for r in out if not r['candidate_eligible']]
     ranked.sort(key=key)
     for r in held:
         r['action'] = 'CLASSIFY — genre unknown, held out of the ranking'
-    return ranked + held
+    formats.sort(key=lambda r: (-(r['stature']['value'] or 0), r['name']))
+    return ranked + held + formats
 
 
 def _selftest():
