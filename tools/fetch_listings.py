@@ -14,17 +14,15 @@ For those, everything the scout needs — title, venue, city, date, url — arri
 structured. No Apify, no cost, no fragile text parsing, no LLM in the loop. That is strictly
 better than crawling, so it is what the weekly job does first.
 
-WHAT NEEDS APIFY, AND THE MEASUREMENT THAT DEMOTED BOOKMYSHOW.
-    bookmyshow      403 to plain HTTP; needs a browser on an Indian IP. It IS India's biggest
-                    ticketing site, but what it EXPOSES is a 10-item JSON-LD teaser of featured
-                    events — the real grid renders client-side. Measured across 3 rendered
-                    pages: 30 events, only 9 upcoming, and comedy-shows-bengaluru returned
-                    ZERO. That is ~3 usable rows per page against 15-64 free ones from
-                    AllEvents. Worse for this tool specifically, the featured carousel skews to
-                    acts that are ALREADY BIG — the ESTABLISHED end — while the artists this
-                    scout exists to find are on the self-serve platforms. So it is
-                    SUPPLEMENTARY, kept small because it does catch arena and festival
-                    bookings the long tail misses.
+WHAT NEEDS APIFY, AND THE LIMIT ON BOOKMYSHOW CLAIMS.
+    bookmyshow      403 to plain HTTP; needs a browser on an Indian IP. It is a PRIMARY
+                    VALIDATION source alongside District, but it is intentionally optional in
+                    unattended fetches until an Apify credential or a supplied dataset is
+                    available. Its old grid JSON-LD is a ten-item teaser, so this adapter never
+                    treats grid JSON-LD as evidence. It renders bounded category grids, follows
+                    only their event-detail links, and reads standard Event JSON-LD from those
+                    detail pages. The strategy is fixture-tested, not yet live-validated with a
+                    token as of 2026-08-21.
     skillbox        200 but no JSON-LD; the listings need parsing out of HTML.
     townscript      same. Self-serve, so likely the best remaining prize.
     meraevents      same, and /india-events is now a 404.
@@ -72,6 +70,35 @@ PAUSE = 0.7            # be a polite guest; these are free pages served to us in
 # threshold is not delicate.
 CATEGORY_BLEED = 0.5
 
+# District activity pages are useful only when their route labels survive into the raw rows.
+# These are the routes observed on 2026-08-21: five Mumbai taxonomies plus comedy in the other
+# three confirmed metros.  The /events endpoint remains a no-category fallback.  Nine requests
+# is deliberately bounded; this is a coverage sample, not an absence claim outside these routes.
+DISTRICT_ACTIVITY_ROUTES = (
+    ('comedy-shows', 'mumbai', 'comedy'),
+    ('music', 'mumbai', 'music'),
+    ('nightlife', 'mumbai', 'nightlife'),
+    ('sports', 'mumbai', 'sports'),
+    ('performances', 'mumbai', 'theatre'),
+    ('comedy-shows', 'bengaluru', 'comedy'),
+    ('comedy-shows', 'hyderabad', 'comedy'),
+    ('comedy-shows', 'delhi-ncr', 'comedy'),
+)
+DISTRICT_FALLBACK = '/events'
+
+# BookMyShow is deliberately two-stage.  The first twelve category grids discover links; the
+# second request set contains only event detail pages found on those grids.  This makes the
+# request cost bounded and stops the ten-item grid teaser from contaminating validation data.
+BMS_GRID_PAGE_BUDGET = 12
+BMS_DETAIL_PAGE_BUDGET = 36
+BMS_GRID_CITIES = ('mumbai', 'delhi-ncr', 'bengaluru', 'hyderabad')
+BMS_GRID_PATHS = (
+    ('/explore/comedy-shows-{city}', 'comedy'),
+    ('/explore/music-shows-{city}', 'music'),
+    ('/explore/theatre-shows-{city}', 'theatre'),
+)
+INDIA_TZ = dt.timezone(dt.timedelta(hours=5, minutes=30))
+
 # Used to rescue a city out of a full postal address that a site has put in `addressLocality`.
 KNOWN_CITIES = ('mumbai', 'new delhi', 'delhi', 'bengaluru', 'bangalore', 'hyderabad',
                 'chennai', 'kolkata', 'pune', 'ahmedabad', 'chandigarh', 'jaipur', 'kochi',
@@ -103,19 +130,17 @@ PLAN = {
         paths=[('/', None), ('/mumbai/events', None), ('/bangalore/events', None)]),
     'district': dict(
         cities=[None],
-        paths=[('/events', None)]),
+        paths=[(f'/activities/{activity}-in-{city}', category)
+               for activity, city, category in DISTRICT_ACTIVITY_ROUTES]
+              + [(DISTRICT_FALLBACK, None)]),
     # BLOCKED to plain HTTP (403) but serves the same JSON-LD once a browser renders it.
     # Verified 2026-08-19 on /explore/comedy-shows-mumbai: HTTP 200, ItemList of Events with
     # name, startDate, location.name, location.address.addressLocality and offers.availability.
     # Note the `in.` host — bookmyshow.com without it is not the Indian listing site.
     'bookmyshow': dict(
         via='apify', host='in.bookmyshow.com',
-        cities=['mumbai', 'delhi-ncr', 'bengaluru', 'hyderabad', 'chennai', 'kolkata',
-                'pune', 'ahmedabad', 'chandigarh', 'jaipur', 'kochi', 'indore'],
-        paths=[('/explore/comedy-shows-{city}', 'comedy'),
-               ('/explore/music-shows-{city}', 'music'),
-               ('/explore/theatre-shows-{city}', 'theatre'),
-               ('/explore/events-{city}', None)]),
+        cities=list(BMS_GRID_CITIES),
+        paths=list(BMS_GRID_PATHS)),
 }
 
 
@@ -442,9 +467,484 @@ def fetch_via_apify(key, cities=None, verbose=True):
     return list(best.values()), sorted(domains), len(html_pages), []
 
 
+NEXT_PUSH = re.compile(r'self\.__next_f\.push\((\[.*?\])\)', re.S)
+
+
+def _event_key(event):
+    return (str(event.get('title') or '').casefold(),
+            str(event.get('venue') or '').casefold(), event.get('date') or '')
+
+
+def dedupe_events(events):
+    """Keep one deterministic row per title, room and date, preferring route evidence."""
+    best = {}
+    for event in events:
+        if not event.get('title'):
+            continue
+        key = _event_key(event)
+        previous = best.get(key)
+        if (previous is None
+                or (event.get('category') and not previous.get('category'))
+                or (event.get('url') and not previous.get('url'))):
+            best[key] = event
+    return [best[key] for key in sorted(best)]
+
+
+def _date_from_epoch(value):
+    """District publishes an epoch; convert it in India time rather than guessing UTC dates."""
+    try:
+        stamp = float(value)
+        if stamp > 100_000_000_000:       # defensive support for milliseconds
+            stamp /= 1000
+        if stamp <= 0:
+            return None
+        return dt.datetime.fromtimestamp(stamp, tz=INDIA_TZ).date().isoformat()
+    except (TypeError, ValueError, OverflowError, OSError):
+        return None
+
+
+def _next_flight_text(html):
+    """Decode the string chunks emitted by Next.js' self.__next_f.push transport."""
+    chunks = []
+    for payload in NEXT_PUSH.findall(html or ''):
+        try:
+            decoded = json.loads(payload)
+        except json.JSONDecodeError:
+            continue
+        if not isinstance(decoded, list):
+            continue
+        chunks.extend(part for part in decoded[1:] if isinstance(part, str))
+    return ''.join(chunks)
+
+
+def _eventdata_values(flight):
+    """Yield each JSON value following an EventData field in a decoded Flight stream."""
+    decoder = json.JSONDecoder()
+    seen = set()
+    for found in re.finditer(r'"EventData"\s*:\s*', flight):
+        try:
+            value, _ = decoder.raw_decode(flight, found.end())
+        except json.JSONDecodeError:
+            continue
+        marker = json.dumps(value, sort_keys=True, ensure_ascii=True)
+        if marker not in seen:
+            seen.add(marker)
+            yield value
+
+
+def _district_records(value):
+    """EventData shape changes by route, so find only complete record-shaped dictionaries."""
+    if isinstance(value, dict):
+        if value.get('name') and value.get('event_slug') and value.get('start_time_epoch'):
+            yield value
+        for child in value.values():
+            yield from _district_records(child)
+    elif isinstance(value, list):
+        for child in value:
+            yield from _district_records(child)
+
+
+def _district_url(slug):
+    slug = _clean(slug)
+    if not slug:
+        return None
+    if slug.startswith(('https://', 'http://')):
+        return slug
+    if slug.startswith('/'):
+        return f'https://www.district.in{slug}'
+    if slug.startswith('events/'):
+        return f'https://www.district.in/{slug}'
+    return f'https://www.district.in/events/{slug}'
+
+
+def district_events_from_next(html, category=None, city_hint=None):
+    """Parse official District activity-page EventData without making status or genre guesses.
+
+    Confirmed 2026-08-21: activity pages expose self.__next_f.push chunks containing EventData
+    records with name, event_slug, start_time_epoch, city, venue_name and is_available.  False
+    availability is deliberately UNKNOWN: it could mean sales closed, cancellation or a UI state,
+    and is not evidence of a sold-out show.
+    """
+    events = []
+    for value in _eventdata_values(_next_flight_text(html)):
+        for record in _district_records(value):
+            title = _clean(record.get('name'))
+            if not title:
+                continue
+            events.append(dict(
+                title=title,
+                venue=_clean(record.get('venue_name')),
+                city=_clean(record.get('city')) or city_hint,
+                url=_district_url(record.get('event_slug')),
+                date=_date_from_epoch(record.get('start_time_epoch')),
+                status='Available' if record.get('is_available') is True else None,
+                category=category,
+                price_min=None,
+                price_max=None,
+            ))
+    return dedupe_events(events)
+
+
+def parse_district_page(html, category=None, city_hint=None):
+    """Use structured Flight records first, retaining /events JSON-LD as a safe fallback."""
+    return dedupe_events(district_events_from_next(html, category, city_hint)
+                         + parse_events(html, category, city_hint))
+
+
+def _normal_url(url):
+    if not url:
+        return None
+    parsed = urllib.parse.urlsplit(str(url))
+    if not parsed.scheme or not parsed.netloc:
+        return None
+    return urllib.parse.urlunsplit((parsed.scheme.lower(), parsed.netloc.lower(),
+                                    parsed.path.rstrip('/'), '', ''))
+
+
+def _bms_detail_url(url):
+    parsed = urllib.parse.urlsplit(str(url or ''))
+    host = (parsed.hostname or '').lower()
+    trusted_host = host == 'bookmyshow.com' or host.endswith('.bookmyshow.com')
+    return (parsed.scheme in ('http', 'https')
+            and trusted_host
+            and '/events/' in parsed.path.lower())
+
+
+def bms_detail_links(html, page_url, category=None):
+    """Collect only BookMyShow event-detail links from one rendered category grid."""
+    base = page_url or 'https://in.bookmyshow.com/'
+    found = {}
+    patterns = (
+        r'\bhref\s*=\s*["\']([^"\']+)["\']',
+        r'["\']href["\']\s*:\s*["\']([^"\']+)["\']',
+    )
+    for pattern in patterns:
+        for match in re.finditer(pattern, html or '', re.I):
+            url = _normal_url(urllib.parse.urljoin(base, htmllib.unescape(match.group(1))))
+            if url and _bms_detail_url(url):
+                existing = found.get(url)
+                if existing is None or (category and not existing):
+                    found[url] = category
+    return found
+
+
+def _jsonld_from_metadata(metadata):
+    raw = metadata.get('jsonLd') if isinstance(metadata, dict) else None
+    if isinstance(raw, str):
+        try:
+            raw = json.loads(raw)
+        except json.JSONDecodeError:
+            return []
+    events = []
+    _walk(raw, events)
+    return events
+
+
+def _events_from_rendered_page(row, category=None, city_hint=None):
+    events = parse_events(row.get('html') or '', category, city_hint)
+    events += events_from_jsonld(_jsonld_from_metadata(row.get('metadata') or {}),
+                                 category, city_hint)
+    return dedupe_events(events)
+
+
+def apify_render_pages(urls, token=None, country='IN', timeout=APIFY_MAX_WAIT):
+    """Render an explicit URL set.  Callers, not crawler depth, control which links are followed."""
+    token = _apify_token() if token is None else token
+    if not token:
+        return [], 'UNCONFIGURED: apify_token not set in data/config.json; no BookMyShow run made'
+    payload = dict(
+        startUrls=[{'url': url} for url in urls],
+        crawlerType='playwright:firefox',
+        maxCrawlDepth=0,
+        maxCrawlPages=len(urls),
+        saveHtml=True,
+        saveMarkdown=False,
+        proxyConfiguration={'useApifyProxy': True,
+                            'apifyProxyGroups': ['RESIDENTIAL'],
+                            'apifyProxyCountry': country},
+    )
+
+    def call(method, path, body=None):
+        sep = '&' if '?' in path else '?'
+        request = urllib.request.Request(
+            f'{APIFY_API}{path}{sep}token={token}',
+            data=(json.dumps(body).encode() if body is not None else None), method=method)
+        request.add_header('Content-Type', 'application/json')
+        with urllib.request.urlopen(request, timeout=60) as response:
+            return json.loads(response.read().decode('utf-8'))
+
+    try:
+        run = call('POST', f'/acts/{APIFY_ACTOR}/runs?memory=4096', payload)['data']
+    except Exception as exc:  # noqa: BLE001
+        return [], f'apify start failed: {type(exc).__name__}'
+
+    waited = 0
+    while waited < timeout:
+        time.sleep(APIFY_POLL)
+        waited += APIFY_POLL
+        try:
+            run = call('GET', f'/actor-runs/{run["id"]}')['data']
+        except Exception:  # noqa: BLE001
+            continue
+        if run.get('status') in ('SUCCEEDED', 'FAILED', 'ABORTED', 'TIMED-OUT'):
+            break
+    if run.get('status') != 'SUCCEEDED':
+        return [], f'apify run {run.get("status", "did not finish")} after {waited}s'
+
+    try:
+        items = call('GET', f'/datasets/{run["defaultDatasetId"]}/items?clean=true'
+                     '&fields=html,metadata')
+    except Exception as exc:  # noqa: BLE001
+        return [], f'apify dataset read failed: {type(exc).__name__}'
+    pages = []
+    for item in items or []:
+        metadata = item.get('metadata') or {}
+        pages.append(dict(
+            url=_normal_url(metadata.get('canonicalUrl') or metadata.get('loadedUrl')
+                            or metadata.get('url')),
+            html=item.get('html') or item.get('content') or '',
+            metadata=metadata,
+        ))
+    return pages, f'{len(pages)} page(s) rendered via apify in {waited}s'
+
+
+def _district_city_requested(city, requested):
+    if not requested:
+        return True
+    wanted = {entry.strip().lower().replace(' ', '-') for entry in requested}
+    return city in wanted or (city == 'delhi-ncr' and 'delhi' in wanted)
+
+
+def _drop_bleeding_categories(rows_by_city, verbose):
+    result = []
+    for city, rows in rows_by_city.items():
+        by_category = {}
+        for row in rows:
+            if row.get('category'):
+                by_category.setdefault(row['category'], set()).add(_event_key(row))
+        worst, pair = 0.0, None
+        names = sorted(name for name, keys in by_category.items() if keys)
+        for index, left in enumerate(names):
+            for right in names[index + 1:]:
+                overlap = len(by_category[left] & by_category[right]) / max(
+                    min(len(by_category[left]), len(by_category[right])), 1)
+                if overlap > worst:
+                    worst, pair = overlap, (left, right)
+        if worst > CATEGORY_BLEED:
+            for row in rows:
+                row['category'] = None
+            if verbose:
+                print(f'    [warn] {city}: {pair[0]}/{pair[1]} share {worst:.0%}; '
+                      'route labels dropped')
+        result.extend(rows)
+    return result
+
+
+def fetch_district(cities=None, verbose=True):
+    """Fetch only the verified bounded activity routes plus the official /events fallback."""
+    source = next(item for item in model.load_sources()['sources'] if item['key'] == 'district')
+    domain = source['domain']
+    jobs = [(f'/activities/{taxonomy}-in-{city}', category, city)
+            for taxonomy, city, category in DISTRICT_ACTIVITY_ROUTES
+            if _district_city_requested(city, cities)]
+    jobs.append((DISTRICT_FALLBACK, None, None))
+    events, failures, pages = [], [], 0
+    rows_by_city = {}
+    domains = {domain}
+    for path, category, city in jobs:
+        try:
+            html = _get(f'https://{domain}{path}')
+        except Exception as exc:  # noqa: BLE001
+            failures.append((path, f'{type(exc).__name__}'))
+            if verbose:
+                print(f'    [fail] {path:42} {type(exc).__name__}')
+            continue
+        pages += 1
+        found = parse_district_page(html, category,
+                                    (city or '').replace('-', ' ').title() or None)
+        if city:
+            rows_by_city.setdefault(city, []).extend(found)
+        else:
+            events.extend(found)
+        for event in found:
+            parsed = urllib.parse.urlsplit(event.get('url') or '')
+            if parsed.netloc:
+                domains.add(parsed.netloc.lower())
+        if verbose:
+            print(f'    [ok  ] {path:42} {len(found):4} events')
+        time.sleep(PAUSE)
+    events.extend(_drop_bleeding_categories(rows_by_city, verbose))
+    return dedupe_events(events), sorted(domains), pages, failures
+
+
+def _category_for_url(url, category_map):
+    return next((category for fragment, category in (category_map or {}).items()
+                 if fragment and fragment in (url or '')), None)
+
+
+def bms_events_from_items(items, category_map=None, verbose=True):
+    """Read a reproducible two-depth Apify dataset: grids discover, details provide evidence."""
+    links, details = {}, []
+    for item in items or []:
+        metadata = item.get('metadata') or {}
+        page_url = _normal_url(metadata.get('canonicalUrl') or metadata.get('loadedUrl')
+                                or metadata.get('url'))
+        category = (_category_for_url(page_url, category_map)
+                    or _category_for_url(metadata.get('requestUrl'), category_map))
+        row = dict(url=page_url, html=item.get('html') or item.get('content') or '',
+                   metadata=metadata)
+        if _bms_detail_url(page_url):
+            details.append((row, category))
+            continue
+        for url, linked_category in bms_detail_links(row['html'], page_url, category).items():
+            links[url] = linked_category or links.get(url)
+
+    events = []
+    for row, category in details:
+        if row['url'] not in links:
+            continue
+        category = category or links.get(row['url'])
+        events.extend(_events_from_rendered_page(row, category))
+    today = dt.date.today().isoformat()
+    events = [event for event in dedupe_events(events)
+              if not event.get('date') or event['date'] >= today]
+    note = (f'{len(events)} unique upcoming events from {len(details)} rendered detail page(s); '
+            f'{len(links)} grid detail link(s) discovered; grid teaser ignored')
+    if not details:
+        note = ('no BookMyShow event-detail pages in dataset; grid teaser ignored and no '
+                'primary-validation evidence written')
+    if verbose:
+        print(f'    {note}')
+    return events, note
+
+
+def read_bookmyshow_apify_dataset(dataset_id, category_map=None, verbose=True):
+    """Credential-free dataset import for a pre-run BookMyShow grid plus detail crawl."""
+    url = f'{APIFY_API}/datasets/{dataset_id}/items?clean=true&fields=html,metadata'
+    try:
+        with urllib.request.urlopen(url, timeout=60) as response:
+            items = json.loads(response.read().decode('utf-8'))
+    except Exception as exc:  # noqa: BLE001
+        return [], f'could not read dataset {dataset_id}: {type(exc).__name__}'
+    return bms_events_from_items(items, category_map, verbose)
+
+
+def _bookmyshow_grid_jobs(cities):
+    wanted = {entry.strip().lower().replace(' ', '-') for entry in (cities or [])}
+    jobs = []
+    for city in BMS_GRID_CITIES:
+        if wanted and city not in wanted and not (city == 'delhi-ncr' and 'delhi' in wanted):
+            continue
+        for path, category in BMS_GRID_PATHS:
+            jobs.append((f'https://in.bookmyshow.com{path.format(city=city)}', category))
+    return jobs[:BMS_GRID_PAGE_BUDGET]
+
+
+def fetch_bookmyshow(cities=None, verbose=True):
+    """Render category grids, then only their depth-one event links, never their ten-item teaser."""
+    grids = _bookmyshow_grid_jobs(cities)
+    pages, note = apify_render_pages([url for url, _ in grids])
+    if not pages:
+        kind = 'unconfigured' if note.startswith('UNCONFIGURED:') else 'bookmyshow'
+        return [], ['in.bookmyshow.com'], 0, [(kind, note)]
+    grid_categories = {_normal_url(url): category for url, category in grids}
+    links = {}
+    for page in pages:
+        category = grid_categories.get(page.get('url'))
+        for url, linked_category in bms_detail_links(page.get('html'), page.get('url'),
+                                                      category).items():
+            links[url] = linked_category or links.get(url)
+    detail_jobs = sorted(links.items())[:BMS_DETAIL_PAGE_BUDGET]
+    if not detail_jobs:
+        return [], ['in.bookmyshow.com'], len(pages), [
+            ('bookmyshow', 'no event-detail links found on rendered BookMyShow grids; '
+             'grid teaser ignored')]
+    detail_pages, detail_note = apify_render_pages([url for url, _ in detail_jobs])
+    if not detail_pages:
+        return [], ['in.bookmyshow.com'], len(pages), [('bookmyshow', detail_note)]
+    categories = dict(detail_jobs)
+    events, domains = [], {'in.bookmyshow.com'}
+    for page in detail_pages:
+        if not _bms_detail_url(page.get('url')):
+            continue
+        events.extend(_events_from_rendered_page(page, categories.get(page['url'])))
+        parsed = urllib.parse.urlsplit(page.get('url') or '')
+        if parsed.netloc:
+            domains.add(parsed.netloc.lower())
+    today = dt.date.today().isoformat()
+    events = [event for event in dedupe_events(events)
+              if not event.get('date') or event['date'] >= today]
+    if verbose:
+        print(f'    {note}; {detail_note}; {len(events)} parsed detail event(s)')
+    if not events:
+        return [], sorted(domains), len(pages) + len(detail_pages), [
+            ('bookmyshow', 'rendered detail pages contained no parseable Event JSON-LD')]
+    return events, sorted(domains), len(pages) + len(detail_pages), []
+
+
+def _required_source_failed(key, _pages, failures):
+    """Any failed route is nonzero, except an optional unconfigured BookMyShow route."""
+    return bool(failures) and not (
+        key == 'bookmyshow' and all(kind == 'unconfigured' for kind, _ in failures))
+
+
+def _selftest():
+    fixtures = os.path.join(HERE, 'fixtures')
+    with open(os.path.join(fixtures, 'district_next.html'), encoding='utf-8') as handle:
+        district = district_events_from_next(handle.read(), 'comedy', 'Bengaluru')
+    assert len(district) == 2, district
+    assert district[0]['category'] == 'comedy'
+    assert district[0]['date'] == '2027-01-15'
+    assert district[0]['url'] == 'https://www.district.in/events/sana-live'
+    assert district[0]['status'] == 'Available'
+    assert district[1]['status'] is None
+
+    dispatched = []
+    original_fetch_district = fetch_district
+    try:
+        def record_district(cities, verbose):
+            dispatched.append((cities, verbose))
+            return [], [], 0, []
+        globals()['fetch_district'] = record_district
+        assert fetch_source('district', ['Mumbai'], verbose=False) == ([], [], 0, [])
+        assert dispatched == [(['Mumbai'], False)]
+    finally:
+        globals()['fetch_district'] = original_fetch_district
+
+    with open(os.path.join(fixtures, 'bookmyshow_grid_details.json'), encoding='utf-8') as handle:
+        payload = json.load(handle)
+    cmap = {'/explore/comedy-shows-': 'comedy'}
+    bookmyshow, note = bms_events_from_items(payload['items'], cmap, verbose=False)
+    assert len(bookmyshow) == 12, (len(bookmyshow), note)
+    assert len({event['url'] for event in bookmyshow}) == 12
+    assert all(event['category'] == 'comedy' for event in bookmyshow)
+    assert _bms_detail_url('https://in.bookmyshow.com/events/fixture/ET1')
+    assert _bms_detail_url('https://bookmyshow.com/events/fixture/ET1')
+    assert not _bms_detail_url('https://evilbookmyshow.com/events/fixture/ET1')
+    assert not _bms_detail_url('ftp://in.bookmyshow.com/events/fixture/ET1')
+    assert not _bms_detail_url('//in.bookmyshow.com/events/fixture/ET1')
+    orphaned, _ = bms_events_from_items(payload['items'][1:], cmap, verbose=False)
+    assert not orphaned, 'detail rows without a rendered grid must not become evidence'
+    assert 'rendered detail page(s)' in note and 'grid teaser ignored' in note
+
+    pages, note = apify_render_pages(['https://in.bookmyshow.com/explore/comedy-shows-mumbai'],
+                                     token='')
+    assert not pages and note.startswith('UNCONFIGURED:'), note
+    assert not _required_source_failed('bookmyshow', 0, [('unconfigured', note)])
+    assert _required_source_failed('district', 0, [('unconfigured', note)])
+    assert _required_source_failed('district', 0, [('district', 'HTTPError')])
+    assert _required_source_failed('district', 8, [('one-route', 'HTTPError')])
+    assert not _required_source_failed('bookmyshow', 1, [('unconfigured', note)])
+    assert _fetch_metadata('district')['source_access'] == 'direct-nextjs-eventdata'
+    assert 'Apify-rendered' in _fetch_metadata('bookmyshow')['fetched_by']
+    print('ALL CHECKS PASS')
 def fetch_source(key, cities=None, verbose=True):
     plan = PLAN[key]
+    if key == 'district':
+        return fetch_district(cities, verbose)
     if plan.get('via') == 'apify':
+        if key == 'bookmyshow':
+            return fetch_bookmyshow(cities, verbose)
         return fetch_via_apify(key, cities, verbose)
     src = next(s for s in model.load_sources()['sources'] if s['key'] == key)
     dom = src['domain']
@@ -521,13 +1021,27 @@ def fetch_source(key, cities=None, verbose=True):
     return list(best.values()), sorted(domains), pages, failures
 
 
+def _fetch_metadata(key):
+    """Describe the non-secret acquisition route stored beside raw rows."""
+    source = next((item for item in model.load_sources()['sources'] if item['key'] == key), {})
+    access = source.get('access', 'unknown')
+    route = {
+        'district': 'direct HTTP Next.js EventData plus schema.org JSON-LD',
+        'bookmyshow': 'Apify-rendered category grids plus depth-one Event JSON-LD details',
+    }.get(key, 'direct HTTP schema.org JSON-LD')
+    return dict(
+        fetched_by=f'tools/fetch_listings.py ({route})',
+        fetch_route=route,
+        source_access=access,
+    )
+
 def write_raw(key, events, domains, date):
     os.makedirs(RAW, exist_ok=True)
     path = os.path.join(RAW, f'{date}__{key}.json')
+    payload = dict(events=events, domains_seen=domains)
+    payload.update(_fetch_metadata(key))
     with open(path, 'w', encoding='utf-8') as f:
-        json.dump(dict(events=events, domains_seen=domains,
-                       fetched_by='tools/fetch_listings.py (direct JSON-LD)'),
-                  f, indent=1, ensure_ascii=False)
+        json.dump(payload, f, indent=1, ensure_ascii=False)
     return path
 
 
@@ -541,16 +1055,38 @@ def main(argv=None):
                     help='read an Apify dataset id that Claude already ran (no token needed)')
     ap.add_argument('--source', default='bookmyshow',
                     help='which source --apify-dataset belongs to')
+    ap.add_argument('--selftest', action='store_true', help='run offline parser fixtures')
     a = ap.parse_args(argv)
+
+    if a.selftest:
+        _selftest()
+        return 0
 
     if a.apify_dataset:
         print(f'Reading Apify dataset {a.apify_dataset} for "{a.source}"')
         print('=' * 70)
+        source = next((item for item in model.load_sources()['sources']
+                       if item['key'] == a.source), None)
+        if source is None:
+            print(f'  [fail] unknown dataset source: {a.source}')
+            return 2
+        if not source.get('enabled', False):
+            print(f'  [fail] dataset source is disabled: {a.source}')
+            return 2
+        if a.source not in PLAN:
+            print(f'  [fail] dataset source has no enabled import route: {a.source}')
+            return 2
         cmap = {frag: cat for frag, cat in
                 [(p.split('{city}')[0].rstrip('-'), c)
                  for p, c in PLAN.get(a.source, {}).get('paths', []) if c]}
-        events, note = read_apify_dataset(a.apify_dataset, cmap)
+        if a.source == 'bookmyshow':
+            events, note = read_bookmyshow_apify_dataset(a.apify_dataset, cmap)
+        else:
+            events, note = read_apify_dataset(a.apify_dataset, cmap)
         print(f'  {note}')
+        if not events:
+            print('  [fail] dataset import produced no usable event evidence; no raw file written.')
+            return 1
         if events:
             withcat = sum(1 for e in events if e['category'])
             print(f'  category {withcat}/{len(events)} · '
@@ -568,14 +1104,25 @@ def main(argv=None):
         return 0
 
     keys = [a.key] if a.key else list(PLAN)
+    unknown = [key for key in keys if key not in PLAN]
+    if unknown:
+        print('Unknown or postponed fetch source(s): ' + ', '.join(unknown))
+        return 2
+    source_config = {source['key']: source for source in model.load_sources()['sources']}
+    disabled = [key for key in keys if key in source_config
+                and not source_config[key].get('enabled', False)]
+    if disabled:
+        print('Disabled fetch source(s): ' + ', '.join(disabled))
+        return 2
     cities = [c for c in (a.cities or '').split(',') if c.strip()] or None
 
     print(f'Direct listing fetch — {a.date}')
     print('=' * 70)
-    print('Sources that serve plain HTTP with JSON-LD. BookMyShow, Skillbox, Townscript and')
-    print('MeraEvents are NOT here — they need Apify via the skill. See the module docstring.')
+    print('Direct routes use JSON-LD or District Next.js EventData; BookMyShow is detail-only via Apify.')
+    print('Townscript is postponed; an unconfigured BookMyShow route retains prior raw data.')
 
     total = 0
+    exit_code = 0
     for key in keys:
         print(f'\n{key}')
         events, domains, pages, failures = fetch_source(key, cities)
@@ -594,13 +1141,23 @@ def main(argv=None):
                       f'{e["city"] or "—":12} {e["date"]}')
         if not a.dry_run and events:
             print(f'     -> {write_raw(key, events, domains, a.date)}')
+        if failures:
+            for route, reason in failures:
+                mark = 'skip' if key == 'bookmyshow' and route == 'unconfigured' else 'fail'
+                print(f'     [{mark}] {route}: {reason}')
+            if key == 'bookmyshow' and all(route == 'unconfigured'
+                                           for route, _ in failures):
+                print('     BookMyShow primary validation is unconfigured; prior raw data, if '
+                      'any, was retained and no zero-row file was written.')
+        if _required_source_failed(key, pages, failures):
+            exit_code = 1
 
     print(f'\n{total} events total.')
     if a.dry_run:
         print('--dry-run: nothing written.')
     else:
         print('Next: run_weekly.py ingests data/raw/ and scores it.')
-    return 0
+    return exit_code
 
 
 if __name__ == '__main__':
