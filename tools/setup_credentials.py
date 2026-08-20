@@ -95,10 +95,8 @@ def put(cfg, section, key, val):
 
 
 def mask(v):
-    """Never print a secret. Length and a shape hint are enough to debug with."""
-    if not v:
-        return 'NOT SET'
-    return f'set ({len(v)} chars, ends "{v[-4:]}")' if len(v) > 8 else 'set (short)'
+    """Expose only presence; values, lengths, and suffixes are sensitive metadata."""
+    return 'SET' if v else 'NOT SET'
 
 
 def show(cfg):
