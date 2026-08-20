@@ -131,6 +131,13 @@ def _fold(s):
     s = ''.join(c for c in s if not unicodedata.combining(c))
     return re.sub(r'\s+', ' ', s).strip().lower()
 
+def _contains_term(text, term):
+    """Word-bounded phrase match; raga must not match venue Pragati Maidan."""
+    term = _fold(term)
+    if not term:
+        return False
+    return re.search(r"(?<![a-z0-9])" + re.escape(term) + r"(?![a-z0-9])", _fold(text)) is not None
+
 
 # Ordered most-specific first; the FIRST hit wins. Order is the whole design here — "night"
 # appears in club listings and devotional ones alike, so devotional's ritual words are tested
@@ -201,14 +208,15 @@ def classify_genre(title, venue=None, city=None, source_category=None):
             return dict(genre=CATEGORY_MAP[key], confidence=0.85,
                         evidence=f'platform category "{source_category}"')
 
-    hay = ' ' + _fold(title) + ' | ' + _fold(venue) + ' '
+    title_text, venue_text = _fold(title), _fold(venue)
     for genre, words in _RULES:
         for w in words:
-            if w in hay:
-                # A venue-only match is weaker than a title match: comedy clubs host music too.
-                in_title = w in (' ' + _fold(title) + ' ')
+            in_title = _contains_term(title_text, w)
+            in_venue = _contains_term(venue_text, w)
+            if in_title or in_venue:
+                where = 'title' if in_title else 'venue'
                 return dict(genre=genre, confidence=0.7 if in_title else 0.45,
-                            evidence=f'keyword "{w.strip()}" in {"title" if in_title else "venue"}')
+                            evidence=f'keyword "{w.strip()}" in {where}')
     return dict(genre=UNKNOWN, confidence=0.0, evidence='no genre keyword or category matched')
 
 
@@ -221,6 +229,8 @@ _FESTIVAL_MARKERS = ('sunburn', 'nh7', 'weekender', 'lollapalooza', 'echoes of e
                      'carnival', 'expo')
 
 _PRODUCTION_MARKERS = ('the musical', ' - a play', 'a play by', 'natak', 'presents the play')
+
+_NON_PERFORMANCE_MARKERS = ('fan event', 'fan screening', 'listening party')
 
 
 def entity_type_for(genre, title, lineup_hint=None):
@@ -235,6 +245,8 @@ def entity_type_for(genre, title, lineup_hint=None):
     So markers in the title override the genre default.
     """
     t = _fold(title)
+    if any(_contains_term(t, m) for m in _NON_PERFORMANCE_MARKERS):
+        return 'fan_event'
     if any(m in t for m in _FESTIVAL_MARKERS):
         return 'festival'
     if any(m in t for m in _PRODUCTION_MARKERS):
@@ -283,6 +295,8 @@ def _selftest():
         ('The Great Indian Magic Show', None, None, 'magic_variety', 'artist'),
         ('Kavi Sammelan 2027', None, None, 'spoken_word', 'artist'),
 
+        ('Taylor Swift: Fan Event', None, None, UNKNOWN, 'fan_event'),
+        ('Health Expo', 'Pragati Maidan', None, UNKNOWN, 'festival'),
         # --- title alone is genuinely ambiguous: these MUST come back unknown, not guessed.
         # "Zakir Khan" is a stand-up comedian and "Zakir Hussain" a tabla maestro; "live in
         # concert" is used by both. An earlier build guessed music here and was wrong.

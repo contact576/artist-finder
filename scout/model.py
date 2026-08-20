@@ -180,6 +180,11 @@ def extract_artist(title, venue=None, genre=None):
         if m:
             after = raw[m.end():]
             break
+    # HighApe commonly appends the venue after the billed DJ:
+    # "Ft DJ Senleo At Yeda Republic, Koramangala". The venue is not a second performer.
+    if after is not None:
+        after = re.split(r'\s+at\s+', after, maxsplit=1, flags=re.I)[0]
+
 
     if after is not None:
         seg, base_conf, why = after, 0.80, 'after presents/ft marker'
@@ -425,6 +430,13 @@ def _selftest():
             ok = False
         print(f'  [{flag}] {title!r:55} -> {got["names"]} '
               f'role={got["role"]} conf={got["confidence"]}')
+
+    dj = extract_artist('Midweek Madness Ft DJ Senleo At Yeda Republic, Koramangala',
+                        genre='edm_club')
+    dj_ok = dj['names'] == ['Senleo']
+    ok = ok and dj_ok
+    print(f'  [{"ok " if dj_ok else "FAIL"}] HighApe venue tail stripped'
+          f' -> {dj["names"]}')
 
     # --- the trust floor is a separate question from what was extracted.
     # "Soul India" DOES yield a candidate ("Soul"), and that is fine — what matters is that the

@@ -28,6 +28,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import corrections  # noqa: E402
 import model  # noqa: E402
 
 BASE = model.BASE
@@ -165,9 +166,15 @@ def rebuild_ledger():
     """
     dates = snapshot_dates()
     ledger, first_run = {}, (dates[0] if dates else None)
+    correction_rules = corrections.load()
 
     for d in dates:
-        for ev in iter_events(load_snapshot(d)):
+        for observed in iter_events(load_snapshot(d)):
+            # Snapshots remain byte-for-byte evidence. Reviewed repairs are applied only to
+            # this derived view, through the audited data/corrections.json overlay.
+            ev = corrections.apply_event(observed, correction_rules)
+            if ev is None:
+                continue
             sid = ev['show_id']
             row = ledger.get(sid)
             if row is None:

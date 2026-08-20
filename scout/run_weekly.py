@@ -26,10 +26,13 @@ the difference between a real trend and four copies of the same number.
     python run_weekly.py --international check foreign dates for RISING entities
 """
 import argparse
+import atexit
 import datetime as dt
 import glob
 import json
 import os
+import shutil
+import tempfile
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -45,6 +48,35 @@ import tips           # noqa: E402
 import watchlist      # noqa: E402
 
 RAW = os.path.join(model.BASE, 'data', 'raw')
+
+
+def isolate_no_save():
+    """Redirect every writable project path to a disposable copy.
+
+    A dry run must be safe even when it ingests raw files, resolves tips, checks APIs, rebuilds
+    the ledger, or renders a report. Reading still comes from the real project; every write goes
+    to a temporary directory that is deleted when the process exits.
+    """
+    root = tempfile.mkdtemp(prefix='artist-scout-dry-')
+    atexit.register(shutil.rmtree, root, ignore_errors=True)
+
+    snapdir = os.path.join(root, 'snapshots')
+    if os.path.isdir(snapshot.SNAPDIR):
+        shutil.copytree(snapshot.SNAPDIR, snapdir)
+    else:
+        os.makedirs(snapdir, exist_ok=True)
+    snapshot.SNAPDIR = snapdir
+    snapshot.LEDGER = os.path.join(root, 'shows.json')
+
+    for module, attr in ((demand, 'PATH'), (tips, 'PATH'), (watchlist, 'PATH')):
+        source = getattr(module, attr)
+        target = os.path.join(root, os.path.basename(source))
+        if os.path.exists(source):
+            shutil.copy2(source, target)
+        setattr(module, attr, target)
+
+    report.OUT = os.path.join(root, 'out')
+    return root
 
 
 def ingest_raw(date):
@@ -75,6 +107,9 @@ def main(argv=None):
     ap.add_argument('--write-dossiers', action='store_true',
                     help='create/top up Artist Tour Engine dossiers for RISING artists')
     a = ap.parse_args(argv)
+    if a.no_save:
+        isolate_no_save()
+
 
     print(f'Artist Scout — India · run {a.date}')
     print('=' * 66)
@@ -129,13 +164,13 @@ def main(argv=None):
     # would discard the earliest thing we have.
     tipped = tips.tipped_slugs()
     shortlist = [r for r in ranked
-                 if r['quadrant'] == 'RISING' or r['slug'] in tipped]
+                 if r['candidate_eligible'] and (r['quadrant'] == 'RISING' or r['slug'] in tipped)]
 
     deltas = watchlist.diff(ranked, asof=a.date)
     print(f"\n  {len(ranked)} entities · new={len(deltas['new'])} "
           f"moved={len(deltas['moved'])} surging={len(deltas['momentum_jump'])} "
           f"cooling={len(deltas['momentum_drop'])}")
-    rising = [r for r in ranked if r['quadrant'] == 'RISING']
+    rising = [r for r in ranked if r['candidate_eligible'] and r['quadrant'] == 'RISING']
     print(f'  RISING: {len(rising)}' + (f" — {', '.join(r['name'] for r in rising[:6])}"
                                         if rising else ''))
     tip_only = [r for r in shortlist if r['quadrant'] != 'RISING']
@@ -159,10 +194,13 @@ def main(argv=None):
                          platform_candidates=snap.get('platform_candidates'),
                          health=health, asof=a.date,
                          tips_report=tips.loop_report(), tip_matches=tip_matches)
-    path = report.write(text, a.date)
-    print(f'\n  report -> {path}')
+    if a.no_save:
+        print('\n  report rendered in memory (not written)')
+    else:
+        path = report.write(text, a.date)
+        print(f'\n  report -> {path}')
 
-    if a.write_dossiers and shortlist:
+    if a.write_dossiers and shortlist and not a.no_save:
         print('\n  dossiers:')
         for r in shortlist:
             sig = next(s for s in sigs if s['slug'] == r['slug'])

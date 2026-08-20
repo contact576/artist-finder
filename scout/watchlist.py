@@ -92,6 +92,8 @@ def apply(ranked, wl=None, asof=None):
     wl = wl or load()
     asof = asof or dt.date.today().isoformat()
     arts = wl.setdefault('artists', {})
+    for existing in arts.values():
+        existing['active'] = False
     for r in ranked:
         e = arts.setdefault(r['slug'], dict(
             slug=r['slug'], name=r['name'], first_seen_run=asof,
@@ -104,6 +106,9 @@ def apply(ranked, wl=None, asof=None):
             momentum=r['momentum']['value'],
             momentum_coverage=r['momentum']['coverage'],
             n_shows=r['n_shows'], action=r['action'],
+            kind=r.get('kind', 'artist'), genre=r.get('genre', 'unknown'),
+            active=True,
+            candidate_eligible=r.get('candidate_eligible', True),
             export_ready=r['export']['ready']))
         e.update(human)                      # human always wins
         # ONE ENTRY PER RUN DATE — replaced, not appended. Re-running a date is routine: a crawl
