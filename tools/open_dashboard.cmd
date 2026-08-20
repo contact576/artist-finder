@@ -1,5 +1,6 @@
 @echo off
 setlocal EnableExtensions
+set "PYTHONIOENCODING=utf-8"
 
 rem Build and open the private local dashboard from any checkout location.
 for %%I in ("%~dp0..") do set "AF_ROOT=%%~fI"
