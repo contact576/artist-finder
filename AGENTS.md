@@ -130,14 +130,16 @@ without explicit authorization. The dashboard shows the four workflow stages —
 Major-platform confirmed → Diaspora validated → Forecast ready** — and keeps India-side
 `momentum` separate from diaspora-side `export_signal`.
 
-With one crawl, zero RISING candidates is an honest baseline result: trajectory is unavailable
-until 3 crawls span 21 days. The dashboard and report must say so rather than manufacture a trend.
+With fewer than three crawls spanning 21 days, zero RISING candidates is an honest baseline
+result: trajectory is unavailable. The dashboard and report must say so rather than manufacture
+a trend.
 BookMyShow may show `blocked/unconfigured` when its optional browser/Apify route is unavailable;
 that is a source-health state, not zero evidence. Weekly and monthly jobs write non-secret status
 and log metadata under `out/automation/`.
 
 The safe operator flow is: open the local dashboard → review source health and freshness → confirm
-BookMyShow/District evidence → review separate US and Canada demand evidence → approve a dossier
+an exact gazetteer identity or dated identity review for BookMyShow/District evidence → review
+separate US and Canada demand evidence with a dated contamination check → approve a dossier
 only when its readiness fields are complete. The only handoff is the designed dossier input under
 `../Artist Tour Engine/artists/`; this project never displays a North American ticket forecast.
 
@@ -322,6 +324,15 @@ grid renders client-side. Across 3 rendered pages: 30 events, only **9 upcoming*
 15-64 free ones. The full-grid browser/Apify route is therefore optional and may be blocked until
 configured. District remains the other primary validation source; long-tail platforms are still
 valuable discovery inputs but cannot by themselves confirm a stage.
+
+## Current retained state — 2026-08-21
+
+The second immutable snapshot was banked from 1,101 live listings: AllEvents 712, HighApe 288,
+and District 101. After correction overlays, the derived ledger contains **801 shows · 687
+entities**. The dashboard contains **513 eligible artists**: 494 Discovered, 19 Major-platform
+confirmed, zero Diaspora validated, and zero Forecast ready. Two crawls span two days, so every
+live momentum value is Unknown and RISING remains zero. These are current derived counts, not a
+replacement for the historical first-run benchmark above.
 
 ## Two ways to reach a blocked source, neither needing a new credential
 

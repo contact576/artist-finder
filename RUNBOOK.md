@@ -170,9 +170,11 @@ credentials and reports if a response smells bucketed.
   lacks the same-month prior-year pair. YoY is observable as soon as stored history contains that
   pair; a 48-month pull can provide it immediately. Until then the tool reports a within-window
   trend and labels it as not a full year.
-- The **contamination gate** runs automatically: if the "<name> comedian" share is under 20%, the
-  bare name's volume belongs to somebody else. Measured: Jaspreet Singh 2%, Aakash Gupta 1%.
-  Those artists look enormous in search and do not sell.
+- The **contamination gate** requires a numeric qualified share and a dated `checked_at` review.
+  Missing review is unvalidated, not clean, and cannot advance lifecycle. If the "<name>
+  comedian" share is under 20%, the bare name's volume is rejected as diaspora validation.
+  Measured examples include Jaspreet Singh 2% and Aakash Gupta 1%; a raw number may remain visible
+  for audit but must be labelled unvalidated.
 
 ---
 

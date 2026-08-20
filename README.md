@@ -95,17 +95,21 @@ These are hard stops in code, not style preferences.
 
 ## Current state — 21 Aug 2026
 
-This is a private scout, not a forecaster. The current baseline is roughly **669 shows · 585
-active entities · 449 eligible candidates** from one immutable crawl; with one crawl, **RISING =
-0 is the honest result** because trajectory is not observable yet. Google Ads Keyword Planner
-history is available for about 449 candidates (276 US values, 264 Canada values, 47 months).
+This is a private scout, not a forecaster. The current retained state is **801 shows · 687
+active entities** across two immutable crawls, with **513 eligible dashboard artists**. The
+stage funnel is 494 Discovered, 19 Major-platform confirmed, zero Diaspora validated, and zero
+Forecast ready. **RISING = 0 is the honest result** because two crawls over two days do not meet
+the three-crawl/21-day trajectory gate. Google Ads Keyword Planner history is stored separately
+for US and Canada; a numeric value cannot advance lifecycle until query contamination has a dated
+review.
 
-**Working and proven on live data.** 12 modules, ~5,100 lines, all self-tests passing offline.
+**Working and proven on live data.** Deterministic compute and dashboard self-tests pass offline.
 
 | | |
 |---|---|
 | First real crawl (19 Aug) | **997 events**, free, in ~90 seconds |
 | First-crawl ledger (historical) | **675 shows · 588 entities** — one snapshot |
+| Current corrected ledger (21 Aug) | **801 shows · 687 entities** — two immutable snapshots; trajectory not yet observable |
 | Venue classification | **63%** (up from 43% after mapping real venues) |
 | Cross-check | **8 artists from the Tour Engine's own benchmark** found live — Harsh Gujral (4 shows, large + mid theatre), Rahul Dua (7), Varun Grover, Amit Tandon, Vipul Goyal, Abish Mathew |
 
