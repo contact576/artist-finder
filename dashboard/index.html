@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>Artist Finder — Private Scout</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23102019'/%3E%3Cpath d='M32 10 38 26l16 6-16 6-6 16-6-16-16-6 16-6z' fill='%23c8f36c'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="app.css">
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#explorer">Skip to artist explorer</a>
+  <main class="shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Private research workspace</p>
+        <h1 id="title">Artist Finder</h1>
+        <p class="lede">Evidence-led Indian live-act scouting. It is not a ticket forecast.</p>
+      </div>
+      <div class="top-meta">
+        <span class="pill neutral" id="mode-pill">Loading</span>
+        <span id="as-of">Loading data…</span>
+      </div>
+    </header>
+
+    <section class="notice proxy-notice" aria-labelledby="proxy-title">
+      <div class="notice-mark" aria-hidden="true">i</div>
+      <div>
+        <h2 id="proxy-title">Read the evidence, not a prediction</h2>
+        <p id="caveat">Loading caveat…</p>
+      </div>
+    </section>
+
+    <section class="notice observability-notice" id="observability" aria-live="polite"></section>
+
+    <section class="metric-grid" aria-label="Scout overview">
+      <article class="metric-card">
+        <span class="metric-label">Eligible records</span>
+        <strong id="eligible-count">—</strong>
+        <span id="eligible-note">Lifecycle records</span>
+      </article>
+      <article class="metric-card">
+        <span class="metric-label">Snapshot freshness</span>
+        <strong id="freshness-count">—</strong>
+        <span id="freshness-note">Loading…</span>
+      </article>
+      <article class="metric-card">
+        <span class="metric-label">Source health</span>
+        <strong id="source-count">—</strong>
+        <span id="source-note">Loading…</span>
+      </article>
+      <article class="metric-card">
+        <span class="metric-label">Needs attention</span>
+        <strong id="attention-count">—</strong>
+        <span id="attention-note">Review or next evidence</span>
+      </article>
+    </section>
+
+    <section class="panel" aria-labelledby="funnel-title">
+      <div class="section-heading inline-heading">
+        <div>
+          <p class="eyebrow">Workflow, not a ranking</p>
+          <h2 id="funnel-title">Evidence stage funnel</h2>
+        </div>
+        <p class="muted">An act advances only when the stated evidence exists.</p>
+      </div>
+      <div class="funnel" id="funnel"></div>
+    </section>
+
+    <section class="two-column">
+      <section class="panel action-panel" aria-labelledby="queue-title">
+        <div class="section-heading">
+          <p class="eyebrow">Start here</p>
+          <h2 id="queue-title">Action queue</h2>
+          <p class="muted">Sorted by review requirement and lifecycle stage, never by a combined score.</p>
+        </div>
+        <div id="action-queue" class="action-queue"></div>
+      </section>
+      <section class="panel data-panel" aria-labelledby="quality-title">
+        <div class="section-heading">
+          <p class="eyebrow">Measurement quality</p>
+          <h2 id="quality-title">What is incomplete?</h2>
+        </div>
+        <div id="quality" class="quality-list"></div>
+      </section>
+    </section>
+
+    <section class="panel explorer" id="explorer" aria-labelledby="explorer-title">
+      <div class="section-heading explorer-heading">
+        <div>
+          <p class="eyebrow">Evidence explorer</p>
+          <h2 id="explorer-title">Artists</h2>
+        </div>
+        <span class="result-count" id="result-count">—</span>
+      </div>
+      <div class="filters" aria-label="Artist filters">
+        <label class="search-field">Search
+          <input id="search" type="search" placeholder="Artist, city, platform…" autocomplete="off">
+        </label>
+        <label>Stage <select id="stage-filter"><option value="">All stages</option></select></label>
+        <label>Genre <select id="genre-filter"><option value="">All genres</option></select></label>
+        <label>Entity <select id="kind-filter"><option value="">All entity types</option></select></label>
+        <label>City <select id="city-filter"><option value="">All cities</option></select></label>
+        <label>Source <select id="source-filter"><option value="">All platforms</option></select></label>
+        <label>Primary evidence <select id="primary-filter"><option value="">Any state</option><option value="yes">Confirmed</option><option value="no">Not confirmed</option></select></label>
+        <label>Room band <select id="venue-filter"><option value="">All room bands</option></select></label>
+        <label>Data state <select id="review-filter"><option value="">Any state</option><option value="clear">Clear</option><option value="review_required">Review required</option><option value="unknown">Unknown</option></select></label>
+        <label>Freshness <select id="freshness-filter"><option value="">Any age</option><option value="recent">Recent</option><option value="stale">Stale</option><option value="unknown">Unknown</option></select></label>
+      </div>
+      <p class="table-help">Select an artist for its traceable booking, primary-platform, and diaspora evidence.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th><button class="sort-button" data-sort="name" aria-sort="none">Artist</button></th>
+              <th><button class="sort-button" data-sort="stage" aria-sort="none">Stage</button></th>
+              <th><button class="sort-button" data-sort="genre" aria-sort="none">Genre</button></th>
+              <th><button class="sort-button" data-sort="stature" aria-sort="none">Stature <span aria-hidden="true">↕</span></button></th>
+              <th><button class="sort-button" data-sort="momentum" aria-sort="none">India momentum <span aria-hidden="true">↕</span></button></th>
+              <th><button class="sort-button" data-sort="export_signal" aria-sort="none">Export signal <span aria-hidden="true">↕</span></button></th>
+              <th>Evidence</th>
+              <th>Data state</th>
+            </tr>
+          </thead>
+          <tbody id="artist-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="sources-title">
+      <div class="section-heading inline-heading">
+        <div>
+          <p class="eyebrow">Coverage &amp; resilience</p>
+          <h2 id="sources-title">Source health</h2>
+        </div>
+        <p class="muted">A missing or blocked source is not zero evidence.</p>
+      </div>
+      <div class="source-grid" id="source-health"></div>
+    </section>
+
+    <section class="two-column">
+      <section class="panel" aria-labelledby="operations-title">
+        <div class="section-heading">
+          <p class="eyebrow">Local operations</p>
+          <h2 id="operations-title">Scheduled jobs</h2>
+          <p class="muted" id="operations-note"></p>
+        </div>
+        <div id="operations" class="operations-list"></div>
+      </section>
+      <aside class="panel boundary-panel" aria-labelledby="boundary-title">
+        <p class="eyebrow">Operating boundary</p>
+        <h2 id="boundary-title">Private scout → dossier handoff</h2>
+        <p>Use this local view to decide what to research next. A Forecast ready record means the dossier can be handed to the Artist Tour Engine input boundary; it does not contain a North American sales forecast.</p>
+        <p>The generated artifact omits credentials and raw contact-note contents. Do not deploy it publicly without explicit approval.</p>
+      </aside>
+    </section>
+  </main>
+
+  <dialog id="artist-detail" aria-labelledby="detail-name">
+    <div class="dialog-top">
+      <button class="icon-button" id="close-detail" aria-label="Close artist detail">×</button>
+    </div>
+    <div id="detail-content"></div>
+  </dialog>
+
+  <div class="loading" id="loading" role="status">Loading private dashboard data…</div>
+</body>
+</html>

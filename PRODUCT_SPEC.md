@@ -34,9 +34,9 @@ needed for the next stage. Stages are workflow states, not a merged ranking.
 | Stage | Meaning | Entry evidence | Next action |
 |---|---|---|---|
 | Discovered | A credible entity was found by any input. | Parsed above the trust floor, or a human tip awaiting review. | Confirm a future/present booking on BookMyShow or District. |
-| Major-platform confirmed | The act has primary-platform booking evidence. | A matching BookMyShow or District listing with traceable URL/date; entity ambiguity is not silently accepted. | Review US and Canada demand and foreign-date evidence. |
-| Diaspora validated | Primary-platform evidence plus usable diaspora evidence. | US or CA search evidence and/or qualifying foreign-date evidence, with its freshness and observability shown. | Complete/approve a dossier for the Tour Engine. |
-| Forecast ready | A dossier can be safely written to the Tour Engine input. | Required identity, source evidence, and export-readiness fields are present; dossier write outcome is recorded. | Hand off; do not display a forecast here. |
+| Major-platform confirmed | The act has primary-platform booking evidence. | A trusted BookMyShow or District listing with traceable URL/date and an exact gazetteer identity or dated identity review; ambiguity is never silently accepted. | Review US and Canada demand and foreign-date evidence. |
+| Diaspora validated | Primary-platform evidence plus usable diaspora evidence. | Search evidence requires a numeric qualified share and dated contamination review; a qualifying foreign date is independent evidence. | Complete/approve a dossier for the Tour Engine. |
+| Forecast ready | A dossier can be safely written to the Tour Engine input. | Required attested identity, primary-source evidence, dated export validation, and dossier fields are present; dossier write outcome is recorded. | Hand off; do not display a forecast here. |
 
 Long-tail/self-serve platforms are discovery inputs only. BookMyShow and
 District are the primary validation sources. A long-tail listing alone must
