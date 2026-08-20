@@ -31,6 +31,11 @@ QUAD_NOTE = {
 }
 
 
+def _candidate_change(r):
+    """Only artist candidates belong in signing-change sections."""
+    return bool(r.get('candidate_eligible'))
+
+
 def _pct(x):
     return '—' if x is None else f'{int(x * 100)}%'
 
@@ -116,38 +121,45 @@ def render(ranked, deltas, obs, platform_candidates=None, health=None, asof=None
     # ---------------------------------------------------------------- change
     A('## What changed')
     A('')
+    # Formats and productions remain visible in their own section below; they are not
+    # signing-change candidates and must not enter the action-oriented delta list.
+    candidate_new = [r for r in deltas['new'] if _candidate_change(r)]
+    candidate_moved = [m for m in deltas['moved'] if _candidate_change(m.get('artist', {}))]
+    candidate_jumps = [m for m in deltas['momentum_jump'] if _candidate_change(m.get('artist', {}))]
+    candidate_drops = [m for m in deltas['momentum_drop'] if _candidate_change(m.get('artist', {}))]
+    candidate_gone = [g for g in deltas['gone'] if _candidate_change(g)]
     any_change = False
-    if deltas['new']:
+    if candidate_new:
         any_change = True
         A('**New names**')
-        for r in deltas['new'][:12]:
+        for r in candidate_new[:12]:
             A(f'- {r["name"]} — {r["quadrant"]}, {r["n_shows"]} listing(s), '
               f'stature {_n(r["stature"]["value"])}')
         A('')
-    if deltas['moved']:
+    if candidate_moved:
         any_change = True
         A('**Moved between quadrants**')
-        for m in deltas['moved'][:12]:
+        for m in candidate_moved[:12]:
             arrow = '↑' if m['now'] == 'RISING' else '→'
             A(f'- {arrow} **{m["artist"]["name"]}**: {m["was"]} → {m["now"]}  '
               f'({QUAD_NOTE[m["now"]]})')
         A('')
-    if deltas['momentum_jump']:
+    if candidate_jumps:
         any_change = True
         A('**Accelerating**')
-        for m in deltas['momentum_jump'][:8]:
+        for m in candidate_jumps[:8]:
             A(f'- {m["artist"]["name"]}: momentum {m["was"]} → {m["now"]} (+{m["delta"]})')
         A('')
-    if deltas['momentum_drop']:
+    if candidate_drops:
         any_change = True
         A('**Cooling**')
-        for m in deltas['momentum_drop'][:8]:
+        for m in candidate_drops[:8]:
             A(f'- {m["artist"]["name"]}: momentum {m["was"]} → {m["now"]} ({m["delta"]})')
         A('')
-    if deltas['gone']:
+    if candidate_gone:
         any_change = True
         A('**No longer listing anywhere** (3+ weeks)')
-        for g in deltas['gone'][:8]:
+        for g in candidate_gone[:8]:
             A(f'- {g["name"]} — last seen in the {g["last_seen_run"]} crawl')
         A('')
     if not any_change:
@@ -188,7 +200,7 @@ def render(ranked, deltas, obs, platform_candidates=None, health=None, asof=None
           f'and fan events can reveal market activity, but they are never signing candidates.')
         A('')
         for r in formats[:15]:
-            A(f'- {r["name"]} ? {r["kind"]}, {r["n_shows"]} listing(s)')
+            A(f'- {r["name"]} — {r["kind"]}, {r["n_shows"]} listing(s)')
         A('')
 
 
@@ -268,8 +280,10 @@ def render(ranked, deltas, obs, platform_candidates=None, health=None, asof=None
     A('')
     A('**Search volume is refreshed monthly, not weekly.** Google updates Keyword Planner once '
       'a month; polling it weekly would redraw the same figure four times and look like a '
-      'stalled artist. True year-over-year needs about a year of those monthly runs — until '
-      'then the growth figure is a within-window trend and is labelled as one.')
+      'stalled artist. A single rolling 12-month pull cannot produce true year-over-year because '
+      'it lacks the same-month prior-year pair. YoY is observable as soon as stored history has '
+      'that pair — a 48-month pull can provide it immediately. Until then the growth figure is '
+      'a within-window trend and is labelled as one.')
     A('')
     A('**Even so, no number here is a North American ticket count.** A high Demand score means '
       '"worth forecasting", never "will sell N tickets in Toronto". That number comes from the '
@@ -376,6 +390,16 @@ def _selftest():
     print()
     print('  ... written to %s' % p)
 
+    format_delta = dict(deltas)
+    format_delta['gone'] = list(deltas['gone']) + [dict(
+        slug='production-gone', name='Production Format', last_seen_run='2026-07-01',
+        candidate_eligible=False, kind='production')]
+    format_text = render(ranked, format_delta, signals.observability(),
+                         platform_candidates=['ticketgenie.example'], health=health,
+                         asof='2026-08-01', tips_report=tips.loop_report(),
+                         tip_matches=tip_matches)
+    action_section = format_text.split('## Watchlist', 1)[0]
+
     checks = [
         ('has an action section', 'Do this week' in text),
         ('shows both axes', 'India momentum' in text and 'Diaspora demand' in text),
@@ -385,6 +409,9 @@ def _selftest():
         ('holds unclassified genre out', 'genre unclassified' in text),
         ('has a genre spread table', 'By genre' in text),
         ('states the monthly volume cadence', 'refreshed monthly' in text),
+        ('explains when YoY is observable', '48-month pull can provide it immediately' in text
+         and 'True year-over-year needs about a year' not in text),
+        ('vanished format excluded from action changes', 'Production Format' not in action_section),
         ('still refuses a ticket number', 'never "will sell N tickets' in text),
     ]
     ok = True

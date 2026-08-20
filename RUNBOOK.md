@@ -10,8 +10,9 @@ what it is, read [`README.md`](README.md).
 > If any of them ever disagrees with this file, this file wins — they are shortcuts, not the
 > specification.
 
-**Fetching is split three ways.** Python fetches the sources that serve structured JSON-LD
-(free, no Apify); the assistant fetches the ones that block it or bury their listings in HTML; both write
+**Fetching is split three ways.** Python fetches sources that expose structured feeds — JSON-LD
+or District's Next.js `EventData` (free, no Apify); the assistant fetches the ones that block it or
+bury its listings in HTML; both write
 `data/raw/<date>__<source>.json` and `run_weekly.py` does the rest. Check the `access` field in
 `data/sources.json` before reaching for a crawler — an earlier version of this file claimed
 Python could not fetch at all, which sent every source through Apify unnecessarily.
@@ -40,11 +41,27 @@ The Tour Engine measured why: tickets per million followers spans **15×**, subl
 
 ## 2. The weekly run
 
+### Operator quick start
+
+1. Double-click [`tools/open_dashboard.cmd`](tools/open_dashboard.cmd) on Windows. It builds the
+   current artifact and opens the local/private dashboard at `http://127.0.0.1:8765/`.
+2. Check freshness, source health, and the trajectory banner before reading any ranking. One crawl
+   means a baseline; **zero RISING is honest** until 3 crawls span 21 days.
+3. Confirm BookMyShow or District evidence for a candidate. Long-tail sources are discovery-only.
+4. Review US and Canada evidence separately; do not add the geographies. Approve a dossier only
+   when the dashboard says Forecast ready. The dossier handoff is the designed input under
+   `../Artist Tour Engine/artists/`; this scout never displays a ticket forecast.
+
+The four visible workflow stages are **Discovered → Major-platform confirmed → Diaspora validated
+→ Forecast ready**. They are evidence gates, not a merged score.
+
 ### Step 0 — the free structured sources, in Python, FIRST
 
-A probe on 2026-08-19 (`tools/probe_sources.py`) found that **allevents.in, highape.com and
-district.in serve plain HTTP with schema.org JSON-LD**. Python fetches those directly — about
-1,000 structured events in 90 seconds, no Apify, no cost, no text parsing:
+The first probe on 2026-08-19 found that **allevents.in and highape.com serve plain HTTP with
+schema.org JSON-LD**. District's accepted adapter now uses direct HTTP Next.js `EventData` on eight
+activity routes plus an `/events` JSON-LD fallback. A dated read-only validation on **2026-08-21**
+returned **102 unique events, 87 categorized, and 102/102 with venue/date**; counts can drift. The
+routine Python fetch remains free and requires no Apify or text parsing for these structured routes:
 
 ```bash
 cd tools && python fetch_listings.py
@@ -53,34 +70,34 @@ cd tools && python fetch_listings.py
 Check `access` in `data/sources.json` before reaching for a crawler. Only `apify-html` and
 `apify-browser-proxy` sources need an assistant with a scraping tool. `dead` sources (insider) are skipped.
 
-### Step 1 — the sources that DO need Apify
+### Step 1 — optional browser/HTML sources
 
-`data/sources.json` is the list, and each source's `access` field says which route it needs.
+`data/sources.json` is the list, and each source's `access` field says which route it needs. Townscript
+is postponed and is not part of the routine browser/Apify path.
 
-**BookMyShow is SUPPLEMENTARY, not primary** — corrected by measurement on 2026-08-19. It is the
-biggest ticketing site in India, but it only exposes a 10-item JSON-LD teaser of featured events
-(~3 usable rows per page, against 15-64 free ones from AllEvents), and that teaser skews to acts
-that are already big. Keep its budget small. The long tail — `townscript`, `allevents`,
-`highape`, `meraevents` — is where artists appear FIRST and is worth more of the effort.
+**BookMyShow and District are the primary validation sources.** BookMyShow remains low-yield in
+plain/browser probing: it exposed a 10-item teaser (~3 usable rows per page against 15–64 from
+AllEvents), and the teaser skews toward acts that are already big. Keep its browser/Apify route
+optional and show `blocked/unconfigured` when it is unavailable. AllEvents, HighApe, MeraEvents and
+other long-tail/self-serve platforms are discovery inputs only; a long-tail listing alone cannot
+confirm a lifecycle stage. **Townscript is postponed**, not part of the routine weekly path.
 
 **All genres, not just comedy.** Comedy, music, theatre, devotional/bhajan, club nights, magic,
 spoken word, sport. New formats appear constantly and the long-tail sites are where they surface
 first — `discovery_queries.genres` in `sources.json` has the search vocabulary.
 
 **BookMyShow refuses plain fetching** — confirmed 403 on all five explore paths. Use Apify
-`apify/website-content-crawler` with browser rendering and a **residential** proxy. Skillbox,
-Townscript and MeraEvents answer fine but publish no JSON-LD, so their listings need HTML
-parsing — the cheap crawler is enough for those.
+`apify/website-content-crawler` with browser rendering and a **residential** proxy. Skillbox and MeraEvents answer fine but publish no JSON-LD, so their listings need HTML parsing
+if enabled. Townscript is postponed until a dedicated adapter is owned and tested.
 
-Baseline parse rates from the first real run, for spotting regressions: allevents ~69%,
-highape ~65%, district ~41%.
+Historical first-run parse rates (2026-08-19), for spotting regressions: allevents ~69%,
+highape ~65%, district ~41%. The current District EventData validation is the dated 2026-08-21
+coverage above, not this historical 12-row baseline.
 
-> **All eight sources were probed on 2026-08-19** and carry `access` and `verified_at`.
-> BookMyShow is the exception that still needs work: it is reachable only through a browser
-> and its CATEGORY PATHS ARE STILL UNMAPPED, so do a discovery pass on it before the first
-> strict crawl and write what you find back into `sources.json`.
-> Re-run `tools/probe_sources.py` after any source change — that file records what was
-> observed, never what was assumed.
+> **Source health is evidence, not a promise.** BookMyShow may remain `blocked/unconfigured`
+> until its optional browser/Apify route is configured; this is not zero evidence. District has
+> the direct EventData/JSON-LD routes above. Re-run `tools/probe_sources.py` after any source change — it records
+> what was observed, never what was assumed.
 
 **Capture `category` on every row.** It is the *primary* genre signal — a large share of clean
 listings ("Kanan Gill: Yes I'm Fine", "Zakir Khan Live in Concert") carry no genre word at all,
@@ -149,8 +166,10 @@ figures are **exact**, not the bucketed ranges a zero-spend account gets. `--che
 credentials and reports if a response smells bucketed.
 
 - US and Canada are fetched and stored **separately**, never summed.
-- **MoM works immediately. True YoY needs ~13 months of these runs** — until then the tool
-  reports a within-window trend and labels it as not a full year. Do not call it YoY.
+- **MoM works immediately. A single rolling 12-month pull cannot produce true YoY** because it
+  lacks the same-month prior-year pair. YoY is observable as soon as stored history contains that
+  pair; a 48-month pull can provide it immediately. Until then the tool reports a within-window
+  trend and labels it as not a full year.
 - The **contamination gate** runs automatically: if the "<name> comedian" share is under 20%, the
   bare name's volume belongs to somebody else. Measured: Jaspreet Singh 2%, Aakash Gupta 1%.
   Those artists look enormous in search and do not sell.
@@ -229,9 +248,9 @@ cd ../Artist\ Tour\ Engine/engine && python screen.py "ARTIST NAME" --shows 10
 
 ## Scheduling it elsewhere
 
-The two schedules currently live in Claude Code and run while that app is open. Nothing about the
-pipeline depends on that — every command above is an ordinary Python invocation, so any scheduler
-works. On Windows, Task Scheduler:
+The supported unattended path is Windows Task Scheduler. The scheduled-compatible runner keeps
+weekly and monthly jobs separate, refreshes the local dashboard artifact, and writes non-secret
+status plus logs under `out/automation/` (`status.json` and `*.log`). On Windows, Task Scheduler:
 
 ```
 Weekly   Mon 09:30   cd <repo>\tools && python fetch_listings.py
@@ -246,9 +265,10 @@ on the Windows cp1252 default.
 job weekly redraws the same figure four times and draws a flat line that reads as a stalled
 artist.
 
-## The one step a schedule cannot do
+## The one optional step a schedule cannot do
 
-`data/raw/<date>__bookmyshow.json` needs a browser behind a residential proxy, which means an
+`data/raw/<date>__bookmyshow.json` may need a browser behind a residential proxy, which means an
 assistant with a scraping connection, or an `apify_token` in `data/config.json` so
-`fetch_listings.py` can start the run itself. Without either, BookMyShow is skipped and the free
-sources still run — the weekly job degrades rather than failing.
+`fetch_listings.py` can start the run itself. Without either, the optional BookMyShow route is
+reported as blocked/unconfigured; retained data is not erased, the free sources still run, and
+source health tells the operator what to retry. Never paste credentials into a report or log.

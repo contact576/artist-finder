@@ -79,7 +79,14 @@ def diff(ranked, wl=None, asof=None):
         if slug not in seen and not p.get('do_not_pursue'):
             last = p.get('last_seen_run')
             if last and (dt.date.fromisoformat(asof) - dt.date.fromisoformat(last)).days >= 21:
-                gone.append(dict(slug=slug, name=p.get('name'), last_seen_run=last))
+                # Persisted rows carry the entity kind and candidate gate. Older watchlists may
+                # lack candidate_eligible, so infer conservatively from the stored kind.
+                eligible = p.get('candidate_eligible')
+                if eligible is None:
+                    eligible = p.get('kind', 'artist') in ('artist', 'dj_night')
+                gone.append(dict(slug=slug, name=p.get('name'), last_seen_run=last,
+                                 candidate_eligible=bool(eligible),
+                                 kind=p.get('kind', 'artist')))
 
     moved.sort(key=lambda m: -(m['artist']['momentum']['value'] or 0))
     momentum_jump.sort(key=lambda m: -m['delta'])
@@ -151,12 +158,15 @@ def _selftest():
     import tempfile
     PATH = os.path.join(tempfile.mkdtemp(), 'watchlist.json')
 
-    def fake(slug, name, quad, stat, mom, cov=1.0):
+    def fake(slug, name, quad, stat, mom, cov=1.0, kind='artist', eligible=True):
         return dict(slug=slug, name=name, quadrant=quad, n_shows=3,
                     stature=dict(value=stat), momentum=dict(value=mom, coverage=cov),
-                    export=dict(ready=False), action='WATCH')
+                    export=dict(ready=False), action='WATCH', kind=kind,
+                    candidate_eligible=eligible)
 
-    wk1 = [fake('a-one', 'A One', 'EARLY', 20, 30), fake('b-two', 'B Two', 'EARLY', 25, 20)]
+    wk1 = [fake('a-one', 'A One', 'EARLY', 20, 30), fake('b-two', 'B Two', 'EARLY', 25, 20),
+           fake('production-one', 'Production One', 'EARLY', 15, 10,
+                kind='production', eligible=False)]
     d1 = diff(wk1, asof='2026-08-01')
     print(f'  run 1: new={[r["slug"] for r in d1["new"]]}')
     save(apply(wk1, asof='2026-08-01'))
@@ -192,6 +202,10 @@ def _selftest():
     checks.append(('history stays sorted by run date',
                    [h['run'] for h in wl3['artists']['a-one']['history']]
                    == sorted(h['run'] for h in wl3['artists']['a-one']['history'])))
+    d3 = diff(wk2, asof='2026-08-29')
+    checks.append(('vanished production is marked non-candidate',
+                   any(g['slug'] == 'production-one' and not g['candidate_eligible']
+                       and g['kind'] == 'production' for g in d3['gone'])))
     ok = True
     for label, good in checks:
         print(f'  [{"ok " if good else "FAIL"}] {label}')

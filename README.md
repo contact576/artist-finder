@@ -93,14 +93,19 @@ These are hard stops in code, not style preferences.
 
 ---
 
-## Current state — 19 Aug 2026
+## Current state — 21 Aug 2026
+
+This is a private scout, not a forecaster. The current baseline is roughly **669 shows · 585
+active entities · 449 eligible candidates** from one immutable crawl; with one crawl, **RISING =
+0 is the honest result** because trajectory is not observable yet. Google Ads Keyword Planner
+history is available for about 449 candidates (276 US values, 264 Canada values, 47 months).
 
 **Working and proven on live data.** 12 modules, ~5,100 lines, all self-tests passing offline.
 
 | | |
 |---|---|
-| First real crawl | **997 events**, free, in ~90 seconds |
-| Banked | **675 shows · 588 entities** — one snapshot |
+| First real crawl (19 Aug) | **997 events**, free, in ~90 seconds |
+| First-crawl ledger (historical) | **675 shows · 588 entities** — one snapshot |
 | Venue classification | **63%** (up from 43% after mapping real venues) |
 | Cross-check | **8 artists from the Tour Engine's own benchmark** found live — Harsh Gujral (4 shows, large + mid theatre), Rahul Dua (7), Varun Grover, Amit Tandon, Vipul Goyal, Abish Mathew |
 
@@ -113,17 +118,20 @@ Every source was probed on 2026-08-19 and carries `access` and `verified_at` in
 |---|---|---|
 | **AllEvents** | free — plain HTTP + JSON-LD | 15–64/page, venue+date on 100% |
 | **HighApe** | free — plain HTTP + JSON-LD | 265 on one page |
-| **District** | free — plain HTTP + JSON-LD | 12 |
-| **BookMyShow** | Apify browser + IN residential proxy | **~3 usable/page** — see below |
-| Skillbox · Townscript · MeraEvents | 200 OK but no JSON-LD; need an HTML adapter | not yet built |
+| **District** | direct HTTP Next.js EventData on 8 activity routes + `/events` JSON-LD | primary validation; 102 unique / 87 categorized / 102 venue+date (2026-08-21) |
+| **BookMyShow** | optional browser/Apify route | primary validation; live route may be blocked |
+| **MeraEvents** | free/HTML discovery input | discovery-only |
+| Skillbox · Townscript | HTML-only or postponed | discovery-only; Townscript postponed |
 | Insider.in | 502 everywhere — **dead, disabled** | — |
 
-> **BookMyShow was demoted from "primary" by measurement.** It is India's biggest ticketing site,
-> but what it *exposes* is a 10-item JSON-LD teaser of featured events; the real grid renders
-> client-side. Measured across 3 pages: 30 events, only 9 upcoming, and `comedy-shows-bengaluru`
-> returned zero. Worse for this tool specifically — the featured carousel skews to acts that are
-> **already big**, while the artists this scout exists to find are on the self-serve platforms.
-> It stays as a supplement because it does catch arena and festival bookings the long tail misses.
+> **BookMyShow remains a primary validation source, but its live route is optional and low-yield.**
+> The baseline exposed a 10-item JSON-LD teaser of featured events; the real grid renders client-side.
+> Across 3 pages: 30 events, only 9 upcoming, and `comedy-shows-bengaluru` returned zero. A
+> browser/Apify full-grid route is implemented as a reproducible path but may be blocked until
+> configured. District is the other primary validation source; long-tail platforms are discovery
+> inputs only and cannot confirm an artist stage by themselves. District's current direct route was
+> validated read-only on 2026-08-21: 102 unique events, 87 categorized, and 102/102 with venue/date
+> across eight activity routes plus `/events`; counts are dated and can drift.
 
 ---
 
@@ -133,8 +141,9 @@ Fetching is split, and everything below the fetch line is deterministic and offl
 why every module self-tests with no network and no data.
 
 ```
-tools/fetch_listings.py     free structured sources (allevents · highape · district)
-an assistant + Apify        blocked or HTML-only sources (bookmyshow, skillbox, townscript)
+tools/fetch_listings.py     AllEvents/HighApe JSON-LD + District EventData/`/events` JSON-LD
+an assistant + Apify        BookMyShow browser route; Skillbox/MeraEvents HTML if enabled
+                              Townscript is postponed
         both write ->  data/raw/<date>__<source>.json
 scout/run_weekly.py         ingest -> score -> report
 ```
@@ -182,6 +191,16 @@ out/scout_<date>.md         the digest
 
 ---
 
+## Open the private dashboard
+
+On Windows, double-click [`tools/open_dashboard.cmd`](tools/open_dashboard.cmd). It builds the
+current local artifact and opens `http://127.0.0.1:8765/`; it does not deploy or expose anything
+publicly. The dashboard shows **Discovered → Major-platform confirmed → Diaspora validated →
+Forecast ready**, source health, freshness, separate stature/momentum/export signals, and the
+next evidence action. Review BookMyShow/District validation before treating a candidate as ready.
+
+The dashboard is local/private by default. Do not publish it without explicit authorization.
+
 ## Running it
 
 Self-tests need no network and no data:
@@ -218,8 +237,10 @@ cd tools && python fetch_search_volume.py --all
 
 - [x] All 12 modules built and self-testing offline
 - [x] Every source probed and recorded with measured access route
-- [x] Direct JSON-LD fetcher — 997 real events, free
-- [x] BookMyShow proven crawlable via Apify (and honestly demoted on yield)
+- [x] Direct structured fetcher — first crawl banked 997 real events, free; District's current
+  EventData/JSON-LD route was separately validated read-only on 2026-08-21
+- [x] BookMyShow browser/Apify route measured and represented with a reproducible fixture; live
+  access remains optional and may be blocked until configured
 - [x] Genre awareness across comedy, music, devotional, theatre, club, magic, spoken word
 - [x] Two-axis scoring with a disjointness guard
 - [x] Instagram tips inbox with loop-closing
@@ -229,13 +250,11 @@ cd tools && python fetch_search_volume.py --all
 
 ### Next — in order
 
-1. **Google Ads developer token.** The only thing blocking the demand half. Apply at
-   `ads.google.com/aw/apicenter` on the PPC Guru.ca manager account, then run
-   `python tools/setup_credentials.py --oauth`. A few days to approve.
-2. **Let three weeks pass.** Trajectory needs **3 crawls spanning 21 days**. Until then the
-   report says so in its first line and gives a candidate pool, not a shortlist.
-3. **Build the Townscript adapter.** Self-serve, 200 OK, no JSON-LD. The richest remaining
-   early-phase source and the most likely place to find the next Samay Raina.
+1. **Let three weeks pass.** Trajectory needs **3 crawls spanning 21 days**. Until then the
+   report and dashboard say so in their first line and give a candidate pool, not a shortlist.
+2. **Configure BookMyShow only if its extra coverage is worth the browser/Apify cost.** A blocked
+   optional route is shown as source health, never as zero evidence.
+3. **Keep Townscript postponed** until its adapter can be owned, tested, and labeled discovery-only.
 4. **Grow the venue map.** 33% of rooms are still unmapped — a 264-venue long tail that shrinks
    every week.
 5. **Around month six, run `backtest.py`.** It will finally have enough history to say whether
@@ -259,13 +278,14 @@ cd tools && python fetch_search_volume.py --all
 The repository is self-contained. `AGENTS.md` and `RUNBOOK.md` carry everything, all commands are
 plain Python with no absolute paths, and there are no dependencies beyond the standard library.
 
-Two things do **not** live in the repo and will not travel with a clone:
+The one-click dashboard launcher is in the repo and runs locally. Two operational items do **not**
+live in the repo and will not travel with a clone:
 
 - **The Claude Code skill** (`artist-scout`) — a convenience trigger. `RUNBOOK.md` is the actual
   protocol and supersedes it.
-- **The two schedules** — currently Claude Code scheduled tasks, which only fire while that app
-  is open. `RUNBOOK.md` has the Windows Task Scheduler equivalents. Any scheduler works, because
-  every step is an ordinary Python command.
+- **The two schedules** — Windows Task Scheduler tasks are the supported unattended path. The
+  runner writes non-secret status and log metadata to `out/automation/status.json` and
+  `out/automation/*.log`; `RUNBOOK.md` has the install and dry-run commands.
 
 One genuine coupling to know about: this project reads `../Artist Tour Engine/` by relative path,
 for the benchmark gazetteer and for writing dossiers. Both degrade gracefully if it is absent —

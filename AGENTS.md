@@ -97,24 +97,49 @@ this constant first.
 
 The original claim here was "Python cannot crawl". That was too strong, and the probe on
 2026-08-19 disproved it. Python cannot call an MCP tool; it can absolutely make HTTP requests.
-Three of the eight sources answer a plain request AND publish schema.org JSON-LD:
+AllEvents and HighApe answer a plain request with schema.org JSON-LD. District uses a direct HTTP
+Next.js `EventData` route on eight activity pages plus an `/events` JSON-LD fallback. A read-only
+validation run on **2026-08-21** returned **102 unique events, 87 categorized, and 102/102 with
+venue/date**; counts can drift as listings change:
 
 ```
-tools/fetch_listings.py       allevents · highape · district   ~1,000 structured events, free
+tools/fetch_listings.py       allevents · highape (JSON-LD); district (EventData + /events JSON-LD)
 the agent + Apify             bookmyshow (403, needs browser + residential proxy)
-                              skillbox · townscript · meraevents (200 but no JSON-LD)
+                              skillbox · meraevents (HTML-only); townscript (postponed)
         both write ->  data/raw/<date>__<source>.json
 scout/run_weekly.py           ingests → scores → reports
 ```
 
 `data/sources.json` carries an `access` field per source saying which route applies, and
-`tools/probe_sources.py` re-derives it. **Prefer direct JSON-LD wherever a site offers it** —
-it is free, structured, needs no LLM and cannot drift the way a text parser does.
+`tools/probe_sources.py` re-derives it. BookMyShow and District are the primary validation
+sources. AllEvents, HighApe, MeraEvents and other long-tail/self-serve platforms are discovery
+inputs only; Townscript is postponed until a deliberate adapter project. **Prefer direct JSON-LD
+wherever a site offers it** — it is free, structured, needs no LLM and cannot drift the way a
+text parser does.
 
 Everything below the fetch line is deterministic and offline, which is why every module has a
 self-test that needs no network. A failed crawl degrades to "no new data this week" instead of
 a broken pipeline, and a fixed crawl can be re-ingested for the same date safely —
 `snapshot.ingest()` replaces that source's slice of the day.
+
+## Operator surface
+
+The private dashboard is generated locally with `tools/build_dashboard.py` and opened with
+`tools/open_dashboard.cmd` on Windows. It binds to `127.0.0.1` only; do not deploy it publicly
+without explicit authorization. The dashboard shows the four workflow stages — **Discovered →
+Major-platform confirmed → Diaspora validated → Forecast ready** — and keeps India-side
+`momentum` separate from diaspora-side `export_signal`.
+
+With one crawl, zero RISING candidates is an honest baseline result: trajectory is unavailable
+until 3 crawls span 21 days. The dashboard and report must say so rather than manufacture a trend.
+BookMyShow may show `blocked/unconfigured` when its optional browser/Apify route is unavailable;
+that is a source-health state, not zero evidence. Weekly and monthly jobs write non-secret status
+and log metadata under `out/automation/`.
+
+The safe operator flow is: open the local dashboard → review source health and freshness → confirm
+BookMyShow/District evidence → review separate US and Canada demand evidence → approve a dossier
+only when its readiness fields are complete. The only handoff is the designed dossier input under
+`../Artist Tour Engine/artists/`; this project never displays a North American ticket forecast.
 
 ## Pipeline
 
@@ -145,7 +170,7 @@ out/scout_<date>.md                 the digest
 | `genres.py` | genre + entity type, per-genre room scale, vocabulary, export weight. **Runs before name extraction** |
 | `gazetteer.py` | canonical artist names, seeded from the Tour Engine's 41-name benchmark. Stops one performer fragmenting into three entities |
 | `../tools/probe_sources.py` | which sources are reachable and how. Records observations into `data/source_probe.json` |
-| `../tools/fetch_listings.py` | direct JSON-LD fetch for the sources that allow it |
+| `../tools/fetch_listings.py` | direct structured fetch for JSON-LD and District EventData routes |
 | `../tools/setup_credentials.py` | interactive credential entry. Secrets never pass through chat |
 | `model.py` | listing → entity, room, role. **The hard part.** Returns a confidence; below `MIN_TRUST` the row goes to review rather than into the data |
 | `demand.py` | the diaspora axis — stored search volume, MoM/YoY, `export_signal` |
@@ -191,10 +216,11 @@ out/scout_<date>.md                 the digest
   Singh Bassi. A substring version with a length guard rejected exactly that, the commonest shape
   a real tip takes. Tokens must be ≥4 chars and the match must be UNIQUE, so "Singh" matches
   nobody rather than the wrong person.
-- **Google's 12-month window cannot produce year-over-year.** Its last month and first month are
-  ~11 apart and the same-month-last-year figure is simply absent. True YoY needs OUR accumulated
-  history to reach 13+ months. `yoy()` returns `observable: False` until then; `window_trend()`
-  is offered instead and says "NOT a full year" in its own note.
+- **A single Google 12-month window cannot produce year-over-year.** Its last month and first
+  month are only ~11 months apart, and the same-month-last-year figure is absent from that one
+  response. `yoy()` becomes observable as soon as OUR accumulated history contains the latest
+  month and the same month in the prior year; a 48-month pull can provide that pair immediately.
+  Until then `window_trend()` is offered and says "NOT a full year" in its own note.
 - **A category page is supposed to be a subset of `/all`** — comparing the two proves nothing.
   To tell whether a site's category segment actually filters, compare two DIFFERENT category
   pages against each other. Measured on AllEvents: Mumbai comedy-vs-music overlap 0% (real
@@ -286,15 +312,16 @@ a regression to investigate, not a new baseline to accept.
 | Genre `unknown` | **37%**, mostly from sources publishing no category — held out of the ranking |
 | Cross-check | **8 artists from the Tour Engine's 41-name benchmark** found live at plausible rooms |
 
-**BookMyShow was demoted from primary by measurement.** It is India's biggest ticketing site, but
-what it EXPOSES is a 10-item JSON-LD teaser of featured events; the real grid renders
-client-side. Across 3 rendered pages: 30 events, only **9 upcoming**, and
+**District's current route was validated read-only on 2026-08-21:** its eight activity routes use
+Next.js `EventData`, with `/events` as a JSON-LD fallback, yielding 102 unique events, 87 with
+categories, and venue/date on all 102. The count is dated and can drift. **BookMyShow is a primary
+validation source with a measured low-yield live route.** It is India's
+biggest ticketing site, but what it exposed in the baseline was a 10-item JSON-LD teaser; the real
+grid renders client-side. Across 3 rendered pages: 30 events, only **9 upcoming**, and
 `comedy-shows-bengaluru` returned zero — roughly **3 usable rows per page** against AllEvents'
-15-64 free ones. Worse for this tool specifically, the featured carousel skews to acts that are
-ALREADY BIG, which is the ESTABLISHED end, while the artists this scout exists to find are on
-the self-serve platforms. It stays as a small supplement because it does catch arena and
-festival bookings the long tail misses. Extracting its full grid means intercepting its internal
-API — a real project, worth starting only if the long-tail sources prove insufficient.
+15-64 free ones. The full-grid browser/Apify route is therefore optional and may be blocked until
+configured. District remains the other primary validation source; long-tail platforms are still
+valuable discovery inputs but cannot by themselves confirm a stage.
 
 ## Two ways to reach a blocked source, neither needing a new credential
 
@@ -309,10 +336,13 @@ is tidier for unattended use and adds no capability.
 
 ## Still open
 
-- **No source adapter has been run against a live site yet.** `data/sources.json` entries all
-  carry `verify: true`. The first real run must confirm each listing URL and record what it
-  found — Indian ticketing consolidated hard in 2024–25 (District absorbing Paytm Insider) and
-  any of these can move again.
+- **District has a dated live read-only validation.** On 2026-08-21 its direct EventData activity
+  routes plus `/events` fallback returned 102 unique events, 87 categorized, and 102/102 with
+  venue/date. Re-run source validation because counts and routes can drift.
+- **BookMyShow's full live grid remains optional/blocked until its browser/Apify route is configured.**
+  Its reproducible fixture and source-health state remain available; no missing BMS rows are treated
+  as zero evidence. Indian ticketing consolidated hard in 2024–25 (District absorbing Paytm
+  Insider) and any source can move again.
 - **Venue capacities are unverified.** Bands make that tolerable, not correct.
 - **Only the roster gives real ground truth.** When Millennial actually books one of these
   artists, the settled result belongs in the Tour Engine as an `actual`. Twenty of those beat a
