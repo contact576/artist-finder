@@ -20,11 +20,11 @@ is needed, the STRONGER of the two normalised sub-scores carries it — never th
 
 WHAT "YEAR OVER YEAR" HONESTLY MEANS HERE.
 Google returns a rolling 12-month window. Comparing its last month to its first is a ~11-month
-gap, not a year, and the same-month-last-year figure simply is not in the window. True YoY
-therefore needs OUR OWN stored history to reach 13+ months, which it will after a year of
-monthly fetches. Until then `yoy()` reports observable=False and `window_trend()` is offered
-instead, labelled for what it is. Presenting the within-window slope as YoY would be the kind
-of small lie that survives into a pitch deck.
+gap, not a year, and the same-month-last-year figure simply is not in that one response. True
+YoY becomes observable as soon as OUR OWN stored history contains the latest month and the same
+month in the prior year; a 48-month pull can satisfy that immediately. Until that pair exists,
+`yoy()` reports observable=False and `window_trend()` is offered instead, labelled for what it
+is. A 12-month window alone still cannot produce YoY.
 """
 import datetime as dt
 import json
@@ -93,8 +93,9 @@ def record_search(slug, geo, avg_monthly, monthly, name=None, source=None, alias
     """Store one geo's Keyword Planner result.
 
     `monthly` is a list of {'year', 'month', 'searches'} oldest first. Appending each fetch into
-    `history` is what eventually makes true year-over-year possible — the rolling window Google
-    returns never contains the same month twice.
+    `history` preserves each month so true year-over-year can compare the latest month with the
+    same month one year earlier. A single rolling 12-month response never contains that pair,
+    but a longer pull can provide it immediately.
     """
     if geo not in GEOS:
         raise ValueError(f'geo must be one of {GEOS}')
@@ -169,9 +170,10 @@ def mom(slug, geo, d=None):
 def yoy(slug, geo, d=None):
     """TRUE year-over-year: this month against the same month last year.
 
-    Needs 13+ months in our own accumulated history, because Google's rolling window never
-    contains both. Returns observable=False until then rather than substituting the window
-    slope and calling it YoY.
+    Needs the latest month and the same month one year earlier in our accumulated history. A
+    single 12-month Google window cannot contain both, but a 48-month pull can. Returns
+    observable=False until the pair exists rather than substituting the window slope and
+    calling it YoY.
     """
     d = d or load()
     e = (d.get('entities') or {}).get(slug)
@@ -183,8 +185,8 @@ def yoy(slug, geo, d=None):
     prior = next((m for m in s if (m['year'], m['month']) == want), None)
     if prior is None or not prior['searches']:
         return dict(value=None, observable=False,
-                    note=f'no {want[0]}-{want[1]:02d} figure yet — needs ~a year of '
-                         f'monthly fetches (have {len(s)} months)')
+                    note=f'no {want[0]}-{want[1]:02d} figure yet — needs the same month '
+                         f'from the prior year (have {len(s)} stored months)')
     v = (last['searches'] - prior['searches']) / prior['searches']
     return dict(value=round(v, 4), observable=True,
                 note=f"{prior['searches']:,} ({want[0]}) -> {last['searches']:,} "
@@ -352,7 +354,7 @@ def _selftest():
                 m, y = 1, y + 1
         return out
 
-    # A rising artist: 12 months to Jul 2026, climbing.
+    # A rising artist: one 12-month pull to Jul 2026, climbing. It cannot produce YoY.
     record_search('rising-one', 'us', 12000,
                   months(2025, 8, [4000, 4200, 5000, 5500, 6000, 7000, 8000,
                                    9500, 11000, 13000, 15000, 18000]),
@@ -392,7 +394,13 @@ def _selftest():
     eng = for_engine('rising-one')
     checks = [
         ('rising artist scores well', (r_rise['value'] or 0) >= 60),
-        ('YoY correctly unavailable', not yoy('rising-one', 'us')['observable']),
+        ('YoY correctly unavailable without prior-year pair',
+         not yoy('rising-one', 'us')['observable']),
+        ('YoY available when prior-year pair exists',
+         record_search('rising-one', 'us', 12000,
+                       months(2026, 8, [20000]), name='Rising One',
+                       source='keyword planner') is not None
+         and yoy('rising-one', 'us')['observable']),
         ('window trend available', window_trend('rising-one', 'us')['observable']),
         ('contamination discounts volume', (r_cont['value'] or 100) < (r_rise['value'] or 0)),
         ('contaminated flag set', r_cont['contaminated'] is True),
