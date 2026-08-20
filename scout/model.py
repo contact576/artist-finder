@@ -360,22 +360,36 @@ def normalise_event(raw, source_key, seen_at):
         # Canonicalise against known artists so "Vipul Goyal Unleashed" and "Vipul Goyal" are
         # ONE entity. Fragmenting a performer splits the escalation trajectory this whole tool
         # is built to measure — three quiet acts instead of one rising one.
-        entities = []
+        entities, unkeyable = [], []
         for n in ex['names']:
             canon, why = gazetteer.canonical(n)
-            e = dict(name=canon, slug=slugify(canon), kind='artist')
+            slug = slugify(canon)
+            # An empty slug is not an identifier. Admitting it would merge every non-Latin
+            # entity under the same dictionary key downstream, which invents a trajectory.
+            if not slug:
+                unkeyable.append(canon)
+                continue
+            e = dict(name=canon, slug=slug, kind='artist')
             if why:
                 e['raw_name'], e['canonicalised'] = n, why
             entities.append(e)
         role, role_certain, lineup = ex['role'], ex['role_certain'], ex['lineup_size']
         conf, reason = ex['confidence'], ex['reason']
+        if unkeyable:
+            conf = 0.0
+            reason = (f'{reason}; canonical slug unavailable for {", ".join(unkeyable)} — '
+                      'held for review')
     else:
         # A production or festival is its own entity. Confidence is high because nothing is
         # being inferred — we are recording the title, not guessing a person out of it.
         nm = _production_name(title)
-        entities = [dict(name=nm, slug=slugify(nm), kind=etype)]
+        slug = slugify(nm)
+        entities = [dict(name=nm, slug=slug, kind=etype)] if slug else []
         role, role_certain, lineup = etype, True, 1
         conf, reason = 0.9, f'{etype}: title is the entity, no name extraction attempted'
+        if not slug:
+            conf = 0.0
+            reason += '; canonical slug unavailable — held for review'
 
     return dict(
         source=source_key, source_tier=tier, source_tier_rank=trank,
@@ -453,6 +467,33 @@ def _selftest():
         ok = ok and good
         print(f'  [{"ok " if good else "FAIL"}] {title[:42]:44} conf={g["confidence"]:.2f} '
               f'-> {"kept" if trusted else "review"}')
+
+    # A non-Latin name may parse cleanly but still have no stable slug under the deliberately
+    # ASCII-compatible bridge convention. It belongs in review, never under the empty key.
+    unicode_artist = normalise_event(
+        dict(title='ಯಕ್ಷ ಕನಸು - 2026', category='Comedy', url='https://fixture/unicode-artist',
+             date='2026-09-01'), 'allevents', '2026-08-21')
+    unicode_production = normalise_event(
+        dict(title='মেঘের সঙ্গে চাঁদের দেখা', category='Theatre',
+             url='https://fixture/unicode-production', date='2026-09-01'),
+        'allevents', '2026-08-21')
+    latin = normalise_event(
+        dict(title='Kanan Gill: Yes I am Fine', category='Comedy', url='https://fixture/latin',
+             date='2026-09-01'), 'allevents', '2026-08-21')
+    slug_checks = [
+        ('unkeyable non-Latin artist is review-only with no blank entity',
+         not unicode_artist['trusted'] and not unicode_artist['entities'] and
+         'canonical slug unavailable' in unicode_artist['parse_reason']),
+        ('unkeyable non-Latin production is review-only with no blank entity',
+         not unicode_production['trusted'] and not unicode_production['entities'] and
+         'canonical slug unavailable' in unicode_production['parse_reason']),
+        ('Latin canonical slug behavior remains accepted',
+         latin['trusted'] and latin['entities'][0]['slug'] == 'kanan-gill'),
+    ]
+    print('\n  canonical slug guard:')
+    for label, good in slug_checks:
+        print(f'  [{"ok " if good else "FAIL"}] {label}')
+        ok = ok and bool(good)
 
     print('\n  venue classification:')
     for v, c in [('The Habitat', 'Mumbai'), ('Shanmukhananda Hall', 'Mumbai'),

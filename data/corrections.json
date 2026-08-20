@@ -170,6 +170,31 @@
    "action": "suppress",
    "reviewed_at": "2026-08-21",
    "reason": "Brand travel-event title is not a performer booking."
+  },
+  "rocky-s-table": {
+   "action": "suppress",
+   "reviewed_at": "2026-08-21",
+   "reason": "Culinary event title, not a performer booking."
+  },
+  "noida-comedy-bar": {
+   "action": "suppress",
+   "reviewed_at": "2026-08-21",
+   "reason": "Comedy-show and venue brand, not a performer identity."
+  },
+  "timezone-unity-one-elegante": {
+   "action": "suppress",
+   "reviewed_at": "2026-08-21",
+   "reason": "Entertainment venue/activity listing, not a performer booking."
+  },
+  "indian-aperitivo": {
+   "action": "suppress",
+   "reviewed_at": "2026-08-21",
+   "reason": "Food experience listing, not a performer identity."
+  },
+  "rajat-sood-delhi": {
+   "set": {"name": "Rajat Sood"},
+   "reviewed_at": "2026-08-21",
+   "reason": "Title I Am Worth It Ft. Rajat Sood | Delhi identifies Rajat Sood; Delhi is a location tail."
   }
  }
 }
