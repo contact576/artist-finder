@@ -1,0 +1,48 @@
+[
+ {
+  "url": "https://in.bookmyshow.com/events/anubhav-singh-bassi-new-material/ET00355125",
+  "metadata": {
+   "canonicalUrl": "https://in.bookmyshow.com/events/anubhav-singh-bassi-new-material/ET00355125",
+   "jsonLd": [
+    {
+     "@context": "https://schema.org",
+     "@type": "ComedyEvent",
+     "name": "Kisi Ko Batana Mat Ft. Anubhav Singh Bassi",
+     "url": "https://in.bookmyshow.com/events/anubhav-singh-bassi-new-material/ET00355125",
+     "startDate": "2099-09-11T17:00:00+05:30",
+     "endDate": "2099-09-11T19:00:00+05:30",
+     "doorTime": "2099-09-11T16:30:00+05:30",
+     "performer": {"@type": "Person", "name": "Anubhav Singh Bassi"},
+     "location": {
+      "@type": "Place",
+      "name": "Fixture Auditorium Ahmedabad",
+      "address": {"@type": "PostalAddress", "addressLocality": "Ahmedabad"}
+     }
+    }
+   ]
+  }
+ },
+ {
+  "crawl": {
+   "loadedUrl": "https://in.bookmyshow.com/events/anubhav-singh-bassi-new-material/ET00355125"
+  },
+  "metadata": {
+   "jsonLd": [
+    {
+     "@context": "https://schema.org",
+     "@type": "ComedyEvent",
+     "name": "Kisi Ko Batana Mat Ft. Anubhav Singh Bassi",
+     "url": "https://in.bookmyshow.com/events/anubhav-singh-bassi-new-material/ET00355125",
+     "startDate": "2099-09-13T21:00:00+05:30",
+     "endDate": "2099-09-13T23:00:00+05:30",
+     "performer": [{"@type": "Person", "name": "Anubhav Singh Bassi"}],
+     "location": {
+      "@type": "Place",
+      "name": "Fixture Auditorium Surat",
+      "address": {"@type": "PostalAddress", "addressLocality": "Surat"}
+     }
+    }
+   ]
+  }
+ }
+]

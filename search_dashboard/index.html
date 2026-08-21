@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <link rel="icon" href="data:,">
+  <title>Artist Search Intelligence</title>
+  <link rel="stylesheet" href="app.css">
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#artists">Skip to artist table</a>
+  <div id="loading" role="status" aria-live="polite"><span>Loading monthly search intelligence…</span></div>
+  <main class="app-shell">
+    <aside class="sidebar" aria-label="Artist categories">
+      <div class="brand"><span>Artist Search<br>Intelligence</span></div>
+      <nav><p class="nav-label">Categories</p><div id="category-nav" class="category-nav" role="list"></div></nav>
+      <p class="sidebar-note">Verified artists and evidence-sourced research candidates form the market map. Legacy crawl phrases stay excluded by default.</p>
+    </aside>
+    <section class="workspace">
+      <header class="topbar">
+        <div class="mobile-brand"><span>Artist Search Intelligence</span></div>
+        <div class="source-meta"><span>Data source</span><strong id="network-badge">Google Search + Partners</strong></div>
+        <div class="source-meta"><span>Last updated</span><strong id="generated-at">Loading…</strong></div>
+        <label class="month-control">Google month <select id="month-select" aria-label="Google month"></select></label>
+      </header>
+      <div class="content">
+        <section class="page-heading" aria-labelledby="page-title">
+          <div><p class="eyebrow">Private monthly research workspace</p><h1 id="page-title">Artist demand finder</h1><p>Google-estimated search demand by market. India, USA, and Canada are stored and calculated separately.</p></div>
+          <span class="badge neutral" id="freshness-badge">Loading freshness…</span>
+        </section>
+        <section class="notice" aria-labelledby="caveat-title"><div><h2 id="caveat-title">Search demand, not ticket sales</h2><p id="caveat">Loading caveat…</p></div></section>
+        <section class="notice warning hidden" id="network-warning" role="status" aria-live="polite"></section>
+        <section class="market-toolbar" aria-label="Market and table controls">
+          <fieldset class="market-control"><legend>Market comparison — never summed</legend><div class="segments" id="geo-toggle"><button type="button" data-geo="in" class="active" aria-pressed="true">India</button><button type="button" data-geo="us" aria-pressed="false">USA</button><button type="button" data-geo="ca" aria-pressed="false">Canada</button></div></fieldset>
+          <label>Minimum prior volume for % gainers <select id="minimum-select"><option value="10">10</option><option value="100" selected>100</option><option value="1000">1,000</option><option value="10000">10,000</option></select></label>
+        </section>
+        <section class="metric-grid" aria-label="Selected market overview">
+          <article><span>Monthly search demand</span><strong id="market-total">—</strong><small id="market-total-note">Verified roster · selected market</small></article>
+          <article><span>Month-on-month change</span><strong id="market-mom">—</strong><small id="market-mom-note">Comparable verified artists only</small></article>
+          <article><span>Verified artists</span><strong id="verified-count">—</strong><small>Individually reviewed identities</small></article>
+          <article><span>Needs review</span><strong id="review-count">—</strong><small>Candidate names and keyword ideas</small></article>
+        </section>
+        <section class="comparison" aria-labelledby="comparison-title"><div class="section-head"><div><p class="eyebrow">Market comparison</p><h2 id="comparison-title">Separate search signals at a glance</h2></div><p class="muted">A comparison aid only: no combined USA + Canada metric is calculated or displayed.</p></div><div id="market-comparison" class="market-comparison"></div></section>
+        <section class="panel artists" id="artists" aria-labelledby="artists-title">
+          <div class="section-head"><div><p class="eyebrow">Artist market matrix</p><h2 id="artists-title">Artists in <span class="market-name">India</span></h2></div><span id="artist-result-count" class="badge neutral">—</span></div>
+          <div class="filters"><label class="search-label">Search artist or alias<input id="artist-search" type="search" placeholder="Search artist name" autocomplete="off"></label><label>Category<select id="genre-filter"><option value="">All combined</option></select></label><label>Roster scope<select id="status-filter"><option value="research" selected>Verified + researched</option><option value="verified">Verified only</option><option value="candidate">All review candidates</option></select></label></div>
+          <div class="table-wrap"><table class="artist-table"><thead><tr><th><button class="sort" data-sort="name">Artist</button></th><th>Category</th><th>Status</th><th><button class="sort" data-sort="latest">Monthly searches</button></th><th><button class="sort" data-sort="absolute">MoM change</button></th><th><button class="sort" data-sort="mom">MoM</button></th><th><button class="sort" data-sort="average3">3-month avg</button></th><th><button class="sort" data-sort="average12">12-month avg</button></th><th><button class="sort" data-sort="yoy">YoY</button></th><th>Mapping quality</th><th>Last fetched</th><th>12-month trend</th></tr></thead><tbody id="artist-body"></tbody></table></div>
+          <nav class="pagination" aria-label="Artist table pages"><button id="prev-page" type="button">Previous</button><div id="page-buttons"></div><label>Rows per page<select id="page-size"><option value="25">25</option><option value="50">50</option><option value="100">100</option></select></label><button id="next-page" type="button">Next</button></nav>
+        </section>
+        <section class="analysis-grid" aria-label="Gainers and underdogs">
+          <section class="panel"><div class="section-head"><div><p class="eyebrow">Fastest gainers</p><h2>Largest absolute gains</h2></div></div><div id="absolute-risers" class="ranking"></div></section>
+          <section class="panel"><div class="section-head"><div><p class="eyebrow">Fastest gainers</p><h2>Largest percentage gains</h2></div></div><div id="percentage-risers" class="ranking"></div></section>
+          <section class="panel"><div class="section-head"><div><p class="eyebrow">Underdogs to watch</p><h2>Lower-volume gainers</h2></div></div><div id="underdogs" class="ranking"></div></section>
+        </section>
+        <section class="panel genres" aria-labelledby="genres-title"><div class="section-head"><div><p class="eyebrow">Verified tracked roster</p><h2 id="genres-title">Genre signals in <span class="market-name">India</span></h2></div><p class="muted">One approved keyword per verified artist. Candidates remain visible in the research backlog but never inflate these totals.</p></div><div id="genre-chart" class="genre-chart" aria-label="Genre search-demand ranking"></div></section>
+        <section class="review-grid">
+          <section class="panel candidate-panel" aria-labelledby="candidate-title"><div class="section-head"><div><p class="eyebrow">Review candidate state</p><h2 id="candidate-title">New-name candidate inbox</h2></div><span class="badge warn" id="candidate-count">—</span></div><p class="muted">Related Keyword Planner phrases are discovery clues—not automatic artist identities or genre-total inputs.</p><div class="table-wrap small-table"><table><thead><tr><th>Candidate phrase</th><th>Niche</th><th>India idea volume</th><th>State</th><th>Last seen</th></tr></thead><tbody id="candidate-body"></tbody></table></div></section>
+          <section class="panel health" aria-labelledby="health-title"><div class="section-head"><div><p class="eyebrow">Measurement health</p><h2 id="health-title">Trust the instrument</h2></div></div><div id="health-grid" class="health-grid"></div><div id="automation" class="automation"></div></section>
+        </section>
+      </div>
+    </section>
+  </main>
+  <dialog id="artist-detail" aria-labelledby="detail-name"><button id="close-detail" class="dialog-close" type="button">Close</button><div id="detail-content"></div></dialog>
+</body>
+</html>

@@ -36,9 +36,15 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import model  # noqa: E402
 
 PATH = os.path.join(model.BASE, 'data', 'demand.json')
+MEASUREMENTS_DIR = os.path.join(model.BASE, 'data', 'search_measurements')
+_MEASUREMENT_SECRET_WORDS = ('token', 'secret', 'password', 'authorization', 'cookie', 'api_key', 'developer_token', 'client_secret', 'refresh_token')
 
+# Search intelligence tracks all three geographies independently. ``GEOS`` remains the
+# diaspora-only pair used by export_signal and the Tour Engine handoff; adding India to that
+# loop would quietly turn home-market awareness into diaspora evidence.
+SEARCH_GEOS = ('in', 'us', 'ca')
 GEOS = ('us', 'ca')
-GEO_CRITERIA = {'us': '2840', 'ca': '2124'}          # Google Ads geo target constants
+GEO_CRITERIA = {'in': '2356', 'us': '2840', 'ca': '2124'}  # Google Ads geo targets
 
 # Markets where a show is mostly sold to the South Asian diaspora. A date in one of these is
 # far better evidence for a North American tour than a date in, say, Mumbai — it is the same
@@ -74,22 +80,95 @@ def save(d):
     return PATH
 
 
+def _measurement_safe(value):
+    """Reject credentials before an immutable measurement artifact reaches disk."""
+    if isinstance(value, dict):
+        for key, item in value.items():
+            if any(word in str(key).casefold() for word in _MEASUREMENT_SECRET_WORDS):
+                raise ValueError(f'search measurement contains prohibited key: {key}')
+            _measurement_safe(item)
+    elif isinstance(value, list):
+        for item in value:
+            _measurement_safe(item)
+    elif isinstance(value, str) and any(word in value.casefold() for word in
+                                         ('bearer ', 'developer_token=', 'refresh_token=')):
+        raise ValueError('search measurement contains credential-like text')
+
+
+def measurement_path(run_at, directory=None):
+    """Stable per-run path; a collision is an error, never an overwrite."""
+    stamp = ''.join(ch for ch in str(run_at) if ch.isalnum())
+    if not stamp:
+        raise ValueError('search measurement needs a run timestamp')
+    return os.path.join(directory or MEASUREMENTS_DIR, f'search_measurement_{stamp}.json')
+
+
+def assert_measurement_available(run_at, directory=None):
+    path = measurement_path(run_at, directory)
+    if os.path.exists(path):
+        raise FileExistsError(f'immutable search measurement already exists: {path}')
+    return path
+
+
+def write_search_measurement(record, directory=None):
+    """Atomically persist one compact, non-secret, immutable Keyword Planner run manifest.
+
+    The artifact intentionally contains only per-artist mapping evidence and each geo's latest
+    month/value. The 48-month source series stays solely in demand.json/history.
+    """
+    if not isinstance(record, dict) or record.get('kind') != 'keyword_search_measurement':
+        raise ValueError('invalid search measurement record')
+    for field in ('run_at', 'google_month', 'network', 'language', 'geos', 'artists'):
+        if field not in record:
+            raise ValueError(f'search measurement missing {field}')
+    if tuple(record.get('geos') or ()) != SEARCH_GEOS:
+        raise ValueError('search measurement geographies must be India, USA, Canada separately')
+    if not isinstance(record.get('artists'), list):
+        raise ValueError('search measurement artists must be a list')
+    _measurement_safe(record)
+    path = assert_measurement_available(record['run_at'], directory)
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    tmp = path + '.tmp'
+    with open(tmp, 'w', encoding='utf-8', newline='\n') as f:
+        json.dump(record, f, indent=2, ensure_ascii=False, sort_keys=True)
+        f.write('\n')
+    # If another run created the final path between our first check and replace, retain both
+    # histories by failing and leaving the temporary file removable instead of clobbering it.
+    if os.path.exists(path):
+        os.remove(tmp)
+        raise FileExistsError(f'immutable search measurement already exists: {path}')
+    os.replace(tmp, path)
+    return path
+
 def _entry(d, slug, name=None):
-    return d.setdefault('entities', {}).setdefault(slug, dict(
+    e = d.setdefault('entities', {}).setdefault(slug, dict(
         slug=slug, name=name or slug, aliases=[],
         search={g: dict(avg_monthly=None, monthly=[], fetched_at=None, source=None)
-                for g in GEOS},
-        history={g: [] for g in GEOS},          # our own accumulating record, for true YoY
+                for g in SEARCH_GEOS},
+        history={g: [] for g in SEARCH_GEOS},   # our own accumulating record, for true YoY
         contamination=dict(qualified_share=None, checked_at=None),
         trends=dict(direction=None, slope=None, fetched_at=None),
         international=dict(dates=[], checked_at=None, status='not_checked',
                            note=None, method=None)))
+    # Backward-compatible schema migration in memory. Existing retained demand files have only
+    # US and CA; they are not rewritten until the next deliberate monthly save.
+    e.setdefault('search', {})
+    e.setdefault('history', {})
+    for geo in SEARCH_GEOS:
+        e['search'].setdefault(geo, dict(avg_monthly=None, monthly=[], fetched_at=None,
+                                        source=None))
+        e['history'].setdefault(geo, [])
+    if name and not e.get('name'):
+        e['name'] = name
+    return e
 
 
 # ------------------------------------------------------------------ recording
 
 def record_search(slug, geo, avg_monthly, monthly, name=None, source=None, alias_used=None,
-                  data=None, save_now=True):
+                  data=None, save_now=True, keyword=None, network=None,
+                  mapping_mode=None, result_text=None, close_variants=None,
+                  language=None, geo_target=None, fetched_at=None):
     """Store one geo's Keyword Planner result.
 
     `monthly` is a list of {'year', 'month', 'searches'} oldest first. Appending each fetch into
@@ -97,13 +176,17 @@ def record_search(slug, geo, avg_monthly, monthly, name=None, source=None, alias
     same month one year earlier. A single rolling 12-month response never contains that pair,
     but a longer pull can provide it immediately.
     """
-    if geo not in GEOS:
-        raise ValueError(f'geo must be one of {GEOS}')
+    if geo not in SEARCH_GEOS:
+        raise ValueError(f'geo must be one of {SEARCH_GEOS}')
     d = data if data is not None else load()
     e = _entry(d, slug, name)
     e['search'][geo] = dict(avg_monthly=avg_monthly, monthly=list(monthly or []),
-                            fetched_at=dt.date.today().isoformat(), source=source,
-                            alias_used=alias_used)
+                            fetched_at=(fetched_at or dt.datetime.now().astimezone().isoformat(timespec='seconds')), source=source,
+                            alias_used=alias_used, keyword=keyword,
+                            network=network, mapping_mode=mapping_mode,
+                            result_text=result_text,
+                            close_variants=list(close_variants or []),
+                            language=language, geo_target=geo_target)
     seen = {(h['year'], h['month']) for h in e['history'][geo]}
     for m in (monthly or []):
         if (m['year'], m['month']) not in seen:
@@ -112,6 +195,18 @@ def record_search(slug, geo, avg_monthly, monthly, name=None, source=None, alias
     if save_now:
         save(d)
     return e['search'][geo]
+
+
+def record_run(run, data=None, save_now=True):
+    """Retain non-secret monthly request/mapping health for dashboard observability."""
+    d = data if data is not None else load()
+    row = dict(run or {})
+    row.setdefault('recorded_at', dt.datetime.now().astimezone().isoformat(timespec='seconds'))
+    d.setdefault('runs', []).append(row)
+    d['runs'] = d['runs'][-36:]
+    if save_now:
+        save(d)
+    return row
 
 
 def record_contamination(slug, qualified_share, name=None, data=None, save_now=True):
@@ -341,9 +436,11 @@ def for_engine(slug, d=None):
 
 
 def _selftest():
-    global PATH
+    global PATH, MEASUREMENTS_DIR
     import tempfile
-    PATH = os.path.join(tempfile.mkdtemp(), 'demand.json')
+    temp_root = tempfile.mkdtemp()
+    PATH = os.path.join(temp_root, 'demand.json')
+    MEASUREMENTS_DIR = os.path.join(temp_root, 'measurements')
 
     def months(start_y, start_m, vals):
         out, y, m = [], start_y, start_m
@@ -389,6 +486,25 @@ def _selftest():
             print(f'      {mark}{p["signal"]:14} contrib={str(p["contribution"]):>6}  '
                   f'{p["note"][:62]}')
 
+    manifest = dict(kind='keyword_search_measurement', schema_version=1,
+                    run_at='2026-08-21T12:00:00+05:30', google_month='2026-07',
+                    network='GOOGLE_SEARCH_AND_PARTNERS', language='1000',
+                    geos=list(SEARCH_GEOS), artists=[dict(slug='rising-one',
+                    approved_keyword='Rising One', geos=dict(us=dict(mapping_state='exact',
+                    result_text='Rising One', latest=dict(month='2026-07', value=18000,
+                    state='usable'))))])
+    manifest_path = write_search_measurement(manifest)
+    immutable_rejected = False
+    try:
+        write_search_measurement(manifest)
+    except FileExistsError:
+        immutable_rejected = True
+    secret_rejected = False
+    try:
+        unsafe = dict(manifest, run_at='2026-08-21T12:00:01+05:30', refresh_token='nope')
+        write_search_measurement(unsafe)
+    except ValueError:
+        secret_rejected = True
     r_rise = export_signal('rising-one')
     r_cont = export_signal('contaminated-one')
     eng = for_engine('rising-one')
@@ -415,6 +531,8 @@ def _selftest():
         ('both geos still reported separately',
          r_rise['per_geo']['us']['avg_monthly'] == 12000
          and r_rise['per_geo']['ca']['avg_monthly'] == 3000),
+        ('compact measurement is immutable', os.path.exists(manifest_path) and immutable_rejected),
+        ('measurement rejects secrets', secret_rejected),
     ]
     print()
     ok = True

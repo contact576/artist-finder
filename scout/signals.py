@@ -309,7 +309,9 @@ def _selftest():
     for d, rows in weeks.items():
         for src in {r[0] for r in rows}:
             snapshot.ingest(
-                [dict(title=t, venue=v, city=c, url=u, date=dd, status=st)
+                [dict(title=t, venue=v, city=c, url=u, date=dd, status=st,
+                      platform_performers=([t.split(':', 1)[0]]
+                                           if src == 'bookmyshow' else []))
                  for (s, t, v, c, u, dd, st) in rows if s == src], src, d)
     snapshot.rebuild_ledger()
 

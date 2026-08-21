@@ -346,13 +346,21 @@ def _selftest():
                                          'Comedy')),
                        ('townscript', ev('Ira Bose Live', 'Blue Frog Basement', 'Pune',
                                          'https://t/9', '2026-08-05', 'Available', 'Comedy')),
-                       ('bookmyshow', ev('Mystery Act Nobody Filed', 'Some Hall', 'Surat',
+                       ('bookmyshow', ev('Arjun Mehta Live', 'Some Hall', 'Surat',
                                          'https://b/99', '2026-10-09', 'Available', None))],
     }
     health = []
     for d, rows in weeks.items():
         for src in sorted(set(r[0] for r in rows)):
-            health = [snapshot.ingest([e for (s, e) in rows if s == src], src, d)]
+            payload = []
+            for source, event in rows:
+                if source != src:
+                    continue
+                performer = ('Neel Sharma' if event['title'].startswith('Neel Sharma') else
+                             'Meera Joshi' if 'Meera Joshi' in event['title'] else
+                             'Arjun Mehta' if event['title'].startswith('Arjun Mehta') else None)
+                payload.append(dict(event, platform_performers=[performer] if performer else []))
+            health = [snapshot.ingest(payload, src, d)]
     snapshot.rebuild_ledger()
 
     def months(sy, sm, vals):

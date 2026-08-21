@@ -336,7 +336,14 @@ def _selftest():
     }
     for d, rows in weeks.items():
         for src in sorted({r[0] for r in rows}):
-            snapshot.ingest([e for (sname, e) in rows if sname == src], src, d)
+            payload = []
+            for sname, event in rows:
+                if sname != src:
+                    continue
+                performer = ('Neel Sharma' if event['title'].startswith('Neel Sharma') else
+                             'Zara Qureshi' if event['title'].startswith('Zara Qureshi') else None)
+                payload.append(dict(event, platform_performers=[performer] if performer else []))
+            snapshot.ingest(payload, src, d)
     snapshot.rebuild_ledger()
 
     # Only Neel has had demand fetched. Everyone else is deliberately unknown on that axis.

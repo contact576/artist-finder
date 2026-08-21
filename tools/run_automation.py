@@ -71,10 +71,18 @@ def result_for(mode, steps):
     return 'failed', f'Failed (exit {code})', code
 
 class Tee:
-    def __init__(self, path): os.makedirs(os.path.dirname(path), exist_ok=True); self.file = open(path, 'a', encoding='utf-8')
+    def __init__(self, path=None):
+        self.file = None
+        if path:
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            self.file = open(path, 'a', encoding='utf-8')
     def write(self, line):
-        safe = redact(line); print(safe, end=''); self.file.write(safe); self.file.flush()
-    def close(self): self.file.close()
+        safe = redact(line); print(safe, end='')
+        if self.file:
+            self.file.write(safe); self.file.flush()
+    def close(self):
+        if self.file:
+            self.file.close()
 
 def acquire_lock(mode):
     os.makedirs(OUT, exist_ok=True)
@@ -116,28 +124,67 @@ def weekly(date, dry_run, tee, env, timeout_seconds):
     steps.append(planned_step('dashboard', dashboard, tee) if dry_run else run_step('dashboard', dashboard, tee, env, timeout_seconds))
     return steps
 
-def monthly(history_months, tee, env, timeout_seconds):
-    demand = [sys.executable, os.path.join(HERE, 'fetch_search_volume.py'), '--all', '--history-months', str(history_months)]
-    dashboard = [sys.executable, os.path.join(HERE, 'build_dashboard.py'), '--mode', 'live']
-    return [run_step('demand', demand, tee, env, timeout_seconds), run_step('dashboard', dashboard, tee, env, timeout_seconds)]
+def _skipped_step(name, args, reason):
+    return dict(name=name, command=command(args), started_at=now(), finished_at=now(),
+                exit_code=None, skipped=True, reason=reason)
+
+
+def _fail_fast(specs, runner):
+    """Run ordered monthly stages; explicitly skip every downstream stage after failure."""
+    steps = []
+    for index, (name, args) in enumerate(specs):
+        step = runner(name, args)
+        steps.append(step)
+        if step.get('exit_code') not in (0, None):
+            reason = f'skipped because upstream {name} failed (exit {step["exit_code"]})'
+            steps.extend(_skipped_step(later_name, later_args, reason)
+                         for later_name, later_args in specs[index + 1:])
+            break
+    return steps
+
+
+def monthly(history_months, tee, env, timeout_seconds, dry_run=False):
+    if dry_run:
+        # Pure checks only: no roster/demand/dashboard artifact/status/log/lock write and no API call.
+        specs = [('roster_selftest', [sys.executable, os.path.join(HERE, 'refresh_artist_roster.py'), '--self-test']),
+                 ('demand_selftest', [sys.executable, os.path.join(HERE, 'fetch_search_volume.py'), '--self-test']),
+                 ('dashboard_selftest', [sys.executable, os.path.join(HERE, 'build_dashboard.py'), '--selftest'])]
+    else:
+        specs = [('roster_discovery', [sys.executable, os.path.join(HERE, 'refresh_artist_roster.py'),
+                                        '--seed', '--discover', '--limit-ideas', '200']),
+                 ('demand', [sys.executable, os.path.join(HERE, 'fetch_search_volume.py'), '--all',
+                              '--include-candidates', '--history-months', str(history_months)]),
+                 ('dashboard', [sys.executable, os.path.join(HERE, 'build_dashboard.py'), '--mode', 'live'])]
+    return _fail_fast(specs, lambda name, args: run_step(name, args, tee, env, timeout_seconds))
 
 def selftest():
     checks = [('secrets are redacted', '[REDACTED]' in redact('Authorization Bearer apify_api_abcdefghijklmnopqrstuvwxyz') and 'abcdefghijklmnopqrstuvwxyz' not in redact('refresh_token=1//abcdefghijklmnopqrstuvwxyz')),
               ('weekly cadence is Monday', next_run('weekly', dt.datetime(2026, 8, 21, 10)).startswith('2026-08-24T09:30')),
               ('monthly cadence is day three', next_run('monthly', dt.datetime(2026, 8, 21, 10)).startswith('2026-09-03T09:40')),
               ('fetch-only failure is partial', result_for('weekly', [dict(name='fetch', exit_code=2), dict(name='scout', exit_code=0), dict(name='dashboard', exit_code=0)])[0] == 'partial_failure'),
-              ('compute failure is failed', result_for('weekly', [dict(name='fetch', exit_code=0), dict(name='scout', exit_code=1), dict(name='dashboard', exit_code=0)])[0] == 'failed')]
+              ('compute failure is failed', result_for('weekly', [dict(name='fetch', exit_code=0), dict(name='scout', exit_code=1), dict(name='dashboard', exit_code=0)])[0] == 'failed'),
+              ('monthly failure explicitly skips downstream', all(step.get('skipped') for step in _fail_fast([('a', ['a']), ('b', ['b']), ('c', ['c'])], lambda name, args: dict(name=name, exit_code=(9 if name == 'a' else 0)))[1:]))]
     ok = True
     for label, good in checks: print(f'  [{"ok " if good else "FAIL"}] {label}'); ok = ok and bool(good)
     print(f'\n  {"ALL CHECKS PASS" if ok else "SELF-TEST FAILED"}'); return 0 if ok else 1
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(); ap.add_argument('mode', choices=('weekly', 'monthly')); ap.add_argument('--date', default=dt.date.today().isoformat()); ap.add_argument('--dry-run', action='store_true', help='weekly only; writes no project data'); ap.add_argument('--history-months', type=int, default=48); ap.add_argument('--step-timeout-seconds', type=int, default=STEP_TIMEOUT_SECONDS, help='per child command timeout; default 1800'); ap.add_argument('--self-test', action='store_true', help='run pure automation checks; writes nothing')
+    ap = argparse.ArgumentParser(); ap.add_argument('mode', choices=('weekly', 'monthly')); ap.add_argument('--date', default=dt.date.today().isoformat()); ap.add_argument('--dry-run', action='store_true', help='weekly preserves its existing dry-run; monthly runs pure self-checks and writes nothing at all'); ap.add_argument('--history-months', type=int, default=48); ap.add_argument('--step-timeout-seconds', type=int, default=STEP_TIMEOUT_SECONDS, help='per child command timeout; default 1800'); ap.add_argument('--self-test', action='store_true', help='run pure automation checks; writes nothing')
     a = ap.parse_args(argv)
     if a.self_test: return selftest()
-    if a.dry_run and a.mode != 'weekly': ap.error('--dry-run is available only for weekly')
     if a.step_timeout_seconds < 1: ap.error('--step-timeout-seconds must be positive')
-    stamp = dt.datetime.now().strftime('%Y%m%d_%H%M%S'); log = os.path.join(OUT, f'{a.mode}_{stamp}.log'); env = os.environ.copy(); env['PYTHONIOENCODING'] = 'utf-8'; env['PYTHONUTF8'] = '1'
+    env = os.environ.copy(); env['PYTHONIOENCODING'] = 'utf-8'; env['PYTHONUTF8'] = '1'; env['PYTHONDONTWRITEBYTECODE'] = '1'
+    if a.mode == 'monthly' and a.dry_run:
+        tee = Tee()
+        try:
+            tee.write('Artist Scout monthly dry run: pure self-checks only; no status/log/lock/artifact write.\n')
+            steps = monthly(a.history_months, tee, env, a.step_timeout_seconds, dry_run=True)
+            state, result, code = result_for('monthly', steps)
+            tee.write(f'completed {state} with exit code {code}; no persistent status was written.\n')
+            return code
+        finally:
+            tee.close()
+    stamp = dt.datetime.now().strftime('%Y%m%d_%H%M%S'); log = os.path.join(OUT, f'{a.mode}_{stamp}.log')
     acquire_lock(a.mode); tee = Tee(log); status = read_status(); job = dict(state='running', result='Running', started_at=now(), finished_at=None, exit_code=None, artifact_date=a.date, log_path=relative(log), next_run=next_run(a.mode), credentials_available=credential_summary(), dry_run=bool(a.dry_run), steps=[], note='Running from a local scheduled-compatible command path.')
     status[a.mode] = job; status['updated_at'] = now(); write_status(status)
     try:

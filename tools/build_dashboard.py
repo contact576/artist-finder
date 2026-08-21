@@ -1,4 +1,4 @@
-"""Build the private Artist Finder static dashboard.
+"""Build the private monthly Artist Search Intelligence dashboard.
 
 This is a scheduled-task-safe, stdlib-only projection step.  It reads derived
 scout data, writes only the chosen dashboard output directory, and never reads
@@ -21,14 +21,14 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 BASE = HERE.parent
 SCOUT = BASE / 'scout'
-TEMPLATE = BASE / 'dashboard'
+TEMPLATE = BASE / 'search_dashboard'
 DEFAULT_LIVE = BASE / 'out' / 'dashboard'
 DEFAULT_FIXTURE = BASE / 'out' / 'dashboard-fixture'
 
 if str(SCOUT) not in sys.path:
     sys.path.insert(0, str(SCOUT))
 
-import dashboard  # noqa: E402
+import search_dashboard as dashboard  # noqa: E402
 
 
 def _atomic_write(path: Path, text: str) -> None:
@@ -69,7 +69,7 @@ def write_artifacts(payload: dict, output: Path) -> list[Path]:
             _copy_asset(source, destination)
             artifacts.append(destination)
         data_path = staging / 'dashboard-data.json'
-        _atomic_write(data_path, json.dumps(payload, ensure_ascii=False, indent=2) + '\n')
+        _atomic_write(data_path, json.dumps(payload, ensure_ascii=False, separators=(',', ':')) + '\n')
         artifacts.append(data_path)
         manifest = dict(schema_version=1, generated_at=payload.get('generated_at'), mode=payload.get('mode'),
                         files=[path.name for path in artifacts])
@@ -119,7 +119,7 @@ def main(argv: list[str] | None = None) -> int:
     artifacts = write_artifacts(payload, output)
     print(f'  dashboard ({args.mode}) -> {output}')
     print(f'  {len(payload.get("artists") or [])} artist records · {len(artifacts)} generated artifacts')
-    print('  local/private only — no ticket forecast or credentials are included')
+    print('  local/private only — search estimates are not ticket sales; no credentials included')
     return 0
 
 

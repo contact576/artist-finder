@@ -359,12 +359,47 @@ def _production_name(title):
     return t.strip(' -–—:;.,') or _fold(title)
 
 
+def _structured_performer_names(value):
+    """Clean a platform's explicit performer field without guessing a billing role.
+
+    BookMyShow publishes schema.org performer values on many event details. That field is
+    stronger identity evidence than free-text title parsing, but it does not say whether the
+    person headlines or appears in a lineup. Identity confidence and role certainty therefore
+    remain separate downstream.
+    """
+    if isinstance(value, (str, dict)):
+        value = [value]
+    if not isinstance(value, list):
+        return []
+    names, seen = [], set()
+    for item in value:
+        candidate = item.get('name') if isinstance(item, dict) else item
+        if not isinstance(candidate, str):
+            continue
+        name = re.sub(r'\s+', ' ', candidate).strip(' -:;,.')
+        # BMS occasionally appends a job label to the identity. Strip only this audited,
+        # terminal qualifier; arbitrary parentheses can be part of a stage name.
+        name = re.sub(r'\s*\((?:stand[ -]?up comedian|comedian|performer|artist)\)\s*$',
+                      '', name, flags=re.I).strip()
+        key = name.casefold()
+        if (not name or len(name) > 120 or key in {'artist', 'artists', 'various artists',
+                                                   'bookmyshow'} or key in seen):
+            continue
+        seen.add(key)
+        names.append(name)
+    return names
+
+
 def normalise_event(raw, source_key, seen_at):
     """One scraped listing -> one canonical event row, or None if unusable.
 
     `raw` needs at minimum a title. url/venue/city/date/status/price/category are used when
     present, and `category` matters more than it looks — it is the PRIMARY genre signal, because
     a great many clean listings carry no genre word in their title at all.
+
+    A platform_performers list, when present, supplies identity evidence directly from the
+    platform's structured event record. It never supplies a ticket count and it never silently
+    supplies a headline role.
 
     Rows below MIN_TRUST are returned with `trusted=False` so the caller can queue them for
     human review instead of dropping them silently — the parse failures are themselves data
@@ -391,11 +426,13 @@ def normalise_event(raw, source_key, seen_at):
 
     if genres.extracts_artist(etype):
         ex = extract_artist(title, raw.get('venue'), g['genre'], raw.get('city'))
+        structured_names = _structured_performer_names(raw.get('platform_performers'))
+        identity_names = structured_names or ex['names']
         # Canonicalise against known artists so "Vipul Goyal Unleashed" and "Vipul Goyal" are
         # ONE entity. Fragmenting a performer splits the escalation trajectory this whole tool
         # is built to measure — three quiet acts instead of one rising one.
         entities, unkeyable = [], []
-        for n in ex['names']:
+        for n in identity_names:
             canon, why = gazetteer.canonical(n)
             slug = slugify(canon)
             # An empty slug is not an identifier. Admitting it would merge every non-Latin
@@ -407,8 +444,32 @@ def normalise_event(raw, source_key, seen_at):
             if why:
                 e['raw_name'], e['canonicalised'] = n, why
             entities.append(e)
-        role, role_certain, lineup = ex['role'], ex['role_certain'], ex['lineup_size']
-        conf, reason = ex['confidence'], ex['reason']
+        if structured_names:
+            lineup = len(entities)
+            if len(entities) > 1:
+                role, role_certain = 'lineup', True
+            elif len(entities) == 1:
+                parsed_slugs = {
+                    slugify(gazetteer.canonical(name)[0]) for name in ex['names']
+                }
+                if entities[0]['slug'] in parsed_slugs:
+                    role, role_certain = ex['role'], ex['role_certain']
+                else:
+                    role, role_certain = 'unknown', False
+            else:
+                role, role_certain = 'unknown', False
+            conf = 0.95 if entities else 0.0
+            reason = ('platform structured performer field; billing role from title parser'
+                      if role != 'unknown' else
+                      'platform structured performer field; billing role unavailable')
+        else:
+            role, role_certain, lineup = ex['role'], ex['role_certain'], ex['lineup_size']
+            conf, reason = ex['confidence'], ex['reason']
+        if (source_key == 'bookmyshow' and not structured_names and entities
+                and not all(gazetteer.exact_known(item['name']) for item in entities)):
+            conf = min(conf, MIN_TRUST - 0.01)
+            reason = (f'{reason}; BookMyShow title-only identity requires an exact gazetteer '
+                      'match or explicit human review')
         if unkeyable:
             conf = 0.0
             reason = (f'{reason}; canonical slug unavailable for {", ".join(unkeyable)} — '
@@ -439,6 +500,11 @@ def normalise_event(raw, source_key, seen_at):
         venue_confidence=vb['confidence'], venue_tba=vb.get('tba', False),
         date=raw.get('date'), status=(raw.get('status') or '').lower() or None,
         price_min=raw.get('price_min'), price_max=raw.get('price_max'),
+        canonical_url=raw.get('canonical_url'), occurrence_key=raw.get('occurrence_key'),
+        start_at=raw.get('start_at'), end_at=raw.get('end_at'),
+        door_time=raw.get('door_time'),
+        platform_event_type=raw.get('platform_event_type'),
+        platform_performers=_structured_performer_names(raw.get('platform_performers')),
         seen_at=seen_at,
     )
 
@@ -559,6 +625,48 @@ def _selftest():
     ]
     print('\n  canonical slug guard:')
     for label, good in slug_checks:
+        print(f'  [{"ok " if good else "FAIL"}] {label}')
+        ok = ok and bool(good)
+
+    structured_lineup = normalise_event(
+        dict(title='BEST in STAND-UP @ Deccan', category='Comedy',
+             platform_event_type='ComedyEvent',
+             platform_performers=['Ankit Arora', 'Advit Mohunta', 'Ankit Arora'],
+             url='https://in.bookmyshow.com/events/fixture/ET1', date='2026-09-01'),
+        'bookmyshow', '2026-08-21')
+    structured_solo = normalise_event(
+        dict(title='A Night of Laughter', category='Comedy',
+             platform_event_type='ComedyEvent',
+             platform_performers=['Krishna Pandey (Stand Up Comedian)'],
+             url='https://in.bookmyshow.com/events/fixture/ET2', date='2026-09-01'),
+        'bookmyshow', '2026-08-21')
+    structured_production = normalise_event(
+        dict(title='Mughal-e-Azam: The Musical', category='Theatre',
+             platform_performers=['Stage Actor'],
+             url='https://in.bookmyshow.com/events/fixture/ET3', date='2026-09-01'),
+        'bookmyshow', '2026-08-21')
+    title_only_bms = normalise_event(
+        dict(title='Golden Hits', category='Music',
+             url='https://in.bookmyshow.com/events/fixture/ET4', date='2026-09-01'),
+        'bookmyshow', '2026-08-21')
+    structured_checks = [
+        ('structured performer field creates a trusted deduplicated lineup',
+         structured_lineup['trusted'] and structured_lineup['role'] == 'lineup' and
+         [item['name'] for item in structured_lineup['entities']] ==
+         ['Ankit Arora', 'Advit Mohunta']),
+        ('structured solo identity is trusted while an unavailable role stays unknown',
+         structured_solo['trusted'] and structured_solo['role'] == 'unknown' and
+         not structured_solo['role_certain'] and
+         structured_solo['entities'][0]['name'] == 'Krishna Pandey'),
+        ('a production ignores performer credits as candidate identities',
+         structured_production['entity_type'] == 'production' and
+         structured_production['entities'][0]['kind'] == 'production'),
+        ('unattested BookMyShow title-only identity is routed to review',
+         not title_only_bms['trusted'] and
+         'title-only identity requires' in title_only_bms['parse_reason']),
+    ]
+    print('\n  platform structured performers:')
+    for label, good in structured_checks:
         print(f'  [{"ok " if good else "FAIL"}] {label}')
         ok = ok and bool(good)
 

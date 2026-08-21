@@ -1,0 +1,225 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-08-21",
+  "niches": [
+    {
+      "id": "all_combined",
+      "name": "All combined",
+      "family": "UI",
+      "ui_only": true,
+      "seed_keywords": []
+    },
+    {
+      "id": "comedy",
+      "name": "Stand-up Comedy",
+      "family": "Comedy",
+      "seed_keywords": [
+        "indian stand up comedian",
+        "hindi stand up comedy",
+        "gujarati stand up comedian",
+        "indian comedian"
+      ]
+    },
+    {
+      "id": "bollywood_playback",
+      "name": "Bollywood & Playback",
+      "family": "Music",
+      "seed_keywords": [
+        "bollywood singer",
+        "hindi playback singer",
+        "bollywood live singer",
+        "indian film singer"
+      ]
+    },
+    {
+      "id": "live_bands",
+      "name": "Live Bands",
+      "family": "Music",
+      "seed_keywords": [
+        "indian live band",
+        "indian rock band",
+        "indian fusion band",
+        "hindi rock band"
+      ]
+    },
+    {
+      "id": "sufi_ghazal",
+      "name": "Sufi & Ghazal",
+      "family": "Music",
+      "seed_keywords": [
+        "sufi singer india",
+        "ghazal singer",
+        "qawwali singer",
+        "sufi live concert"
+      ]
+    },
+    {
+      "id": "magic_mentalism",
+      "name": "Magic & Mentalism",
+      "family": "Variety",
+      "seed_keywords": [
+        "indian mentalist",
+        "indian magician",
+        "mentalism india",
+        "magic show artist india"
+      ]
+    },
+    {
+      "id": "devotional",
+      "name": "Devotional",
+      "family": "Devotional",
+      "seed_keywords": [
+        "bhajan singer",
+        "devotional singer india",
+        "kirtan artist india",
+        "devotional concert india"
+      ]
+    },
+    {
+      "id": "bhajan_jamming",
+      "name": "Bhajan Jamming",
+      "family": "Devotional",
+      "seed_keywords": [
+        "bhajan jamming",
+        "bhajan jam",
+        "bhajan clubbing",
+        "live bhajan jam"
+      ]
+    },
+    {
+      "id": "punjabi_music",
+      "name": "Punjabi Music",
+      "family": "Music",
+      "seed_keywords": [
+        "punjabi singer",
+        "punjabi music artist",
+        "punjabi live singer",
+        "punjabi pop artist"
+      ]
+    },
+    {
+      "id": "garba",
+      "name": "Garba",
+      "family": "Regional music",
+      "seed_keywords": [
+        "garba singer",
+        "navratri garba artist",
+        "dandiya singer",
+        "gujarati garba live"
+      ]
+    },
+    {
+      "id": "gujarati_folk_dayro",
+      "name": "Gujarati Folk/Dayro",
+      "family": "Regional music",
+      "seed_keywords": [
+        "gujarati folk singer",
+        "gujarati dayro artist",
+        "lok dayro",
+        "gujarati folk live"
+      ]
+    },
+    {
+      "id": "djs",
+      "name": "DJs",
+      "family": "Music",
+      "seed_keywords": [
+        "indian dj",
+        "indian electronic music artist",
+        "edm artist india",
+        "techno dj india"
+      ]
+    },
+    {
+      "id": "storytelling_poetry",
+      "name": "Storytelling & Poetry",
+      "family": "Spoken word",
+      "seed_keywords": [
+        "indian storyteller live",
+        "hindi poetry live",
+        "urdu poetry artist",
+        "spoken word india"
+      ]
+    },
+    {
+      "id": "theatre_musicals",
+      "name": "Theatre & Musicals",
+      "family": "Stage",
+      "seed_keywords": [
+        "indian theatre production",
+        "indian musical theatre",
+        "hindi theatre artist",
+        "indian stage musical"
+      ]
+    },
+    {
+      "id": "indian_classical",
+      "name": "Indian Classical",
+      "family": "Music",
+      "seed_keywords": [
+        "indian classical musician",
+        "hindustani classical singer",
+        "indian sitarist",
+        "carnatic singer"
+      ]
+    },
+    {
+      "id": "independent_music",
+      "name": "Independent Music",
+      "family": "Music",
+      "seed_keywords": [
+        "indian indie artist",
+        "indie singer india",
+        "indian independent musician",
+        "indie band india"
+      ]
+    },
+    {
+      "id": "hip_hop_rap",
+      "name": "Hip-hop & Rap",
+      "family": "Music",
+      "seed_keywords": [
+        "indian rapper",
+        "desi hip hop artist",
+        "hindi rapper",
+        "punjabi rapper"
+      ]
+    },
+    {
+      "id": "other",
+      "name": "Other",
+      "family": "Other",
+      "seed_keywords": [
+        "indian live performer",
+        "indian performing artist",
+        "india live entertainment artist"
+      ]
+    }
+  ],
+  "research_metadata": {
+    "reviewed_at": "2026-08-21",
+    "candidate_policy": "Directory/festival candidates are reviewable identities, not verified genre totals.",
+    "sources": [
+      {
+        "url": "https://nh7.in/",
+        "scope": "2026 music and comedy lineup"
+      },
+      {
+        "url": "https://utsav.gov.in/public/view-event/muzaffar-alis-jahan-e-khusrau-2",
+        "scope": "2025 Sufi lineup"
+      },
+      {
+        "url": "https://www.sifas.org/festival26.html",
+        "scope": "2026 Indian classical programme"
+      },
+      {
+        "url": "https://eemaindia.com/pdf/final-eema-artiste-deck-july-2025.pdf",
+        "scope": "2025 EEMA artiste dossier"
+      },
+      {
+        "url": "https://www.indianmagicians.com/magiciansdirectory/index.php",
+        "scope": "magic directory; source reachable status must be refreshed"
+      }
+    ]
+  }
+}

@@ -124,24 +124,32 @@ a broken pipeline, and a fixed crawl can be re-ingested for the same date safely
 
 ## Operator surface
 
-The private dashboard is generated locally with `tools/build_dashboard.py` and opened with
-`tools/open_dashboard.cmd` on Windows. It binds to `127.0.0.1` only; do not deploy it publicly
-without explicit authorization. The dashboard shows the four workflow stages — **Discovered →
-Major-platform confirmed → Diaspora validated → Forecast ready** — and keeps India-side
-`momentum` separate from diaspora-side `export_signal`.
+The active operator product is the private **Artist Search Intelligence** dashboard defined in
+`KEYWORD_INTELLIGENCE_SPEC.md`. It is generated with `tools/build_dashboard.py`, opened with
+`tools/open_dashboard.cmd`, and bound to `127.0.0.1` only. Do not deploy it publicly without
+explicit authorization.
 
-With fewer than three crawls spanning 21 days, zero RISING candidates is an honest baseline
-result: trajectory is unavailable. The dashboard and report must say so rather than manufacture
-a trend.
-BookMyShow may show `blocked/unconfigured` when its optional browser/Apify route is unavailable;
-that is a source-health state, not zero evidence. Weekly and monthly jobs write non-secret status
-and log metadata under `out/automation/`.
+The dashboard toggles **India | USA | Canada**, with every market stored and calculated separately.
+It shows Google-estimated monthly searches, absolute and percentage MoM, 3- and 12-month averages,
+YoY, tracked-roster genre totals, risers, artist detail, the new-name review inbox, mapping health,
+and monthly automation status. Every request explicitly uses `GOOGLE_SEARCH_AND_PARTNERS`, but
+that does not mean all YouTube views or all activity across Google products. USA and Canada are
+never summed.
 
-The safe operator flow is: open the local dashboard → review source health and freshness → confirm
-an exact gazetteer identity or dated identity review for BookMyShow/District evidence → review
-separate US and Canada demand evidence with a dated contamination check → approve a dossier
-only when its readiness fields are complete. The only handoff is the designed dossier input under
-`../Artist Tour Engine/artists/`; this project never displays a North American ticket forecast.
+The durable name system is `data/artist_roster.json` plus `data/artist_candidates.json`. Keyword
+Planner related ideas expose topics and possible gaps; they do not prove an artist identity.
+Periodic evidence-backed roster research and human tips add directory candidates; the monthly job
+refreshes Keyword Planner ideas but does not pretend that an API phrase is a researched person.
+Only a dated public identity review can promote a candidate into verified genre totals. The
+dashboard opens on **Verified + researched** so the operator can inspect the long tail, while every
+summary total, genre ranking, and gainer list still uses **verified artists only**.
+
+The monthly flow is: refresh niche keyword ideas → retain them in the review inbox → fetch 48
+months of Search + Partners history for the curated/verified roster in India/USA/Canada → validate
+mappings → write an immutable run manifest → rebuild the dashboard. Evidence-backed roster
+maintenance is a separate deliberate research task. The older ticketing scout, immutable
+snapshots, and dossier boundary remain preserved, but ticketing data no longer drives the active
+dashboard.
 
 ## Pipeline
 
@@ -327,12 +335,21 @@ valuable discovery inputs but cannot by themselves confirm a stage.
 
 ## Current retained state — 2026-08-21
 
-The second immutable snapshot was banked from 1,101 live listings: AllEvents 712, HighApe 288,
-and District 101. After correction overlays, the derived ledger contains **801 shows · 687
-entities**. The dashboard contains **513 eligible artists**: 494 Discovered, 19 Major-platform
-confirmed, zero Diaspora validated, and zero Forecast ready. Two crawls span two days, so every
-live momentum value is Unknown and RISING remains zero. These are current derived counts, not a
-replacement for the historical first-run benchmark above.
+The older ticketing state remains preserved: the second immutable snapshot contains 1,101 live
+listings and the corrected derived ledger contains 801 shows / 687 entities. It is no longer the
+active dashboard driver.
+
+The 2026-08-21 live Search Intelligence run requested 48 months for **711 curated/verified names**
+in India, USA, and Canada with `GOOGLE_SEARCH_AND_PARTNERS` explicit. Each geo mapped 710: 698
+exact and 12 labelled unambiguous close variants, with one missing and zero ambiguous mappings.
+Because the current USA response ends one month earlier than India/Canada, the default comparable
+display month is June 2026 rather than manufacturing a July zero.
+
+The full registry has **1,173 records**: 44 verified, 667 evidence-sourced directory candidates,
+and 461 legacy crawl phrases excluded from the default scope. Only the 44 verified artists enter
+summary totals, genre rankings, and gainer lists. The related-keyword inbox has 1,439 phrases from
+30 retained discovery runs. Those phrases are discovery clues, not 1,439 artists. Coverage is
+therefore still building and current genre totals must not be presented as complete market size.
 
 ## Two ways to reach a blocked source, neither needing a new credential
 
