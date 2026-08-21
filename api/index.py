@@ -583,7 +583,7 @@ def _now_utc() -> str:
 
 
 LOGIN_PAGE = b"""<!doctype html><meta charset=utf-8><title>Artist Search Intelligence</title>
-<form id=login><label>Dashboard password <input type=password name=password autocomplete=current-password required></label><button>Sign in</button><p id=error role=alert></p></form>
+<form id=login><input type=text name=username autocomplete=username value=operator hidden><label>Dashboard password <input type=password name=password autocomplete=current-password required></label><button>Sign in</button><p id=error role=alert></p></form>
 <script>document.querySelector('#login').addEventListener('submit',async e=>{e.preventDefault();const p=e.currentTarget.password.value,r=await fetch('/api/session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:p})});if(r.ok)location='/';else document.querySelector('#error').textContent='Sign-in failed.'})</script>"""
 
 
