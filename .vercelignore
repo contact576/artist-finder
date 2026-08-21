@@ -1,0 +1,10 @@
+# Never upload local credentials or reproducible bulk to Vercel.
+data/config.json
+data/raw/
+data/source_probe.json
+.env*
+*.key
+*.pem
+.vercel/
+__pycache__/
+*.pyc

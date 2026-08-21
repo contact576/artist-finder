@@ -1,0 +1,25 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "version": 2,
+  "buildCommand": "python tools/build_dashboard.py --mode live --output out/dashboard",
+  "outputDirectory": "out/dashboard",
+  "functions": {
+    "api/**/*.py": {
+      "includeFiles": "{out/dashboard/**,scout/**,data/artist_roster.json,data/artist_candidates.json,data/niches.json,data/demand.json,data/identity_reviews.json,data/watchlist.json,data/corrections.json,data/search_measurements/**}"
+    }
+  },
+  "routes": [
+    {
+      "src": "/(.*)",
+      "headers": {
+        "cache-control": "no-store, max-age=0",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "no-referrer",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+      },
+      "dest": "/api/index.py"
+    }
+  ]
+}

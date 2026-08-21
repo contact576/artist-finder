@@ -1,0 +1,106 @@
+name: Monthly Artist Search Refresh
+run-name: ${{ github.event.inputs.job_id || format('scheduled-{0}', github.run_id) }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      job_id:
+        description: Hosted dashboard refresh job identifier
+        required: false
+        type: string
+  schedule:
+    - cron: "30 4 1 * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: artist-search-monthly
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PYTHONIOENCODING: utf-8
+      GOOGLE_ADS_DEVELOPER_TOKEN: ${{ secrets.GOOGLE_ADS_DEVELOPER_TOKEN }}
+      GOOGLE_ADS_CLIENT_ID: ${{ secrets.GOOGLE_ADS_CLIENT_ID }}
+      GOOGLE_ADS_CLIENT_SECRET: ${{ secrets.GOOGLE_ADS_CLIENT_SECRET }}
+      GOOGLE_ADS_REFRESH_TOKEN: ${{ secrets.GOOGLE_ADS_REFRESH_TOKEN }}
+      GOOGLE_ADS_LOGIN_CUSTOMER_ID: ${{ secrets.GOOGLE_ADS_LOGIN_CUSTOMER_ID }}
+      GOOGLE_ADS_CUSTOMER_ID: ${{ secrets.GOOGLE_ADS_CUSTOMER_ID }}
+      GOOGLE_ADS_API_VERSION: ${{ secrets.GOOGLE_ADS_API_VERSION }}
+
+    steps:
+      - name: Check out the private data branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Use Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate hosted worker helpers
+        run: |
+          python tools/hosted_write_config.py --self-test
+          python tools/hosted_refresh_guard.py --self-test
+          python tools/fetch_search_volume.py --self-test
+          python tools/build_dashboard.py --selftest
+
+      - name: Create ephemeral Google Ads configuration
+        run: python tools/hosted_write_config.py
+
+      - name: Refresh the discovery inbox
+        run: python tools/refresh_artist_roster.py --seed --discover --limit-ideas 200
+
+      - name: Pull 48 months for India, USA, and Canada
+        run: python tools/fetch_search_volume.py --all --include-candidates --history-months 48
+
+      - name: Build the live private dashboard
+        run: python tools/build_dashboard.py --mode live --output out/dashboard
+
+      - name: Validate retained search data
+        run: |
+          python scout/roster.py
+          python scout/demand.py
+          python scout/search_dashboard.py
+
+      - name: Remove ephemeral Google Ads configuration
+        if: always()
+        shell: bash
+        run: rm -f -- data/config.json
+
+      - name: Commit only allowlisted refreshed data
+        id: commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/hosted_refresh_guard.py --stage
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No retained monthly data changed."
+            exit 0
+          fi
+          git config user.name "artist-search-refresh[bot]"
+          git config user.email "artist-search-refresh[bot]@users.noreply.github.com"
+          git commit -m "data: monthly search refresh $(date -u +%F)"
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Rebase and push the refreshed data
+        if: steps.commit.outputs.changed == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git rebase origin/main
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            sleep $((attempt * 2))
+          done
+          echo "Unable to push refreshed data without force." >&2
+          exit 1

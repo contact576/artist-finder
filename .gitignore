@@ -34,3 +34,5 @@ desktop.ini
 ~$*
 .playwright-cli/
 output/
+.vercel
+.env*
