@@ -16,6 +16,7 @@ import os
 import shutil
 import sys
 import tempfile
+import time
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -39,10 +40,24 @@ def _atomic_write(path: Path, text: str) -> None:
             handle.write(text)
             handle.flush()
             os.fsync(handle.fileno())
-        os.replace(temporary, path)
+        for attempt in range(6):
+            try:
+                os.replace(temporary, path)
+                break
+            except PermissionError:
+                if attempt == 5:
+                    raise
+                time.sleep(0.1 * (attempt + 1))
     finally:
         if os.path.exists(temporary):
-            os.unlink(temporary)
+            for attempt in range(6):
+                try:
+                    os.unlink(temporary)
+                    break
+                except PermissionError:
+                    if attempt == 5:
+                        raise
+                    time.sleep(0.1 * (attempt + 1))
 
 
 def _copy_asset(source: Path, destination: Path) -> None:

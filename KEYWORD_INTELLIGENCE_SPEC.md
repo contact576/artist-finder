@@ -21,7 +21,9 @@ audience size, or a North American ticket forecast.
 - Historical metrics come from Google Ads Keyword Planner.
 - Every request explicitly uses `GOOGLE_SEARCH_AND_PARTNERS`.
 - India, USA, and Canada are requested, stored, and displayed separately.
-- USA and Canada are never summed into a North America value.
+- USA and Canada are never summed into a North America value. The North America comparison
+  shows both markets side by side and, when one display value is required, the stronger single
+  geography with its label.
 - The dashboard shows the number returned by Google and labels it **Google-estimated
   monthly searches**. Google describes these volumes as approximate and can consolidate
   near-exact variants.
@@ -91,13 +93,14 @@ All metrics are calculated independently for the selected geo.
 
 ### Primary artist metrics
 
-- **Latest monthly searches:** most recent Google month for the approved keyword.
-- **Absolute monthly change:** latest month minus prior month.
-- **MoM change:** `(latest - prior) / prior`, unavailable when the prior month is zero
+- **Selected-month searches:** Google-estimated searches for the month chosen by the operator.
+  A measured zero displays as zero; an absent month displays as **Unavailable**.
+- **Absolute monthly change:** selected month minus the immediately prior calendar month.
+- **MoM change:** `(selected - prior) / prior`, unavailable when the prior month is zero
   or absent.
-- **3-month average:** mean of the latest three available months.
-- **12-month average:** mean of the latest twelve available months.
-- **YoY change:** latest month versus the same calendar month one year earlier, only
+- **3-, 6-, and 12-month averages:** means of the exact consecutive calendar months ending at
+  the selected month. A window with a missing month is unavailable rather than silently shortened.
+- **YoY change:** selected month versus the same calendar month one year earlier, only
   when both months exist.
 - **Rank:** ordinal rank within the selected geo and current genre filter.
 
@@ -143,9 +146,10 @@ MoM, 12-month trend, top artist, top-five share, verified roster count, and back
 
 ### Artists
 
-A sortable table with artist, genre/niche, approved keyword, latest monthly searches,
-absolute change, MoM, 3-month average, 12-month average, YoY, rank, 12-month sparkline,
-identity status, mapping quality, and last updated date.
+A sortable table with artist, genre/niche, approved keyword, selected-month searches,
+absolute change, MoM, 3-, 6-, and 12-month averages, YoY, rank, 12-month sparkline,
+identity status, mapping quality, and last updated date. Missing selected-month data and a
+measured zero use visibly different states.
 
 ### Artist detail
 
@@ -154,6 +158,13 @@ approved keyword and variants; genre evidence; identity evidence; contamination 
 and data freshness. The three geographies may be compared visually but are never added.
 
 ### Roster and data health
+
+The loopback-only operator controls may add a candidate, edit its display name and aliases,
+reassign its category, add or replace its measurement keyword, or deactivate/reactivate it.
+Deactivation is reversible; it never deletes historical measurements. A manually added name
+remains a candidate and is eligible for the next broad measurement refresh, but cannot enter
+verified totals without dated identity evidence. Each change is validated, atomically written,
+and recorded in a non-secret local audit log.
 
 - candidate review queue, newly verified names, merges, rejections, and niche gaps;
 - latest discovery and metrics run by geo;
@@ -173,13 +184,16 @@ and data freshness. The three geographies may be compared visually but are never
 5. Append an immutable monthly measurement record and rebuild derived metrics.
 6. Generate the private local dashboard and record automation status.
 7. Review risers, genre movement, candidates, and data-health warnings.
+8. An operator may start the same guarded monthly workflow with **Refresh data**. Only one
+   refresh may run at a time; the retained dashboard stays visible until a successful rebuild.
 
 ## Definition of done for the rebuild
 
-- India, USA, and Canada toggles show separate data and never produce a combined value.
+- India, USA, and Canada toggles show separate data. The North America view displays USA,
+  Canada, and the stronger labelled geography, never an arithmetic sum.
 - Search + Partners is explicitly requested and visible in source metadata.
-- Fixture and live validation prove correct monthly, MoM, 3-month, 12-month, and YoY
-  calculations, including zero and missing states.
+- Fixture and live validation prove correct selected-month, MoM, 3-, 6-, and 12-month,
+  and YoY calculations, including distinct measured-zero and unavailable states.
 - One approved keyword per artist prevents variant double counting.
 - Candidate discovery, identity review, alias merge, rejection, and inactivity are
   reproducible and retain provenance.
@@ -187,5 +201,5 @@ and data freshness. The three geographies may be compared visually but are never
   states pass browser verification with no runtime errors.
 - The monthly scheduled path refreshes metrics and the dashboard, produces useful logs,
   and exposes no credentials.
-- Operator documentation explains exactly where to open the dashboard and how to review
-  new names.
+- Operator documentation explains exactly where to open the dashboard, manage a name or
+  keyword, run a refresh, and review new candidates.

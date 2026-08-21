@@ -1587,20 +1587,29 @@
     },
     "amit-tandon": {
       "aliases": [],
+      "category_history": [
+        {
+          "primary_genre": "storytelling_poetry",
+          "reason": "Corrected from storytelling/poetry after individual current artist-source review.",
+          "reviewed_at": "2026-08-21",
+          "status": "candidate"
+        }
+      ],
       "contamination_note": null,
       "contamination_status": "unchecked",
       "curated": true,
       "entity_type": "artist",
       "first_seen": "2026-08-21",
       "identity_evidence": {
-        "kind": "directory_or_festival_candidate",
-        "note": "Canonical live-arts candidate from a category-level official festival/directory source. Not an individual identity verification.",
+        "kind": "public_identity_review",
+        "note": "Official site currently bills Amit Tandon as a stand-up comedian and lists 2026 comedy tour dates.",
         "reviewed_at": "2026-08-21",
-        "url": "https://eemaindia.com/pdf/final-eema-artiste-deck-july-2025.pdf"
+        "url": "https://www.tandonamit.com/"
       },
-      "keyword_review_state": "pending",
+      "keyword_review_state": "approved",
       "languages": [
-        "Various"
+        "Hindi",
+        "English"
       ],
       "last_reviewed": "2026-08-21",
       "measurement_keyword": "Amit Tandon",
@@ -1610,16 +1619,17 @@
         "comedy",
         "storytelling_poetry"
       ],
-      "primary_genre": "storytelling_poetry",
+      "primary_genre": "comedy",
       "regions": [
-        "India"
+        "India",
+        "International"
       ],
-      "research_state": "directory_candidate",
+      "research_state": "public_identity_review",
       "slug": "amit-tandon",
-      "source": "researched_directory_candidate",
-      "status": "candidate",
-      "subcategory": "storytelling poetry",
-      "verified_at": null
+      "source": "public_web_roster_review",
+      "status": "verified",
+      "subcategory": "stand-up comedy",
+      "verified_at": "2026-08-21"
     },
     "amit-tiwari": {
       "aliases": [],
@@ -2706,20 +2716,29 @@
     },
     "anubhav-singh-bassi": {
       "aliases": [],
+      "category_history": [
+        {
+          "primary_genre": "storytelling_poetry",
+          "reason": "Corrected from storytelling/poetry after individual current artist-source review.",
+          "reviewed_at": "2026-08-21",
+          "status": "candidate"
+        }
+      ],
       "contamination_note": null,
       "contamination_status": "unchecked",
       "curated": true,
       "entity_type": "artist",
       "first_seen": "2026-08-21",
       "identity_evidence": {
-        "kind": "directory_or_festival_candidate",
-        "note": "Canonical live-arts candidate from a category-level official festival/directory source. Not an individual identity verification.",
+        "kind": "public_identity_review",
+        "note": "Official Linktree identifies Anubhav Singh Bassi as a stand-up comedian and lists his 2026 India tour.",
         "reviewed_at": "2026-08-21",
-        "url": "https://eemaindia.com/pdf/final-eema-artiste-deck-july-2025.pdf"
+        "url": "https://linktr.ee/anubhavsinghbassi"
       },
-      "keyword_review_state": "pending",
+      "keyword_review_state": "approved",
       "languages": [
-        "Various"
+        "Hindi",
+        "English"
       ],
       "last_reviewed": "2026-08-21",
       "measurement_keyword": "Anubhav Singh Bassi",
@@ -2729,16 +2748,16 @@
         "comedy",
         "storytelling_poetry"
       ],
-      "primary_genre": "storytelling_poetry",
+      "primary_genre": "comedy",
       "regions": [
         "India"
       ],
-      "research_state": "directory_candidate",
+      "research_state": "public_identity_review",
       "slug": "anubhav-singh-bassi",
-      "source": "researched_directory_candidate",
-      "status": "candidate",
-      "subcategory": "storytelling poetry",
-      "verified_at": null
+      "source": "public_web_roster_review",
+      "status": "verified",
+      "subcategory": "stand-up comedy",
+      "verified_at": "2026-08-21"
     },
     "anup-jalota": {
       "aliases": [],
@@ -25978,37 +25997,46 @@
     },
     "romy": {
       "aliases": [],
-      "contamination_note": null,
-      "contamination_status": "unchecked",
+      "contamination_note": "Do not map or promote using one-word query results alone; separate from Romey Maan and other non-Indian Romy artist pages.",
+      "contamination_status": "ambiguous",
       "curated": true,
       "entity_type": "artist",
       "first_seen": "2026-08-21",
       "identity_evidence": {
-        "kind": "directory_or_festival_candidate",
-        "note": "Canonical live-arts candidate from a category-level official festival/directory source. Not an individual identity verification.",
+        "kind": "music_catalog_identity_ambiguous",
+        "note": "Spotify artist catalogue credits Indian-film vocals including Challa, Ranjha and The Punjaabban Song, but Romy is a one-word cross-platform collision. Retained as a candidate pending an individual first-party identity source.",
         "reviewed_at": "2026-08-21",
-        "url": "https://eemaindia.com/pdf/final-eema-artiste-deck-july-2025.pdf"
+        "url": "https://open.spotify.com/embed/artist/0bRPtPZQkWHeG7MGk9eWlh"
       },
       "keyword_review_state": "pending",
       "languages": [
-        "Various"
+        "Hindi",
+        "Punjabi"
       ],
       "last_reviewed": "2026-08-21",
       "measurement_keyword": "Romy",
       "merged_into": null,
       "name": "Romy",
       "niche_tags": [
-        "bollywood_playback"
+        "bollywood_playback",
+        "punjabi_music"
       ],
       "primary_genre": "bollywood_playback",
       "regions": [
         "India"
       ],
-      "research_state": "directory_candidate",
+      "research_state": "identity_review_ambiguous",
+      "review_history": [
+        {
+          "reason": "Individual music-catalog review supports an Indian Bollywood/Punjabi vocalist named Romy, but the one-word name collides with several unrelated artists; no promotion without a canonical first-party profile.",
+          "result": "candidate retained",
+          "reviewed_at": "2026-08-21"
+        }
+      ],
       "slug": "romy",
-      "source": "researched_directory_candidate",
+      "source": "public_web_roster_review",
       "status": "candidate",
-      "subcategory": "bollywood playback",
+      "subcategory": "Bollywood and Punjabi playback vocals",
       "verified_at": null
     },
     "room-of-memories": {
@@ -36639,5 +36667,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-21T21:08:38+05:30"
+  "updated_at": "2026-08-21T22:15:00+05:30"
 }

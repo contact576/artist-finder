@@ -39,21 +39,31 @@ The Tour Engine measured why: tickets per million followers spans **15×**, subl
 
 ---
 
-## 2. The weekly run
+## 2. Active monthly search dashboard
 
 ### Operator quick start
 
 1. Double-click [`tools/open_dashboard.cmd`](tools/open_dashboard.cmd) on Windows. It builds the
    current artifact and opens the local/private dashboard at `http://127.0.0.1:8765/`.
-2. Check freshness, source health, and the trajectory banner before reading any ranking. One crawl
-   means a baseline; **zero RISING is honest** until 3 crawls span 21 days.
-3. Confirm BookMyShow or District evidence for a candidate. Long-tail sources are discovery-only.
-4. Review US and Canada evidence separately; do not add the geographies. Approve a dossier only
-   when the dashboard says Forecast ready. The dossier handoff is the designed input under
-   `../Artist Tour Engine/artists/`; this scout never displays a ticket forecast.
+2. Choose a Google month and India, USA, or Canada. **North America** shows USA and Canada side by
+   side plus the stronger labelled geography; it never adds them.
+3. Choose a category and roster scope. Summary cards, genre totals, and gainers use verified artists
+   only; research candidates remain visible in the table.
+4. Open an artist to edit the display name or aliases, reassign the category, replace the primary
+   measurement keyword, or deactivate/reactivate it. **Add artist** creates a review candidate,
+   never an implicitly verified artist. No control hard-deletes measurement history.
+5. Click **Refresh data** to run the guarded 48-month India/USA/Canada monthly workflow. Only one
+   refresh runs at a time. The current dashboard remains visible until the rebuild succeeds.
+6. Check the mapping and selected-month coverage cards. A literal **0 measured** is a Google value;
+   **Unavailable** means that artist has no value for the selected month.
 
-The four visible workflow stages are **Discovered → Major-platform confirmed → Diaspora validated
-→ Forecast ready**. They are evidence gates, not a merged score.
+The source badge says **Google Search + Search partners**. This is one Keyword Planner estimate,
+not all YouTube views or all activity across Google products.
+
+### Preserved weekly ticketing flow
+
+The older ticketing scout remains available for immutable history and the designed Tour Engine
+dossier boundary, but it no longer drives the active dashboard.
 
 ### Step 0 — the free structured sources, in Python, FIRST
 
@@ -152,20 +162,23 @@ tips loop — say what happened to last week's names, or people stop sending the
 
 ---
 
-## 3. The monthly job — search volume
+## 3. The monthly command and scheduler
 
 **Separate cadence on purpose.** Google refreshes Keyword Planner monthly; polling weekly redraws
-the same figure four times and looks like a stalled artist.
+the same figure four times and looks like a stalled artist. The supported end-to-end command is:
 
 ```bash
-cd tools && python fetch_search_volume.py --all
+cd tools && python run_automation.py monthly --history-months 48
 ```
 
-Needs `data/config.json` (gitignored) — see `config.example.json`. Uses the PPC Guru.ca MCC, so
-figures are **exact**, not the bucketed ranges a zero-spend account gets. `--check` probes the
-credentials and reports if a response smells bucketed.
+It refreshes the idea inbox, measures the eligible roster in India/USA/Canada, writes the immutable
+non-secret run manifest, and rebuilds the dashboard. Needs `data/config.json` (gitignored) — see
+`config.example.json`. The configured spend-enabled MCC returns numeric estimates rather than
+the wide buckets common on zero-spend accounts. `fetch_search_volume.py --check` probes the
+credentials and mapping behavior without treating the estimates as exact audience counts.
 
-- US and Canada are fetched and stored **separately**, never summed.
+- US and Canada are fetched and stored **separately**, never summed. The North America dashboard
+  view compares them and labels the stronger single geography.
 - **MoM works immediately. A single rolling 12-month pull cannot produce true YoY** because it
   lacks the same-month prior-year pair. YoY is observable as soon as stored history contains that
   pair; a 48-month pull can provide it immediately. Until then the tool reports a within-window

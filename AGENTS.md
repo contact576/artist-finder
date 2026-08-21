@@ -130,11 +130,13 @@ The active operator product is the private **Artist Search Intelligence** dashbo
 explicit authorization.
 
 The dashboard toggles **India | USA | Canada**, with every market stored and calculated separately.
-It shows Google-estimated monthly searches, absolute and percentage MoM, 3- and 12-month averages,
-YoY, tracked-roster genre totals, risers, artist detail, the new-name review inbox, mapping health,
-and monthly automation status. Every request explicitly uses `GOOGLE_SEARCH_AND_PARTNERS`, but
-that does not mean all YouTube views or all activity across Google products. USA and Canada are
-never summed.
+Its North America comparison shows USA and Canada side by side plus the stronger labelled
+geography; it never adds the two estimates. It shows the selected month's Google-estimated
+searches, absolute and percentage MoM, exact-calendar 3-, 6-, and 12-month averages, YoY,
+tracked-roster genre totals, risers, artist detail, the new-name review inbox, mapping health,
+and monthly automation status. A measured zero and an unavailable selected month are different
+states. Every request explicitly uses `GOOGLE_SEARCH_AND_PARTNERS`, but that does not mean all
+YouTube views or all activity across Google products.
 
 The durable name system is `data/artist_roster.json` plus `data/artist_candidates.json`. Keyword
 Planner related ideas expose topics and possible gaps; they do not prove an artist identity.
@@ -142,7 +144,11 @@ Periodic evidence-backed roster research and human tips add directory candidates
 refreshes Keyword Planner ideas but does not pretend that an API phrase is a researched person.
 Only a dated public identity review can promote a candidate into verified genre totals. The
 dashboard opens on **Verified + researched** so the operator can inspect the long tail, while every
-summary total, genre ranking, and gainer list still uses **verified artists only**.
+summary total, genre ranking, and gainer list still uses **verified artists only**. Its loopback
+operator controls can add or edit a candidate, reassign a category, replace the one primary
+measurement keyword, and deactivate/reactivate without deleting history. Operator-added candidates
+join the next broad monthly measurement pull but do not enter verified totals. Every mutation is
+validated, audited locally, and followed by a dashboard rebuild.
 
 The monthly flow is: refresh niche keyword ideas → retain them in the review inbox → fetch 48
 months of Search + Partners history for the curated/verified roster in India/USA/Canada → validate
@@ -345,8 +351,10 @@ exact and 12 labelled unambiguous close variants, with one missing and zero ambi
 Because the current USA response ends one month earlier than India/Canada, the default comparable
 display month is June 2026 rather than manufacturing a July zero.
 
-The full registry has **1,173 records**: 44 verified, 667 evidence-sourced directory candidates,
-and 461 legacy crawl phrases excluded from the default scope. Only the 44 verified artists enter
+The full registry has **1,173 records**: 46 verified, 664 evidence-sourced directory candidates,
+461 legacy crawl phrases, and two separately held review candidates. One of those two is an
+identity-ambiguous one-word artist and is deliberately excluded from default measurement scope.
+The default visible research scope is therefore **710** names. Only the 46 verified artists enter
 summary totals, genre rankings, and gainer lists. The related-keyword inbox has 1,439 phrases from
 30 retained discovery runs. Those phrases are discovery clues, not 1,439 artists. Coverage is
 therefore still building and current genre totals must not be presented as complete market size.

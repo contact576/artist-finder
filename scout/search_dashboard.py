@@ -54,15 +54,26 @@ def _series(entity: dict, geo: str) -> list[dict]:
 def _metrics(series: list[dict], selected_month: str | None = None) -> dict:
     if not series:
         return dict(latest=None, absolute_change=None, mom=None, average_3m=None,
-                    average_12m=None, yoy=None, month=None)
+                    average_6m=None, average_12m=None, yoy=None,
+                    month=selected_month, availability='missing_month')
     by_month = {row['month']: row['searches'] for row in series}
-    month = selected_month if selected_month in by_month else series[-1]['month']
+    month = selected_month or series[-1]['month']
+    if month not in by_month:
+        return dict(latest=None, absolute_change=None, mom=None, average_3m=None,
+                    average_6m=None, average_12m=None, yoy=None,
+                    month=month, availability='missing_month')
     year, mon = map(int, month.split('-'))
     index = year * 12 + mon - 1
-    prior_index = index - 1
-    prior = f'{prior_index // 12:04d}-{prior_index % 12 + 1:02d}'
+
+    def key(month_index: int) -> str:
+        return f'{month_index // 12:04d}-{month_index % 12 + 1:02d}'
+
+    def calendar_average(size: int) -> int | None:
+        values = [by_month.get(key(index - offset)) for offset in range(size)]
+        return round(statistics.mean(values)) if all(value is not None for value in values) else None
+
+    prior = key(index - 1)
     year_prior = f'{year - 1:04d}-{mon:02d}'
-    eligible = [row['searches'] for row in series if row['month'] <= month]
     latest = by_month[month]
     previous = by_month.get(prior)
     absolute = latest - previous if previous is not None else None
@@ -71,9 +82,10 @@ def _metrics(series: list[dict], selected_month: str | None = None) -> dict:
     yoy = ((latest - yoy_base) / yoy_base) if yoy_base not in (None, 0) else None
     return dict(latest=latest, absolute_change=absolute,
                 mom=(round(mom, 6) if mom is not None else None),
-                average_3m=(round(statistics.mean(eligible[-3:])) if eligible else None),
-                average_12m=(round(statistics.mean(eligible[-12:])) if eligible else None),
-                yoy=(round(yoy, 6) if yoy is not None else None), month=month)
+                average_3m=calendar_average(3), average_6m=calendar_average(6),
+                average_12m=calendar_average(12),
+                yoy=(round(yoy, 6) if yoy is not None else None), month=month,
+                availability=('explicit_zero' if latest == 0 else 'available'))
 
 
 def _availability(search: dict, series: list[dict]) -> str:
@@ -202,6 +214,22 @@ def _data_health(demand_data: dict, artists: list[dict], registry: dict,
                 monthly_series[geo] += 1
     networks = sorted({row['geos'][geo].get('network') for row in artists
                        for geo in demand.SEARCH_GEOS if row['geos'][geo].get('network')})
+    research_scope = [row for row in artists
+                      if row.get('status') == 'verified'
+                      or (row.get('status') == 'candidate'
+                          and (row.get('research_state') == 'operator_candidate'
+                               or (row.get('curated') is True
+                                   and row.get('research_state') == 'directory_candidate')))]
+    scoped_api_mapped = {geo: sum(
+        row['geos'][geo].get('mapping_mode') in ('exact', 'close_variant')
+        for row in research_scope) for geo in demand.SEARCH_GEOS}
+    scoped_monthly_series = {geo: sum(bool(row['geos'][geo]['series'])
+                                      for row in research_scope)
+                             for geo in demand.SEARCH_GEOS}
+    scoped_selected_month = _default_month(artists)
+    scoped_selected_available = {geo: sum(
+        any(item['month'] == scoped_selected_month for item in row['geos'][geo]['series'])
+        for row in research_scope) for geo in demand.SEARCH_GEOS}
     return dict(
         expected_network=NETWORK, observed_networks=networks,
         network_state=('verified' if networks == [NETWORK] else 'refresh_required'),
@@ -212,6 +240,11 @@ def _data_health(demand_data: dict, artists: list[dict], registry: dict,
         # Retain measured_by_geo for old consumers, but make every availability denominator explicit.
         measured_by_geo=monthly_series, api_mapped_by_geo=api_mapped,
         monthly_series_by_geo=monthly_series,
+        research_scope_total=len(research_scope),
+        research_scope_api_mapped_by_geo=scoped_api_mapped,
+        research_scope_monthly_series_by_geo=scoped_monthly_series,
+        research_scope_selected_month=scoped_selected_month,
+        research_scope_selected_month_available_by_geo=scoped_selected_available,
         usable_nonzero_by_geo=availability['usable_series'],
         explicit_zero_by_geo=availability['explicit_zero'],
         mapped_empty_by_geo=availability['mapped_empty'],
@@ -250,11 +283,14 @@ def build_payload() -> dict:
         generated_at=dt.datetime.now().astimezone().isoformat(timespec='seconds'),
         geographies=[dict(id=geo, name=GEO_LABELS[geo]) for geo in demand.SEARCH_GEOS],
         months=months, default_month=_default_month(artists),
-        network=NETWORK, artists=artists, niches=roster.load_niches(),
+        network=NETWORK, network_label='Google Search + Search partners',
+        network_note=('Keyword Planner returns one combined Google Search + Search partners '
+                      'estimate. It is not a count of all YouTube views or all Google activity.'),
+        artists=artists, niches=roster.load_niches(),
         candidates=_candidate_rows(inbox), candidate_runs=list(inbox.get('discovery_runs') or []),
         data_health=_data_health(demand_data, artists, registry, inbox),
         operations=_operations(),
-        caveat=('Google Ads Keyword Planner monthly searches are approximate search-interest '
+        caveat=('Google Ads Keyword Planner Search + Partners monthly searches are approximate '
                 'estimates, can consolidate close variants, and are not unique people, ticket '
                 'sales, or a ticket forecast. India, USA, and Canada are never summed.'))
 
@@ -327,6 +363,10 @@ def _selftest() -> int:
          [row['id'] for row in payload['geographies']] == ['in', 'us', 'ca']),
         ('fixture MoM uses consecutive months', india['mom'] == round((600 - 420) / 420, 6)),
         ('absolute change is retained beside percentage', india['absolute_change'] == 180),
+        ('six-month average uses six consecutive calendar months', india['average_6m'] == 312),
+        ('missing selected month is unavailable rather than a fallback zero',
+         _metrics(rising['geos']['in']['series'], '2027-01')['latest'] is None
+         and _metrics(rising['geos']['in']['series'], '2027-01')['availability'] == 'missing_month'),
         ('one approved keyword is explicit', rising['measurement_keyword'] == 'Rising Comic'),
         ('candidate remains outside verified status', payload['artists'][2]['status'] == 'candidate'),
         ('network is explicit', payload['network'] == NETWORK),

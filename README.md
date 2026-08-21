@@ -95,13 +95,17 @@ These are hard stops in code, not style preferences.
 
 ## Current state — 21 Aug 2026
 
-This is a private scout, not a forecaster. The current retained state is **801 shows · 687
-active entities** across two immutable crawls, with **513 eligible dashboard artists**. The
-stage funnel is 494 Discovered, 19 Major-platform confirmed, zero Diaspora validated, and zero
-Forecast ready. **RISING = 0 is the honest result** because two crawls over two days do not meet
-the three-crawl/21-day trajectory gate. Google Ads Keyword Planner history is stored separately
-for US and Canada; a numeric value cannot advance lifecycle until query contamination has a dated
-review.
+This is a private scout, not a forecaster. Its active product is the monthly **Artist Search
+Intelligence** dashboard. The registry has **1,173 names**: **46 verified** artists, **664**
+evidence-sourced directory candidates, 461 preserved legacy phrases, and two separately held review
+candidates. The default research scope contains **710 names**. The retained 48-month live pull
+mapped 710 of the then-711 eligible names in each India/USA/Canada geography; the dashboard defaults
+to June 2026 because it is the latest broadly comparable month. A later partial July value is never
+manufactured into a zero.
+
+The older ticketing scout remains preserved at **801 shows · 687 entities** across two immutable
+crawls. It no longer drives the active dashboard. **RISING = 0** remains the honest ticketing result
+because those crawls do not meet the three-crawl/21-day trajectory gate.
 
 **Working and proven on live data.** Deterministic compute and dashboard self-tests pass offline.
 
@@ -199,9 +203,13 @@ out/scout_<date>.md         the digest
 
 On Windows, double-click [`tools/open_dashboard.cmd`](tools/open_dashboard.cmd). It builds the
 current local artifact and opens `http://127.0.0.1:8765/`; it does not deploy or expose anything
-publicly. The dashboard shows **Discovered → Major-platform confirmed → Diaspora validated →
-Forecast ready**, source health, freshness, separate stature/momentum/export signals, and the
-next evidence action. Review BookMyShow/District validation before treating a candidate as ready.
+publicly. Choose a Google month, market, category, and roster scope. The table shows selected-month
+searches, MoM, exact-calendar 3-/6-/12-month averages, YoY, mapping quality, and monthly history.
+
+Use **Add artist** or an artist detail panel to edit a name, category, keyword, or active state.
+Manually added names remain review candidates and cannot inflate verified totals. **Refresh data**
+runs the guarded monthly 48-month Search + Partners workflow and rebuilds the dashboard. The North
+America view shows USA and Canada separately plus the stronger labelled geography, never a sum.
 
 The dashboard is local/private by default. Do not publish it without explicit authorization.
 
@@ -228,7 +236,7 @@ The **monthly** search-volume job, deliberately separate because Google refreshe
 once a month:
 
 ```bash
-cd tools && python fetch_search_volume.py --all
+cd tools && python run_automation.py monthly --history-months 48
 ```
 
 > Windows: set `PYTHONIOENCODING=utf-8` — the output contains `— ÷ ·` which crash on cp1252.
