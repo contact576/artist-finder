@@ -59,6 +59,10 @@ class OperatorApp:
 def make_handler(app):
     root = app.root
     class Handler(SimpleHTTPRequestHandler):
+        def end_headers(self):
+            if not urlsplit(self.path).path.startswith('/api/'):
+                self.send_header('Cache-Control','no-store')
+            return super().end_headers()
         def _json(self, status, value):
             text=json.dumps(value, ensure_ascii=False).encode(); self.send_response(status); self.send_header('Content-Type','application/json; charset=utf-8'); self.send_header('Cache-Control','no-store'); self.send_header('Content-Length',str(len(text))); self.end_headers(); self.wfile.write(text)
         def _error(self, status, message, field_errors=None): self._json(status, dict(error=HTTPStatus(status).phrase.lower().replace(' ','_'), message=message, **(dict(field_errors=field_errors) if field_errors else {})))
