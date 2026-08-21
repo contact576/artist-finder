@@ -34,12 +34,12 @@ jobs:
 
     steps:
       - name: Check out the private data branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
       - name: Use Python 3.12
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -54,7 +54,7 @@ jobs:
         run: python tools/hosted_write_config.py
 
       - name: Refresh the discovery inbox
-        run: python tools/refresh_artist_roster.py --seed --discover --limit-ideas 200
+        run: python tools/refresh_artist_roster.py --discover --limit-ideas 200
 
       - name: Pull 48 months for India, USA, and Canada
         run: python tools/fetch_search_volume.py --all --include-candidates --history-months 48
