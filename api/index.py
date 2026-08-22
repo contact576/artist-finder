@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import argparse
 import base64
+import binascii
 import gzip
 import hashlib
 import hmac
@@ -84,6 +85,10 @@ class ConfigurationError(SafeError):
 
 
 class GitHubError(SafeError):
+    pass
+
+
+class GitHubAuthorizationError(GitHubError):
     pass
 
 
@@ -188,7 +193,8 @@ class GitHubAdapter:
         if "/" not in self.repository or any(ch.isspace() for ch in self.repository):
             raise ConfigurationError("Service configuration is unavailable.")
 
-    def _request(self, method: str, path: str, payload: dict[str, Any] | None = None) -> Any:
+    def _request(self, method: str, path: str, payload: dict[str, Any] | None = None,
+                 operation: str = "GitHub request") -> Any:
         data = _json_bytes(payload) if payload is not None else None
         request = Request(
             self.api_root + path,
@@ -198,6 +204,7 @@ class GitHubAdapter:
                 "Accept": "application/vnd.github+json",
                 "Authorization": f"Bearer {self.token}",
                 "User-Agent": "artist-search-intelligence-vercel",
+                "X-GitHub-Api-Version": "2022-11-28",
                 **({"Content-Type": "application/json"} if data is not None else {}),
             },
         )
@@ -209,25 +216,37 @@ class GitHubAdapter:
             if exc.code in (409, 422):
                 raise GitHubConflict("Roster changed remotely; please retry.") from None
             if exc.code in (401, 403):
-                raise GitHubError("GitHub authorization is unavailable.") from None
+                raise GitHubAuthorizationError(f"{operation} is not authorized.") from None
             if exc.code == 404:
-                raise GitHubError("The configured GitHub resource was not found.") from None
-            raise GitHubError("GitHub request failed.") from None
+                raise GitHubError(f"{operation} was not found.") from None
+            raise GitHubError(f"{operation} failed.") from None
         except (URLError, TimeoutError, OSError, ValueError, UnicodeError):
-            raise GitHubError("GitHub request failed.") from None
+            raise GitHubError(f"{operation} failed.") from None
 
     def get_roster(self) -> tuple[dict[str, Any], str]:
         path = f"/repos/{self.repository}/contents/data/artist_roster.json?ref={quote(self.ref, safe='')}"
-        result = self._request("GET", path)
+        result = self._request("GET", path, operation="Roster read")
         try:
-            content = str(result["content"]).replace("\n", "")
-            data = json.loads(base64.b64decode(content).decode("utf-8"))
             sha = str(result["sha"])
+            encoding = str(result.get("encoding") or "")
+            content = result.get("content")
+            # GitHub's Contents API returns encoding="none" and omits content for
+            # files larger than 1 MB. The blob endpoint returns the same blob by
+            # SHA with base64 content and remains safe for the allowlisted file.
+            if encoding != "base64" or not isinstance(content, str) or not content.strip():
+                blob_path = f"/repos/{self.repository}/git/blobs/{quote(sha, safe='')}"
+                blob = self._request("GET", blob_path, operation="Roster blob read")
+                if not isinstance(blob, dict) or blob.get("encoding") != "base64":
+                    raise ValueError()
+                content = blob.get("content")
+            if not isinstance(content, str) or not content.strip():
+                raise ValueError()
+            data = json.loads(base64.b64decode("".join(content.split()), validate=True).decode("utf-8"))
             if not isinstance(data, dict) or not sha:
                 raise ValueError()
             roster.validate(data)
             return data, sha
-        except (KeyError, ValueError, TypeError, UnicodeError, json.JSONDecodeError):
+        except (KeyError, ValueError, TypeError, UnicodeError, json.JSONDecodeError, binascii.Error):
             raise GitHubError("The remote roster is invalid.") from None
 
     def commit_roster(self, data: dict[str, Any], sha: str, message: str) -> str:
@@ -241,7 +260,8 @@ class GitHubAdapter:
             "branch": self.ref,
         }
         result = self._request(
-            "PUT", f"/repos/{self.repository}/contents/data/artist_roster.json", body
+            "PUT", f"/repos/{self.repository}/contents/data/artist_roster.json", body,
+            operation="Roster update"
         )
         try:
             return str(result["content"]["sha"])
@@ -251,15 +271,22 @@ class GitHubAdapter:
     def dispatch_monthly(self, job_id: str) -> None:
         self._request(
             "POST",
-            f"/repos/{self.repository}/actions/workflows/{quote(WORKFLOW_FILE, safe='')}/dispatches",
-            {"ref": self.ref, "inputs": {"job_id": job_id}},
+            f"/repos/{self.repository}/dispatches",
+            {"event_type": "artist-search-refresh", "client_payload": {"job_id": job_id}},
+            operation="Monthly refresh dispatch",
         )
 
     def refresh_status(self, job_id: str) -> dict[str, Any]:
-        # The workflow must set ``run-name: ${{ inputs.job_id }}``, making this safe to poll.
+        # repository_dispatch uses Contents write, the same permission required
+        # for roster edits. Actions read is optional: if it is absent, the UI
+        # watches for a newly generated dashboard instead of reporting failure.
         path = (f"/repos/{self.repository}/actions/workflows/{quote(WORKFLOW_FILE, safe='')}/runs"
-                f"?event=workflow_dispatch&per_page=100&branch={quote(self.ref, safe='')}")
-        result = self._request("GET", path)
+                f"?event=repository_dispatch&per_page=100&branch={quote(self.ref, safe='')}")
+        try:
+            result = self._request("GET", path, operation="Monthly refresh status")
+        except GitHubAuthorizationError:
+            return {"job_id": job_id, "state": "started",
+                    "message": "Refresh started. Waiting for the updated dashboard."}
         runs = result.get("workflow_runs", []) if isinstance(result, dict) else []
         run = next((row for row in runs if isinstance(row, dict) and row.get("display_title") == job_id), None)
         if not run:
@@ -485,10 +512,17 @@ def make_handler(app: DashboardApp):
                     return self._json(HTTPStatus.ACCEPTED, {"job_id": job_id, "state": "queued",
                                                             "message": "Monthly refresh queued."})
                 if path == "/api/artists":
-                    artist = app.mutate_roster(
-                        lambda data: roster.operator_add_artist(
+                    def add_artist(data: dict[str, Any]) -> dict[str, Any]:
+                        artist = roster.operator_add_artist(
                             body.get("name"), body.get("category"), body.get("measurement_keyword"),
-                            body.get("evidence_url"), data=data, save_now=False),
+                            body.get("evidence_url"), data=data, save_now=False)
+                        if body.get("aliases"):
+                            artist = roster.operator_edit_artist(
+                                artist["slug"], aliases=body["aliases"], data=data, save_now=False)
+                        return artist
+
+                    artist = app.mutate_roster(
+                        add_artist,
                         "artist roster: operator add",
                     )
                     return self._json(HTTPStatus.CREATED, {"artist": artist,
@@ -618,6 +652,31 @@ class _FakeGitHub:
         return {"job_id": job_id, "state": "success", "message": "Fixture refresh completed."}
 
 
+class _FakeLargeRosterAdapter(GitHubAdapter):
+    """Exercise GitHub's encoding=none response without network or secrets."""
+
+    def __init__(self, data: dict[str, Any]) -> None:
+        self.repository = "fixture/repository"
+        self.ref = "main"
+        self.encoded = base64.b64encode(_json_bytes(data)).decode("ascii")
+        self.paths: list[str] = []
+        self.calls: list[tuple[str, str, dict[str, Any] | None]] = []
+
+    def _request(self, method: str, path: str, payload: dict[str, Any] | None = None,
+                 operation: str = "GitHub request") -> Any:
+        self.paths.append(path)
+        self.calls.append((method, path, payload))
+        if "/contents/data/artist_roster.json" in path:
+            return {"sha": "large-fixture-sha", "encoding": "none", "content": ""}
+        if path.endswith("/git/blobs/large-fixture-sha"):
+            return {"encoding": "base64", "content": self.encoded}
+        if path.endswith("/dispatches"):
+            return None
+        if "/actions/workflows/" in path:
+            raise GitHubAuthorizationError(f"{operation} is not authorized")
+        raise AssertionError(f"unexpected fixture path for {operation}: {method} {path}")
+
+
 def _password_hash(password: str) -> str:
     salt = b"artist-dashboard-selftest-salt"
     count = 100_000
@@ -641,6 +700,10 @@ def _selftest() -> int:
         os.environ["HOSTED_AUTH_PASSWORD_HASH"] = _password_hash("correct horse battery staple")
         os.environ["HOSTED_AUTH_SESSION_SECRET"] = "selftest-session-secret-with-sufficient-length"
         os.environ["HOSTED_AUTH_CSRF_SECRET"] = "selftest-csrf-secret-with-sufficient-length"
+        large_adapter = _FakeLargeRosterAdapter(roster.empty_registry())
+        large_adapter.dispatch_monthly("fixture-job")
+        fallback_status = large_adapter.refresh_status("fixture-job")
+        large_roster, large_sha = large_adapter.get_roster()
         for name, content in {"index.html": b"fixture", "app.js": b"// fixture", "app.css": b"", "dashboard-data.json": b'{"fixture":true}', "manifest.json": b"{}"}.items():
             (temp / name).write_bytes(content)
         fake = _FakeGitHub(roster.empty_registry())
@@ -683,7 +746,7 @@ def _selftest() -> int:
         csrf = json.loads(meta_raw)["csrf_token"] if meta_status == 200 else ""
         traversal, _, _ = request("GET", "/%2e%2e/secret", cookie=cookie)
         csrf_denied, _, _ = request("POST", "/api/artists", {"name": "Fixture Artist", "category": "comedy"}, cookie=cookie)
-        added, _, _ = request("POST", "/api/artists", {"name": "Fixture Artist", "category": "comedy", "measurement_keyword": "Fixture Artist"}, cookie=cookie, csrf=csrf)
+        added, _, _ = request("POST", "/api/artists", {"name": "Fixture Artist", "aliases": ["Fixture Alias"], "category": "comedy", "measurement_keyword": "Fixture Artist"}, cookie=cookie, csrf=csrf)
         dashboard, dash_headers, dash_body = request("GET", "/api/dashboard", cookie=cookie, gzip_ok=True)
         refresh, _, _ = request("POST", "/api/refresh", {}, cookie=cookie, csrf=csrf)
         checks = [
@@ -694,7 +757,15 @@ def _selftest() -> int:
             ("session meta returns CSRF", meta_status == 200 and bool(csrf)),
             ("traversal rejected", traversal == 403),
             ("CSRF required", csrf_denied == 403),
-            ("GitHub-backed add commits once", added == 201 and fake.commits == 1 and "fixture-artist" in fake.data["artists"]),
+            ("large roster falls back to the immutable blob SHA",
+             large_sha == "large-fixture-sha" and large_roster == roster.empty_registry()
+             and any(path.endswith("/git/blobs/large-fixture-sha") for path in large_adapter.paths)),
+            ("refresh dispatch uses the content-write repository event",
+             ("POST", "/repos/fixture/repository/dispatches",
+              {"event_type": "artist-search-refresh", "client_payload": {"job_id": "fixture-job"}}) in large_adapter.calls
+             and fallback_status["state"] == "started"),
+            ("GitHub-backed add commits once with aliases", added == 201 and fake.commits == 1
+             and fake.data["artists"]["fixture-artist"]["aliases"] == ["Fixture Alias"]),
             ("dashboard gzip response", dashboard == 200 and dash_headers.get("content-encoding") == "gzip" and gzip.decompress(dash_body) == b'{"fixture":true}'),
             ("refresh dispatches workflow", refresh == 202 and len(fake.dispatched) == 1),
         ]

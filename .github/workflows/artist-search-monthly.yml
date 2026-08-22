@@ -1,7 +1,9 @@
 name: Monthly Artist Search Refresh
-run-name: ${{ github.event.inputs.job_id || format('scheduled-{0}', github.run_id) }}
+run-name: ${{ github.event.client_payload.job_id || github.event.inputs.job_id || format('scheduled-{0}', github.run_id) }}
 
 on:
+  repository_dispatch:
+    types: [artist-search-refresh]
   workflow_dispatch:
     inputs:
       job_id:

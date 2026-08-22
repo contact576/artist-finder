@@ -25999,7 +25999,7 @@
       "aliases": [],
       "contamination_note": "Do not map or promote using one-word query results alone; separate from Romey Maan and other non-Indian Romy artist pages.",
       "contamination_status": "ambiguous",
-      "curated": true,
+      "curated": false,
       "entity_type": "artist",
       "first_seen": "2026-08-21",
       "identity_evidence": {

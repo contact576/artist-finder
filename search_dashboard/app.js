@@ -249,11 +249,10 @@
     $('#artist-body').innerHTML = visible.length ? visible.map(row => {
       const m = metric(row), changeTone = m.absolute == null ? 'unknown' : m.absolute >= 0 ? 'positive' : 'negative';
       const source = row.geos?.[state.geo] || {};
-      const mapping = source.mapping_quality || source.mapping_mode || 'not recorded';
       const fetched = source.last_updated || source.fetched_at || row.fetched_at || 'Not recorded';
       const yoyTone = m.yoy == null ? 'unknown' : m.yoy >= 0 ? 'positive' : 'negative';
-      return `<tr tabindex="0" data-open="${escapeHtml(row.slug)}" aria-label="Open details for ${escapeHtml(row.name)}"><td><span class="artist-name"><strong>${escapeHtml(row.name)}</strong><small>${escapeHtml(row.measurement_keyword || 'Keyword pending')}${source.mapping_mode === 'close_variant' ? ' · close variant' : ''}</small></span></td><td>${escapeHtml(genreLabel(row.primary_genre))}</td><td>${badge(title(row.status), toneForStatus(row.status))}</td><td><strong>${selectedValue(m.latest)}</strong><small class="table-subline">${monthLabel(state.month)}</small></td><td class="${changeTone}">${m.absolute == null ? '—' : `${m.absolute >= 0 ? '+' : ''}${fmt(m.absolute)}`}</td><td class="${changeTone}">${pct(m.mom)}</td><td>${averageLabel(m.average3)}</td><td>${averageLabel(m.average6)}</td><td>${averageLabel(m.average12)}</td><td class="${yoyTone}">${yoyLabel(m.yoy)}</td><td>${badge(title(mapping), mapping === 'exact' ? 'good' : mapping === 'close_variant' ? 'warn' : 'neutral')}</td><td>${escapeHtml(String(fetched).slice(0, 10))}</td><td>${chartCanvas(m.series)}</td></tr>`;
-    }).join('') : '<tr class="empty-row"><td colspan="13"><div class="empty">No artists match these filters. Try All combined or change roster scope.</div></td></tr>';
+      return `<tr tabindex="0" data-open="${escapeHtml(row.slug)}" aria-label="Open details for ${escapeHtml(row.name)}"><td><span class="artist-name"><strong>${escapeHtml(row.name)}</strong><small>${escapeHtml(row.measurement_keyword || 'Keyword pending')}${source.mapping_mode === 'close_variant' ? ' · close variant' : ''}</small></span></td><td>${escapeHtml(genreLabel(row.primary_genre))}</td><td><strong>${selectedValue(m.latest)}</strong><small class="table-subline">${monthLabel(state.month)}</small></td><td class="${changeTone}">${m.absolute == null ? '—' : `${m.absolute >= 0 ? '+' : ''}${fmt(m.absolute)}`}</td><td class="${changeTone}">${pct(m.mom)}</td><td>${averageLabel(m.average3)}</td><td>${averageLabel(m.average6)}</td><td>${averageLabel(m.average12)}</td><td class="${yoyTone}">${yoyLabel(m.yoy)}</td><td>${escapeHtml(String(fetched).slice(0, 10))}</td><td>${chartCanvas(m.series)}</td></tr>`;
+    }).join('') : '<tr class="empty-row"><td colspan="11"><div class="empty">No artists match these filters. Try All combined or change roster scope.</div></td></tr>';
     $$('.sort').forEach(button => button.setAttribute('aria-sort', button.dataset.sort === state.sort ? (state.direction === 1 ? 'ascending' : 'descending') : 'none'));
     renderPagination(pages); drawCharts($('#artist-body'));
   }
@@ -297,14 +296,13 @@
     state.lastTrigger = trigger || document.activeElement;
     const cards = ['in', 'us', 'ca'].map(geo => {
       const m = metric(row, geo), source = row.geos?.[geo] || {};
-      return `<article class="geo-card"><h3>${geoLabels[geo]}</h3><div class="big">${selectedValue(m.latest)}</div><p>Selected month: ${monthLabel(state.month)}<br>MoM ${pct(m.mom)} · 3-month avg ${averageLabel(m.average3)} · 6-month avg ${averageLabel(m.average6)} · 12-month avg ${averageLabel(m.average12)} · YoY ${yoyLabel(m.yoy)}</p>${chartCanvas(m.series, true, '', `${geoLabels[geo]} full available monthly search history`)}<p>${row.keyword_review_state === 'approved' ? 'Approved keyword' : 'Measurement query (pending review)'}: ${escapeHtml(row.measurement_keyword || source.keyword || 'Pending')}<br>Mapping quality: ${escapeHtml(source.mapping_quality || source.mapping_mode || 'Not recorded')}<br>Last fetched: ${escapeHtml(source.last_updated || source.fetched_at || row.fetched_at || 'Not recorded')}</p></article>`;
+      return `<article class="geo-card"><h3>${geoLabels[geo]}</h3><div class="big">${selectedValue(m.latest)}</div><p>${monthLabel(state.month)} · MoM ${pct(m.mom)} · 3m ${averageLabel(m.average3)} · 6m ${averageLabel(m.average6)} · 12m ${averageLabel(m.average12)} · YoY ${yoyLabel(m.yoy)}</p>${chartCanvas(m.series, true, '', `${geoLabels[geo]} full available monthly search history`)}<p>${row.keyword_review_state === 'approved' ? 'Approved keyword' : 'Measurement query (pending review)'}: ${escapeHtml(row.measurement_keyword || source.keyword || 'Pending')}<br>Last fetched: ${escapeHtml(source.last_updated || source.fetched_at || row.fetched_at || 'Not recorded')}</p></article>`;
     }).join('');
     const evidence = row.identity_evidence || {};
     const selectedSource = row.geos?.[state.geo] || {};
-    const variants = selectedSource.close_variants || row.close_variants || [];
     const statusAction = row.status === 'inactive' ? 'reactivate' : 'deactivate';
     const statusLabel = row.status === 'inactive' ? 'Reactivate' : 'Deactivate';
-    $('#detail-content').innerHTML = `<header class="detail-header"><p class="eyebrow">${escapeHtml(genreLabel(row.primary_genre))}</p><h2 id="detail-name">${escapeHtml(row.name)}</h2><p>${badge(title(row.status), toneForStatus(row.status))} ${badge(row.keyword_review_state === 'approved' ? 'Keyword approved' : 'Keyword review pending', row.keyword_review_state === 'approved' ? 'good' : 'warn')}</p><p>${row.keyword_review_state === 'approved' ? 'Approved measurement keyword' : 'Measurement query pending review'}: <strong>${escapeHtml(row.measurement_keyword || selectedSource.keyword || 'Pending')}</strong></p><div class="detail-actions"><button type="button" class="secondary-action" data-artist-action="edit">Edit artist</button><button type="button" class="secondary-action" data-artist-action="reassign">Reassign category</button><button type="button" class="secondary-action" data-artist-action="keyword">Add or replace keyword</button><button type="button" class="secondary-action" data-artist-action="${statusAction}">${statusLabel}</button></div></header><section class="geo-detail-grid">${cards}</section><section class="detail-grid"><article class="detail-block"><h3>Measurement provenance</h3><p>Mapping quality: ${escapeHtml(selectedSource.mapping_quality || selectedSource.mapping_mode || 'Not recorded')}<br>Mapping result: ${escapeHtml(selectedSource.result_text || 'Not recorded')}<br>Close variants: ${escapeHtml(variants.join(', ') || 'None recorded')}<br>Last fetched: ${escapeHtml(selectedSource.last_updated || selectedSource.fetched_at || row.fetched_at || 'Not recorded')}</p></article><article class="detail-block"><h3>Contamination review</h3><p>Status: ${escapeHtml(row.contamination_status || 'Not recorded')}<br>${escapeHtml(row.contamination_note || 'No contamination note recorded.')}</p></article><article class="detail-block"><h3>Identity evidence</h3><p>Type: ${escapeHtml(evidence.kind || 'Unknown')}<br>Research state: ${escapeHtml(row.research_state || 'Not recorded')}<br>Curated: ${row.curated === true ? 'Yes' : 'No'}<br>Reviewed: ${escapeHtml(evidence.reviewed_at || row.last_reviewed || 'Not reviewed')}<br>${escapeHtml(evidence.note || 'No evidence note recorded.')}${evidence.url ? `<br><a href="${escapeHtml(evidence.url)}" target="_blank" rel="noopener noreferrer">Open evidence</a>` : ''}</p></article><article class="detail-block"><h3>Audit trail and aliases</h3><p>First seen: ${escapeHtml(row.first_seen || 'Not recorded')}<br>Aliases: ${escapeHtml((row.aliases || []).join(', ') || 'None recorded')}<br>Niche tags: ${escapeHtml((row.niche_tags || []).map(genreLabel).join(', ') || 'None recorded')}<br>${escapeHtml((row.needs_attention || []).join(' ') || 'No active review warning.')}</p></article></section>`;
+    $('#detail-content').innerHTML = `<header class="detail-header"><p class="eyebrow">${escapeHtml(genreLabel(row.primary_genre))}</p><h2 id="detail-name">${escapeHtml(row.name)}</h2><p>${badge(title(row.status), toneForStatus(row.status))} ${badge(row.keyword_review_state === 'approved' ? 'Keyword approved' : 'Keyword review pending', row.keyword_review_state === 'approved' ? 'good' : 'warn')}</p><p>${row.keyword_review_state === 'approved' ? 'Approved measurement keyword' : 'Measurement query pending review'}: <strong>${escapeHtml(row.measurement_keyword || selectedSource.keyword || 'Pending')}</strong></p><div class="detail-actions"><button type="button" class="secondary-action" data-artist-action="edit">Edit artist</button><button type="button" class="secondary-action" data-artist-action="reassign">Reassign category</button><button type="button" class="secondary-action" data-artist-action="keyword">Add or replace keyword</button><button type="button" class="secondary-action" data-artist-action="${statusAction}">${statusLabel}</button></div></header><section class="geo-detail-grid">${cards}</section><section class="detail-grid"><article class="detail-block"><h3>Identity evidence</h3><p>Type: ${escapeHtml(evidence.kind || 'Unknown')}<br>Research state: ${escapeHtml(row.research_state || 'Not recorded')}<br>Curated: ${row.curated === true ? 'Yes' : 'No'}<br>Reviewed: ${escapeHtml(evidence.reviewed_at || row.last_reviewed || 'Not reviewed')}<br>${escapeHtml(evidence.note || 'No evidence note recorded.')}${evidence.url ? `<br><a href="${escapeHtml(evidence.url)}" target="_blank" rel="noopener noreferrer">Open evidence</a>` : ''}</p></article><article class="detail-block"><h3>Audit trail and aliases</h3><p>First seen: ${escapeHtml(row.first_seen || 'Not recorded')}<br>Aliases: ${escapeHtml((row.aliases || []).join(', ') || 'None recorded')}<br>Niche tags: ${escapeHtml((row.niche_tags || []).map(genreLabel).join(', ') || 'None recorded')}<br>${escapeHtml((row.needs_attention || []).join(' ') || 'No active review warning.')}</p></article></section>`;
     const dialog = $('#artist-detail');
     if (!dialog.open) dialog.showModal();
     drawCharts($('#detail-content')); $('#close-detail').focus();
@@ -411,7 +409,24 @@
       renderControls(); renderAll();
     } catch (error) { showRefreshStatus(`Current dashboard payload could not be reloaded: ${error.message}`, 'error'); }
   }
-  async function pollRefresh(jobId) {
+  async function waitForDashboardRefresh(previousGeneratedAt, attempt = 0) {
+    if (attempt >= 120) {
+      showRefreshStatus('Refresh is still running in the background. Reload the page in a few minutes.', 'neutral');
+      return;
+    }
+    await new Promise(resolve => window.setTimeout(resolve, 5000));
+    try {
+      const response = await fetch('/api/dashboard', { cache: 'no-store' });
+      if (response.ok) {
+        const latest = await response.json();
+        if (latest.generated_at && latest.generated_at !== previousGeneratedAt) {
+          await refreshDashboardData(); showRefreshStatus('Refresh completed. The dashboard is up to date.', 'success'); return;
+        }
+      }
+    } catch { /* The current dashboard remains usable during deployment. */ }
+    return waitForDashboardRefresh(previousGeneratedAt, attempt + 1);
+  }
+  async function pollRefresh(jobId, previousGeneratedAt) {
     try {
       const job = await apiRequest(`/api/refresh/${encodeURIComponent(jobId)}`, { method: 'GET' });
       const stateName = job.state || 'running';
@@ -419,8 +434,9 @@
       const failed = stateName === 'failed' || stateName === 'error';
       showRefreshStatus(`${title(stateName)}${progress}${job.message ? ` — ${job.message}` : ''}`, failed ? 'error' : stateName === 'success' ? 'success' : 'running');
       if (stateName === 'success') { await refreshDashboardData(); return; }
+      if (stateName === 'started') { await waitForDashboardRefresh(previousGeneratedAt); return; }
       if (failed) return;
-      return new Promise(resolve => window.setTimeout(() => resolve(pollRefresh(jobId)), 1500));
+      return new Promise(resolve => window.setTimeout(() => resolve(pollRefresh(jobId, previousGeneratedAt)), 1500));
     } catch (error) { showRefreshStatus(`Refresh status could not be read: ${error.message}`, 'error'); }
   }
   async function startRefresh() {
@@ -430,7 +446,7 @@
       const job = await apiRequest('/api/refresh', { method: 'POST', body: '{}' });
       state.refreshJobId = job.job_id;
       if (!job.job_id) throw new Error('Refresh response did not include a job_id.');
-      await pollRefresh(job.job_id);
+      await pollRefresh(job.job_id, state.data.generated_at);
     } catch (error) { showRefreshStatus(`Refresh could not start: ${error.message}`, 'error'); }
     finally { button.disabled = false; }
   }
@@ -488,7 +504,7 @@
       event.preventDefault();
       const slug = $('#artist-editor-slug').value;
       const aliases = $('#artist-editor-aliases').value.split(',').map(value => value.trim()).filter(Boolean);
-      const payload = slug ? { name: $('#artist-editor-name').value.trim(), aliases, category: $('#artist-editor-genre').value, evidence_url: $('#artist-editor-evidence').value.trim() || null } : { name: $('#artist-editor-name').value.trim(), category: $('#artist-editor-genre').value, measurement_keyword: $('#artist-editor-keyword').value.trim() || null, evidence_url: $('#artist-editor-evidence').value.trim() || null };
+      const payload = slug ? { name: $('#artist-editor-name').value.trim(), aliases, category: $('#artist-editor-genre').value, evidence_url: $('#artist-editor-evidence').value.trim() || null } : { name: $('#artist-editor-name').value.trim(), aliases, category: $('#artist-editor-genre').value, measurement_keyword: $('#artist-editor-keyword').value.trim() || null, evidence_url: $('#artist-editor-evidence').value.trim() || null };
       try {
         const result = await apiRequest(slug ? `/api/artists/${encodeURIComponent(slug)}` : '/api/artists', { method: slug ? 'PATCH' : 'POST', body: JSON.stringify(payload) });
         const updated = mergeArtist(result); await refreshDashboardData(updated); $('#artist-editor').close(); showRefreshStatus(`Artist ${slug ? 'updated' : 'added'} successfully.`, 'success');
