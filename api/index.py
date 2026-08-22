@@ -258,6 +258,14 @@ class GitHubAdapter:
             ).decode("ascii"),
             "sha": sha,
             "branch": self.ref,
+            "author": {
+                "name": "artist-search-refresh[bot]",
+                "email": "artist-search-refresh[bot]@users.noreply.github.com",
+            },
+            "committer": {
+                "name": "artist-search-refresh[bot]",
+                "email": "artist-search-refresh[bot]@users.noreply.github.com",
+            },
         }
         result = self._request(
             "PUT", f"/repos/{self.repository}/contents/data/artist_roster.json", body,
@@ -666,6 +674,8 @@ class _FakeLargeRosterAdapter(GitHubAdapter):
                  operation: str = "GitHub request") -> Any:
         self.paths.append(path)
         self.calls.append((method, path, payload))
+        if method == "PUT" and path.endswith("/contents/data/artist_roster.json"):
+            return {"content": {"sha": "committed-fixture-sha"}}
         if "/contents/data/artist_roster.json" in path:
             return {"sha": "large-fixture-sha", "encoding": "none", "content": ""}
         if path.endswith("/git/blobs/large-fixture-sha"):
@@ -704,6 +714,9 @@ def _selftest() -> int:
         large_adapter.dispatch_monthly("fixture-job")
         fallback_status = large_adapter.refresh_status("fixture-job")
         large_roster, large_sha = large_adapter.get_roster()
+        committed_sha = large_adapter.commit_roster(roster.empty_registry(), large_sha, "fixture operator edit")
+        operator_commit_call = next(call for call in large_adapter.calls if call[0] == "PUT")
+        operator_commit_payload = operator_commit_call[2] or {}
         for name, content in {"index.html": b"fixture", "app.js": b"// fixture", "app.css": b"", "dashboard-data.json": b'{"fixture":true}', "manifest.json": b"{}"}.items():
             (temp / name).write_bytes(content)
         fake = _FakeGitHub(roster.empty_registry())
@@ -766,6 +779,11 @@ def _selftest() -> int:
              and fallback_status["state"] == "started"),
             ("GitHub-backed add commits once with aliases", added == 201 and fake.commits == 1
              and fake.data["artists"]["fixture-artist"]["aliases"] == ["Fixture Alias"]),
+            ("operator commits use the deployable bot identity",
+             committed_sha == "committed-fixture-sha"
+             and operator_commit_payload.get("author", {}).get("name") == "artist-search-refresh[bot]"
+             and operator_commit_payload.get("committer", {}).get("email")
+             == "artist-search-refresh[bot]@users.noreply.github.com"),
             ("dashboard gzip response", dashboard == 200 and dash_headers.get("content-encoding") == "gzip" and gzip.decompress(dash_body) == b'{"fixture":true}'),
             ("refresh dispatches workflow", refresh == 202 and len(fake.dispatched) == 1),
         ]
