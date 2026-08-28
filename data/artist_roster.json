@@ -23169,6 +23169,36 @@
       "status": "candidate",
       "verified_at": null
     },
+    "pranit-more": {
+      "aliases": [
+        "Pranit More"
+      ],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-08-28",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added through the local operator API; review required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": "2026-08-28",
+      "measurement_keyword": "Pranit More",
+      "merged_into": null,
+      "name": "Pranit More",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "slug": "pranit-more",
+      "source": "local_operator",
+      "status": "candidate",
+      "verified_at": null
+    },
     "prashasti-singh": {
       "aliases": [],
       "contamination_note": null,
