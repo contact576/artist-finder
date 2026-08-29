@@ -53,6 +53,8 @@ BASE = HERE.parent
 SCOUT = BASE / "scout"
 DASHBOARD_ROOT = BASE / "out" / "dashboard"
 WORKFLOW_FILE = "artist-search-monthly.yml"
+FAVORITES_STATE_PATH = "data/operator_state/favorites.json"
+FAVORITES_AUDIT_LIMIT = 2_000
 MAX_BODY_BYTES = 32_768
 SESSION_SECONDS = 8 * 60 * 60
 COOKIE_NAME = "artist_dashboard_session"
@@ -89,6 +91,10 @@ class GitHubError(SafeError):
 
 
 class GitHubAuthorizationError(GitHubError):
+    pass
+
+
+class GitHubNotFound(GitHubError):
     pass
 
 
@@ -218,7 +224,7 @@ class GitHubAdapter:
             if exc.code in (401, 403):
                 raise GitHubAuthorizationError(f"{operation} is not authorized.") from None
             if exc.code == 404:
-                raise GitHubError(f"{operation} was not found.") from None
+                raise GitHubNotFound(f"{operation} was not found.") from None
             raise GitHubError(f"{operation} failed.") from None
         except (URLError, TimeoutError, OSError, ValueError, UnicodeError):
             raise GitHubError(f"{operation} failed.") from None
@@ -275,6 +281,58 @@ class GitHubAdapter:
             return str(result["content"]["sha"])
         except (KeyError, TypeError):
             raise GitHubError("GitHub did not confirm the roster update.") from None
+
+    def get_favorites(self, valid_slugs: set[str]) -> tuple[dict[str, Any], str | None]:
+        """Read the separate operator-state file; its absence is a valid empty state."""
+        path = f"/repos/{self.repository}/contents/{FAVORITES_STATE_PATH}?ref={quote(self.ref, safe='')}"
+        try:
+            result = self._request("GET", path, operation="Favorites read")
+        except GitHubNotFound:
+            return {"schema_version": 1, "favorites": [], "audit": []}, None
+        try:
+            sha = str(result["sha"])
+            encoding = str(result.get("encoding") or "")
+            content = result.get("content")
+            if encoding != "base64" or not isinstance(content, str) or not content.strip():
+                blob_path = f"/repos/{self.repository}/git/blobs/{quote(sha, safe='')}"
+                blob = self._request("GET", blob_path, operation="Favorites blob read")
+                if not isinstance(blob, dict) or blob.get("encoding") != "base64":
+                    raise ValueError()
+                content = blob.get("content")
+            if not isinstance(content, str) or not content.strip():
+                raise ValueError()
+            data = json.loads(base64.b64decode("".join(content.split()), validate=True).decode("utf-8"))
+            return _validate_favorites_state(data, valid_slugs), sha
+        except (KeyError, ValueError, TypeError, UnicodeError, json.JSONDecodeError, binascii.Error):
+            raise GitHubError("The remote favorites state is invalid.") from None
+
+    def commit_favorites(self, data: dict[str, Any], sha: str | None, message: str) -> str:
+        """Write only the allowlisted Favorites/audit document to the configured data ref."""
+        body: dict[str, Any] = {
+            "message": message,
+            "content": base64.b64encode(
+                (json.dumps(data, ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode("utf-8")
+            ).decode("ascii"),
+            "branch": self.ref,
+            "author": {
+                "name": "artist-search-refresh[bot]",
+                "email": "artist-search-refresh[bot]@users.noreply.github.com",
+            },
+            "committer": {
+                "name": "artist-search-refresh[bot]",
+                "email": "artist-search-refresh[bot]@users.noreply.github.com",
+            },
+        }
+        if sha:
+            body["sha"] = sha
+        result = self._request(
+            "PUT", f"/repos/{self.repository}/contents/{FAVORITES_STATE_PATH}", body,
+            operation="Favorites update"
+        )
+        try:
+            return str(result["content"]["sha"])
+        except (KeyError, TypeError):
+            raise GitHubError("GitHub did not confirm the favorites update.") from None
 
     def dispatch_monthly(self, job_id: str) -> None:
         self._request(
@@ -365,6 +423,70 @@ class DashboardApp:
             except GitHubConflict as exc:
                 last_error = exc
         raise last_error or GitHubConflict("Roster changed remotely; please retry.")
+
+    def favorites(self) -> dict[str, Any]:
+        roster_data, _ = self.github().get_roster()
+        valid_slugs = set(roster_data.get("artists", {}))
+        state, _ = self.github().get_favorites(valid_slugs)
+        return {"favorites": state["favorites"], "count": len(state["favorites"])}
+
+    def set_favorite(self, slug: str, favorite: Any) -> dict[str, Any]:
+        """Persist a validated favorite state without touching roster or dashboard data."""
+        if not isinstance(favorite, bool):
+            raise ValueError("favorite must be a boolean")
+        last_error: Exception | None = None
+        for _ in range(2):
+            roster_data, _ = self.github().get_roster()
+            valid_slugs = set(roster_data.get("artists", {}))
+            if slug not in valid_slugs:
+                raise ValueError("Unknown artist identifier")
+            state, sha = self.github().get_favorites(valid_slugs)
+            prior = slug in state["favorites"]
+            values = set(state["favorites"])
+            if favorite:
+                values.add(slug)
+            else:
+                values.discard(slug)
+            state["favorites"] = sorted(values)
+            state["audit"] = (state["audit"] + [{
+                "timestamp": _now_utc(),
+                "action": "artist_favorited" if favorite else "artist_unfavorited",
+                "artist_slug": slug,
+                "prior_value": prior,
+                "new_value": favorite,
+                "changed": prior != favorite,
+            }])[-FAVORITES_AUDIT_LIMIT:]
+            try:
+                self.github().commit_favorites(
+                    state, sha, f"artist favorites: {'favorite' if favorite else 'unfavorite'} {slug}"
+                )
+                return {
+                    "slug": slug,
+                    "favorite": favorite,
+                    "previous_value": prior,
+                    "changed": prior != favorite,
+                    "count": len(state["favorites"]),
+                }
+            except GitHubConflict as exc:
+                last_error = exc
+        raise last_error or GitHubConflict("Favorites changed remotely; please retry.")
+
+
+def _validate_favorites_state(value: Any, valid_slugs: set[str]) -> dict[str, Any]:
+    if not isinstance(value, dict) or value.get("schema_version") != 1:
+        raise ValueError()
+    favorites = value.get("favorites")
+    audit = value.get("audit")
+    if (not isinstance(favorites, list) or not isinstance(audit, list)
+            or len(audit) > FAVORITES_AUDIT_LIMIT):
+        raise ValueError()
+    if any(not isinstance(slug, str) or slug not in valid_slugs for slug in favorites):
+        raise ValueError()
+    if len(set(favorites)) != len(favorites):
+        raise ValueError()
+    if any(not isinstance(entry, dict) for entry in audit):
+        raise ValueError()
+    return {"schema_version": 1, "favorites": sorted(favorites), "audit": audit}
 
 
 def make_handler(app: DashboardApp):
@@ -487,6 +609,8 @@ def make_handler(app: DashboardApp):
                     return self._json(200, {"artists": app.list_artists(
                         (query.get("q") or [""])[0], (query.get("status") or [None])[0]),
                         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())})
+                if path == "/api/v1/favorites":
+                    return self._json(200, app.favorites())
                 if path.startswith("/api/refresh/"):
                     job_id = path.rsplit("/", 1)[-1]
                     if not job_id or len(job_id) > 128:
@@ -538,6 +662,9 @@ def make_handler(app: DashboardApp):
                 parts = path.split("/")
                 if len(parts) == 5 and parts[:3] == ["", "api", "artists"]:
                     slug, action = parts[3], parts[4]
+                    if action == "favorite":
+                        result = app.set_favorite(slug, body.get("favorite"))
+                        return self._json(200, result)
                     if action == "category":
                         artist = app.mutate_roster(
                             lambda data: roster.operator_set_category(slug, body.get("category"), data=data, save_now=False),
@@ -639,7 +766,10 @@ class _FakeGitHub:
     def __init__(self, data: dict[str, Any]) -> None:
         self.data = json.loads(json.dumps(data))
         self.sha = "fixture-sha"
+        self.favorites = {"schema_version": 1, "favorites": [], "audit": []}
+        self.favorites_sha: str | None = None
         self.commits = 0
+        self.roster_commits = 0
         self.dispatched: list[str] = []
 
     def get_roster(self) -> tuple[dict[str, Any], str]:
@@ -650,8 +780,22 @@ class _FakeGitHub:
             raise GitHubConflict("fixture conflict")
         self.data = json.loads(json.dumps(data))
         self.commits += 1
+        self.roster_commits += 1
         self.sha = f"fixture-{self.commits}"
         return self.sha
+
+    def get_favorites(self, valid_slugs: set[str]) -> tuple[dict[str, Any], str | None]:
+        return _validate_favorites_state(
+            json.loads(json.dumps(self.favorites)), valid_slugs
+        ), self.favorites_sha
+
+    def commit_favorites(self, data: dict[str, Any], sha: str | None, _message: str) -> str:
+        if sha != self.favorites_sha:
+            raise GitHubConflict("fixture favorite conflict")
+        self.favorites = json.loads(json.dumps(data))
+        self.commits += 1
+        self.favorites_sha = f"favorite-fixture-{self.commits}"
+        return self.favorites_sha
 
     def dispatch_monthly(self, job_id: str) -> None:
         self.dispatched.append(job_id)
@@ -757,11 +901,22 @@ def _selftest() -> int:
         cookie = headers.get("set-cookie", "").split(";", 1)[0]
         meta_status, _, meta_raw = request("GET", "/api/v1/meta", cookie=cookie)
         csrf = json.loads(meta_raw)["csrf_token"] if meta_status == 200 else ""
+        favorite_initial, _, favorite_initial_raw = request("GET", "/api/v1/favorites", cookie=cookie)
         traversal, _, _ = request("GET", "/%2e%2e/secret", cookie=cookie)
         csrf_denied, _, _ = request("POST", "/api/artists", {"name": "Fixture Artist", "category": "comedy"}, cookie=cookie)
         added, _, _ = request("POST", "/api/artists", {"name": "Fixture Artist", "aliases": ["Fixture Alias"], "category": "comedy", "measurement_keyword": "Fixture Artist"}, cookie=cookie, csrf=csrf)
         dashboard, dash_headers, dash_body = request("GET", "/api/dashboard", cookie=cookie, gzip_ok=True)
+        favorite_added, _, favorite_added_raw = request("POST", "/api/artists/fixture-artist/favorite", {"favorite": True}, cookie=cookie, csrf=csrf)
+        favorite_duplicate, _, favorite_duplicate_raw = request("POST", "/api/artists/fixture-artist/favorite", {"favorite": True}, cookie=cookie, csrf=csrf)
+        favorite_reload = DashboardApp(temp, fake).favorites()
+        favorite_removed, _, favorite_removed_raw = request("POST", "/api/artists/fixture-artist/favorite", {"favorite": False}, cookie=cookie, csrf=csrf)
+        favorite_invalid, _, _ = request("POST", "/api/artists/not-in-roster/favorite", {"favorite": True}, cookie=cookie, csrf=csrf)
+        dashboard_after, dashboard_after_headers, dashboard_after_body = request("GET", "/api/dashboard", cookie=cookie, gzip_ok=True)
         refresh, _, _ = request("POST", "/api/refresh", {}, cookie=cookie, csrf=csrf)
+        favorite_initial_data = json.loads(favorite_initial_raw)
+        favorite_added_data = json.loads(favorite_added_raw)
+        favorite_duplicate_data = json.loads(favorite_duplicate_raw)
+        favorite_removed_data = json.loads(favorite_removed_raw)
         checks = [
             ("health reveals no data", health == 200),
             ("dashboard redirects to login", denied == 303 and denied_headers.get("location") == "/login"),
@@ -777,14 +932,30 @@ def _selftest() -> int:
              ("POST", "/repos/fixture/repository/dispatches",
               {"event_type": "artist-search-refresh", "client_payload": {"job_id": "fixture-job"}}) in large_adapter.calls
              and fallback_status["state"] == "started"),
-            ("GitHub-backed add commits once with aliases", added == 201 and fake.commits == 1
+            ("GitHub-backed add commits once with aliases", added == 201 and fake.roster_commits == 1
              and fake.data["artists"]["fixture-artist"]["aliases"] == ["Fixture Alias"]),
+            ("favorites begin empty", favorite_initial == 200 and favorite_initial_data == {"favorites": [], "count": 0}),
+            ("favorite validates and persists", favorite_added == 200
+             and favorite_added_data["changed"] and favorite_added_data["count"] == 1
+             and favorite_reload == {"favorites": ["fixture-artist"], "count": 1}),
+            ("duplicate favorite is idempotent", favorite_duplicate == 200
+             and not favorite_duplicate_data["changed"] and favorite_duplicate_data["count"] == 1),
+            ("unfavorite persists and records the prior value", favorite_removed == 200
+             and favorite_removed_data["changed"] and favorite_removed_data["previous_value"]
+             and favorite_removed_data["count"] == 0),
+            ("unknown favorite identifier is rejected", favorite_invalid == 400),
+            ("favorite audit records every valid mutation", len(fake.favorites["audit"]) == 3
+             and fake.favorites["audit"][0]["prior_value"] is False
+             and fake.favorites["audit"][-1]["new_value"] is False),
             ("operator commits use the deployable bot identity",
              committed_sha == "committed-fixture-sha"
              and operator_commit_payload.get("author", {}).get("name") == "artist-search-refresh[bot]"
              and operator_commit_payload.get("committer", {}).get("email")
              == "artist-search-refresh[bot]@users.noreply.github.com"),
             ("dashboard gzip response", dashboard == 200 and dash_headers.get("content-encoding") == "gzip" and gzip.decompress(dash_body) == b'{"fixture":true}'),
+            ("favorites leave dashboard analytics bytes unchanged", dashboard_after == 200
+             and dashboard_after_headers.get("content-encoding") == "gzip"
+             and gzip.decompress(dashboard_after_body) == gzip.decompress(dash_body)),
             ("refresh dispatches workflow", refresh == 202 and len(fake.dispatched) == 1),
         ]
         ok = all(good for _, good in checks)

@@ -3,7 +3,7 @@
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
   const geoLabels = { in: 'India', us: 'USA', ca: 'Canada' };
-  const state = { data: null, geo: 'in', month: null, sort: 'latest', direction: -1, page: 1, pageSize: 25, lastTrigger: null, selectedSlug: null, refreshJobId: null, csrfToken: null, metaPromise: null, meta: null };
+  const state = { data: null, geo: 'in', month: null, sort: 'latest', direction: -1, page: 1, pageSize: 25, lastTrigger: null, selectedSlug: null, refreshJobId: null, csrfToken: null, metaPromise: null, meta: null, favoriteSlugs: new Set(), favoritesOnly: false };
 
   const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
   const fmt = value => value == null || Number.isNaN(Number(value)) ? '—' : Number(value).toLocaleString('en-US', { maximumFractionDigits: 0 });
@@ -45,6 +45,12 @@
     const genre = $('#genre-filter')?.value || '';
     return state.data.artists.filter(row => row.status === 'verified'
       && row.keyword_review_state === 'approved' && (!genre || row.primary_genre === genre));
+  }
+  function isFavorite(row) { return state.favoriteSlugs.has(row.slug); }
+  function favoriteButton(row, extraClass = '') {
+    const active = isFavorite(row);
+    const action = active ? 'Remove from Favorites' : 'Add to Favorites';
+    return `<button type="button" class="favorite-toggle ${extraClass} ${active ? 'active' : ''}" data-favorite="${escapeHtml(row.slug)}" aria-pressed="${active}" aria-label="${action}: ${escapeHtml(row.name)}" title="${action}"><span aria-hidden="true">${active ? '★' : '☆'}</span></button>`;
   }
 
   function metric(row, geo = state.geo, selected = state.month) {
@@ -113,6 +119,9 @@
     $('#genre-filter').value = selected && ordered.some(niche => niche.id === selected) ? selected : '';
     const current = $('#genre-filter').value;
     $('#category-nav').innerHTML = `<button type="button" class="${current ? '' : 'active'}" data-genre="" role="listitem"><span>All combined</span><span>${fmt(rows.length)}</span></button>${ordered.map(niche => `<button type="button" class="${current === niche.id ? 'active' : ''}" data-genre="${escapeHtml(niche.id)}" role="listitem"><span>${escapeHtml(niche.name)}</span><span>${fmt(rows.filter(row => row.primary_genre === niche.id).length)}</span></button>`).join('')}`;
+    const favorites = $('#favorites-nav');
+    favorites.classList.toggle('active', state.favoritesOnly); favorites.setAttribute('aria-pressed', String(state.favoritesOnly));
+    $('#favorites-count').textContent = fmt(state.favoriteSlugs.size);
   }
   function totalsFor(geo, rows = verifiedMetricRows()) {
     const metrics = rows.map(row => metric(row, geo)).filter(m => m.latest != null);
@@ -221,7 +230,7 @@
     const query = $('#artist-search').value.trim().toLowerCase();
     const rows = activeCategoryRows().filter(row => {
       const haystack = [row.name, row.measurement_keyword, ...(row.aliases || []), ...(row.niche_tags || [])].join(' ').toLowerCase();
-      return !query || haystack.includes(query);
+      return (!state.favoritesOnly || isFavorite(row)) && (!query || haystack.includes(query));
     });
     const sortable = row => {
       const m = metric(row);
@@ -249,10 +258,11 @@
     $('#artist-body').innerHTML = visible.length ? visible.map(row => {
       const m = metric(row), changeTone = m.absolute == null ? 'unknown' : m.absolute >= 0 ? 'positive' : 'negative';
       const source = row.geos?.[state.geo] || {};
+      const mapping = source.mapping_quality || source.mapping_mode || 'not recorded';
       const fetched = source.last_updated || source.fetched_at || row.fetched_at || 'Not recorded';
       const yoyTone = m.yoy == null ? 'unknown' : m.yoy >= 0 ? 'positive' : 'negative';
-      return `<tr tabindex="0" data-open="${escapeHtml(row.slug)}" aria-label="Open details for ${escapeHtml(row.name)}"><td><span class="artist-name"><strong>${escapeHtml(row.name)}</strong><small>${escapeHtml(row.measurement_keyword || 'Keyword pending')}${source.mapping_mode === 'close_variant' ? ' · close variant' : ''}</small></span></td><td>${escapeHtml(genreLabel(row.primary_genre))}</td><td><strong>${selectedValue(m.latest)}</strong><small class="table-subline">${monthLabel(state.month)}</small></td><td class="${changeTone}">${m.absolute == null ? '—' : `${m.absolute >= 0 ? '+' : ''}${fmt(m.absolute)}`}</td><td class="${changeTone}">${pct(m.mom)}</td><td>${averageLabel(m.average3)}</td><td>${averageLabel(m.average6)}</td><td>${averageLabel(m.average12)}</td><td class="${yoyTone}">${yoyLabel(m.yoy)}</td><td>${escapeHtml(String(fetched).slice(0, 10))}</td><td>${chartCanvas(m.series)}</td></tr>`;
-    }).join('') : '<tr class="empty-row"><td colspan="11"><div class="empty">No artists match these filters. Try All combined or change roster scope.</div></td></tr>';
+      return `<tr tabindex="0" data-open="${escapeHtml(row.slug)}" aria-label="Open details for ${escapeHtml(row.name)}"><td class="favorite-cell">${favoriteButton(row)}</td><td><span class="artist-name"><strong>${escapeHtml(row.name)}</strong><small>${escapeHtml(row.measurement_keyword || 'Keyword pending')}${source.mapping_mode === 'close_variant' ? ' · close variant' : ''}</small></span></td><td>${escapeHtml(genreLabel(row.primary_genre))}</td><td>${badge(title(row.status), toneForStatus(row.status))}</td><td><strong>${selectedValue(m.latest)}</strong><small class="table-subline">${monthLabel(state.month)}</small></td><td class="${changeTone}">${m.absolute == null ? '—' : `${m.absolute >= 0 ? '+' : ''}${fmt(m.absolute)}`}</td><td class="${changeTone}">${pct(m.mom)}</td><td>${averageLabel(m.average3)}</td><td>${averageLabel(m.average6)}</td><td>${averageLabel(m.average12)}</td><td class="${yoyTone}">${yoyLabel(m.yoy)}</td><td>${badge(title(mapping), mapping === 'exact' ? 'good' : mapping === 'close_variant' ? 'warn' : 'neutral')}</td><td>${escapeHtml(String(fetched).slice(0, 10))}</td><td>${chartCanvas(m.series)}</td></tr>`;
+    }).join('') : `<tr class="empty-row"><td colspan="14"><div class="empty">${state.favoritesOnly ? 'No favorite artists match these filters. Use the star button to save an artist, or adjust the existing filters.' : 'No artists match these filters. Try All combined or change roster scope.'}</div></td></tr>`;
     $$('.sort').forEach(button => button.setAttribute('aria-sort', button.dataset.sort === state.sort ? (state.direction === 1 ? 'ascending' : 'descending') : 'none'));
     renderPagination(pages); drawCharts($('#artist-body'));
   }
@@ -296,13 +306,14 @@
     state.lastTrigger = trigger || document.activeElement;
     const cards = ['in', 'us', 'ca'].map(geo => {
       const m = metric(row, geo), source = row.geos?.[geo] || {};
-      return `<article class="geo-card"><h3>${geoLabels[geo]}</h3><div class="big">${selectedValue(m.latest)}</div><p>${monthLabel(state.month)} · MoM ${pct(m.mom)} · 3m ${averageLabel(m.average3)} · 6m ${averageLabel(m.average6)} · 12m ${averageLabel(m.average12)} · YoY ${yoyLabel(m.yoy)}</p>${chartCanvas(m.series, true, '', `${geoLabels[geo]} full available monthly search history`)}<p>${row.keyword_review_state === 'approved' ? 'Approved keyword' : 'Measurement query (pending review)'}: ${escapeHtml(row.measurement_keyword || source.keyword || 'Pending')}<br>Last fetched: ${escapeHtml(source.last_updated || source.fetched_at || row.fetched_at || 'Not recorded')}</p></article>`;
+      return `<article class="geo-card"><h3>${geoLabels[geo]}</h3><div class="big">${selectedValue(m.latest)}</div><p>Selected month: ${monthLabel(state.month)}<br>MoM ${pct(m.mom)} · 3-month avg ${averageLabel(m.average3)} · 6-month avg ${averageLabel(m.average6)} · 12-month avg ${averageLabel(m.average12)} · YoY ${yoyLabel(m.yoy)}</p>${chartCanvas(m.series, true, '', `${geoLabels[geo]} full available monthly search history`)}<p>${row.keyword_review_state === 'approved' ? 'Approved keyword' : 'Measurement query (pending review)'}: ${escapeHtml(row.measurement_keyword || source.keyword || 'Pending')}<br>Mapping quality: ${escapeHtml(source.mapping_quality || source.mapping_mode || 'Not recorded')}<br>Last fetched: ${escapeHtml(source.last_updated || source.fetched_at || row.fetched_at || 'Not recorded')}</p></article>`;
     }).join('');
     const evidence = row.identity_evidence || {};
     const selectedSource = row.geos?.[state.geo] || {};
+    const variants = selectedSource.close_variants || row.close_variants || [];
     const statusAction = row.status === 'inactive' ? 'reactivate' : 'deactivate';
     const statusLabel = row.status === 'inactive' ? 'Reactivate' : 'Deactivate';
-    $('#detail-content').innerHTML = `<header class="detail-header"><p class="eyebrow">${escapeHtml(genreLabel(row.primary_genre))}</p><h2 id="detail-name">${escapeHtml(row.name)}</h2><p>${badge(title(row.status), toneForStatus(row.status))} ${badge(row.keyword_review_state === 'approved' ? 'Keyword approved' : 'Keyword review pending', row.keyword_review_state === 'approved' ? 'good' : 'warn')}</p><p>${row.keyword_review_state === 'approved' ? 'Approved measurement keyword' : 'Measurement query pending review'}: <strong>${escapeHtml(row.measurement_keyword || selectedSource.keyword || 'Pending')}</strong></p><div class="detail-actions"><button type="button" class="secondary-action" data-artist-action="edit">Edit artist</button><button type="button" class="secondary-action" data-artist-action="reassign">Reassign category</button><button type="button" class="secondary-action" data-artist-action="keyword">Add or replace keyword</button><button type="button" class="secondary-action" data-artist-action="${statusAction}">${statusLabel}</button></div></header><section class="geo-detail-grid">${cards}</section><section class="detail-grid"><article class="detail-block"><h3>Identity evidence</h3><p>Type: ${escapeHtml(evidence.kind || 'Unknown')}<br>Research state: ${escapeHtml(row.research_state || 'Not recorded')}<br>Curated: ${row.curated === true ? 'Yes' : 'No'}<br>Reviewed: ${escapeHtml(evidence.reviewed_at || row.last_reviewed || 'Not reviewed')}<br>${escapeHtml(evidence.note || 'No evidence note recorded.')}${evidence.url ? `<br><a href="${escapeHtml(evidence.url)}" target="_blank" rel="noopener noreferrer">Open evidence</a>` : ''}</p></article><article class="detail-block"><h3>Audit trail and aliases</h3><p>First seen: ${escapeHtml(row.first_seen || 'Not recorded')}<br>Aliases: ${escapeHtml((row.aliases || []).join(', ') || 'None recorded')}<br>Niche tags: ${escapeHtml((row.niche_tags || []).map(genreLabel).join(', ') || 'None recorded')}<br>${escapeHtml((row.needs_attention || []).join(' ') || 'No active review warning.')}</p></article></section>`;
+    $('#detail-content').innerHTML = `<header class="detail-header"><p class="eyebrow">${escapeHtml(genreLabel(row.primary_genre))}</p><h2 id="detail-name">${escapeHtml(row.name)}</h2><p>${badge(title(row.status), toneForStatus(row.status))} ${badge(row.keyword_review_state === 'approved' ? 'Keyword approved' : 'Keyword review pending', row.keyword_review_state === 'approved' ? 'good' : 'warn')}</p><p>${row.keyword_review_state === 'approved' ? 'Approved measurement keyword' : 'Measurement query pending review'}: <strong>${escapeHtml(row.measurement_keyword || selectedSource.keyword || 'Pending')}</strong></p><div class="detail-actions">${favoriteButton(row, 'detail-favorite')}<button type="button" class="secondary-action" data-artist-action="edit">Edit artist</button><button type="button" class="secondary-action" data-artist-action="reassign">Reassign category</button><button type="button" class="secondary-action" data-artist-action="keyword">Add or replace keyword</button><button type="button" class="secondary-action" data-artist-action="${statusAction}">${statusLabel}</button></div></header><section class="geo-detail-grid">${cards}</section><section class="detail-grid"><article class="detail-block"><h3>Measurement provenance</h3><p>Mapping quality: ${escapeHtml(selectedSource.mapping_quality || selectedSource.mapping_mode || 'Not recorded')}<br>Mapping result: ${escapeHtml(selectedSource.result_text || 'Not recorded')}<br>Close variants: ${escapeHtml(variants.join(', ') || 'None recorded')}<br>Last fetched: ${escapeHtml(selectedSource.last_updated || selectedSource.fetched_at || row.fetched_at || 'Not recorded')}</p></article><article class="detail-block"><h3>Contamination review</h3><p>Status: ${escapeHtml(row.contamination_status || 'Not recorded')}<br>${escapeHtml(row.contamination_note || 'No contamination note recorded.')}</p></article><article class="detail-block"><h3>Identity evidence</h3><p>Type: ${escapeHtml(evidence.kind || 'Unknown')}<br>Research state: ${escapeHtml(row.research_state || 'Not recorded')}<br>Curated: ${row.curated === true ? 'Yes' : 'No'}<br>Reviewed: ${escapeHtml(evidence.reviewed_at || row.last_reviewed || 'Not reviewed')}<br>${escapeHtml(evidence.note || 'No evidence note recorded.')}${evidence.url ? `<br><a href="${escapeHtml(evidence.url)}" target="_blank" rel="noopener noreferrer">Open evidence</a>` : ''}</p></article><article class="detail-block"><h3>Audit trail and aliases</h3><p>First seen: ${escapeHtml(row.first_seen || 'Not recorded')}<br>Aliases: ${escapeHtml((row.aliases || []).join(', ') || 'None recorded')}<br>Niche tags: ${escapeHtml((row.niche_tags || []).map(genreLabel).join(', ') || 'None recorded')}<br>${escapeHtml((row.needs_attention || []).join(' ') || 'No active review warning.')}</p></article></section>`;
     const dialog = $('#artist-detail');
     if (!dialog.open) dialog.showModal();
     drawCharts($('#detail-content')); $('#close-detail').focus();
@@ -343,6 +354,26 @@
       throw new Error(body.message || body.error || `Request failed: ${response.status}`);
     }
     return body;
+  }
+  async function loadFavorites() {
+    try {
+      const result = await apiRequest('/api/v1/favorites', { method: 'GET' });
+      state.favoriteSlugs = new Set((result.favorites || []).filter(slug => state.data.artists.some(row => row.slug === slug)));
+    } catch { state.favoriteSlugs = new Set(); }
+  }
+  async function toggleFavorite(slug, trigger) {
+    const row = state.data.artists.find(item => item.slug === slug);
+    if (!row) return;
+    const favorite = !isFavorite(row);
+    if (trigger) trigger.disabled = true;
+    try {
+      const result = await apiRequest(`/api/artists/${encodeURIComponent(slug)}/favorite`, { method: 'POST', body: JSON.stringify({ favorite }) });
+      state.favoriteSlugs = new Set(result.favorites || []);
+      state.page = 1; renderAll();
+      if ($('#artist-detail').open && state.selectedSlug === slug) openDetail(slug, state.lastTrigger);
+      showRefreshStatus(`${row.name} ${favorite ? 'added to' : 'removed from'} Favorites.`, 'success');
+    } catch (error) { showRefreshStatus(`Favorite could not be saved: ${error.message}`, 'error'); }
+    finally { if (trigger?.isConnected) trigger.disabled = false; }
   }
   function mergeArtist(response, render = true) {
     const artist = response.artist || response;
@@ -402,6 +433,7 @@
       if (!response.ok) throw new Error(`Dashboard data reload failed: ${response.status}`);
       const data = await response.json();
       state.data = data; state.month = data.default_month || state.month;
+      await loadFavorites();
       if (updatedArtist) mergeArtist({ artist: updatedArtist }, false);
       $('#network-badge').textContent = data.network === 'GOOGLE_SEARCH_AND_PARTNERS' ? 'Google Search + Search partners (not YouTube)' : data.network || 'Network unknown';
       $('#generated-at').textContent = data.generated_at || 'Not recorded';
@@ -409,24 +441,7 @@
       renderControls(); renderAll();
     } catch (error) { showRefreshStatus(`Current dashboard payload could not be reloaded: ${error.message}`, 'error'); }
   }
-  async function waitForDashboardRefresh(previousGeneratedAt, attempt = 0) {
-    if (attempt >= 120) {
-      showRefreshStatus('Refresh is still running in the background. Reload the page in a few minutes.', 'neutral');
-      return;
-    }
-    await new Promise(resolve => window.setTimeout(resolve, 5000));
-    try {
-      const response = await fetch('/api/dashboard', { cache: 'no-store' });
-      if (response.ok) {
-        const latest = await response.json();
-        if (latest.generated_at && latest.generated_at !== previousGeneratedAt) {
-          await refreshDashboardData(); showRefreshStatus('Refresh completed. The dashboard is up to date.', 'success'); return;
-        }
-      }
-    } catch { /* The current dashboard remains usable during deployment. */ }
-    return waitForDashboardRefresh(previousGeneratedAt, attempt + 1);
-  }
-  async function pollRefresh(jobId, previousGeneratedAt) {
+  async function pollRefresh(jobId) {
     try {
       const job = await apiRequest(`/api/refresh/${encodeURIComponent(jobId)}`, { method: 'GET' });
       const stateName = job.state || 'running';
@@ -434,9 +449,8 @@
       const failed = stateName === 'failed' || stateName === 'error';
       showRefreshStatus(`${title(stateName)}${progress}${job.message ? ` — ${job.message}` : ''}`, failed ? 'error' : stateName === 'success' ? 'success' : 'running');
       if (stateName === 'success') { await refreshDashboardData(); return; }
-      if (stateName === 'started') { await waitForDashboardRefresh(previousGeneratedAt); return; }
       if (failed) return;
-      return new Promise(resolve => window.setTimeout(() => resolve(pollRefresh(jobId, previousGeneratedAt)), 1500));
+      return new Promise(resolve => window.setTimeout(() => resolve(pollRefresh(jobId)), 1500));
     } catch (error) { showRefreshStatus(`Refresh status could not be read: ${error.message}`, 'error'); }
   }
   async function startRefresh() {
@@ -446,7 +460,7 @@
       const job = await apiRequest('/api/refresh', { method: 'POST', body: '{}' });
       state.refreshJobId = job.job_id;
       if (!job.job_id) throw new Error('Refresh response did not include a job_id.');
-      await pollRefresh(job.job_id, state.data.generated_at);
+      await pollRefresh(job.job_id);
     } catch (error) { showRefreshStatus(`Refresh could not start: ${error.message}`, 'error'); }
     finally { button.disabled = false; }
   }
@@ -477,6 +491,9 @@
       const button = event.target.closest('[data-genre]'); if (!button) return;
       $('#genre-filter').value = button.dataset.genre; state.page = 1; renderAll(); $('#artists').scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
+    $('#favorites-nav').addEventListener('click', () => {
+      state.favoritesOnly = !state.favoritesOnly; state.page = 1; renderAll(); $('#artists').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
     $$('.sort').forEach(button => button.addEventListener('click', () => {
       const next = button.dataset.sort; state.direction = state.sort === next ? -state.direction : (next === 'name' ? 1 : -1); state.sort = next; resetAndRender();
     }));
@@ -484,10 +501,14 @@
     $('#next-page').addEventListener('click', () => { state.page += 1; renderArtists(); });
     $('#page-buttons').addEventListener('click', event => { const button = event.target.closest('[data-page]'); if (button) { state.page = Number(button.dataset.page); renderArtists(); } });
     $('#page-size').addEventListener('change', event => { state.pageSize = Number(event.target.value); state.page = 1; renderArtists(); });
-    document.addEventListener('click', event => { const opener = event.target.closest('[data-open]'); if (opener) openDetail(opener.dataset.open, opener); });
+    document.addEventListener('click', event => {
+      const favorite = event.target.closest('[data-favorite]');
+      if (favorite) { event.preventDefault(); toggleFavorite(favorite.dataset.favorite, favorite); return; }
+      const opener = event.target.closest('[data-open]'); if (opener) openDetail(opener.dataset.open, opener);
+    });
     $('#artist-body').addEventListener('keydown', event => {
       const row = event.target.closest('[data-open]');
-      if (row && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); openDetail(row.dataset.open, row); }
+      if (row && !event.target.closest('[data-favorite]') && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); openDetail(row.dataset.open, row); }
     });
     $('#refresh-data').addEventListener('click', startRefresh);
     $('#add-artist').addEventListener('click', () => openArtistEditor());
@@ -504,7 +525,7 @@
       event.preventDefault();
       const slug = $('#artist-editor-slug').value;
       const aliases = $('#artist-editor-aliases').value.split(',').map(value => value.trim()).filter(Boolean);
-      const payload = slug ? { name: $('#artist-editor-name').value.trim(), aliases, category: $('#artist-editor-genre').value, evidence_url: $('#artist-editor-evidence').value.trim() || null } : { name: $('#artist-editor-name').value.trim(), aliases, category: $('#artist-editor-genre').value, measurement_keyword: $('#artist-editor-keyword').value.trim() || null, evidence_url: $('#artist-editor-evidence').value.trim() || null };
+      const payload = slug ? { name: $('#artist-editor-name').value.trim(), aliases, category: $('#artist-editor-genre').value, evidence_url: $('#artist-editor-evidence').value.trim() || null } : { name: $('#artist-editor-name').value.trim(), category: $('#artist-editor-genre').value, measurement_keyword: $('#artist-editor-keyword').value.trim() || null, evidence_url: $('#artist-editor-evidence').value.trim() || null };
       try {
         const result = await apiRequest(slug ? `/api/artists/${encodeURIComponent(slug)}` : '/api/artists', { method: slug ? 'PATCH' : 'POST', body: JSON.stringify(payload) });
         const updated = mergeArtist(result); await refreshDashboardData(updated); $('#artist-editor').close(); showRefreshStatus(`Artist ${slug ? 'updated' : 'added'} successfully.`, 'success');
@@ -540,12 +561,13 @@
     window.addEventListener('resize', () => drawCharts());
   }
 
-  function render(data) {
+  async function render(data) {
     state.data = data; state.month = data.default_month || data.months?.[0] || null;
     if (!state.month) throw new Error('No monthly search values were supplied.');
     $('#network-badge').textContent = data.network === 'GOOGLE_SEARCH_AND_PARTNERS' ? 'Google Search + Search partners (not YouTube)' : data.network || 'Network unknown';
     $('#generated-at').textContent = data.generated_at || 'Not recorded';
     $('#caveat').textContent = data.caveat || 'Google-estimated monthly search demand. This is not ticket sales, audience size, or a ticket forecast.';
+    await loadFavorites();
     renderControls(); bind(); renderAll(); loadDashboardStatus(); $('#loading').classList.add('done');
   }
 

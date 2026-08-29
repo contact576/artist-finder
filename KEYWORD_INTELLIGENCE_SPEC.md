@@ -129,6 +129,8 @@ always displayed beside coverage, never as an absolute market-size estimate.
 - genre/niche filter;
 - artist status filter;
 - search by canonical name or alias.
+- a **Favorites** tab with a live count, which narrows the artist table while preserving the
+  selected market, month, category, roster-scope, and text-search filters.
 
 ### Overview
 
@@ -165,6 +167,18 @@ Deactivation is reversible; it never deletes historical measurements. A manually
 remains a candidate and is eligible for the next broad measurement refresh, but cannot enter
 verified totals without dated identity evidence. Each change is validated, atomically written,
 and recorded in a non-secret local audit log.
+
+Favorites are separate local operator state, stored in gitignored `out/favorites.json` and served
+only by the loopback dashboard API. A favorite mutation validates the artist slug against the
+durable registry, is atomic and idempotent, and audits its timestamp plus prior/new value. It never
+changes an artist record, verification, status, category, keyword, search history, mappings, or
+any dashboard total/ranking. The table and artist detail both expose an accessible star control;
+the Favorites tab has an explicit empty state and remains usable with the existing filters.
+
+On the separately approved protected Vercel operator deployment, the same state and bounded audit
+are stored in the existing GitHub control plane at allowlisted `data/operator_state/favorites.json`,
+not Vercel's ephemeral filesystem or browser storage. That endpoint also requires the hosted
+operator session and same-origin CSRF token; Vercel SSO protects the deployment itself.
 
 - candidate review queue, newly verified names, merges, rejections, and niche gaps;
 - latest discovery and metrics run by geo;

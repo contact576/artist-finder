@@ -52,6 +52,13 @@ The Tour Engine measured why: tickets per million followers spans **15×**, subl
 4. Open an artist to edit the display name or aliases, reassign the category, replace the primary
    measurement keyword, or deactivate/reactivate it. **Add artist** creates a review candidate,
    never an implicitly verified artist. No control hard-deletes measurement history.
+   Use the star in any artist row or its detail panel to save a Favorite. The sidebar Favorites
+   tab shows the live count and filters the current market/month/category/search view. Favorites
+   are private local operator state (`out/favorites.json`), survive rebuilds and server restarts,
+   and do not change roster fields or analytics. The local audit log records each favorite action.
+   On the approved protected Vercel operator deployment, Favorites instead use the existing
+   GitHub-backed operator-state document and require both the hosted session and CSRF token; they
+   never rely on Vercel's ephemeral filesystem or browser storage.
 5. Click **Refresh data** to run the guarded 48-month India/USA/Canada monthly workflow. Only one
    refresh runs at a time. The current dashboard remains visible until the rebuild succeeds.
 6. Check the mapping and selected-month coverage cards. A literal **0 measured** is a Google value;
