@@ -1,0 +1,16 @@
+{
+  "audit": [
+    {
+      "action": "artist_favorited",
+      "artist_slug": "samay-raina",
+      "changed": true,
+      "new_value": true,
+      "prior_value": false,
+      "timestamp": "2026-08-31T17:55:53Z"
+    }
+  ],
+  "favorites": [
+    "samay-raina"
+  ],
+  "schema_version": 1
+}
