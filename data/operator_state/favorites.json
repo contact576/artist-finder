@@ -23,6 +23,14 @@
       "new_value": true,
       "prior_value": true,
       "timestamp": "2026-08-31T17:56:05Z"
+    },
+    {
+      "action": "artist_favorited",
+      "artist_slug": "samay-raina",
+      "changed": false,
+      "new_value": true,
+      "prior_value": true,
+      "timestamp": "2026-08-31T17:56:08Z"
     }
   ],
   "favorites": [
