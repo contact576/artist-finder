@@ -55,10 +55,19 @@
       "new_value": true,
       "prior_value": true,
       "timestamp": "2026-09-02T18:10:37Z"
+    },
+    {
+      "action": "artist_favorited",
+      "artist_slug": "pranit-more",
+      "changed": true,
+      "new_value": true,
+      "prior_value": false,
+      "timestamp": "2026-09-02T18:13:19Z"
     }
   ],
   "favorites": [
     "kunal-kamra",
+    "pranit-more",
     "samay-raina"
   ],
   "schema_version": 1
