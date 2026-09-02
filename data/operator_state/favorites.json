@@ -31,9 +31,18 @@
       "new_value": true,
       "prior_value": true,
       "timestamp": "2026-08-31T17:56:08Z"
+    },
+    {
+      "action": "artist_favorited",
+      "artist_slug": "kunal-kamra",
+      "changed": true,
+      "new_value": true,
+      "prior_value": false,
+      "timestamp": "2026-09-02T18:10:29Z"
     }
   ],
   "favorites": [
+    "kunal-kamra",
     "samay-raina"
   ],
   "schema_version": 1
