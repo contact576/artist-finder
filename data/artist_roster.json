@@ -12145,13 +12145,14 @@
         "Hindi",
         "English"
       ],
-      "last_reviewed": "2026-08-21",
+      "last_reviewed": "2026-09-08",
       "measurement_keyword": "Farhan Akhtar",
       "merged_into": null,
       "name": "Farhan Akhtar",
       "niche_tags": [
         "bollywood_playback"
       ],
+      "operator_prior_status": "verified",
       "primary_genre": "bollywood_playback",
       "regions": [
         "Mumbai",
@@ -12160,7 +12161,7 @@
       "research_state": "public_identity_review",
       "slug": "farhan-akhtar",
       "source": "public_web_roster_review",
-      "status": "verified",
+      "status": "inactive",
       "subcategory": "Bollywood and live rock",
       "verified_at": "2026-08-21"
     },
