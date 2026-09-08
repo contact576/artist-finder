@@ -119,9 +119,18 @@
       "new_value": true,
       "prior_value": false,
       "timestamp": "2026-09-08T06:56:34Z"
+    },
+    {
+      "action": "artist_favorited",
+      "artist_slug": "badshah",
+      "changed": true,
+      "new_value": true,
+      "prior_value": false,
+      "timestamp": "2026-09-08T07:01:46Z"
     }
   ],
   "favorites": [
+    "badshah",
     "jasmine-sandlas",
     "kunal-kamra",
     "pranit-more",
