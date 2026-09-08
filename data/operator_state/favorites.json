@@ -231,6 +231,14 @@
       "new_value": true,
       "prior_value": false,
       "timestamp": "2026-09-08T19:23:10Z"
+    },
+    {
+      "action": "artist_favorited",
+      "artist_slug": "biswa-kalyan-rath",
+      "changed": true,
+      "new_value": true,
+      "prior_value": false,
+      "timestamp": "2026-09-08T19:23:12Z"
     }
   ],
   "favorites": [
@@ -239,6 +247,7 @@
     "amit-tandon",
     "anubhav-singh-bassi",
     "badshah",
+    "biswa-kalyan-rath",
     "gaurav-kapoor",
     "jasmine-sandlas",
     "jaspreet-singh",
