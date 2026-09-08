@@ -223,6 +223,14 @@
       "new_value": true,
       "prior_value": false,
       "timestamp": "2026-09-08T19:23:08Z"
+    },
+    {
+      "action": "artist_favorited",
+      "artist_slug": "kanan-gill",
+      "changed": true,
+      "new_value": true,
+      "prior_value": false,
+      "timestamp": "2026-09-08T19:23:10Z"
     }
   ],
   "favorites": [
@@ -234,6 +242,7 @@
     "gaurav-kapoor",
     "jasmine-sandlas",
     "jaspreet-singh",
+    "kanan-gill",
     "kunal-kamra",
     "madhur-virli",
     "pranit-more",
