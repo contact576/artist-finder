@@ -3811,7 +3811,6 @@
       "niche_tags": [
         "bollywood_playback"
       ],
-      "operator_prior_status": "verified",
       "primary_genre": "bollywood_playback",
       "regions": [
         "India"
@@ -3829,7 +3828,7 @@
       "search_quality_state": "clean",
       "slug": "arijit-singh",
       "source": "researched_directory_candidate",
-      "status": "inactive",
+      "status": "verified",
       "subcategory": "bollywood playback",
       "verified_at": null
     },
