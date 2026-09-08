@@ -143,6 +143,14 @@
       "new_value": true,
       "prior_value": false,
       "timestamp": "2026-09-08T07:01:49Z"
+    },
+    {
+      "action": "artist_favorited",
+      "artist_slug": "vishal-dadlani",
+      "changed": true,
+      "new_value": true,
+      "prior_value": false,
+      "timestamp": "2026-09-08T07:01:53Z"
     }
   ],
   "favorites": [
@@ -152,6 +160,7 @@
     "pranit-more",
     "samay-raina",
     "sonu-nigam",
+    "vishal-dadlani",
     "vishal-shekhar"
   ],
   "schema_version": 1
