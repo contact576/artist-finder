@@ -50,13 +50,22 @@ jobs:
           python tools/hosted_write_config.py --self-test
           python tools/hosted_refresh_guard.py --self-test
           python tools/fetch_search_volume.py --self-test
+          python tools/test_planner_retry.py
           python tools/build_dashboard.py --selftest
 
       - name: Create ephemeral Google Ads configuration
         run: python tools/hosted_write_config.py
 
       - name: Refresh the discovery inbox
+        id: discovery
+        continue-on-error: true
         run: python tools/refresh_artist_roster.py --discover --limit-ideas 200
+
+      - name: Record discovery warning
+        if: steps.discovery.outcome == 'failure'
+        run: |
+          echo "::warning::Keyword discovery failed after bounded retries. Existing artist measurements will still refresh."
+          echo "Discovery incomplete; retained previous suggestions. Artist measurement continues independently." >> "$GITHUB_STEP_SUMMARY"
 
       - name: Pull 48 months for India, USA, and Canada
         run: python tools/fetch_search_volume.py --all --include-candidates --history-months 48

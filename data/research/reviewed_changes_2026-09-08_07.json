@@ -1,0 +1,71 @@
+{
+  "id": "booking-research-2026-09-08-rahat-confirmed",
+  "reviewed_at": "2026-09-08",
+  "decisions": {
+    "rahat-fateh-ali-khan": {
+      "artist": {
+        "name": "Rahat Fateh Ali Khan",
+        "primary_genre": "sufi_ghazal",
+        "niche_tags": [
+          "sufi_ghazal"
+        ],
+        "measurement_keyword": "Rahat Fateh Ali Khan",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Named Pakistani exception and distinct artist identity.",
+        "events": [
+          {
+            "date": "2025-10-12",
+            "country": "Netherlands",
+            "city": "Rotterdam",
+            "name": "RTM Stage",
+            "date_precision": "day",
+            "evidence_kind": "unconfirmed",
+            "role": "not_verified",
+            "url": "https://www.livenation.com/artist/K8vZ9178uNf/rahat-fateh-ali-khan-events"
+          },
+          {
+            "date": "2025-08-13",
+            "country": "Pakistan",
+            "city": "Karachi",
+            "name": "National Stadium Independence Day concert",
+            "evidence_kind": "performed",
+            "url": "https://www.urdupoint.com/en/pakistan/marka-e-haq-music-concert-held-at-national-2031118.html"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.urdupoint.com/en/pakistan/marka-e-haq-music-concert-held-at-national-2031118.html",
+            "title": "Post-event National Stadium concert report",
+            "publisher": "Associated Press of Pakistan via UrduPoint"
+          },
+          {
+            "url": "https://www.livenation.com/artist/K8vZ9178uNf/rahat-fateh-ali-khan-events",
+            "title": "Rahat Fateh Ali Khan featured setlist",
+            "publisher": "Live Nation"
+          },
+          {
+            "url": "https://www.setlist.fm/setlists/rahat-fateh-ali-khan-4bd61b46.html",
+            "title": "Rahat Fateh Ali Khan setlist",
+            "publisher": "setlist.fm"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Rahat Fateh Ali Khan",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "Recent foreign live performance confirmed; explicit user exception, not evidence of India ticket sales.",
+        "exception_reason": "Explicit user-selected Pakistani live-artist exception; India-show requirement waived, foreign performance evidence still required."
+      },
+      "expected_current": {
+        "name": "Rahat Fateh Ali Khan",
+        "primary_genre": "sufi_ghazal",
+        "measurement_keyword": "Rahat Fateh Ali Khan",
+        "status": "verified"
+      }
+    }
+  }
+}

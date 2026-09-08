@@ -124,6 +124,12 @@ a broken pipeline, and a fixed crawl can be re-ingested for the same date safely
 
 ## Operator surface
 
+**September 2026 amendment:** read [BOOKING_RESEARCH.md](BOOKING_RESEARCH.md) before
+changing roster/search eligibility. The default list now requires a dated performed India
+show in the rolling last three years (named Pakistani exceptions are separate). Missing
+evidence goes to Review, not a fabricated no-shows finding. Search-quality gates are
+query- and geo-specific, and archived history/favorites must survive all refreshes.
+
 The active operator product is the private **Artist Search Intelligence** dashboard defined in
 `KEYWORD_INTELLIGENCE_SPEC.md`. It is generated with `tools/build_dashboard.py`, opened with
 `tools/open_dashboard.cmd`, and bound to `127.0.0.1` only. Do not deploy it publicly without

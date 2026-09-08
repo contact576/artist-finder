@@ -12,7 +12,7 @@ sys.path.insert(0, str(SCOUT)); import roster  # noqa: E402
 class OperatorApp:
     def __init__(self, root=DEFAULT_DIRECTORY, roster_path=None, audit_path=AUDIT_PATH, favorites_path=FAVORITES_PATH, test_mode=False):
         self.root, self.roster_path, self.audit_path, self.favorites_path, self.test_mode = Path(root).resolve(), roster_path, Path(audit_path), Path(favorites_path), test_mode
-        self.csrf = secrets.token_urlsafe(24); self.lock = threading.Lock(); self.refresh = None
+        self.csrf = secrets.token_urlsafe(24); self.lock = threading.RLock(); self.refresh = None
     def status(self):
         job = self.refresh or {}; return dict(state=job.get('state', 'idle'), job_id=job.get('job_id'), started_at=job.get('started_at'), finished_at=job.get('finished_at'), exit_code=job.get('exit_code'), message=job.get('message'))
     def artists(self, query='', status=None):
@@ -148,15 +148,27 @@ def make_handler(app):
             path=urlsplit(self.path).path
             try:
                 if path == '/api/refresh': value=app.begin_refresh(); app.audit('refresh_started',detail=dict(job_id=value['job_id'])); return self._json(202,value)
-                if path == '/api/artists': artist=roster.operator_add_artist(body.get('name'),body.get('category'),body.get('measurement_keyword'),body.get('evidence_url'),path=app.roster_path); app.rebuild_dashboard(); app.audit('artist_added',artist['slug']); return self._json(201,dict(artist=artist,generated_at=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())))
+                if path == '/api/artists':
+                    with app.lock:
+                        artist=roster.operator_add_artist(body.get('name'),body.get('category'),body.get('measurement_keyword'),body.get('evidence_url'),path=app.roster_path); app.rebuild_dashboard(); app.audit('artist_added',artist['slug'])
+                    return self._json(201,dict(artist=artist,generated_at=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())))
                 bits=path.split('/'); slug=bits[3] if len(bits)==5 else None
                 if slug and bits[-1]=='favorite':
                     value=app.set_favorite(slug, body.get('favorite'))
                     app.audit('artist_favorited' if value['favorite'] else 'artist_unfavorited', slug, dict(prior_value=value['previous_value'], new_value=value['favorite'], changed=value['changed']))
                     return self._json(200, dict(**value, favorites=app.favorites(), generated_at=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())))
-                if slug and bits[-1]=='category': artist=roster.operator_set_category(slug,body.get('category'),path=app.roster_path); app.rebuild_dashboard(); app.audit('category_changed',slug,dict(category=artist['primary_genre'])); return self._json(200,dict(artist=artist,generated_at=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())))
-                if slug and bits[-1]=='status': artist=roster.operator_set_status(slug,body.get('active'),path=app.roster_path); app.rebuild_dashboard(); app.audit('status_changed',slug,dict(status=artist['status'])); return self._json(200,dict(artist=artist,generated_at=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())))
-                if slug and bits[-1]=='keywords': artist=roster.operator_update_keyword(slug,body.get('keyword'),body.get('action'),body.get('previous_keyword'),path=app.roster_path); app.rebuild_dashboard(); app.audit('keyword_changed',slug,dict(action=body.get('action'))); return self._json(200,dict(artist=artist,generated_at=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())))
+                if slug and bits[-1]=='category':
+                    with app.lock:
+                        artist=roster.operator_set_category(slug,body.get('category'),path=app.roster_path); app.rebuild_dashboard(); app.audit('category_changed',slug,dict(category=artist['primary_genre']))
+                    return self._json(200,dict(artist=artist,generated_at=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())))
+                if slug and bits[-1]=='status':
+                    with app.lock:
+                        artist=roster.operator_set_status(slug,body.get('active'),path=app.roster_path); app.rebuild_dashboard(); app.audit('status_changed',slug,dict(status=artist['status']))
+                    return self._json(200,dict(artist=artist,generated_at=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())))
+                if slug and bits[-1]=='keywords':
+                    with app.lock:
+                        artist=roster.operator_update_keyword(slug,body.get('keyword'),body.get('action'),body.get('previous_keyword'),path=app.roster_path); app.rebuild_dashboard(); app.audit('keyword_changed',slug,dict(action=body.get('action')))
+                    return self._json(200,dict(artist=artist,generated_at=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())))
                 return self._error(404,'unknown API endpoint')
             except RuntimeError as exc: return self._error(409,str(exc))
             except OSError as exc: return self._error(500,str(exc))
@@ -167,15 +179,17 @@ def make_handler(app):
             bits=urlsplit(self.path).path.split('/')
             if len(bits)!=4 or bits[:3]!=['','api','artists']: return self._error(404,'unknown API endpoint')
             try:
-                registry=roster.load(app.roster_path); artist=registry['artists'].get(bits[3])
-                if not artist: raise ValueError('unknown artist slug')
-                edit_fields = {key: body[key] for key in ('name','aliases','evidence_url','evidence_note') if key in body}
-                if edit_fields: artist=roster.operator_edit_artist(bits[3], data=registry, save_now=False, **edit_fields)
-                if 'category' in body: artist=roster.operator_set_category(bits[3],body['category'],data=registry,save_now=False)
-                if 'active' in body: artist=roster.operator_set_status(bits[3],body['active'],data=registry,save_now=False)
-                if 'keyword' in body: artist=roster.operator_update_keyword(bits[3],body['keyword'],body.get('action','replace'),body.get('previous_keyword'),data=registry,save_now=False)
-                roster.save(registry,app.roster_path)
-                app.rebuild_dashboard(); app.audit('artist_updated',bits[3]); return self._json(200,dict(artist=artist,generated_at=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())))
+                with app.lock:
+                    registry=roster.load(app.roster_path); artist=registry['artists'].get(bits[3])
+                    if not artist: raise ValueError('unknown artist slug')
+                    edit_fields = {key: body[key] for key in ('name','aliases','evidence_url','evidence_note') if key in body}
+                    if edit_fields: artist=roster.operator_edit_artist(bits[3], data=registry, save_now=False, **edit_fields)
+                    if 'category' in body: artist=roster.operator_set_category(bits[3],body['category'],data=registry,save_now=False)
+                    if 'active' in body: artist=roster.operator_set_status(bits[3],body['active'],data=registry,save_now=False)
+                    if 'keyword' in body: artist=roster.operator_update_keyword(bits[3],body['keyword'],body.get('action','replace'),body.get('previous_keyword'),data=registry,save_now=False)
+                    roster.save(registry,app.roster_path)
+                    app.rebuild_dashboard(); app.audit('artist_updated',bits[3])
+                return self._json(200,dict(artist=artist,generated_at=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())))
             except OSError as exc: return self._error(500,str(exc))
             except ValueError as exc: return self._error(400,str(exc),dict(input=str(exc)))
         def translate_path(self,path): return str(self._candidate() or root/'__forbidden__')

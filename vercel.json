@@ -5,7 +5,7 @@
   "outputDirectory": "out/dashboard",
   "functions": {
     "api/**/*.py": {
-      "includeFiles": "{out/dashboard/**,scout/**,data/artist_roster.json,data/artist_candidates.json,data/niches.json,data/demand.json,data/identity_reviews.json,data/watchlist.json,data/corrections.json,data/search_measurements/**}"
+      "includeFiles": "{out/dashboard/**,scout/**,data/artist_roster.json,data/artist_reviews.json,data/artist_candidates.json,data/niches.json,data/demand.json,data/identity_reviews.json,data/watchlist.json,data/corrections.json,data/search_measurements/**}"
     }
   },
   "routes": [

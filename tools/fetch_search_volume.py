@@ -34,6 +34,7 @@ SETUP — data/config.json, which is GITIGNORED because these are credentials:
 import argparse
 import json
 import os
+import re
 import sys
 import time
 import urllib.error
@@ -102,6 +103,14 @@ def load_config():
         return json.load(f).get('google_ads') or {}
 
 
+def _retry_delay(attempt, headers, detail):
+    """Bounded backoff for transient rate limits, not a cure for daily quotas."""
+    hint = (headers or {}).get('Retry-After', '')
+    match = re.search(r'Retry in (\d+) seconds', detail, re.I)
+    seconds = int(hint) if str(hint).isdigit() else (int(match[1]) if match else 0)
+    return min(60, max(30 * (attempt + 1), seconds))
+
+
 def _post(url, data, headers=None, form=False):
     body = (urllib.parse.urlencode(data).encode() if form
             else json.dumps(data).encode('utf-8'))
@@ -110,12 +119,21 @@ def _post(url, data, headers=None, form=False):
                    'application/x-www-form-urlencoded' if form else 'application/json')
     for k, v in (headers or {}).items():
         req.add_header(k, v)
-    try:
-        with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
-            return json.loads(r.read().decode('utf-8'))
-    except urllib.error.HTTPError as e:
-        detail = e.read().decode('utf-8', 'replace')[:900]
-        raise SystemExit(f'\nGoogle API {e.code} {e.reason}\n{detail}\n')
+    for attempt in range(4):
+        try:
+            with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
+                return json.loads(r.read().decode('utf-8'))
+        except urllib.error.HTTPError as e:
+            detail = e.read().decode('utf-8', 'replace')
+            if e.code in (429, 500, 502, 503, 504) and attempt < 3:
+                delay = _retry_delay(attempt, e.headers, detail)
+                print(f'Google API {e.code}: retry {attempt + 1}/3 in {delay}s',
+                      file=sys.stderr, flush=True)
+                time.sleep(delay)
+                continue
+            # No request bodies, tokens, or arbitrary upstream error bodies in logs.
+            raise SystemExit(f'Google API {e.code}: request failed after {attempt + 1} attempt(s). '
+                             'Check quota, API access, or credentials in secure setup.') from None
 
 
 def access_token(cfg):

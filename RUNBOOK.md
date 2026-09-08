@@ -43,6 +43,10 @@ The Tour Engine measured why: tickets per million followers spans **15×**, subl
 
 ### Operator quick start
 
+The September 2026 shortlist, Review/Archived navigation, query-quality gates and hosted
+monthly operating protocol are documented in [BOOKING_RESEARCH.md](BOOKING_RESEARCH.md).
+Those rules supersede the earlier identity-only totals and Favorites-filter descriptions below.
+
 1. Double-click [`tools/open_dashboard.cmd`](tools/open_dashboard.cmd) on Windows. It builds the
    current artifact and opens the local/private dashboard at `http://127.0.0.1:8765/`.
 2. Choose a Google month and India, USA, or Canada. **North America** shows USA and Canada side by

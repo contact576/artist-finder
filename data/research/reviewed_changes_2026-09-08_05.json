@@ -1,0 +1,348 @@
+{
+  "id": "booking-research-2026-09-08-5",
+  "reviewed_at": "2026-09-08",
+  "policy": "Evidence-qualified shortlist; uncertainty is Review, never proof no performances occurred. Search metrics remain separate from performance evidence.",
+  "decisions": {
+    "a-r-rahman": {
+      "expected_current": {
+        "measurement_keyword": "A R Rahman",
+        "name": "A R Rahman",
+        "status": "candidate",
+        "primary_genre": "bollywood_playback"
+      },
+      "artist": {
+        "name": "A. R. Rahman",
+        "primary_genre": "bollywood_playback",
+        "niche_tags": [
+          "bollywood_playback"
+        ],
+        "measurement_keyword": "A R Rahman",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Named performing artist in dated event coverage.",
+        "events": [
+          {
+            "date": "2025-05-03",
+            "country": "India",
+            "city": "Navi Mumbai",
+            "name": "The Wonderment Tour",
+            "date_precision": "day",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://www.tribuneindia.com/news/entertainment/ar-rahman-posts-selfie-with-fans-after-the-wonderment-tour-show-joined-by-dhanush-on-stage/"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.tribuneindia.com/news/entertainment/ar-rahman-posts-selfie-with-fans-after-the-wonderment-tour-show-joined-by-dhanush-on-stage/",
+            "title": "A R Rahman Wonderment Tour show",
+            "publisher": "The Tribune / PTI"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "A R Rahman",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "PTI post-event coverage says Rahman opened the tour at DY Patil Stadium."
+      }
+    },
+    "jonita-gandhi": {
+      "expected_current": {
+        "measurement_keyword": "Jonita Gandhi",
+        "name": "Jonita Gandhi",
+        "status": "candidate",
+        "primary_genre": "bollywood_playback"
+      },
+      "artist": {
+        "name": "Jonita Gandhi",
+        "primary_genre": "bollywood_playback",
+        "niche_tags": [
+          "bollywood_playback"
+        ],
+        "measurement_keyword": "Jonita Gandhi",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Named performing artist in dated event coverage.",
+        "events": [
+          {
+            "date": "2025-05-03",
+            "country": "India",
+            "city": "Navi Mumbai",
+            "name": "The Wonderment Tour",
+            "date_precision": "day",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://www.tribuneindia.com/news/entertainment/ar-rahman-posts-selfie-with-fans-after-the-wonderment-tour-show-joined-by-dhanush-on-stage/"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.tribuneindia.com/news/entertainment/ar-rahman-posts-selfie-with-fans-after-the-wonderment-tour-show-joined-by-dhanush-on-stage/",
+            "title": "A R Rahman Wonderment Tour show",
+            "publisher": "The Tribune / PTI"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Jonita Gandhi",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "PTI coverage lists Jonita Gandhi among the live-concert performers."
+      }
+    },
+    "yo-yo-honey-singh": {
+      "expected_current": {
+        "measurement_keyword": "Yo Yo Honey Singh",
+        "name": "Yo Yo Honey Singh",
+        "status": "candidate",
+        "primary_genre": "punjabi_music"
+      },
+      "artist": {
+        "name": "Yo Yo Honey Singh",
+        "primary_genre": "hip_hop_rap",
+        "niche_tags": [
+          "hip_hop_rap"
+        ],
+        "measurement_keyword": "Yo Yo Honey Singh",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Named performing artist in dated event coverage.",
+        "events": [
+          {
+            "date": "2024-12-14",
+            "country": "India",
+            "city": "Delhi",
+            "name": "The Brownprint Tour",
+            "date_precision": "day",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://www.indiatoday.in/amp/entertainment/music/story/honey-singh-jazzy-b-make-special-appearance-at-ap-dhillons-delhi-concert-2650077-2024-12-15"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.indiatoday.in/amp/entertainment/music/story/honey-singh-jazzy-b-make-special-appearance-at-ap-dhillons-delhi-concert-2650077-2024-12-15",
+            "title": "AP Dhillon performs in Delhi",
+            "publisher": "India Today"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Yo Yo Honey Singh",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "India Today says he appeared and performed with AP Dhillon; this does not establish a solo tour."
+      }
+    },
+    "jazzy-b": {
+      "expected_current": {
+        "measurement_keyword": "Jazzy B",
+        "name": "Jazzy B",
+        "status": "candidate",
+        "primary_genre": "punjabi_music"
+      },
+      "artist": {
+        "name": "Jazzy B",
+        "primary_genre": "punjabi_music",
+        "niche_tags": [
+          "punjabi_music"
+        ],
+        "measurement_keyword": "Jazzy B",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Named performing artist in dated event coverage.",
+        "events": [
+          {
+            "date": "2024-12-14",
+            "country": "India",
+            "city": "Delhi",
+            "name": "The Brownprint Tour",
+            "date_precision": "day",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://www.indiatoday.in/amp/entertainment/music/story/honey-singh-jazzy-b-make-special-appearance-at-ap-dhillons-delhi-concert-2650077-2024-12-15"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.indiatoday.in/amp/entertainment/music/story/honey-singh-jazzy-b-make-special-appearance-at-ap-dhillons-delhi-concert-2650077-2024-12-15",
+            "title": "AP Dhillon performs in Delhi",
+            "publisher": "India Today"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Jazzy B",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "India Today says Jazzy B appeared and performed with AP Dhillon."
+      }
+    },
+    "shinda-kahlon": {
+      "artist": {
+        "name": "Shinda Kahlon",
+        "primary_genre": "punjabi_music",
+        "niche_tags": [
+          "punjabi_music"
+        ],
+        "measurement_keyword": "Shinda Kahlon",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Named performing artist in dated event coverage.",
+        "events": [
+          {
+            "date": "2024-12-14",
+            "country": "India",
+            "city": "Delhi",
+            "name": "The Brownprint Tour",
+            "date_precision": "day",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://www.indiatoday.in/amp/entertainment/music/story/honey-singh-jazzy-b-make-special-appearance-at-ap-dhillons-delhi-concert-2650077-2024-12-15"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.indiatoday.in/amp/entertainment/music/story/honey-singh-jazzy-b-make-special-appearance-at-ap-dhillons-delhi-concert-2650077-2024-12-15",
+            "title": "AP Dhillon performs in Delhi",
+            "publisher": "India Today"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Shinda Kahlon",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "India Today says Kahlon appeared and performed with AP Dhillon."
+      }
+    },
+    "anubhav-singh-bassi": {
+      "expected_current": {
+        "measurement_keyword": "Anubhav Singh Bassi",
+        "name": "Anubhav Singh Bassi",
+        "status": "verified",
+        "primary_genre": "comedy"
+      },
+      "artist": {
+        "name": "Anubhav Singh Bassi",
+        "primary_genre": "comedy",
+        "niche_tags": [
+          "comedy"
+        ],
+        "measurement_keyword": "Anubhav Singh Bassi",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Named performing artist in dated event coverage.",
+        "events": [
+          {
+            "date": "2024-03-22",
+            "country": "India",
+            "city": "Coimbatore",
+            "name": "Kisi Ko Batana Mat",
+            "date_precision": "day",
+            "evidence_kind": "unconfirmed",
+            "role": "guest_or_support",
+            "url": "https://fests.info/tag/anubhav-singh-bassi-live/"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://fests.info/tag/anubhav-singh-bassi-live/",
+            "title": "Bassi past events",
+            "publisher": "Fests.info"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Anubhav Singh Bassi",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "A historical-event index labels the Coimbatore date Past Event. It is useful retrospective support but is weaker than a venue/promoter recap."
+      }
+    },
+    "zakir-khan": {
+      "expected_current": {
+        "measurement_keyword": "Zakir Khan",
+        "name": "Zakir Khan",
+        "status": "candidate",
+        "primary_genre": "comedy"
+      },
+      "artist": {
+        "name": "Zakir Khan",
+        "primary_genre": "comedy",
+        "niche_tags": [
+          "comedy"
+        ],
+        "measurement_keyword": "Zakir Khan comedian",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Named performing artist in dated event coverage.",
+        "events": [
+          {
+            "date": "2025-11-01/02",
+            "country": "India",
+            "city": "Delhi",
+            "name": "Papa Yaar",
+            "date_precision": "dates are stated by a post-event attendee/professional post; independently spot-check promoter source",
+            "evidence_kind": "unconfirmed",
+            "role": "not_verified",
+            "url": "https://www.linkedin.com/posts/divya-bhatiapr_last-weekend-delhi-laughed-coughed-and-activity-7391300683548811265-VFV8"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.linkedin.com/posts/divya-bhatiapr_last-weekend-delhi-laughed-coughed-and-activity-7391300683548811265-VFV8",
+            "title": "Zakir Khan Papa Yaar post-event account",
+            "publisher": "LinkedIn / Divya Bhatia"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Zakir Khan comedian",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "Post-event professional account says Khan brought Papa Yaar to Indira Gandhi Indoor Stadium on these dates."
+      }
+    },
+    "kk": {
+      "expected_current": {
+        "measurement_keyword": "KK",
+        "name": "KK",
+        "status": "candidate",
+        "primary_genre": "bollywood_playback"
+      },
+      "archive": true,
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "deceased",
+        "excluded_reason": "Confirmed deceased; excluded from future booking research.",
+        "sources": [
+          {
+            "title": "Indian singer KK dies aged 53",
+            "publisher": "The Guardian",
+            "url": "https://www.theguardian.com/music/2022/jun/01/indian-singer-kk-dies-aged-53-after-falling-ill-while-performing"
+          }
+        ],
+        "events": [],
+        "search_quality": "ambiguous",
+        "search_note": "KK is also a highly ambiguous abbreviation; never measure bare KK."
+      }
+    }
+  }
+}

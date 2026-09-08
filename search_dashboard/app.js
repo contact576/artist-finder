@@ -3,7 +3,9 @@
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
   const geoLabels = { in: 'India', us: 'USA', ca: 'Canada' };
-  const state = { data: null, geo: 'in', month: null, sort: 'latest', direction: -1, page: 1, pageSize: 25, lastTrigger: null, selectedSlug: null, refreshJobId: null, csrfToken: null, metaPromise: null, meta: null, favoriteSlugs: new Set(), favoritesOnly: false };
+  const state = { data: null, geo: 'in', month: null, sort: 'latest', direction: -1, page: 1, pageSize: 25, lastTrigger: null, selectedSlug: null, refreshJobId: null, refreshStartedAt: null, refreshPromise: null, csrfToken: null, metaPromise: null, meta: null, favoriteSlugs: new Set(), favoritesLoaded: false, favoritePending: new Set(), favoriteMutations: new Map(), favoriteNextMutation: 0, favoriteLastResponse: 0, favoritesOnly: false, artistStatusPending: new Set(), eligibilityAvailable: false };
+  const refreshStorageKey = 'artist-search-refresh-job';
+  const refreshPollingTimeout = 40 * 60 * 1000;
 
   const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
   const fmt = value => value == null || Number.isNaN(Number(value)) ? '—' : Number(value).toLocaleString('en-US', { maximumFractionDigits: 0 });
@@ -37,20 +39,72 @@
     if (scope === 'candidate') return eligible.filter(row => row.status === 'candidate');
     return eligible.filter(isResearched);
   }
+  function bookingEligibility(row) {
+    const value = row.booking_eligibility;
+    if (!value || typeof value !== 'object') return { status: 'unchecked' };
+    const status = ['eligible', 'review', 'excluded', 'exception'].includes(value.status) ? value.status : 'unchecked';
+    return { ...value, status };
+  }
+  function eligibilityLabel(status) {
+    return ({ eligible: 'Eligible', exception: 'Eligible exception', review: 'Needs review', excluded: 'Excluded', unchecked: 'Not assessed' }[status] || 'Not assessed');
+  }
+  function eligibilityTone(status) {
+    return ({ eligible: 'good', exception: 'warn', review: 'warn', excluded: 'alert', unchecked: 'neutral' }[status] || 'neutral');
+  }
+  function safeHttpHref(value) {
+    try {
+      const url = new URL(String(value || ''), window.location.origin);
+      return ['http:', 'https:'].includes(url.protocol) ? url.href : '';
+    } catch { return ''; }
+  }
+  function bookingEvidenceMarkup(value) {
+    if (!Array.isArray(value) || !value.length) return 'None recorded';
+    const entries = value.map(item => {
+      if (typeof item === 'string') return escapeHtml(item);
+      if (!item || typeof item !== 'object') return '';
+      const label = item.summary || [item.date, item.name, item.venue, item.city, item.evidence_kind, item.source].filter(Boolean).join(' · ') || 'Open booking evidence';
+      const href = safeHttpHref(item.url);
+      return href ? `<a href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>` : escapeHtml(label);
+    }).filter(Boolean);
+    return entries.length ? entries.join('<br>') : 'None recorded';
+  }
+  function mappingInfo(source) {
+    const value = source?.mapping_quality;
+    if (value && typeof value === 'object') {
+      return { label: value.state || value.mapping_mode || source.mapping_mode || 'not recorded', mode: value.mapping_mode || source.mapping_mode };
+    }
+    return { label: value || source?.mapping_mode || 'not recorded', mode: source?.mapping_mode || value };
+  }
+  function eligibilityRows(rows) {
+    const filter = $('#eligibility-filter')?.value || 'all';
+    if (!state.eligibilityAvailable || filter === 'all') return rows;
+    if (filter === 'shortlist') return rows.filter(row => ['eligible', 'exception'].includes(bookingEligibility(row).status));
+    return rows.filter(row => bookingEligibility(row).status === filter);
+  }
   function activeCategoryRows() {
     const genre = $('#genre-filter')?.value || '';
-    return scopedRosterRows().filter(row => !genre || row.primary_genre === genre);
+    return eligibilityRows(scopedRosterRows()).filter(row => !genre || row.primary_genre === genre);
   }
-  function verifiedMetricRows() {
+  function verifiedMetricRows(geo = state.geo) {
     const genre = $('#genre-filter')?.value || '';
     return state.data.artists.filter(row => row.status === 'verified'
-      && row.keyword_review_state === 'approved' && (!genre || row.primary_genre === genre));
+      && row.keyword_review_state === 'approved'
+      && row.summary_eligible === true
+      && row.summary_eligible_geos?.[geo] === true
+      && (!genre || row.primary_genre === genre));
   }
   function isFavorite(row) { return state.favoriteSlugs.has(row.slug); }
   function favoriteButton(row, extraClass = '') {
     const active = isFavorite(row);
-    const action = active ? 'Remove from Favorites' : 'Add to Favorites';
-    return `<button type="button" class="favorite-toggle ${extraClass} ${active ? 'active' : ''}" data-favorite="${escapeHtml(row.slug)}" aria-pressed="${active}" aria-label="${action}: ${escapeHtml(row.name)}" title="${action}"><span aria-hidden="true">${active ? '★' : '☆'}</span></button>`;
+    const pending = state.favoritePending.has(row.slug);
+    const action = pending ? 'Saving Favorite' : active ? 'Remove from Favorites' : 'Add to Favorites';
+    return `<button type="button" class="favorite-toggle ${extraClass} ${active ? 'active' : ''} ${pending ? 'pending' : ''}" data-favorite="${escapeHtml(row.slug)}" aria-pressed="${active}" aria-busy="${pending}" aria-label="${action}: ${escapeHtml(row.name)}" title="${action}"${pending ? ' disabled' : ''}><span aria-hidden="true">${pending ? '…' : active ? '★' : '☆'}</span></button>`;
+  }
+  function rowStatusButton(row) {
+    const restore = row.status === 'inactive';
+    const pending = state.artistStatusPending.has(row.slug);
+    const action = restore ? 'Restore' : 'Archive';
+    return `<button type="button" class="row-status-toggle ${restore ? 'restore' : 'archive'} ${pending ? 'pending' : ''}" data-row-status="${escapeHtml(row.slug)}" data-active="${restore}" aria-busy="${pending}" aria-label="${pending ? 'Saving' : action} artist: ${escapeHtml(row.name)}" title="${action} artist"${pending ? ' disabled' : ''}>${pending ? 'Saving…' : action}</button>`;
   }
 
   function metric(row, geo = state.geo, selected = state.month) {
@@ -111,7 +165,13 @@
   }
 
   function renderCategoryControls() {
-    const rows = scopedRosterRows();
+    const scope = $('#status-filter').value;
+    // Review and archive are deliberate operator work queues. The normal
+    // research scope shows every retained researched artist so the operator
+    // can favorite or remove any of them; eligibility remains an optional filter.
+    const rows = state.favoritesOnly ? state.data.artists.filter(isFavorite)
+      : ['candidate', 'inactive'].includes(scope) ? scopedRosterRows()
+      : eligibilityRows(scopedRosterRows());
     const ordered = state.data.niches.filter(niche => rows.some(row => row.primary_genre === niche.id));
     const selected = $('#genre-filter').value;
     if (selected && !ordered.some(niche => niche.id === selected)) $('#genre-filter').value = '';
@@ -122,8 +182,27 @@
     const favorites = $('#favorites-nav');
     favorites.classList.toggle('active', state.favoritesOnly); favorites.setAttribute('aria-pressed', String(state.favoritesOnly));
     $('#favorites-count').textContent = fmt(state.favoriteSlugs.size);
+    $('#review-nav').classList.toggle('active', !state.favoritesOnly && $('#status-filter').value === 'candidate');
+    $('#archive-nav').classList.toggle('active', !state.favoritesOnly && $('#status-filter').value === 'inactive');
   }
-  function totalsFor(geo, rows = verifiedMetricRows()) {
+  function renderEligibilityControl() {
+    const select = $('#eligibility-filter');
+    if (!select) return;
+    const wasAvailable = state.eligibilityAvailable;
+    state.eligibilityAvailable = state.data.artists.some(row => row.booking_eligibility && typeof row.booking_eligibility === 'object');
+    if (!state.eligibilityAvailable) {
+      select.disabled = true;
+      select.innerHTML = '<option value="all">Not assessed in this data</option>';
+      select.value = 'all';
+      return;
+    }
+    const selected = wasAvailable ? select.value : 'all';
+    select.disabled = false;
+    select.innerHTML = '<option value="shortlist">Shortlist: eligible + exceptions</option><option value="review">Needs review</option><option value="excluded">Excluded</option><option value="all">All booking checks</option>';
+    select.value = ['shortlist', 'review', 'excluded', 'all'].includes(selected) ? selected : 'all';
+  }
+  function totalsFor(geo, rows = null) {
+    rows = rows || verifiedMetricRows(geo);
     const metrics = rows.map(row => metric(row, geo)).filter(m => m.latest != null);
     const total = metrics.reduce((sum, m) => sum + m.latest, 0);
     const comparable = metrics.filter(m => m.previous != null);
@@ -132,7 +211,8 @@
     return { total: metrics.length ? total : null, coverage: metrics.length, mom: previous ? (current - previous) / previous : null };
   }
 
-  function aggregateSeries(geo, rows = verifiedMetricRows()) {
+  function aggregateSeries(geo, rows = null) {
+    rows = rows || verifiedMetricRows(geo);
     const totals = new Map();
     rows.forEach(row => (row.geos?.[geo]?.series || []).filter(item => item.month <= state.month).forEach(item => {
       totals.set(item.month, (totals.get(item.month) || 0) + Number(item.searches || 0));
@@ -143,14 +223,13 @@
     const selected = totalsFor(state.geo);
     const verified = state.data.artists.filter(row => row.status === 'verified').length;
     const candidates = state.data.artists.filter(row => row.status === 'candidate').length;
-    const ideaBacklog = state.data.candidates.filter(row => row.state === 'needs_review').length;
     $('#market-total').textContent = selectedValue(selected.total);
-    $('#market-total-note').textContent = `${geoLabels[state.geo]} · ${fmt(selected.coverage)} artists in current scope`;
+    $('#market-total-note').textContent = `${geoLabels[state.geo]} · ${fmt(selected.coverage)} booking-eligible verified artists with data (${fmt(verified)} verified identities total)`;
     $('#market-mom').textContent = pct(selected.mom);
     $('#market-mom').className = selected.mom == null ? 'unknown' : selected.mom >= 0 ? 'positive' : 'negative';
     $('#market-mom-note').textContent = `${geoLabels[state.geo]} · comparable artists in current scope`;
     $('#verified-count').textContent = fmt(verified);
-    $('#review-count').textContent = fmt(candidates + ideaBacklog);
+    $('#review-count').textContent = fmt(candidates);
     $('#freshness-badge').textContent = `${monthLabel(state.month)} data · ${geoLabels[state.geo]}`;
     $$('.market-name').forEach(node => { node.textContent = geoLabels[state.geo]; });
     $$('#geo-toggle button').forEach(button => {
@@ -228,9 +307,13 @@
 
   function filteredArtists() {
     const query = $('#artist-search').value.trim().toLowerCase();
-    const rows = activeCategoryRows().filter(row => {
+    // Favorites are an operator decision, not a measurement or identity claim.
+    // Do not hide an existing favorite because a later review archived it or
+    // changed its booking/search eligibility.
+    const base = state.favoritesOnly ? state.data.artists.filter(isFavorite) : activeCategoryRows();
+    const rows = base.filter(row => {
       const haystack = [row.name, row.measurement_keyword, ...(row.aliases || []), ...(row.niche_tags || [])].join(' ').toLowerCase();
-      return (!state.favoritesOnly || isFavorite(row)) && (!query || haystack.includes(query));
+      return !query || haystack.includes(query);
     });
     const sortable = row => {
       const m = metric(row);
@@ -258,11 +341,13 @@
     $('#artist-body').innerHTML = visible.length ? visible.map(row => {
       const m = metric(row), changeTone = m.absolute == null ? 'unknown' : m.absolute >= 0 ? 'positive' : 'negative';
       const source = row.geos?.[state.geo] || {};
-      const mapping = source.mapping_quality || source.mapping_mode || 'not recorded';
+      const mapping = mappingInfo(source);
       const fetched = source.last_updated || source.fetched_at || row.fetched_at || 'Not recorded';
       const yoyTone = m.yoy == null ? 'unknown' : m.yoy >= 0 ? 'positive' : 'negative';
-      return `<tr tabindex="0" data-open="${escapeHtml(row.slug)}" aria-label="Open details for ${escapeHtml(row.name)}"><td class="favorite-cell">${favoriteButton(row)}</td><td><span class="artist-name"><strong>${escapeHtml(row.name)}</strong><small>${escapeHtml(row.measurement_keyword || 'Keyword pending')}${source.mapping_mode === 'close_variant' ? ' · close variant' : ''}</small></span></td><td>${escapeHtml(genreLabel(row.primary_genre))}</td><td>${badge(title(row.status), toneForStatus(row.status))}</td><td><strong>${selectedValue(m.latest)}</strong><small class="table-subline">${monthLabel(state.month)}</small></td><td class="${changeTone}">${m.absolute == null ? '—' : `${m.absolute >= 0 ? '+' : ''}${fmt(m.absolute)}`}</td><td class="${changeTone}">${pct(m.mom)}</td><td>${averageLabel(m.average3)}</td><td>${averageLabel(m.average6)}</td><td>${averageLabel(m.average12)}</td><td class="${yoyTone}">${yoyLabel(m.yoy)}</td><td>${badge(title(mapping), mapping === 'exact' ? 'good' : mapping === 'close_variant' ? 'warn' : 'neutral')}</td><td>${escapeHtml(String(fetched).slice(0, 10))}</td><td>${chartCanvas(m.series)}</td></tr>`;
-    }).join('') : `<tr class="empty-row"><td colspan="14"><div class="empty">${state.favoritesOnly ? 'No favorite artists match these filters. Use the star button to save an artist, or adjust the existing filters.' : 'No artists match these filters. Try All combined or change roster scope.'}</div></td></tr>`;
+      const eligibility = bookingEligibility(row);
+      const eligibilityCell = state.eligibilityAvailable ? badge(eligibilityLabel(eligibility.status), eligibilityTone(eligibility.status)) : '<span class="unknown">Not assessed</span>';
+      return `<tr tabindex="0" data-open="${escapeHtml(row.slug)}" aria-label="Open details for ${escapeHtml(row.name)}"><td class="artist-actions-cell"><div class="row-actions">${favoriteButton(row)}${rowStatusButton(row)}</div></td><td><span class="artist-name"><strong>${escapeHtml(row.name)}</strong><small>${escapeHtml(row.measurement_keyword || 'Keyword pending')}${source.mapping_mode === 'close_variant' ? ' · close variant' : ''}</small></span></td><td>${escapeHtml(genreLabel(row.primary_genre))}</td><td>${badge(title(row.status), toneForStatus(row.status))}</td><td>${eligibilityCell}</td><td><strong>${selectedValue(m.latest)}</strong><small class="table-subline">${monthLabel(state.month)}</small></td><td class="${changeTone}">${m.absolute == null ? '—' : `${m.absolute >= 0 ? '+' : ''}${fmt(m.absolute)}`}</td><td class="${changeTone}">${pct(m.mom)}</td><td>${averageLabel(m.average3)}</td><td>${averageLabel(m.average6)}</td><td>${averageLabel(m.average12)}</td><td class="${yoyTone}">${yoyLabel(m.yoy)}</td><td>${badge(title(mapping.label), mapping.mode === 'exact' ? 'good' : mapping.mode === 'close_variant' ? 'warn' : 'neutral')}</td><td>${escapeHtml(String(fetched).slice(0, 10))}</td><td>${chartCanvas(m.series)}</td></tr>`;
+    }).join('') : `<tr class="empty-row"><td colspan="15"><div class="empty">${state.favoritesOnly ? 'No favorite artists match these filters. Use the star button to save an artist, or adjust the existing filters.' : 'No artists match these filters. Try All combined, another booking check, or a different roster scope.'}</div></td></tr>`;
     $$('.sort').forEach(button => button.setAttribute('aria-sort', button.dataset.sort === state.sort ? (state.direction === 1 ? 'ascending' : 'descending') : 'none'));
     renderPagination(pages); drawCharts($('#artist-body'));
   }
@@ -306,22 +391,35 @@
     state.lastTrigger = trigger || document.activeElement;
     const cards = ['in', 'us', 'ca'].map(geo => {
       const m = metric(row, geo), source = row.geos?.[geo] || {};
-      return `<article class="geo-card"><h3>${geoLabels[geo]}</h3><div class="big">${selectedValue(m.latest)}</div><p>Selected month: ${monthLabel(state.month)}<br>MoM ${pct(m.mom)} · 3-month avg ${averageLabel(m.average3)} · 6-month avg ${averageLabel(m.average6)} · 12-month avg ${averageLabel(m.average12)} · YoY ${yoyLabel(m.yoy)}</p>${chartCanvas(m.series, true, '', `${geoLabels[geo]} full available monthly search history`)}<p>${row.keyword_review_state === 'approved' ? 'Approved keyword' : 'Measurement query (pending review)'}: ${escapeHtml(row.measurement_keyword || source.keyword || 'Pending')}<br>Mapping quality: ${escapeHtml(source.mapping_quality || source.mapping_mode || 'Not recorded')}<br>Last fetched: ${escapeHtml(source.last_updated || source.fetched_at || row.fetched_at || 'Not recorded')}</p></article>`;
+      const mapping = mappingInfo(source);
+      return `<article class="geo-card"><h3>${geoLabels[geo]}</h3><div class="big">${selectedValue(m.latest)}</div><p>Selected month: ${monthLabel(state.month)}<br>MoM ${pct(m.mom)} · 3-month avg ${averageLabel(m.average3)} · 6-month avg ${averageLabel(m.average6)} · 12-month avg ${averageLabel(m.average12)} · YoY ${yoyLabel(m.yoy)}</p>${chartCanvas(m.series, true, '', `${geoLabels[geo]} full available monthly search history`)}<p>${row.keyword_review_state === 'approved' ? 'Approved keyword' : 'Measurement query (pending review)'}: ${escapeHtml(row.measurement_keyword || source.keyword || 'Pending')}<br>Mapping quality: ${escapeHtml(mapping.label)}<br>Last fetched: ${escapeHtml(source.last_updated || source.fetched_at || row.fetched_at || 'Not recorded')}</p></article>`;
     }).join('');
     const evidence = row.identity_evidence || {};
     const selectedSource = row.geos?.[state.geo] || {};
     const variants = selectedSource.close_variants || row.close_variants || [];
     const statusAction = row.status === 'inactive' ? 'reactivate' : 'deactivate';
-    const statusLabel = row.status === 'inactive' ? 'Reactivate' : 'Deactivate';
-    $('#detail-content').innerHTML = `<header class="detail-header"><p class="eyebrow">${escapeHtml(genreLabel(row.primary_genre))}</p><h2 id="detail-name">${escapeHtml(row.name)}</h2><p>${badge(title(row.status), toneForStatus(row.status))} ${badge(row.keyword_review_state === 'approved' ? 'Keyword approved' : 'Keyword review pending', row.keyword_review_state === 'approved' ? 'good' : 'warn')}</p><p>${row.keyword_review_state === 'approved' ? 'Approved measurement keyword' : 'Measurement query pending review'}: <strong>${escapeHtml(row.measurement_keyword || selectedSource.keyword || 'Pending')}</strong></p><div class="detail-actions">${favoriteButton(row, 'detail-favorite')}<button type="button" class="secondary-action" data-artist-action="edit">Edit artist</button><button type="button" class="secondary-action" data-artist-action="reassign">Reassign category</button><button type="button" class="secondary-action" data-artist-action="keyword">Add or replace keyword</button><button type="button" class="secondary-action" data-artist-action="${statusAction}">${statusLabel}</button></div></header><section class="geo-detail-grid">${cards}</section><section class="detail-grid"><article class="detail-block"><h3>Measurement provenance</h3><p>Mapping quality: ${escapeHtml(selectedSource.mapping_quality || selectedSource.mapping_mode || 'Not recorded')}<br>Mapping result: ${escapeHtml(selectedSource.result_text || 'Not recorded')}<br>Close variants: ${escapeHtml(variants.join(', ') || 'None recorded')}<br>Last fetched: ${escapeHtml(selectedSource.last_updated || selectedSource.fetched_at || row.fetched_at || 'Not recorded')}</p></article><article class="detail-block"><h3>Contamination review</h3><p>Status: ${escapeHtml(row.contamination_status || 'Not recorded')}<br>${escapeHtml(row.contamination_note || 'No contamination note recorded.')}</p></article><article class="detail-block"><h3>Identity evidence</h3><p>Type: ${escapeHtml(evidence.kind || 'Unknown')}<br>Research state: ${escapeHtml(row.research_state || 'Not recorded')}<br>Curated: ${row.curated === true ? 'Yes' : 'No'}<br>Reviewed: ${escapeHtml(evidence.reviewed_at || row.last_reviewed || 'Not reviewed')}<br>${escapeHtml(evidence.note || 'No evidence note recorded.')}${evidence.url ? `<br><a href="${escapeHtml(evidence.url)}" target="_blank" rel="noopener noreferrer">Open evidence</a>` : ''}</p></article><article class="detail-block"><h3>Audit trail and aliases</h3><p>First seen: ${escapeHtml(row.first_seen || 'Not recorded')}<br>Aliases: ${escapeHtml((row.aliases || []).join(', ') || 'None recorded')}<br>Niche tags: ${escapeHtml((row.niche_tags || []).map(genreLabel).join(', ') || 'None recorded')}<br>${escapeHtml((row.needs_attention || []).join(' ') || 'No active review warning.')}</p></article></section>`;
+    const statusLabel = row.status === 'inactive' ? 'Restore artist' : 'Remove artist';
+    const eligibility = bookingEligibility(row);
+    const selectedMapping = mappingInfo(selectedSource);
+    const eligibilityDetail = state.eligibilityAvailable
+      ? `Status: ${escapeHtml(eligibilityLabel(eligibility.status))}<br>Reason: ${escapeHtml(eligibility.reason || 'Not recorded')}<br>Last India show: ${escapeHtml(eligibility.last_india_show || 'Not recorded')}<br>Recent India events: ${escapeHtml(eligibility.recent_event_count ?? 'Not recorded')}<br>Search quality: ${escapeHtml(eligibility.search_quality || 'Not recorded')}<br>Evidence:<br>${bookingEvidenceMarkup(eligibility.evidence)}<br>${escapeHtml(eligibility.note || 'No additional eligibility note recorded.')}`
+      : 'Booking eligibility has not been calculated in this dashboard payload.';
+    $('#detail-content').innerHTML = `<header class="detail-header"><p class="eyebrow">${escapeHtml(genreLabel(row.primary_genre))}</p><h2 id="detail-name">${escapeHtml(row.name)}</h2><p>${badge(title(row.status), toneForStatus(row.status))} ${badge(row.keyword_review_state === 'approved' ? 'Keyword approved' : 'Keyword review pending', row.keyword_review_state === 'approved' ? 'good' : 'warn')}</p><p>${row.keyword_review_state === 'approved' ? 'Approved measurement keyword' : 'Measurement query pending review'}: <strong>${escapeHtml(row.measurement_keyword || selectedSource.keyword || 'Pending')}</strong></p><div class="detail-actions">${favoriteButton(row, 'detail-favorite')}<button type="button" class="secondary-action" data-artist-action="edit">Edit artist</button><button type="button" class="secondary-action" data-artist-action="reassign">Reassign category</button><button type="button" class="secondary-action" data-artist-action="keyword">Add or replace keyword</button><button type="button" class="secondary-action" data-artist-action="${statusAction}">${statusLabel}</button></div></header><section class="geo-detail-grid">${cards}</section><section class="detail-grid"><article class="detail-block"><h3>Booking eligibility</h3><p>${eligibilityDetail}</p></article><article class="detail-block"><h3>Measurement provenance</h3><p>Mapping quality: ${escapeHtml(selectedMapping.label)}<br>Mapping result: ${escapeHtml(selectedSource.result_text || selectedSource.mapping_quality?.result_text || 'Not recorded')}<br>Close variants: ${escapeHtml(variants.join(', ') || 'None recorded')}<br>Last fetched: ${escapeHtml(selectedSource.last_updated || selectedSource.fetched_at || row.fetched_at || 'Not recorded')}</p></article><article class="detail-block"><h3>Contamination review</h3><p>Status: ${escapeHtml(row.contamination_status || 'Not recorded')}<br>${escapeHtml(row.contamination_note || 'No contamination note recorded.')}</p></article><article class="detail-block"><h3>Identity evidence</h3><p>Type: ${escapeHtml(evidence.kind || 'Unknown')}<br>Research state: ${escapeHtml(row.research_state || 'Not recorded')}<br>Curated: ${row.curated === true ? 'Yes' : 'No'}<br>Reviewed: ${escapeHtml(evidence.reviewed_at || row.last_reviewed || 'Not reviewed')}<br>${escapeHtml(evidence.note || 'No evidence note recorded.')}${evidence.url ? `<br><a href="${escapeHtml(evidence.url)}" target="_blank" rel="noopener noreferrer">Open evidence</a>` : ''}</p></article><article class="detail-block"><h3>Audit trail and aliases</h3><p>First seen: ${escapeHtml(row.first_seen || 'Not recorded')}<br>Aliases: ${escapeHtml((row.aliases || []).join(', ') || 'None recorded')}<br>Niche tags: ${escapeHtml((row.niche_tags || []).map(genreLabel).join(', ') || 'None recorded')}<br>${escapeHtml((row.needs_attention || []).join(' ') || 'No active review warning.')}</p></article></section>`;
     const dialog = $('#artist-detail');
     if (!dialog.open) dialog.showModal();
     drawCharts($('#detail-content')); $('#close-detail').focus();
   }
-  function showRefreshStatus(message, tone = 'neutral') {
+  function showRefreshStatus(message, tone = 'neutral', href = '') {
     const node = $('#refresh-status');
     node.className = `refresh-status ${tone}`;
     node.textContent = message;
+    const safeHref = safeHttpHref(href);
+    if (safeHref) {
+      const link = document.createElement('a');
+      link.href = safeHref; link.target = '_blank'; link.rel = 'noopener noreferrer';
+      link.textContent = ' Open GitHub Actions.';
+      node.append(link);
+    }
   }
 
   async function ensureMeta(force = false) {
@@ -359,21 +457,54 @@
     try {
       const result = await apiRequest('/api/v1/favorites', { method: 'GET' });
       state.favoriteSlugs = new Set((result.favorites || []).filter(slug => state.data.artists.some(row => row.slug === slug)));
-    } catch { state.favoriteSlugs = new Set(); }
+      state.favoritesLoaded = true;
+    } catch {
+      // A transient read failure must not visually erase favorites that were
+      // already confirmed in this session.
+      if (state.favoritesLoaded) showRefreshStatus('Favorites could not load; saved state was not changed.', 'error');
+    }
   }
   async function toggleFavorite(slug, trigger) {
     const row = state.data.artists.find(item => item.slug === slug);
-    if (!row) return;
+    if (!row || state.favoritePending.has(slug)) return;
     const favorite = !isFavorite(row);
-    if (trigger) trigger.disabled = true;
+    const mutation = ++state.favoriteNextMutation;
+    state.favoritePending.add(slug);
+    state.favoriteMutations.set(slug, { favorite, mutation });
+    if (favorite) state.favoriteSlugs.add(slug); else state.favoriteSlugs.delete(slug);
+    state.page = 1; renderAll();
+    if ($('#artist-detail').open && state.selectedSlug === slug) openDetail(slug, state.lastTrigger);
+    showRefreshStatus(`Saving ${row.name} in Favorites…`, 'running');
     try {
       const result = await apiRequest(`/api/artists/${encodeURIComponent(slug)}/favorite`, { method: 'POST', body: JSON.stringify({ favorite }) });
-      state.favoriteSlugs = new Set(result.favorites || []);
+      // Responses can arrive out of order when two stars are clicked quickly.
+      // Apply only the newest complete server set, then reapply all still
+      // pending optimistic choices. A final GET below reconciles the durable
+      // set after the last request settles.
+      if (Array.isArray(result.favorites) && mutation >= state.favoriteLastResponse) {
+        state.favoriteSlugs = new Set(result.favorites);
+        state.favoriteLastResponse = mutation;
+        state.favoriteMutations.forEach((pending, pendingSlug) => {
+          if (pending.favorite) state.favoriteSlugs.add(pendingSlug);
+          else state.favoriteSlugs.delete(pendingSlug);
+        });
+      }
       state.page = 1; renderAll();
       if ($('#artist-detail').open && state.selectedSlug === slug) openDetail(slug, state.lastTrigger);
       showRefreshStatus(`${row.name} ${favorite ? 'added to' : 'removed from'} Favorites.`, 'success');
-    } catch (error) { showRefreshStatus(`Favorite could not be saved: ${error.message}`, 'error'); }
-    finally { if (trigger?.isConnected) trigger.disabled = false; }
+    } catch (error) {
+      if (favorite) state.favoriteSlugs.delete(slug); else state.favoriteSlugs.add(slug);
+      state.page = 1; renderAll();
+      if ($('#artist-detail').open && state.selectedSlug === slug) openDetail(slug, state.lastTrigger);
+      showRefreshStatus(`Favorite was not saved: ${error.message}`, 'error');
+    } finally {
+      state.favoritePending.delete(slug);
+      state.favoriteMutations.delete(slug);
+      if (!state.favoritePending.size) await loadFavorites();
+      renderAll();
+      if ($('#artist-detail').open && state.selectedSlug === slug) openDetail(slug, state.lastTrigger);
+      if (trigger?.isConnected) trigger.disabled = false;
+    }
   }
   function mergeArtist(response, render = true) {
     const artist = response.artist || response;
@@ -384,6 +515,39 @@
     state.data.generated_at = response.generated_at || state.data.generated_at;
     if (render) renderAll();
     return artist;
+  }
+  function setFormBusy(form, busy) {
+    const submit = $('button[type="submit"]', form);
+    if (!submit) return;
+    if (busy) {
+      form.dataset.pending = 'true';
+      submit.dataset.idleLabel = submit.textContent;
+      submit.textContent = 'Saving…';
+      submit.disabled = true;
+    } else {
+      delete form.dataset.pending;
+      submit.textContent = submit.dataset.idleLabel || 'Save';
+      submit.disabled = false;
+    }
+  }
+  async function updateArtistStatus(slug, active, trigger) {
+    const row = state.data.artists.find(item => item.slug === slug);
+    if (!row || state.artistStatusPending.has(slug)) return;
+    state.artistStatusPending.add(slug);
+    renderArtists();
+    showRefreshStatus(`${active ? 'Restoring' : 'Archiving'} ${row.name}…`, 'running');
+    try {
+      const result = await apiRequest(`/api/artists/${encodeURIComponent(slug)}/status`, { method: 'POST', body: JSON.stringify({ active }) });
+      const updated = mergeArtist(result);
+      await refreshDashboardData(updated);
+      showRefreshStatus(active ? 'Artist restored to the active list.' : 'Artist archived. Restore it anytime from Archived.', 'success');
+    } catch (error) {
+      showRefreshStatus(`Artist status could not be updated: ${error.message}`, 'error');
+    } finally {
+      state.artistStatusPending.delete(slug);
+      renderAll();
+      if (trigger?.isConnected) trigger.disabled = false;
+    }
   }
   function genreOptions(select, selected = '') {
     select.innerHTML = state.data.niches.map(niche => `<option value="${escapeHtml(niche.id)}">${escapeHtml(niche.name)}</option>`).join('');
@@ -422,9 +586,27 @@
     const row = selectedArtist(); if (!row) return;
     const active = action !== 'deactivate';
     $('#status-slug').value = row.slug; $('#status-value').value = String(active);
-    $('#status-title').textContent = active ? 'Reactivate artist' : 'Deactivate artist';
-    $('#status-message').textContent = active ? `Reactivate ${row.name} as a review candidate.` : `Deactivate ${row.name}? It will be excluded from the default roster scope.`;
+    $('#status-title').textContent = active ? 'Restore artist' : 'Remove artist';
+    $('#status-message').textContent = active ? `Restore ${row.name} to the active artist list.` : `Remove ${row.name} from the active artist list? This does not delete history. You can restore the artist from Archived.`;
+    $('#status-form button[type="submit"]').textContent = active ? 'Restore artist' : 'Remove artist';
     $('#status-dialog').showModal();
+  }
+  function updateSourceMeta(data) {
+    $('#network-badge').textContent = data.network === 'GOOGLE_SEARCH_AND_PARTNERS' ? 'Google Search + Search partners (not YouTube views)' : data.network || 'Network unknown';
+    $('#generated-at').textContent = latestGoogleFetch(data) || 'No Google fetch timestamp recorded';
+    $('#caveat').textContent = [data.caveat, data.network_note].filter(Boolean).join(' ') || $('#caveat').textContent;
+  }
+  function latestGoogleFetch(data) {
+    const timestamps = [data?.data_updated_at];
+    (data?.artists || []).forEach(artist => Object.values(artist.geos || {}).forEach(geo => {
+      timestamps.push(geo?.last_updated, geo?.fetched_at);
+    }));
+    return timestamps.filter(value => typeof value === 'string' && value).sort().at(-1) || null;
+  }
+  function payloadIncludesRefresh(data, startedAt) {
+    const fetched = Date.parse(latestGoogleFetch(data) || '');
+    const started = Date.parse(startedAt || '');
+    return Number.isFinite(fetched) && Number.isFinite(started) && fetched >= started;
   }
   async function refreshDashboardData(updatedArtist = null) {
     try {
@@ -432,40 +614,114 @@
       if (!response.ok) response = await fetch('dashboard-data.json', { cache: 'no-store' });
       if (!response.ok) throw new Error(`Dashboard data reload failed: ${response.status}`);
       const data = await response.json();
-      state.data = data; state.month = data.default_month || state.month;
+      const selectedMonth = state.month;
+      state.data = data;
+      state.month = data.months?.includes(selectedMonth) ? selectedMonth : data.default_month || selectedMonth;
       await loadFavorites();
       if (updatedArtist) mergeArtist({ artist: updatedArtist }, false);
-      $('#network-badge').textContent = data.network === 'GOOGLE_SEARCH_AND_PARTNERS' ? 'Google Search + Search partners (not YouTube)' : data.network || 'Network unknown';
-      $('#generated-at').textContent = data.generated_at || 'Not recorded';
-      $('#caveat').textContent = data.caveat || $('#caveat').textContent;
+      updateSourceMeta(data);
       renderControls(); renderAll();
-    } catch (error) { showRefreshStatus(`Current dashboard payload could not be reloaded: ${error.message}`, 'error'); }
+      return data;
+    } catch (error) { showRefreshStatus(`Current dashboard payload could not be reloaded: ${error.message}`, 'error'); return null; }
+  }
+  const pause = milliseconds => new Promise(resolve => window.setTimeout(resolve, milliseconds));
+  function setRefreshControl(running) {
+    $('#refresh-data').disabled = running;
+    $('#refresh-data').textContent = running ? 'Refreshing…' : 'Refresh data';
   }
   async function pollRefresh(jobId) {
-    try {
-      const job = await apiRequest(`/api/refresh/${encodeURIComponent(jobId)}`, { method: 'GET' });
-      const stateName = job.state || 'running';
-      const progress = job.progress == null ? '' : ` ${job.progress}%`;
-      const failed = stateName === 'failed' || stateName === 'error';
-      showRefreshStatus(`${title(stateName)}${progress}${job.message ? ` — ${job.message}` : ''}`, failed ? 'error' : stateName === 'success' ? 'success' : 'running');
-      if (stateName === 'success') { await refreshDashboardData(); return; }
-      if (failed) return;
-      return new Promise(resolve => window.setTimeout(() => resolve(pollRefresh(jobId)), 1500));
-    } catch (error) { showRefreshStatus(`Refresh status could not be read: ${error.message}`, 'error'); }
+    let failures = 0;
+    let deploymentWaitStarted = 0;
+    while (state.refreshJobId === jobId) {
+      try {
+        const job = await apiRequest(`/api/refresh/${encodeURIComponent(jobId)}`, { method: 'GET' });
+        failures = 0;
+        const stateName = job.state || 'running';
+        const progress = job.progress == null ? '' : ` ${job.progress}%`;
+        const failed = stateName === 'failed' || stateName === 'error';
+        const unobservable = stateName === 'monitoring_unavailable';
+        const startedAt = Date.parse(job.started_at || state.refreshStartedAt || '') || Date.now();
+        state.refreshStartedAt = new Date(startedAt).toISOString();
+        if (stateName === 'success') {
+          const payload = await refreshDashboardData();
+          if (payloadIncludesRefresh(payload, job.started_at)) {
+            sessionStorage.removeItem(refreshStorageKey);
+            state.refreshJobId = null;
+            showRefreshStatus(job.message || 'Search measurements refreshed and are now displayed.', 'success');
+            return;
+          }
+          deploymentWaitStarted ||= Date.now();
+          if (Date.now() - deploymentWaitStarted >= 120_000) {
+            sessionStorage.removeItem(refreshStorageKey);
+            state.refreshJobId = null;
+            showRefreshStatus('Search measurements were saved, but this hosted dashboard still has the previous Google fetch. Deployment is pending; reload after Vercel publishes the new bundle.', 'neutral');
+            return;
+          }
+          showRefreshStatus('Search measurements were saved. Waiting for the hosted deployment to publish the newer Google fetch…', 'running');
+        } else {
+          showRefreshStatus(`${title(stateName)}${progress}${job.message ? ` — ${job.message}` : ''}`, failed ? 'error' : unobservable ? 'neutral' : 'running');
+        }
+        if (!failed && !unobservable && stateName !== 'success' && Date.now() - startedAt >= refreshPollingTimeout) {
+          sessionStorage.removeItem(refreshStorageKey);
+          state.refreshJobId = null;
+          state.refreshStartedAt = null;
+          showRefreshStatus('Refresh monitoring timed out after 40 minutes. The workflow may still be running; check GitHub Actions before starting another refresh.', 'neutral', job.actions_url);
+          return;
+        }
+        if (failed || unobservable) {
+          sessionStorage.removeItem(refreshStorageKey);
+          state.refreshJobId = null;
+          state.refreshStartedAt = null;
+          return;
+        }
+      } catch (error) {
+        failures += 1;
+        if (failures >= 3) {
+          showRefreshStatus(`Refresh status could not be read after three attempts: ${error.message}`, 'error');
+          return;
+        }
+        showRefreshStatus(`Refresh status check failed; retrying (${failures}/3)…`, 'running');
+      }
+      await pause(10_000);
+    }
   }
   async function startRefresh() {
-    const button = $('#refresh-data'); button.disabled = true;
+    if (state.refreshPromise) return state.refreshPromise;
+    if (state.refreshJobId) {
+      setRefreshControl(true);
+      state.refreshPromise = pollRefresh(state.refreshJobId).finally(() => { state.refreshPromise = null; setRefreshControl(false); });
+      return state.refreshPromise;
+    }
+    setRefreshControl(true);
     showRefreshStatus('Refresh queued. The retained dashboard remains visible while data updates.', 'running');
-    try {
+    state.refreshPromise = (async () => {
+      try {
       const job = await apiRequest('/api/refresh', { method: 'POST', body: '{}' });
       state.refreshJobId = job.job_id;
+      state.refreshStartedAt = new Date().toISOString();
       if (!job.job_id) throw new Error('Refresh response did not include a job_id.');
+      sessionStorage.setItem(refreshStorageKey, JSON.stringify({ jobId: job.job_id, startedAt: state.refreshStartedAt }));
       await pollRefresh(job.job_id);
-    } catch (error) { showRefreshStatus(`Refresh could not start: ${error.message}`, 'error'); }
-    finally { button.disabled = false; }
+      } catch (error) { showRefreshStatus(`Refresh could not start: ${error.message}`, 'error'); }
+      finally { state.refreshPromise = null; setRefreshControl(false); }
+    })();
+    return state.refreshPromise;
   }
 
   async function loadDashboardStatus() {
+    const savedRefresh = sessionStorage.getItem(refreshStorageKey);
+    if (savedRefresh) {
+      let savedJobId = savedRefresh;
+      try {
+        const parsed = JSON.parse(savedRefresh);
+        savedJobId = parsed.jobId || savedRefresh;
+        state.refreshStartedAt = parsed.startedAt || null;
+      } catch { state.refreshStartedAt = null; }
+      state.refreshJobId = savedJobId;
+      setRefreshControl(true);
+      state.refreshPromise = pollRefresh(savedJobId).finally(() => { state.refreshPromise = null; setRefreshControl(false); });
+      return;
+    }
     try {
       const result = await apiRequest('/api/dashboard/status', { method: 'GET' });
       const job = result?.refresh || result;
@@ -473,7 +729,7 @@
       if (job?.state && job.state !== 'idle') showRefreshStatus(`Server refresh state: ${title(job.state)}${job.message ? ` — ${job.message}` : ''}`, failed ? 'error' : job.state === 'success' ? 'success' : 'neutral');
     } catch { /* Static dashboard mode has no API status endpoint. */ }
   }
-  function renderAll() { renderCategoryControls(); renderOverview(); renderComparison(); renderGenres(); renderRisers(); renderArtists(); renderCandidates(); renderHealth(); }
+  function renderAll() { renderEligibilityControl(); renderCategoryControls(); renderOverview(); renderComparison(); renderGenres(); renderRisers(); renderArtists(); renderCandidates(); renderHealth(); }
 
   function resetAndRender() { state.page = 1; renderArtists(); }
 
@@ -487,12 +743,19 @@
     $('#artist-search').addEventListener('input', resetAndRender);
     $('#genre-filter').addEventListener('change', () => { state.page = 1; renderAll(); });
     $('#status-filter').addEventListener('change', () => { state.page = 1; renderAll(); });
+    $('#eligibility-filter').addEventListener('change', () => { state.page = 1; renderAll(); });
     $('#category-nav').addEventListener('click', event => {
       const button = event.target.closest('[data-genre]'); if (!button) return;
       $('#genre-filter').value = button.dataset.genre; state.page = 1; renderAll(); $('#artists').scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
     $('#favorites-nav').addEventListener('click', () => {
       state.favoritesOnly = !state.favoritesOnly; state.page = 1; renderAll(); $('#artists').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    $('#review-nav').addEventListener('click', () => {
+      state.favoritesOnly = false; $('#status-filter').value = 'candidate'; $('#eligibility-filter').value = 'all'; state.page = 1; renderAll(); $('#artists').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    $('#archive-nav').addEventListener('click', () => {
+      state.favoritesOnly = false; $('#status-filter').value = 'inactive'; $('#eligibility-filter').value = 'all'; state.page = 1; renderAll(); $('#artists').scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
     $$('.sort').forEach(button => button.addEventListener('click', () => {
       const next = button.dataset.sort; state.direction = state.sort === next ? -state.direction : (next === 'name' ? 1 : -1); state.sort = next; resetAndRender();
@@ -504,11 +767,13 @@
     document.addEventListener('click', event => {
       const favorite = event.target.closest('[data-favorite]');
       if (favorite) { event.preventDefault(); toggleFavorite(favorite.dataset.favorite, favorite); return; }
+      const rowStatus = event.target.closest('[data-row-status]');
+      if (rowStatus) { event.preventDefault(); updateArtistStatus(rowStatus.dataset.rowStatus, rowStatus.dataset.active === 'true', rowStatus); return; }
       const opener = event.target.closest('[data-open]'); if (opener) openDetail(opener.dataset.open, opener);
     });
     $('#artist-body').addEventListener('keydown', event => {
       const row = event.target.closest('[data-open]');
-      if (row && !event.target.closest('[data-favorite]') && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); openDetail(row.dataset.open, row); }
+      if (row && !event.target.closest('[data-favorite], [data-row-status]') && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); openDetail(row.dataset.open, row); }
     });
     $('#refresh-data').addEventListener('click', startRefresh);
     $('#add-artist').addEventListener('click', () => openArtistEditor());
@@ -523,24 +788,39 @@
     $$('[data-close-dialog]').forEach(button => button.addEventListener('click', () => $(`#${button.dataset.closeDialog}`).close()));
     $('#artist-editor-form').addEventListener('submit', async event => {
       event.preventDefault();
+      const form = event.currentTarget;
+      if (form.dataset.pending) return;
+      setFormBusy(form, true);
       const slug = $('#artist-editor-slug').value;
       const aliases = $('#artist-editor-aliases').value.split(',').map(value => value.trim()).filter(Boolean);
       const payload = slug ? { name: $('#artist-editor-name').value.trim(), aliases, category: $('#artist-editor-genre').value, evidence_url: $('#artist-editor-evidence').value.trim() || null } : { name: $('#artist-editor-name').value.trim(), category: $('#artist-editor-genre').value, measurement_keyword: $('#artist-editor-keyword').value.trim() || null, evidence_url: $('#artist-editor-evidence').value.trim() || null };
       try {
         const result = await apiRequest(slug ? `/api/artists/${encodeURIComponent(slug)}` : '/api/artists', { method: slug ? 'PATCH' : 'POST', body: JSON.stringify(payload) });
-        const updated = mergeArtist(result); await refreshDashboardData(updated); $('#artist-editor').close(); showRefreshStatus(`Artist ${slug ? 'updated' : 'added'} successfully.`, 'success');
+        const updated = mergeArtist(result); await refreshDashboardData(updated); $('#artist-editor').close();
+        if (!slug && updated?.slug) {
+          state.favoritesOnly = false; $('#status-filter').value = 'candidate'; $('#eligibility-filter').value = 'all'; state.page = 1; renderAll(); openDetail(updated.slug);
+          showRefreshStatus('Artist added to the Review backlog. Confirm identity and eligibility before it enters the shortlist.', 'success');
+        } else showRefreshStatus('Artist updated successfully.', 'success');
       } catch (error) { showRefreshStatus(`Artist could not be saved: ${error.message}`, 'error'); }
+      finally { setFormBusy(form, false); }
     });
     $('#reassign-form').addEventListener('submit', async event => {
       event.preventDefault();
+      const form = event.currentTarget;
+      if (form.dataset.pending) return;
+      setFormBusy(form, true);
       const slug = $('#reassign-slug').value;
       try {
         const result = await apiRequest(`/api/artists/${encodeURIComponent(slug)}/category`, { method: 'POST', body: JSON.stringify({ category: $('#reassign-genre').value }) });
         const updated = mergeArtist(result); await refreshDashboardData(updated); $('#reassign-dialog').close(); showRefreshStatus('Artist category reassigned successfully.', 'success');
       } catch (error) { showRefreshStatus(`Category could not be reassigned: ${error.message}`, 'error'); }
+      finally { setFormBusy(form, false); }
     });
     $('#keyword-form').addEventListener('submit', async event => {
       event.preventDefault();
+      const form = event.currentTarget;
+      if (form.dataset.pending) return;
+      setFormBusy(form, true);
       const slug = $('#keyword-slug').value;
       const payload = { keyword: $('#keyword-value').value.trim(), action: $('#keyword-action').value };
       if ($('#keyword-previous').value.trim()) payload.previous_keyword = $('#keyword-previous').value.trim();
@@ -548,14 +828,21 @@
         const result = await apiRequest(`/api/artists/${encodeURIComponent(slug)}/keywords`, { method: 'POST', body: JSON.stringify(payload) });
         const updated = mergeArtist(result); await refreshDashboardData(updated); $('#keyword-dialog').close(); showRefreshStatus('Keyword update recorded successfully.', 'success');
       } catch (error) { showRefreshStatus(`Keyword could not be saved: ${error.message}`, 'error'); }
+      finally { setFormBusy(form, false); }
     });
     $('#status-form').addEventListener('submit', async event => {
       event.preventDefault();
+      const form = event.currentTarget;
+      if (form.dataset.pending) return;
+      setFormBusy(form, true);
       const slug = $('#status-slug').value;
       try {
         const result = await apiRequest(`/api/artists/${encodeURIComponent(slug)}/status`, { method: 'POST', body: JSON.stringify({ active: $('#status-value').value === 'true' }) });
-        const updated = mergeArtist(result); await refreshDashboardData(updated); $('#status-dialog').close(); showRefreshStatus('Artist status updated successfully.', 'success');
+        const updated = mergeArtist(result); await refreshDashboardData(updated); $('#status-dialog').close();
+        if ($('#artist-detail').open) $('#artist-detail').close();
+        showRefreshStatus(updated?.status === 'inactive' ? 'Artist removed from the active list. Restore it anytime from Archived.' : 'Artist restored to the active list.', 'success');
       } catch (error) { showRefreshStatus(`Artist status could not be updated: ${error.message}`, 'error'); }
+      finally { setFormBusy(form, false); }
     });    $('#close-detail').addEventListener('click', () => $('#artist-detail').close());
     $('#artist-detail').addEventListener('close', () => { if (state.lastTrigger?.focus) state.lastTrigger.focus(); });
     window.addEventListener('resize', () => drawCharts());
@@ -564,9 +851,7 @@
   async function render(data) {
     state.data = data; state.month = data.default_month || data.months?.[0] || null;
     if (!state.month) throw new Error('No monthly search values were supplied.');
-    $('#network-badge').textContent = data.network === 'GOOGLE_SEARCH_AND_PARTNERS' ? 'Google Search + Search partners (not YouTube)' : data.network || 'Network unknown';
-    $('#generated-at').textContent = data.generated_at || 'Not recorded';
-    $('#caveat').textContent = data.caveat || 'Google-estimated monthly search demand. This is not ticket sales, audience size, or a ticket forecast.';
+    updateSourceMeta(data);
     await loadFavorites();
     renderControls(); bind(); renderAll(); loadDashboardStatus(); $('#loading').classList.add('done');
   }

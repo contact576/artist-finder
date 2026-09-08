@@ -1,0 +1,56 @@
+{
+  "id": "booking-research-2026-09-08-extra-exclusions",
+  "reviewed_at": "2026-09-08",
+  "decisions": {
+    "rashid-khan": {
+      "archive": true,
+      "expected_current": {
+        "name": "Rashid Khan",
+        "status": "candidate",
+        "primary_genre": "indian_classical",
+        "measurement_keyword": "Rashid Khan"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "deceased",
+        "excluded_reason": "Confirmed deceased classical musician; not a current bookable artist.",
+        "sources": [
+          {
+            "url": "https://www.pmindia.gov.in/en/news_updates/pm-condoles-the-demise-of-ustad-rashid-khan/",
+            "title": "Government condolence notice identifying the musician",
+            "publisher": "Government of India"
+          }
+        ],
+        "events": [],
+        "search_quality": "ambiguous",
+        "search_note": "Archived; do not confuse the classical musician with living namesakes such as the cricketer."
+      }
+    },
+    "ustad-zakir-hussain": {
+      "archive": true,
+      "expected_current": {
+        "name": "Ustad Zakir Hussain",
+        "status": "candidate",
+        "primary_genre": "indian_classical",
+        "measurement_keyword": "Ustad Zakir Hussain"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "deceased",
+        "excluded_reason": "Confirmed deceased classical musician; not a current bookable artist.",
+        "sources": [
+          {
+            "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2084714&lang=2&reg=48",
+            "title": "Government condolence notice identifying the musician",
+            "publisher": "Government of India"
+          }
+        ],
+        "events": [],
+        "search_quality": "ambiguous",
+        "search_note": "Archived; do not confuse the classical musician with living namesakes such as the cricketer."
+      }
+    }
+  }
+}

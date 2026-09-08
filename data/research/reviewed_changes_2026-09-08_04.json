@@ -1,0 +1,375 @@
+{
+  "id": "booking-research-2026-09-08-4",
+  "reviewed_at": "2026-09-08",
+  "policy": "Evidence-qualified shortlist; uncertainty is Review, never proof no performances occurred. Search metrics remain separate from performance evidence.",
+  "decisions": {
+    "arijit-singh": {
+      "expected_current": {
+        "measurement_keyword": "Arijit Singh",
+        "name": "Arijit Singh",
+        "status": "candidate",
+        "primary_genre": "bollywood_playback"
+      },
+      "artist": {
+        "name": "Arijit Singh",
+        "primary_genre": "bollywood_playback",
+        "niche_tags": [
+          "bollywood_playback"
+        ],
+        "measurement_keyword": "Arijit Singh",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Named performing artist in dated event coverage.",
+        "events": [
+          {
+            "date": "2025-01-25",
+            "country": "India",
+            "city": "Jaipur",
+            "name": "JECC concert",
+            "date_precision": "day",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://storage.firstindia.co.in/public/epapers/January2025/173782990989.pdf"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://storage.firstindia.co.in/public/epapers/January2025/173782990989.pdf",
+            "title": "Arijit Singh's Jaipur performance",
+            "publisher": "First India"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Arijit Singh",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "Post-event report says Singh performed at Jaipur Exhibition & Convention Centre on Saturday."
+      }
+    },
+    "diljit-dosanjh": {
+      "expected_current": {
+        "measurement_keyword": "Diljit Dosanjh",
+        "name": "Diljit Dosanjh",
+        "status": "verified",
+        "primary_genre": "punjabi_music"
+      },
+      "artist": {
+        "name": "Diljit Dosanjh",
+        "primary_genre": "punjabi_music",
+        "niche_tags": [
+          "punjabi_music"
+        ],
+        "measurement_keyword": "Diljit Dosanjh",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Named performing artist in dated event coverage.",
+        "events": [
+          {
+            "date": "2024-03-16",
+            "country": "India",
+            "city": "Mumbai",
+            "name": "Ed Sheeran Mumbai concert",
+            "date_precision": "date derived from 17 March report saying Saturday",
+            "evidence_kind": "performed",
+            "role": "guest_or_support",
+            "url": "https://time.com/6957802/ed-sheeran-diljit-dosanjh-punjabi-performance-india/"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://time.com/6957802/ed-sheeran-diljit-dosanjh-punjabi-performance-india/",
+            "title": "Ed Sheeran and Diljit Dosanjh perform in Mumbai",
+            "publisher": "Time"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Diljit Dosanjh",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "Time reports that Dosanjh joined Sheeran on stage in Mumbai and led the live performance of Lover."
+      }
+    },
+    "ap-dhillon": {
+      "expected_current": {
+        "measurement_keyword": "AP Dhillon",
+        "name": "AP Dhillon",
+        "status": "candidate",
+        "primary_genre": "punjabi_music"
+      },
+      "artist": {
+        "name": "AP Dhillon",
+        "primary_genre": "punjabi_music",
+        "niche_tags": [
+          "punjabi_music"
+        ],
+        "measurement_keyword": "AP Dhillon",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Named performing artist in dated event coverage.",
+        "events": [
+          {
+            "date": "2024-12-14",
+            "country": "India",
+            "city": "Delhi",
+            "name": "The Brownprint Tour",
+            "date_precision": "day",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://www.indiatoday.in/amp/entertainment/music/story/honey-singh-jazzy-b-make-special-appearance-at-ap-dhillons-delhi-concert-2650077-2024-12-15"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.indiatoday.in/amp/entertainment/music/story/honey-singh-jazzy-b-make-special-appearance-at-ap-dhillons-delhi-concert-2650077-2024-12-15",
+            "title": "AP Dhillon performs in Delhi",
+            "publisher": "India Today"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "AP Dhillon",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "India Today reports the Delhi performance and on-stage appearances by Honey Singh, Jazzy B and Shinda Kahlon."
+      }
+    },
+    "badshah": {
+      "expected_current": {
+        "measurement_keyword": "Badshah",
+        "name": "Badshah",
+        "status": "candidate",
+        "primary_genre": "bollywood_playback"
+      },
+      "artist": {
+        "name": "Badshah",
+        "primary_genre": "hip_hop_rap",
+        "niche_tags": [
+          "hip_hop_rap"
+        ],
+        "measurement_keyword": "Badshah rapper",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Named performing artist in dated event coverage.",
+        "events": [
+          {
+            "date": "2024-12-15",
+            "country": "India",
+            "city": "Gurugram",
+            "name": "Karan Aujla It Was All A Dream India Tour",
+            "date_precision": "day",
+            "evidence_kind": "performed",
+            "role": "guest_or_support",
+            "url": "https://timesofindia.indiatimes.com/videos/etimes/bollywood/karan-aujla-brings-out-badshah-at-delhi-concert-after-ap-dhillons-concert-with-honey-singh/videoshow/116399870.cms"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://timesofindia.indiatimes.com/videos/etimes/bollywood/karan-aujla-brings-out-badshah-at-delhi-concert-after-ap-dhillons-concert-with-honey-singh/videoshow/116399870.cms",
+            "title": "Badshah joins Karan Aujla",
+            "publisher": "Times of India"
+          }
+        ],
+        "search_quality": "qualified",
+        "search_keyword": "Badshah rapper",
+        "search_note": "Qualified artist query; narrower than a bare name and not directly comparable with broad-name estimates. Still a search-interest proxy, not sales.",
+        "note": "Post-event coverage says Badshah joined Aujla at the concert; it is performance evidence, not solo-tour evidence."
+      }
+    },
+    "shreya-ghoshal": {
+      "expected_current": {
+        "measurement_keyword": "Shreya Ghoshal",
+        "name": "Shreya Ghoshal",
+        "status": "candidate",
+        "primary_genre": "devotional"
+      },
+      "artist": {
+        "name": "Shreya Ghoshal",
+        "primary_genre": "bollywood_playback",
+        "niche_tags": [
+          "bollywood_playback"
+        ],
+        "measurement_keyword": "Shreya Ghoshal",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Named performing artist in dated event coverage.",
+        "events": [
+          {
+            "date": "2025-03-22",
+            "country": "India",
+            "city": "Kolkata",
+            "name": "TATA IPL 2025 opening ceremony",
+            "date_precision": "day",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://www.iplt20.com/video/58763/kolkata-grooves-to-mesmerising-tunes-of-sensational-shreya-ghoshal-at-tata-ipl-2025-opening-ceremony"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.iplt20.com/video/58763/kolkata-grooves-to-mesmerising-tunes-of-sensational-shreya-ghoshal-at-tata-ipl-2025-opening-ceremony",
+            "title": "Shreya Ghoshal at IPL 2025 opening ceremony",
+            "publisher": "Indian Premier League"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Shreya Ghoshal",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "IPL published the performance video from the opening ceremony."
+      }
+    },
+    "sunidhi-chauhan": {
+      "expected_current": {
+        "measurement_keyword": "Sunidhi Chauhan",
+        "name": "Sunidhi Chauhan",
+        "status": "candidate",
+        "primary_genre": "bollywood_playback"
+      },
+      "artist": {
+        "name": "Sunidhi Chauhan",
+        "primary_genre": "bollywood_playback",
+        "niche_tags": [
+          "bollywood_playback"
+        ],
+        "measurement_keyword": "Sunidhi Chauhan",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Named performing artist in dated event coverage.",
+        "events": [
+          {
+            "date": "2025-12-24",
+            "country": "India",
+            "city": "Mumbai",
+            "name": "I Am Home India Tour opening show",
+            "date_precision": "day",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://www.indiatoday.in/entertainment/music/story/sunidhi-chauhan-electrifying-mumbai-concert-praised-by-rohan-joshi-2841554-2025-12-25"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.indiatoday.in/entertainment/music/story/sunidhi-chauhan-electrifying-mumbai-concert-praised-by-rohan-joshi-2841554-2025-12-25",
+            "title": "Sunidhi Chauhan Mumbai concert",
+            "publisher": "India Today"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Sunidhi Chauhan",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "Post-event reporting identifies the Mumbai concert as the tour launch. Attendance language in the source is not used as a market estimate."
+      }
+    },
+    "sonu-nigam": {
+      "expected_current": {
+        "measurement_keyword": "Sonu Nigam",
+        "name": "Sonu Nigam",
+        "status": "candidate",
+        "primary_genre": "bollywood_playback"
+      },
+      "artist": {
+        "name": "Sonu Nigam",
+        "primary_genre": "bollywood_playback",
+        "niche_tags": [
+          "bollywood_playback"
+        ],
+        "measurement_keyword": "Sonu Nigam",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Named performing artist in dated event coverage.",
+        "events": [
+          {
+            "date": "2024-10-27",
+            "country": "India",
+            "city": "Kota, Rajasthan",
+            "name": "Kota concert",
+            "date_precision": "day",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://www.indiatoday.in/entertainment/music/story/watch-sonu-nigam-viral-video-from-kota-concert-singer-remains-unfazed-as-man-charges-at-him-on-stage-2624970-2024-10-29"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.indiatoday.in/entertainment/music/story/watch-sonu-nigam-viral-video-from-kota-concert-singer-remains-unfazed-as-man-charges-at-him-on-stage-2624970-2024-10-29",
+            "title": "Sonu Nigam performs in Kota",
+            "publisher": "India Today"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Sonu Nigam",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "India Today reported the performance and an on-stage disruption during it."
+      }
+    },
+    "vishal-shekhar": {
+      "expected_current": {
+        "measurement_keyword": "Vishal-Shekhar",
+        "name": "Vishal-Shekhar",
+        "status": "candidate",
+        "primary_genre": "bollywood_playback"
+      },
+      "artist": {
+        "name": "Vishal-Shekhar",
+        "primary_genre": "bollywood_playback",
+        "niche_tags": [
+          "bollywood_playback"
+        ],
+        "measurement_keyword": "Vishal Shekhar",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Named performing artist in dated event coverage.",
+        "events": [
+          {
+            "date": "2024-05",
+            "country": "India",
+            "city": "Pune",
+            "name": "Pune concert",
+            "date_precision": "article published 12 May; exact show day not supplied",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://timesofindia.indiatimes.com/videos/entertainment/events/pune/vishal-shekhar-enthralled-pune-audience/videoshow/110050122.cms"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://timesofindia.indiatimes.com/videos/entertainment/events/pune/vishal-shekhar-enthralled-pune-audience/videoshow/110050122.cms",
+            "title": "Vishal-Shekhar in Pune",
+            "publisher": "Times of India"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Vishal Shekhar",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "Times of India post-event video page says the duo performed in Pune."
+      }
+    }
+  }
+}

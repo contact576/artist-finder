@@ -1,0 +1,349 @@
+{
+  "id": "booking-research-2026-09-08-2",
+  "reviewed_at": "2026-09-08",
+  "policy": "Evidence-qualified shortlist; uncertainty is Review, never proof no performances occurred. Search metrics remain separate from performance evidence.",
+  "decisions": {
+    "dhanji": {
+      "artist": {
+        "name": "Dhanji",
+        "primary_genre": "hip_hop_rap",
+        "niche_tags": [
+          "hip_hop_rap"
+        ],
+        "measurement_keyword": "Dhanji rapper",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Distinct rapper identity supported by the official Lollapalooza post-event video.",
+        "events": [
+          {
+            "date": "2025-03-08",
+            "country": "India",
+            "city": "Mumbai",
+            "name": "Lollapalooza India 2025",
+            "date_precision": "festival date mapped from the dated lineup; official post-event video confirms performed",
+            "evidence_kind": "performed",
+            "role": "guest_or_support",
+            "url": "https://www.youtube.com/watch?v=PLdF3TtEbAY"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.youtube.com/watch?v=PLdF3TtEbAY",
+            "title": "Backstage at Lolla India with Dhanji",
+            "publisher": "Lollapalooza India"
+          },
+          {
+            "url": "https://www.mid-day.com/web-stories/american-rapper-g-eazy-performs-in-mumbai-2686",
+            "title": "G-Eazy performs in Mumbai",
+            "publisher": "Mid-day"
+          }
+        ],
+        "search_quality": "qualified",
+        "search_keyword": "Dhanji rapper",
+        "search_note": "Qualified artist query; narrower than a bare name and not directly comparable with broad-name estimates. Still a search-interest proxy, not sales.",
+        "note": "Lollapalooza India's official post-event video describes Dhanji as one of the artists who performed in 2025. A separate post-event report also places Dhanji among the G-Eazy Mumbai support acts on 15 February 2024."
+      }
+    },
+    "chaar-diwaari": {
+      "artist": {
+        "name": "Chaar Diwaari",
+        "primary_genre": "hip_hop_rap",
+        "niche_tags": [
+          "hip_hop_rap"
+        ],
+        "measurement_keyword": "Chaar Diwaari",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Distinct rapper stage name, but spelling/styling must be normalized deliberately.",
+        "events": [
+          {
+            "date": "2025-02-16",
+            "country": "India",
+            "city": "Mumbai",
+            "name": "RuPay Zomaland Season 5",
+            "date_precision": "day",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://www.impactonnet.com/more-from-impact/rupay-zomaland-season-5s-mumbai-leg-wrapped-up-9953.html"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.impactonnet.com/more-from-impact/rupay-zomaland-season-5s-mumbai-leg-wrapped-up-9953.html",
+            "title": "Zomaland Mumbai leg wrapped",
+            "publisher": "Impact"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Chaar Diwaari",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "Post-event recap lists Chaar Diwaari among Day 2 performers."
+      }
+    },
+    "yashraj-rapper": {
+      "artist": {
+        "name": "Yashraj (rapper)",
+        "primary_genre": "hip_hop_rap",
+        "niche_tags": [
+          "hip_hop_rap"
+        ],
+        "measurement_keyword": "Yashraj rapper",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Requires rapper qualifier: Yash Raj/Yashraj has significant non-artist ambiguity.",
+        "events": [
+          {
+            "date": "2024-02-15",
+            "country": "India",
+            "city": "Mumbai",
+            "name": "G-Eazy India Tour",
+            "date_precision": "day",
+            "evidence_kind": "performed",
+            "role": "guest_or_support",
+            "url": "https://www.mid-day.com/web-stories/american-rapper-g-eazy-performs-in-mumbai-2686"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.mid-day.com/web-stories/american-rapper-g-eazy-performs-in-mumbai-2686",
+            "title": "G-Eazy performs in Mumbai",
+            "publisher": "Mid-day"
+          },
+          {
+            "url": "https://www.bollywoodhungama.com/news/international/rapper-g-eazy-enthralls-mumbai-crowd-performance-namaste-india-honour-privilege-grateful/",
+            "title": "G-Eazy Mumbai concert",
+            "publisher": "Bollywood Hungama"
+          }
+        ],
+        "search_quality": "qualified",
+        "search_keyword": "Yashraj rapper",
+        "search_note": "Qualified artist query; narrower than a bare name and not directly comparable with broad-name estimates. Still a search-interest proxy, not sales.",
+        "note": "Mid-day's post-event coverage says Yashraj was among the acts that started the Mumbai show; a second report calls him a home-grown hip-hop support act."
+      }
+    },
+    "paradox-rapper": {
+      "artist": {
+        "name": "Paradox (rapper)",
+        "primary_genre": "hip_hop_rap",
+        "niche_tags": [
+          "hip_hop_rap"
+        ],
+        "measurement_keyword": "Paradox rapper",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Rolling Stone India identifies the artist as a New Delhi-origin rapper and MTV Hustle alum; this does not establish that Paradox Punch is the same entity.",
+        "events": [
+          {
+            "date": "2024-09",
+            "country": "India",
+            "city": "Chandigarh",
+            "name": "college gig",
+            "date_precision": "month only; source gives no day",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://rollingstoneindia.com/paradox-bade-dino-baad-songs-interview/"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://rollingstoneindia.com/paradox-bade-dino-baad-songs-interview/",
+            "title": "Paradox's Bade Dino Baad",
+            "publisher": "Rolling Stone India"
+          }
+        ],
+        "search_quality": "qualified",
+        "search_keyword": "Paradox rapper",
+        "search_note": "Qualified artist query; narrower than a bare name and not directly comparable with broad-name estimates. Still a search-interest proxy, not sales.",
+        "note": "Artist interview recalls performing the track at a college gig in Chandigarh in September 2024."
+      }
+    },
+    "sickflip": {
+      "expected_current": {
+        "measurement_keyword": "SickFlip",
+        "name": "SickFlip",
+        "status": "candidate",
+        "primary_genre": "djs"
+      },
+      "artist": {
+        "name": "SickFlip",
+        "primary_genre": "djs",
+        "niche_tags": [
+          "djs"
+        ],
+        "measurement_keyword": "SickFlip",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Distinct stage name in promoter recap.",
+        "events": [
+          {
+            "date": "2024-03-31",
+            "country": "India",
+            "city": "Pune",
+            "name": "Jameson Connects Pune",
+            "date_precision": "day",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://jamesonconnects.in/events/season-2/jam-stage-pune/"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://jamesonconnects.in/events/season-2/jam-stage-pune/",
+            "title": "Jameson Connects Pune",
+            "publisher": "Jameson Connects"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "SickFlip",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "Promoter post-event recap names SickFlip as a performer."
+      }
+    },
+    "t-ill-apes": {
+      "artist": {
+        "name": "T.ill Apes",
+        "primary_genre": "live_bands",
+        "niche_tags": [
+          "live_bands"
+        ],
+        "measurement_keyword": "T.ill Apes",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Promoter's specific stylization is the only identity evidence in this pass.",
+        "events": [
+          {
+            "date": "2024-03-10",
+            "country": "India",
+            "city": "Bengaluru",
+            "name": "Jameson Connects Bengaluru",
+            "date_precision": "day",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://jamesonconnects.in/events/season-2/jam-stage-bengaluru/"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://jamesonconnects.in/events/season-2/jam-stage-bengaluru/",
+            "title": "Jameson Connects Bengaluru",
+            "publisher": "Jameson Connects"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "T.ill Apes",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "Promoter recap says the Bengaluru event featured T.ill Apes."
+      }
+    },
+    "frizzell-dsouza": {
+      "artist": {
+        "name": "Frizzell D'Souza",
+        "primary_genre": "independent_music",
+        "niche_tags": [
+          "independent_music"
+        ],
+        "measurement_keyword": "Frizzell D'Souza",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Promoter-stated performer; two-token identity needs normal public review before verification.",
+        "events": [
+          {
+            "date": "2024-03-10",
+            "country": "India",
+            "city": "Bengaluru",
+            "name": "Jameson Connects Bengaluru",
+            "date_precision": "day",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://jamesonconnects.in/events/season-2/jam-stage-bengaluru/"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://jamesonconnects.in/events/season-2/jam-stage-bengaluru/",
+            "title": "Jameson Connects Bengaluru",
+            "publisher": "Jameson Connects"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Frizzell D'Souza",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "Promoter recap names FRIZZELL DSOUZA as a performer."
+      }
+    },
+    "anyasa": {
+      "expected_current": {
+        "measurement_keyword": "Anyasa",
+        "name": "Anyasa",
+        "status": "candidate",
+        "primary_genre": "djs"
+      },
+      "artist": {
+        "name": "Anyasa",
+        "primary_genre": "djs",
+        "niche_tags": [
+          "djs"
+        ],
+        "measurement_keyword": "Anyasa",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Distinct electronic-music stage name in promoter recap.",
+        "events": [
+          {
+            "date": "2024-11-23",
+            "country": "India",
+            "city": "Hyderabad",
+            "name": "Jameson Connects Hyderabad Season 3",
+            "date_precision": "day",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://jamesonconnects.in/events/jam-stage-hyderabad-season-3/"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://jamesonconnects.in/events/jam-stage-hyderabad-season-3/",
+            "title": "Jameson Connects Hyderabad Season 3",
+            "publisher": "Jameson Connects"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Anyasa",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "Promoter recap says the Hyderabad event featured ANYASA."
+      }
+    }
+  }
+}

@@ -26,6 +26,7 @@ IDENTITY_REVIEWS_PATH = os.path.join(DATA, 'identity_reviews.json')
 STATUSES = ('candidate', 'verified', 'inactive', 'merged', 'rejected')
 ACTIVE_KINDS = ('artist', 'dj_night')
 RESEARCH_STATES = ('public_identity_review', 'directory_candidate', 'operator_candidate', 'identity_review_ambiguous', 'legacy_unreviewed')
+SEARCH_QUALITY_STATES = ('clean', 'qualified', 'ambiguous', 'unchecked')
 
 
 def _read(path: str, default: Any) -> Any:
@@ -123,6 +124,9 @@ def validate(data: dict) -> bool:
                 raise ValueError(f'curated artist {slug} has unknown category')
         if artist.get('status') == 'verified' and artist.get('keyword_review_state') != 'approved':
             raise ValueError(f'verified artist {slug} needs an approved measurement keyword')
+        search_quality = artist.get('search_quality_state')
+        if search_quality is not None and search_quality not in SEARCH_QUALITY_STATES:
+            raise ValueError(f'artist {slug} has invalid search_quality_state')
     return True
 
 
@@ -179,6 +183,8 @@ def seed_from_watchlist(data: dict | None = None, save_now: bool = True,
             status='verified' if is_verified else 'candidate',
             measurement_keyword=name, keyword_review_state=('approved' if is_verified else 'pending'),
             contamination_status='unchecked', contamination_note=None,
+            search_quality_state='unchecked', search_quality_keyword=None,
+            search_quality_note='Search query quality has not been reviewed.',
             identity_evidence=evidence, first_seen=today,
             verified_at=(evidence.get('reviewed_at') or today if is_verified else None),
             last_reviewed=evidence.get('reviewed_at'), merged_into=None,
@@ -262,6 +268,8 @@ def approve_candidate(candidate_id: str, name: str, genre: str, evidence_url: st
         status='verified', measurement_keyword=measurement_keyword or name,
         keyword_review_state='approved', contamination_status='unchecked',
         contamination_note=existing.get('contamination_note'),
+        search_quality_state='unchecked', search_quality_keyword=None,
+        search_quality_note='Search query quality has not been reviewed.',
         identity_evidence=dict(kind='candidate_review', reviewed_at=reviewed_at,
                                note='Verified from the monthly keyword-idea candidate inbox.',
                                url=evidence_url),
@@ -301,7 +309,7 @@ def operator_add_artist(name, category, measurement_keyword=None, evidence_url=N
     if not slug or len(slug) > 120: raise ValueError('name does not produce a valid slug')
     if slug in registry['artists']: raise ValueError('an artist with that slug already exists')
     timestamp = dt.datetime.now().astimezone().isoformat(timespec='seconds')
-    artist = dict(slug=slug, name=name, aliases=[], primary_genre=category, niche_tags=[category], status='candidate', measurement_keyword=keyword, keyword_variants=[], keyword_review_state='pending', contamination_status='unchecked', contamination_note=None, identity_evidence=dict(kind='operator_candidate', reviewed_at=None, note='Added through the local operator API; review required.', url=url), first_seen=timestamp[:10], verified_at=None, last_reviewed=None, merged_into=None, source='local_operator', research_state='operator_candidate', curated=False)
+    artist = dict(slug=slug, name=name, aliases=[], primary_genre=category, niche_tags=[category], status='candidate', measurement_keyword=keyword, keyword_variants=[], keyword_review_state='pending', search_quality_state='unchecked', search_quality_keyword=None, search_quality_note='Search query quality has not been reviewed.', contamination_status='unchecked', contamination_note=None, identity_evidence=dict(kind='operator_candidate', reviewed_at=None, note='Added through the local operator API; review required.', url=url), first_seen=timestamp[:10], verified_at=None, last_reviewed=None, merged_into=None, source='local_operator', research_state='operator_candidate', curated=False)
     registry['artists'][slug] = artist
     if save_now: save(registry, path)
     return artist
@@ -332,10 +340,18 @@ def operator_update_keyword(slug, keyword, action, previous_keyword=None, data=N
     if action not in ('add', 'replace'): raise ValueError('keyword action must be add or replace')
     if action == 'replace':
         if previous_keyword is not None and previous_keyword != artist.get('measurement_keyword'): raise ValueError('previous_keyword does not match the current measurement keyword')
+        changed = keyword != artist.get('measurement_keyword')
         artist['measurement_keyword'] = keyword
         # A local operator explicitly replaces a verified identity's one measurement term.
         # That is human approval of the term, unlike a candidate which remains review-pending.
         artist['keyword_review_state'] = 'approved' if artist.get('status') == 'verified' else 'pending'
+        if changed:
+            # Search-quality approval is query-specific.  Keep historical measurements as audit
+            # evidence, but require the new query to be independently reviewed and re-measured.
+            artist['search_quality_state'] = 'unchecked'
+            artist['search_quality_keyword'] = keyword
+            artist['search_quality_note'] = ('Measurement keyword replaced; prior query history is '
+                                             'retained but cannot qualify summaries or gainers.')
     else:
         variants = list(artist.get('keyword_variants') or [])
         if keyword != artist.get('measurement_keyword') and keyword not in variants: variants.append(keyword)

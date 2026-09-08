@@ -5,6 +5,7 @@ import datetime as dt
 import json
 import os
 import statistics
+import booking_eligibility
 from typing import Any
 
 import demand
@@ -35,9 +36,14 @@ def _safe(value: Any) -> Any:
     return value
 
 
-def _series(entity: dict, geo: str) -> list[dict]:
+def _normal(value: Any) -> str:
+    """Normalize user-visible query text for exact, case-insensitive matching."""
+    return ' '.join(str(value or '').split()).casefold()
+
+def _series(entity: dict, geo: str, measurement_keyword: str | None = None) -> list[dict]:
     current = ((entity.get('search') or {}).get(geo) or {}).get('monthly') or []
-    history = (entity.get('history') or {}).get(geo) or []
+    history = [row for row in ((entity.get('history') or {}).get(geo) or [])
+               if _normal(measurement_keyword) and _normal(row.get('keyword')) == _normal(measurement_keyword)]
     rows = current or history
     by_month = {}
     for row in rows:
@@ -102,30 +108,54 @@ def _availability(search: dict, series: list[dict]) -> str:
     return 'not_measured'
 
 
-def _geo_payload(entity: dict, geo: str) -> dict:
+def _geo_payload(entity: dict, geo: str, measurement_keyword: str | None = None) -> dict:
     search = (entity.get('search') or {}).get(geo) or {}
-    series = _series(entity, geo)
+    stored_keyword = ' '.join(str(search.get('keyword') or '').split()) or None
+    requested_keyword = ' '.join(str(measurement_keyword or '').split()) or None
+    keyword_matches = bool(requested_keyword and stored_keyword and
+                           _normal(requested_keyword) == _normal(stored_keyword))
+    if not keyword_matches:
+        summary = _metrics([])
+        unavailable_state = 'keyword_changed' if stored_keyword else 'not_measured'
+        unavailable_reason = ('Stored search query does not match the current measurement keyword; historical values are retained but held out.' if stored_keyword else 'No measurements for this query yet.')
+        return dict(series=[], summary=summary, avg_monthly=None,
+                    fetched_at=search.get('fetched_at'), last_updated=search.get('fetched_at'),
+                    source=search.get('source'), keyword=stored_keyword,
+                    requested_keyword=requested_keyword, keyword_matches=False,
+                    network=search.get('network'), mapping_mode=search.get('mapping_mode'),
+                    result_text=search.get('result_text'),
+                    close_variants=list(search.get('close_variants') or []),
+                    mapping_quality=dict(state=unavailable_state, mapping_mode=search.get('mapping_mode'),
+                                         result_text=search.get('result_text'),
+                                         close_variants=list(search.get('close_variants') or [])),
+                    availability=unavailable_state, unavailable_reason=unavailable_reason,
+                    language=search.get('language'), geo_target=search.get('geo_target'))
+    series = _series(entity, geo, requested_keyword)
     availability = _availability(search, series)
     fetched_at = search.get('fetched_at')
     return dict(series=series, summary=_metrics(series), avg_monthly=search.get('avg_monthly'),
                 fetched_at=fetched_at, last_updated=fetched_at, source=search.get('source'),
-                keyword=search.get('keyword'), network=search.get('network'),
-                mapping_mode=search.get('mapping_mode'), result_text=search.get('result_text'),
+                keyword=stored_keyword, requested_keyword=requested_keyword, keyword_matches=True,
+                network=search.get('network'), mapping_mode=search.get('mapping_mode'),
+                result_text=search.get('result_text'),
                 close_variants=list(search.get('close_variants') or []),
                 mapping_quality=dict(state=availability, mapping_mode=search.get('mapping_mode'),
                                      result_text=search.get('result_text'),
                                      close_variants=list(search.get('close_variants') or [])),
-                availability=availability, language=search.get('language'),
+                availability=availability, unavailable_reason=None, language=search.get('language'),
                 geo_target=search.get('geo_target'))
 
 
-def _artist_rows(registry: dict, demand_data: dict) -> list[dict]:
+def _artist_rows(registry: dict, demand_data: dict, reviews=None, asof=None) -> list[dict]:
     rows = []
     entities = demand_data.get('entities') or {}
+    reviews = booking_eligibility.load_reviews() if reviews is None else reviews
     for slug, artist in sorted(registry.get('artists', {}).items(),
                                key=lambda item: str(item[1].get('name')).casefold()):
         entity = entities.get(slug) or {}
-        geos = {geo: _geo_payload(entity, geo) for geo in demand.SEARCH_GEOS}
+        eligibility = booking_eligibility.evaluate(slug, reviews, artist.get('measurement_keyword'),
+                                                    entity, asof=asof)
+        geos = {geo: _geo_payload(entity, geo, artist.get('measurement_keyword')) for geo in demand.SEARCH_GEOS}
         measured = [geo for geo, value in geos.items() if value['summary']['latest'] is not None]
         mapping_review = [geo for geo, value in geos.items()
                           if value.get('mapping_mode') == 'close_variant']
@@ -142,6 +172,9 @@ def _artist_rows(registry: dict, demand_data: dict) -> list[dict]:
             primary_genre=artist.get('primary_genre') or 'unknown',
             niche_tags=list(artist.get('niche_tags') or []), status=artist.get('status'),
             research_state=artist.get('research_state'), curated=bool(artist.get('curated')),
+            booking_eligibility=eligibility,
+            summary_eligible=bool(artist.get('status') == 'verified' and eligibility['summary_eligible']),
+            summary_eligible_geos=dict(eligibility['summary_eligible_geos']),
             subcategory=artist.get('subcategory'), entity_type=artist.get('entity_type'),
             languages=list(artist.get('languages') or []),
             regions=list(artist.get('regions') or []),
@@ -199,7 +232,7 @@ def _data_health(demand_data: dict, artists: list[dict], registry: dict,
     runs = list(demand_data.get('runs') or [])
     latest_run = runs[-1] if runs else None
     states = ('usable_series', 'explicit_zero', 'mapped_empty', 'missing_mapping',
-              'ambiguous_mapping', 'not_measured')
+              'ambiguous_mapping', 'keyword_changed', 'not_measured')
     availability = {state: {geo: 0 for geo in demand.SEARCH_GEOS} for state in states}
     api_mapped = {geo: 0 for geo in demand.SEARCH_GEOS}
     monthly_series = {geo: 0 for geo in demand.SEARCH_GEOS}
@@ -250,6 +283,7 @@ def _data_health(demand_data: dict, artists: list[dict], registry: dict,
         mapped_empty_by_geo=availability['mapped_empty'],
         missing_mapping_by_geo=availability['missing_mapping'],
         ambiguous_mapping_by_geo=availability['ambiguous_mapping'],
+        keyword_changed_by_geo=availability['keyword_changed'],
         not_measured_by_geo=availability['not_measured'],
         availability_by_geo=availability,
         roster_total=len(registry.get('artists') or {}),
@@ -272,10 +306,10 @@ def _operations() -> dict:
                 status_path='out/automation/status.json')
 
 
-def build_payload() -> dict:
-    registry = roster.load()
-    demand_data = demand.load()
-    inbox = roster.load_candidates()
+def build_payload(registry=None, demand_data=None, inbox=None) -> dict:
+    registry = roster.load() if registry is None else registry
+    demand_data = demand.load() if demand_data is None else demand_data
+    inbox = roster.load_candidates() if inbox is None else inbox
     artists = _artist_rows(registry, demand_data)
     months = _months(artists)
     return dict(
@@ -358,6 +392,12 @@ def _selftest() -> int:
     payload = fixture_payload()
     rising = payload['artists'][0]
     india = rising['geos']['in']['summary']
+    wrong_query = _geo_payload(dict(search={'in': dict(keyword='Generic Phrase', avg_monthly=999,
+        monthly=[dict(year=2026, month=8, searches=999)], mapping_mode='exact')},
+        history={'in': [dict(year=2026, month=7, searches=888, keyword='Generic Phrase')]}),
+        'in', 'Exact Performer')
+    unlabeled_history = _series(dict(history={'in': [dict(year=2026, month=7, searches=888)]}),
+                                 'in', 'Exact Performer')
     checks = [
         ('three geographies are separate',
          [row['id'] for row in payload['geographies']] == ['in', 'us', 'ca']),
@@ -376,6 +416,10 @@ def _selftest() -> int:
          'mapping_quality' in rising['geos']['in'] and 'last_updated' in rising['geos']['in']),
         ('no combined North America field exists',
          all('north_america' not in row and 'na' not in row for row in payload['artists'])),
+        ('changed keyword cannot display prior generic query values',
+         wrong_query['availability'] == 'keyword_changed' and wrong_query['series'] == [] and
+         wrong_query['summary']['latest'] is None and wrong_query['avg_monthly'] is None),
+        ('unlabelled historical query rows are held out', unlabeled_history == []),
     ]
     ok = True
     for label, good in checks:

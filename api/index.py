@@ -75,7 +75,9 @@ CONTENT_TYPES = {
 
 if str(SCOUT) not in sys.path:
     sys.path.insert(0, str(SCOUT))
+import demand  # noqa: E402
 import roster  # noqa: E402
+import search_dashboard  # noqa: E402
 
 
 class SafeError(Exception):
@@ -100,6 +102,23 @@ class GitHubNotFound(GitHubError):
 
 class GitHubConflict(GitHubError):
     pass
+
+
+def _discovery_refresh_state(value: Any) -> str | None:
+    """Read the optional discovery step without reclassifying the monthly run."""
+    jobs = value.get("jobs", []) if isinstance(value, dict) else []
+    for job in jobs:
+        if not isinstance(job, dict):
+            continue
+        for step in job.get("steps", []):
+            if not isinstance(step, dict) or step.get("name") != "Refresh the discovery inbox":
+                continue
+            conclusion = str(step.get("conclusion") or "").lower()
+            if conclusion == "success":
+                return "success"
+            if conclusion in {"failure", "timed_out", "cancelled", "action_required"}:
+                return "incomplete"
+    return None
 
 
 def _b64_encode(value: bytes) -> str:
@@ -344,15 +363,16 @@ class GitHubAdapter:
 
     def refresh_status(self, job_id: str) -> dict[str, Any]:
         # repository_dispatch uses Contents write, the same permission required
-        # for roster edits. Actions read is optional: if it is absent, the UI
-        # watches for a newly generated dashboard instead of reporting failure.
+        # for roster edits. Actions read is required to report a terminal state;
+        # never claim that a dispatched refresh is still running when the token
+        # cannot inspect the workflow.
         path = (f"/repos/{self.repository}/actions/workflows/{quote(WORKFLOW_FILE, safe='')}/runs"
                 f"?event=repository_dispatch&per_page=100&branch={quote(self.ref, safe='')}")
         try:
             result = self._request("GET", path, operation="Monthly refresh status")
         except GitHubAuthorizationError:
-            return {"job_id": job_id, "state": "started",
-                    "message": "Refresh started. Waiting for the updated dashboard."}
+            return {"job_id": job_id, "state": "monitoring_unavailable",
+                    "message": "Refresh was dispatched, but this token cannot read GitHub Actions status. Do not dispatch another refresh; reload after the hosted deployment completes."}
         runs = result.get("workflow_runs", []) if isinstance(result, dict) else []
         run = next((row for row in runs if isinstance(row, dict) and row.get("display_title") == job_id), None)
         if not run:
@@ -365,33 +385,100 @@ class GitHubAdapter:
             state = "success"
         else:
             state = "failed"
+        discovery_state = None
+        if state == "success" and run.get("id") is not None:
+            try:
+                jobs = self._request(
+                    "GET",
+                    f"/repos/{self.repository}/actions/runs/{quote(str(run['id']), safe='')}/jobs?per_page=100",
+                    operation="Monthly refresh job detail",
+                )
+                discovery_state = _discovery_refresh_state(jobs)
+            except GitHubError:
+                # The workflow result remains authoritative. Job detail is only
+                # used to make its allowed discovery degradation explicit.
+                pass
+        message = "Monthly refresh completed."
+        if discovery_state == "incomplete":
+            message = "Search measurements refreshed; discovery inbox is incomplete. Existing candidates were retained."
         return {
             "job_id": job_id,
             "state": state,
             "started_at": run.get("run_started_at"),
             "finished_at": run.get("updated_at") if status == "completed" else None,
-            "message": "Monthly refresh completed." if state == "success" else (
+            "actions_url": run.get("html_url"),
+            "discovery_state": discovery_state,
+            "message": message if state == "success" else (
                 "Monthly refresh failed." if state == "failed" else "Monthly refresh is running."
             ),
         }
 
 
+def _payload_measurement_timestamp(payload: dict[str, Any]) -> str | None:
+    """Return the newest Google fetch timestamp, never the dashboard build time."""
+    timestamps: list[str] = []
+    for artist in payload.get("artists") or []:
+        if not isinstance(artist, dict):
+            continue
+        for geo in (artist.get("geos") or {}).values():
+            if not isinstance(geo, dict):
+                continue
+            for key in ("last_updated", "fetched_at"):
+                value = geo.get(key)
+                if isinstance(value, str) and value:
+                    timestamps.append(value)
+    return max(timestamps, default=None)
+
+
 class DashboardApp:
-    def __init__(self, dashboard_root: Path = DASHBOARD_ROOT, adapter: Any | None = None) -> None:
+    def __init__(self, dashboard_root: Path = DASHBOARD_ROOT, adapter: Any | None = None,
+                 payload_builder: Any | None = None) -> None:
         self.dashboard_root = dashboard_root.resolve()
         self.adapter = adapter
+        # The roster SHA is the durable mutation version.  A warm Vercel
+        # instance still reads that SHA on each dashboard request, but avoids
+        # rebuilding rows from the immutable demand bundle when it has not
+        # changed.
+        self._payload_builder = payload_builder
+        self._dashboard_cache_lock = threading.Lock()
+        self._dashboard_cache_sha: str | None = None
+        self._dashboard_cache_bytes: bytes | None = None
 
     def github(self) -> Any:
         return self.adapter if self.adapter is not None else GitHubAdapter()
 
     def dashboard_bytes(self) -> bytes:
-        path = self.dashboard_root / "dashboard-data.json"
-        try:
-            return path.read_bytes()
-        except OSError:
-            raise SafeError("Dashboard data is unavailable.") from None
+        registry, sha = self.github().get_roster()
+        with self._dashboard_cache_lock:
+            if self._dashboard_cache_sha == sha and self._dashboard_cache_bytes is not None:
+                return self._dashboard_cache_bytes
+            try:
+                if self._payload_builder is not None:
+                    payload = self._payload_builder(registry)
+                else:
+                    # Demand is intentionally the immutable bundle deployed
+                    # with this release.  The operator roster comes from
+                    # GitHub, so add/edit/archive/keyword changes survive a
+                    # full browser reload without waiting for Vercel to build.
+                    payload = search_dashboard.build_payload(
+                        registry=registry, demand_data=demand.load(),
+                        inbox=roster.load_candidates())
+                if not isinstance(payload, dict):
+                    raise ValueError("Dashboard payload is not an object")
+                payload["data_updated_at"] = _payload_measurement_timestamp(payload)
+                encoded = _json_bytes(payload)
+            except (OSError, TypeError, ValueError, KeyError) as exc:
+                raise SafeError("Dashboard data is unavailable.") from exc
+            self._dashboard_cache_sha = sha
+            self._dashboard_cache_bytes = encoded
+            return encoded
 
     def static_bytes(self, request_path: str) -> tuple[bytes, str]:
+        # Initial page loads fetch this path, while in-page updates fetch
+        # /api/dashboard.  They must share the same authoritative roster
+        # overlay; otherwise a saved operator edit vanishes on reload.
+        if request_path == "/dashboard-data.json":
+            return self.dashboard_bytes(), CONTENT_TYPES[".json"]
         name = STATIC_FILES.get(request_path)
         if not name:
             raise SafeError("Unknown dashboard path.")
@@ -465,6 +552,11 @@ class DashboardApp:
                     "favorite": favorite,
                     "previous_value": prior,
                     "changed": prior != favorite,
+                    # Keep this response identical to the loopback API contract.
+                    # The UI must be able to reconcile its whole favorite set after
+                    # a successful optimistic update, including a retry after a
+                    # remote SHA conflict.
+                    "favorites": state["favorites"],
                     "count": len(state["favorites"]),
                 }
             except GitHubConflict as exc:
@@ -857,6 +949,12 @@ def _selftest() -> int:
         large_adapter = _FakeLargeRosterAdapter(roster.empty_registry())
         large_adapter.dispatch_monthly("fixture-job")
         fallback_status = large_adapter.refresh_status("fixture-job")
+        discovery_incomplete = _discovery_refresh_state({"jobs": [{"steps": [
+            {"name": "Refresh the discovery inbox", "conclusion": "failure"}
+        ]}]})
+        discovery_success = _discovery_refresh_state({"jobs": [{"steps": [
+            {"name": "Refresh the discovery inbox", "conclusion": "success"}
+        ]}]})
         large_roster, large_sha = large_adapter.get_roster()
         committed_sha = large_adapter.commit_roster(roster.empty_registry(), large_sha, "fixture operator edit")
         operator_commit_call = next(call for call in large_adapter.calls if call[0] == "PUT")
@@ -864,7 +962,28 @@ def _selftest() -> int:
         for name, content in {"index.html": b"fixture", "app.js": b"// fixture", "app.css": b"", "dashboard-data.json": b'{"fixture":true}', "manifest.json": b"{}"}.items():
             (temp / name).write_bytes(content)
         fake = _FakeGitHub(roster.empty_registry())
-        app = DashboardApp(temp, fake)
+
+        def fixture_payload(registry: dict[str, Any]) -> dict[str, Any]:
+            """Small mutable payload proving a browser reload uses remote roster."""
+            artists = []
+            for slug, artist in registry.get("artists", {}).items():
+                current_keyword = artist.get("measurement_keyword")
+                current = current_keyword == "Fixture Artist"
+                geo = {
+                    "series": ([{"month": "2026-08", "searches": 42}] if current else []),
+                    "fetched_at": "2026-09-08T10:00:00+00:00",
+                    "availability": "usable_series" if current else "keyword_changed",
+                    "unavailable_reason": None if current else "Stored measurements use the replaced keyword.",
+                }
+                artists.append({
+                    "slug": slug, "name": artist.get("name"), "status": artist.get("status"),
+                    "measurement_keyword": current_keyword,
+                    "geos": {name: dict(geo) for name in ("in", "us", "ca")},
+                })
+            return {"fixture": True, "artists": artists, "months": ["2026-08"],
+                    "default_month": "2026-08", "network": "GOOGLE_SEARCH_AND_PARTNERS"}
+
+        app = DashboardApp(temp, fake, fixture_payload)
         server = ThreadingHTTPServer(("127.0.0.1", 0), make_handler(app))
         thread = threading.Thread(target=server.serve_forever, daemon=True)
         thread.start()
@@ -912,11 +1031,26 @@ def _selftest() -> int:
         favorite_removed, _, favorite_removed_raw = request("POST", "/api/artists/fixture-artist/favorite", {"favorite": False}, cookie=cookie, csrf=csrf)
         favorite_invalid, _, _ = request("POST", "/api/artists/not-in-roster/favorite", {"favorite": True}, cookie=cookie, csrf=csrf)
         dashboard_after, dashboard_after_headers, dashboard_after_body = request("GET", "/api/dashboard", cookie=cookie, gzip_ok=True)
+        keyword_changed, _, _ = request("POST", "/api/artists/fixture-artist/keywords",
+                                        {"keyword": "Fixture Artist New", "action": "replace",
+                                         "previous_keyword": "Fixture Artist"},
+                                        cookie=cookie, csrf=csrf)
+        archived, _, _ = request("POST", "/api/artists/fixture-artist/status",
+                                  {"active": False}, cookie=cookie, csrf=csrf)
+        dashboard_reload, dashboard_reload_headers, dashboard_reload_body = request(
+            "GET", "/api/dashboard", cookie=cookie, gzip_ok=True)
+        static_reload, static_reload_headers, static_reload_body = request(
+            "GET", "/dashboard-data.json", cookie=cookie, gzip_ok=True)
         refresh, _, _ = request("POST", "/api/refresh", {}, cookie=cookie, csrf=csrf)
         favorite_initial_data = json.loads(favorite_initial_raw)
         favorite_added_data = json.loads(favorite_added_raw)
         favorite_duplicate_data = json.loads(favorite_duplicate_raw)
         favorite_removed_data = json.loads(favorite_removed_raw)
+        dashboard_data = json.loads(gzip.decompress(dash_body))
+        dashboard_reload_data = json.loads(gzip.decompress(dashboard_reload_body))
+        static_reload_data = json.loads(gzip.decompress(static_reload_body))
+        reloaded_artist = dashboard_reload_data["artists"][0] if dashboard_reload_data["artists"] else {}
+        static_artist = static_reload_data["artists"][0] if static_reload_data["artists"] else {}
         checks = [
             ("health reveals no data", health == 200),
             ("dashboard redirects to login", denied == 303 and denied_headers.get("location") == "/login"),
@@ -931,17 +1065,24 @@ def _selftest() -> int:
             ("refresh dispatch uses the content-write repository event",
              ("POST", "/repos/fixture/repository/dispatches",
               {"event_type": "artist-search-refresh", "client_payload": {"job_id": "fixture-job"}}) in large_adapter.calls
-             and fallback_status["state"] == "started"),
-            ("GitHub-backed add commits once with aliases", added == 201 and fake.roster_commits == 1
+             and fallback_status["state"] == "monitoring_unavailable"),
+            ("optional discovery degradation is reported without failing measurements",
+             discovery_incomplete == "incomplete" and discovery_success == "success"),
+            ("GitHub-backed add commits with aliases", added == 201 and fake.roster_commits >= 1
              and fake.data["artists"]["fixture-artist"]["aliases"] == ["Fixture Alias"]),
             ("favorites begin empty", favorite_initial == 200 and favorite_initial_data == {"favorites": [], "count": 0}),
             ("favorite validates and persists", favorite_added == 200
-             and favorite_added_data["changed"] and favorite_added_data["count"] == 1
+             and favorite_added_data["changed"]
+             and favorite_added_data["favorites"] == ["fixture-artist"]
+             and favorite_added_data["count"] == 1
              and favorite_reload == {"favorites": ["fixture-artist"], "count": 1}),
             ("duplicate favorite is idempotent", favorite_duplicate == 200
-             and not favorite_duplicate_data["changed"] and favorite_duplicate_data["count"] == 1),
+             and not favorite_duplicate_data["changed"]
+             and favorite_duplicate_data["favorites"] == ["fixture-artist"]
+             and favorite_duplicate_data["count"] == 1),
             ("unfavorite persists and records the prior value", favorite_removed == 200
              and favorite_removed_data["changed"] and favorite_removed_data["previous_value"]
+             and favorite_removed_data["favorites"] == []
              and favorite_removed_data["count"] == 0),
             ("unknown favorite identifier is rejected", favorite_invalid == 400),
             ("favorite audit records every valid mutation", len(fake.favorites["audit"]) == 3
@@ -952,10 +1093,24 @@ def _selftest() -> int:
              and operator_commit_payload.get("author", {}).get("name") == "artist-search-refresh[bot]"
              and operator_commit_payload.get("committer", {}).get("email")
              == "artist-search-refresh[bot]@users.noreply.github.com"),
-            ("dashboard gzip response", dashboard == 200 and dash_headers.get("content-encoding") == "gzip" and gzip.decompress(dash_body) == b'{"fixture":true}'),
+            ("dashboard gzip response includes saved artist", dashboard == 200
+             and dash_headers.get("content-encoding") == "gzip"
+             and dashboard_data["artists"][0]["measurement_keyword"] == "Fixture Artist"),
             ("favorites leave dashboard analytics bytes unchanged", dashboard_after == 200
              and dashboard_after_headers.get("content-encoding") == "gzip"
              and gzip.decompress(dashboard_after_body) == gzip.decompress(dash_body)),
+            ("roster edits survive API and initial static payload reloads",
+             keyword_changed == 200 and archived == 200
+             and dashboard_reload_headers.get("content-encoding") == "gzip"
+             and static_reload_headers.get("content-encoding") == "gzip"
+             and reloaded_artist.get("status") == "inactive"
+             and static_artist.get("status") == "inactive"
+             and reloaded_artist.get("measurement_keyword") == "Fixture Artist New"
+             and static_artist.get("measurement_keyword") == "Fixture Artist New"),
+            ("keyword replacement hides measurements until a matching refresh",
+             reloaded_artist.get("geos", {}).get("in", {}).get("series") == []
+             and reloaded_artist.get("geos", {}).get("in", {}).get("availability") == "keyword_changed"
+             and static_artist.get("geos", {}).get("in", {}).get("series") == []),
             ("refresh dispatches workflow", refresh == 202 and len(fake.dispatched) == 1),
         ]
         ok = all(good for _, good in checks)

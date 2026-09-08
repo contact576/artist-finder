@@ -1,0 +1,1404 @@
+{
+  "history": {
+    "rahat-fateh-ali-khan": [
+      {
+        "events": [
+          {
+            "city": "Rotterdam",
+            "country": "Netherlands",
+            "date": "2025-10-12",
+            "date_precision": "day",
+            "evidence_kind": "unconfirmed",
+            "name": "RTM Stage",
+            "role": "not_verified",
+            "url": "https://www.livenation.com/artist/K8vZ9178uNf/rahat-fateh-ali-khan-events"
+          }
+        ],
+        "exception_reason": "Explicit user-selected Pakistani live-artist exception; India-show requirement waived, foreign performance evidence still required.",
+        "identity_confirmed": true,
+        "identity_note": "Named Pakistani exception and distinct artist identity.",
+        "life_status": "unknown",
+        "note": "Provisional: dated third-party setlist needs independent performed-event confirmation.",
+        "reviewed_at": "2026-09-08",
+        "search_keyword": "Rahat Fateh Ali Khan",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "search_quality": "clean",
+        "sources": [
+          {
+            "publisher": "Live Nation",
+            "title": "Rahat Fateh Ali Khan featured setlist",
+            "url": "https://www.livenation.com/artist/K8vZ9178uNf/rahat-fateh-ali-khan-events"
+          },
+          {
+            "publisher": "setlist.fm",
+            "title": "Rahat Fateh Ali Khan setlist",
+            "url": "https://www.setlist.fm/setlists/rahat-fateh-ali-khan-4bd61b46.html"
+          }
+        ]
+      }
+    ]
+  },
+  "reviews": {
+    "a-r-rahman": {
+      "events": [
+        {
+          "city": "Navi Mumbai",
+          "country": "India",
+          "date": "2025-05-03",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "The Wonderment Tour",
+          "role": "not_verified",
+          "url": "https://www.tribuneindia.com/news/entertainment/ar-rahman-posts-selfie-with-fans-after-the-wonderment-tour-show-joined-by-dhanush-on-stage/"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Named performing artist in dated event coverage.",
+      "life_status": "unknown",
+      "note": "PTI post-event coverage says Rahman opened the tour at DY Patil Stadium.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "A R Rahman",
+      "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "The Tribune / PTI",
+          "title": "A R Rahman Wonderment Tour show",
+          "url": "https://www.tribuneindia.com/news/entertainment/ar-rahman-posts-selfie-with-fans-after-the-wonderment-tour-show-joined-by-dhanush-on-stage/"
+        }
+      ]
+    },
+    "anubhav-singh-bassi": {
+      "events": [
+        {
+          "city": "Coimbatore",
+          "country": "India",
+          "date": "2024-03-22",
+          "date_precision": "day",
+          "evidence_kind": "unconfirmed",
+          "name": "Kisi Ko Batana Mat",
+          "role": "guest_or_support",
+          "url": "https://fests.info/tag/anubhav-singh-bassi-live/"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Named performing artist in dated event coverage.",
+      "life_status": "unknown",
+      "note": "A historical-event index labels the Coimbatore date Past Event. It is useful retrospective support but is weaker than a venue/promoter recap.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "Anubhav Singh Bassi",
+      "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "Fests.info",
+          "title": "Bassi past events",
+          "url": "https://fests.info/tag/anubhav-singh-bassi-live/"
+        }
+      ]
+    },
+    "anuv-jain": {
+      "events": [
+        {
+          "city": "Hyderabad",
+          "country": "India",
+          "date": "2025-01-25",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "McDowell's Soda Yaari Jam",
+          "role": "not_verified",
+          "url": "https://loudest.in/events/anuv-jain-zaeden-rock-hyderabad-at-mcdowells-soda-yaari-jam-18045.html"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "The two records require a duplicate/role review; the artist identity itself is clear in coverage.",
+      "life_status": "unknown",
+      "note": "Post-event coverage identifies Jain as a headliner; pre-event report supplies the exact date and venue.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "Anuv Jain",
+      "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "Loudest",
+          "title": "Anuv Jain and Zaeden rock Hyderabad",
+          "url": "https://loudest.in/events/anuv-jain-zaeden-rock-hyderabad-at-mcdowells-soda-yaari-jam-18045.html"
+        },
+        {
+          "publisher": "Hans India",
+          "title": "Yaari Jam date and venue",
+          "url": "https://www.thehansindia.com/news/cities/hyderabad/anuv-jain-and-zaeden-set-to-perform-live-in-hyderabad-on-january-25-938752"
+        }
+      ]
+    },
+    "anyasa": {
+      "events": [
+        {
+          "city": "Hyderabad",
+          "country": "India",
+          "date": "2024-11-23",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "Jameson Connects Hyderabad Season 3",
+          "role": "not_verified",
+          "url": "https://jamesonconnects.in/events/jam-stage-hyderabad-season-3/"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Distinct electronic-music stage name in promoter recap.",
+      "life_status": "unknown",
+      "note": "Promoter recap says the Hyderabad event featured ANYASA.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "Anyasa",
+      "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "Jameson Connects",
+          "title": "Jameson Connects Hyderabad Season 3",
+          "url": "https://jamesonconnects.in/events/jam-stage-hyderabad-season-3/"
+        }
+      ]
+    },
+    "ap-dhillon": {
+      "events": [
+        {
+          "city": "Delhi",
+          "country": "India",
+          "date": "2024-12-14",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "The Brownprint Tour",
+          "role": "not_verified",
+          "url": "https://www.indiatoday.in/amp/entertainment/music/story/honey-singh-jazzy-b-make-special-appearance-at-ap-dhillons-delhi-concert-2650077-2024-12-15"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Named performing artist in dated event coverage.",
+      "life_status": "unknown",
+      "note": "India Today reports the Delhi performance and on-stage appearances by Honey Singh, Jazzy B and Shinda Kahlon.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "AP Dhillon",
+      "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "India Today",
+          "title": "AP Dhillon performs in Delhi",
+          "url": "https://www.indiatoday.in/amp/entertainment/music/story/honey-singh-jazzy-b-make-special-appearance-at-ap-dhillons-delhi-concert-2650077-2024-12-15"
+        }
+      ]
+    },
+    "arijit-singh": {
+      "events": [
+        {
+          "city": "Jaipur",
+          "country": "India",
+          "date": "2025-01-25",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "JECC concert",
+          "role": "not_verified",
+          "url": "https://storage.firstindia.co.in/public/epapers/January2025/173782990989.pdf"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Named performing artist in dated event coverage.",
+      "life_status": "unknown",
+      "note": "Post-event report says Singh performed at Jaipur Exhibition & Convention Centre on Saturday.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "Arijit Singh",
+      "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "First India",
+          "title": "Arijit Singh's Jaipur performance",
+          "url": "https://storage.firstindia.co.in/public/epapers/January2025/173782990989.pdf"
+        }
+      ]
+    },
+    "atif-aslam": {
+      "events": [
+        {
+          "city": "Toronto",
+          "country": "Canada",
+          "date": "2025-09-07",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "Scotiabank Arena concert",
+          "role": "not_verified",
+          "url": "https://www.desiblitz.com/content/meesha-shafi-and-atif-aslam-share-the-stage-at-toronto-concert"
+        }
+      ],
+      "exception_reason": "Explicit user-selected Pakistani live-artist exception; India-show requirement waived, foreign performance evidence still required.",
+      "identity_confirmed": true,
+      "identity_note": "Named Pakistani exception; distinct artist identity.",
+      "life_status": "unknown",
+      "note": "Independent post-event coverage confirms the Toronto concert; Ticketmaster attendee reviews and the historic venue page corroborate performance. India-linked repertoire is discussed in the reviews, not treated as demand proof.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "Atif Aslam",
+      "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "DESIblitz",
+          "title": "Atif Aslam Toronto concert",
+          "url": "https://www.desiblitz.com/content/meesha-shafi-and-atif-aslam-share-the-stage-at-toronto-concert"
+        },
+        {
+          "publisher": "Ticketmaster",
+          "title": "Atif Aslam Scotiabank Arena reviews",
+          "url": "https://www.ticketmaster.com/atif-aslam-tickets/artist/1406012?page=1&tt_scene=anchor_view"
+        }
+      ]
+    },
+    "badshah": {
+      "events": [
+        {
+          "city": "Gurugram",
+          "country": "India",
+          "date": "2024-12-15",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "Karan Aujla It Was All A Dream India Tour",
+          "role": "guest_or_support",
+          "url": "https://timesofindia.indiatimes.com/videos/etimes/bollywood/karan-aujla-brings-out-badshah-at-delhi-concert-after-ap-dhillons-concert-with-honey-singh/videoshow/116399870.cms"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Named performing artist in dated event coverage.",
+      "life_status": "unknown",
+      "note": "Post-event coverage says Badshah joined Aujla at the concert; it is performance evidence, not solo-tour evidence.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "Badshah rapper",
+      "search_note": "Qualified artist query; narrower than a bare name and not directly comparable with broad-name estimates. Still a search-interest proxy, not sales.",
+      "search_quality": "qualified",
+      "sources": [
+        {
+          "publisher": "Times of India",
+          "title": "Badshah joins Karan Aujla",
+          "url": "https://timesofindia.indiatimes.com/videos/etimes/bollywood/karan-aujla-brings-out-badshah-at-delhi-concert-after-ap-dhillons-concert-with-honey-singh/videoshow/116399870.cms"
+        }
+      ]
+    },
+    "chaar-diwaari": {
+      "events": [
+        {
+          "city": "Mumbai",
+          "country": "India",
+          "date": "2025-02-16",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "RuPay Zomaland Season 5",
+          "role": "not_verified",
+          "url": "https://www.impactonnet.com/more-from-impact/rupay-zomaland-season-5s-mumbai-leg-wrapped-up-9953.html"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Distinct rapper stage name, but spelling/styling must be normalized deliberately.",
+      "life_status": "unknown",
+      "note": "Post-event recap lists Chaar Diwaari among Day 2 performers.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "Chaar Diwaari",
+      "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "Impact",
+          "title": "Zomaland Mumbai leg wrapped",
+          "url": "https://www.impactonnet.com/more-from-impact/rupay-zomaland-season-5s-mumbai-leg-wrapped-up-9953.html"
+        }
+      ]
+    },
+    "dhanji": {
+      "events": [
+        {
+          "city": "Mumbai",
+          "country": "India",
+          "date": "2025-03-08",
+          "date_precision": "festival date mapped from the dated lineup; official post-event video confirms performed",
+          "evidence_kind": "performed",
+          "name": "Lollapalooza India 2025",
+          "role": "guest_or_support",
+          "url": "https://www.youtube.com/watch?v=PLdF3TtEbAY"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Distinct rapper identity supported by the official Lollapalooza post-event video.",
+      "life_status": "unknown",
+      "note": "Lollapalooza India's official post-event video describes Dhanji as one of the artists who performed in 2025. A separate post-event report also places Dhanji among the G-Eazy Mumbai support acts on 15 February 2024.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "Dhanji rapper",
+      "search_note": "Qualified artist query; narrower than a bare name and not directly comparable with broad-name estimates. Still a search-interest proxy, not sales.",
+      "search_quality": "qualified",
+      "sources": [
+        {
+          "publisher": "Lollapalooza India",
+          "title": "Backstage at Lolla India with Dhanji",
+          "url": "https://www.youtube.com/watch?v=PLdF3TtEbAY"
+        },
+        {
+          "publisher": "Mid-day",
+          "title": "G-Eazy performs in Mumbai",
+          "url": "https://www.mid-day.com/web-stories/american-rapper-g-eazy-performs-in-mumbai-2686"
+        }
+      ]
+    },
+    "diljit-dosanjh": {
+      "events": [
+        {
+          "city": "Mumbai",
+          "country": "India",
+          "date": "2024-03-16",
+          "date_precision": "date derived from 17 March report saying Saturday",
+          "evidence_kind": "performed",
+          "name": "Ed Sheeran Mumbai concert",
+          "role": "guest_or_support",
+          "url": "https://time.com/6957802/ed-sheeran-diljit-dosanjh-punjabi-performance-india/"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Named performing artist in dated event coverage.",
+      "life_status": "unknown",
+      "note": "Time reports that Dosanjh joined Sheeran on stage in Mumbai and led the live performance of Lover.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "Diljit Dosanjh",
+      "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "Time",
+          "title": "Ed Sheeran and Diljit Dosanjh perform in Mumbai",
+          "url": "https://time.com/6957802/ed-sheeran-diljit-dosanjh-punjabi-performance-india/"
+        }
+      ]
+    },
+    "divine": {
+      "events": [
+        {
+          "city": "Mumbai",
+          "country": "India",
+          "date": "2025-02-16",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "RuPay Zomaland Season 5",
+          "role": "not_verified",
+          "url": "https://www.impactonnet.com/more-from-impact/rupay-zomaland-season-5s-mumbai-leg-wrapped-up-9953.html"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Event coverage labels the performing act DIVINE; human identity review should confirm the Mumbai rapper before any genre correction.",
+      "life_status": "unknown",
+      "note": "Post-event recap lists DIVINE as a Day 2 performer.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "DIVINE rapper",
+      "search_note": "Qualified artist query; narrower than a bare name and not directly comparable with broad-name estimates. Still a search-interest proxy, not sales.",
+      "search_quality": "qualified",
+      "sources": [
+        {
+          "publisher": "Impact",
+          "title": "Zomaland Mumbai leg wrapped",
+          "url": "https://www.impactonnet.com/more-from-impact/rupay-zomaland-season-5s-mumbai-leg-wrapped-up-9953.html"
+        },
+        {
+          "publisher": "District",
+          "title": "DIVINE (Vivian Fernandes) artist identity",
+          "url": "https://www.district.in/events/divine/artist"
+        }
+      ]
+    },
+    "frizzell-dsouza": {
+      "events": [
+        {
+          "city": "Bengaluru",
+          "country": "India",
+          "date": "2024-03-10",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "Jameson Connects Bengaluru",
+          "role": "not_verified",
+          "url": "https://jamesonconnects.in/events/season-2/jam-stage-bengaluru/"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Promoter-stated performer; two-token identity needs normal public review before verification.",
+      "life_status": "unknown",
+      "note": "Promoter recap names FRIZZELL DSOUZA as a performer.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "Frizzell D'Souza",
+      "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "Jameson Connects",
+          "title": "Jameson Connects Bengaluru",
+          "url": "https://jamesonconnects.in/events/season-2/jam-stage-bengaluru/"
+        }
+      ]
+    },
+    "gminxr": {
+      "events": [
+        {
+          "city": "Mumbai",
+          "country": "India",
+          "date": "2025-02-16",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "RuPay Zomaland Season 5",
+          "role": "not_verified",
+          "url": "https://www.impactonnet.com/more-from-impact/rupay-zomaland-season-5s-mumbai-leg-wrapped-up-9953.html"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Specific stage-name spelling in a post-event recap; confirm official profile before adding.",
+      "life_status": "unknown",
+      "note": "Post-event recap lists GMinxr as a Day 2 performer.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "GMinxr",
+      "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "Impact",
+          "title": "Zomaland Mumbai leg wrapped",
+          "url": "https://www.impactonnet.com/more-from-impact/rupay-zomaland-season-5s-mumbai-leg-wrapped-up-9953.html"
+        }
+      ]
+    },
+    "hanumankind": {
+      "events": [
+        {
+          "city": "Vagator, Goa",
+          "country": "India",
+          "date": "2025-11-21",
+          "date_precision": "inferred from the 2025-11-23 report calling it Friday night",
+          "evidence_kind": "performed",
+          "name": "Royal Enfield MotoVerse 2025",
+          "role": "not_verified",
+          "url": "https://www.hindustantimes.com/entertainment/music/you-see-me-walking-those-steps-baby-hanumankind-performs-in-goa-3-months-after-successful-knee-surgery-101763892229645-amp.html"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Distinct Indian rapper stage name; no canonical roster entry found.",
+      "life_status": "unknown",
+      "note": "Post-event reporting says he took the stage at MotoVerse in Goa, his first performance after knee surgery.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "Hanumankind",
+      "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "Mirchi",
+          "title": "Hanumankind Goa return performance",
+          "url": "https://mirchi.in/stories/music/hanumankind-is-back-rapper-performs-in-goa-after-knee-surgery/153195406"
+        }
+      ]
+    },
+    "jazzy-b": {
+      "events": [
+        {
+          "city": "Delhi",
+          "country": "India",
+          "date": "2024-12-14",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "The Brownprint Tour",
+          "role": "not_verified",
+          "url": "https://www.indiatoday.in/amp/entertainment/music/story/honey-singh-jazzy-b-make-special-appearance-at-ap-dhillons-delhi-concert-2650077-2024-12-15"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Named performing artist in dated event coverage.",
+      "life_status": "unknown",
+      "note": "India Today says Jazzy B appeared and performed with AP Dhillon.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "Jazzy B",
+      "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "India Today",
+          "title": "AP Dhillon performs in Delhi",
+          "url": "https://www.indiatoday.in/amp/entertainment/music/story/honey-singh-jazzy-b-make-special-appearance-at-ap-dhillons-delhi-concert-2650077-2024-12-15"
+        }
+      ]
+    },
+    "jonita-gandhi": {
+      "events": [
+        {
+          "city": "Navi Mumbai",
+          "country": "India",
+          "date": "2025-05-03",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "The Wonderment Tour",
+          "role": "not_verified",
+          "url": "https://www.tribuneindia.com/news/entertainment/ar-rahman-posts-selfie-with-fans-after-the-wonderment-tour-show-joined-by-dhanush-on-stage/"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Named performing artist in dated event coverage.",
+      "life_status": "unknown",
+      "note": "PTI coverage lists Jonita Gandhi among the live-concert performers.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "Jonita Gandhi",
+      "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "The Tribune / PTI",
+          "title": "A R Rahman Wonderment Tour show",
+          "url": "https://www.tribuneindia.com/news/entertainment/ar-rahman-posts-selfie-with-fans-after-the-wonderment-tour-show-joined-by-dhanush-on-stage/"
+        }
+      ]
+    },
+    "karan-aujla": {
+      "events": [
+        {
+          "city": "Gurugram",
+          "country": "India",
+          "date": "2024-12-15",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "It Was All A Dream India Tour",
+          "role": "not_verified",
+          "url": "https://www.hindustantimes.com/htcity/karan-aujla-surprises-fans-by-dancing-to-salman-khan-s-song-badshah-varun-dhawan-make-a-cameo-at-his-concert-101734293014913-amp.html"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Distinct Indo-Canadian Punjabi singer/rapper/songwriter identity.",
+      "life_status": "unknown",
+      "note": "Post-event coverage identifies the city/date and concert activity.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "Karan Aujla",
+      "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "Hindustan Times",
+          "title": "Karan Aujla Gurugram concert",
+          "url": "https://www.hindustantimes.com/htcity/karan-aujla-surprises-fans-by-dancing-to-salman-khan-s-song-badshah-varun-dhawan-make-a-cameo-at-his-concert-101734293014913-amp.html"
+        }
+      ]
+    },
+    "king-india": {
+      "events": [
+        {
+          "city": "Mumbai",
+          "country": "India",
+          "date": "2024-08-01",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "YouTube Fanfest India 2024",
+          "role": "not_verified",
+          "url": "https://www.youtube.com/watch?v=tAbK1zi2fNE"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Indian rapper/singer's stage identity is clear from the official event video.",
+      "life_status": "unknown",
+      "note": "YouTube Fanfest's official upload says it is KING's live performance at Mumbai on 1 August 2024.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "King Rocco",
+      "search_note": "Qualified artist query; narrower than a bare name and not directly comparable with broad-name estimates. Still a search-interest proxy, not sales.",
+      "search_quality": "qualified",
+      "sources": [
+        {
+          "publisher": "YouTube Fanfest",
+          "title": "KING | YouTube Fanfest India 2024",
+          "url": "https://www.youtube.com/watch?v=tAbK1zi2fNE"
+        }
+      ]
+    },
+    "kk": {
+      "events": [],
+      "excluded_reason": "Confirmed deceased; excluded from future booking research.",
+      "identity_confirmed": true,
+      "life_status": "deceased",
+      "reviewed_at": "2026-09-08",
+      "search_note": "KK is also a highly ambiguous abbreviation; never measure bare KK.",
+      "search_quality": "ambiguous",
+      "sources": [
+        {
+          "publisher": "The Guardian",
+          "title": "Indian singer KK dies aged 53",
+          "url": "https://www.theguardian.com/music/2022/jun/01/indian-singer-kk-dies-aged-53-after-falling-ill-while-performing"
+        }
+      ]
+    },
+    "krsna-rapper": {
+      "events": [
+        {
+          "city": "Mumbai",
+          "country": "India",
+          "date": "2025-03-09",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "Lollapalooza India 2025, Perry's x H&M Stage",
+          "role": "not_verified",
+          "url": "https://www.gettyimages.co.uk/editorial-images/entertainment/event/lollapalooza-india-2025/776224995"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Stage name requires qualifier; it must not be joined automatically to unrelated Krsnaa entities.",
+      "life_status": "unknown",
+      "note": "A past-concert listing and song-level setlist record identify a KR$NA set at the venue and date. This is credible but not first-party; independently spot-check before promotion.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "KR$NA rapper",
+      "search_note": "Qualified artist query; narrower than a bare name and not directly comparable with broad-name estimates. Still a search-interest proxy, not sales.",
+      "search_quality": "qualified",
+      "sources": [
+        {
+          "publisher": "Getty Images",
+          "title": "KR$NA and Raftaar performing 9 March 2025",
+          "url": "https://www.gettyimages.co.uk/editorial-images/entertainment/event/lollapalooza-india-2025/776224995"
+        },
+        {
+          "publisher": "Shazam",
+          "title": "KR$NA past concert",
+          "url": "https://www.shazam.com/event/6e0e322d-cb82-4ee7-b51a-263779a828c2"
+        },
+        {
+          "publisher": "setlist.fm",
+          "title": "KR$NA setlist at Lollapalooza India",
+          "url": "https://www.setlist.fm/setlist/krna/2025/mahalaxmi-race-course-perrys-x-handm-stage-mumbai-india-358896f.html"
+        }
+      ]
+    },
+    "panjabi-mc": {
+      "events": [
+        {
+          "city": "Mumbai",
+          "country": "India",
+          "date": "2025-02-16",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "RuPay Zomaland Season 5",
+          "role": "not_verified",
+          "url": "https://www.impactonnet.com/more-from-impact/rupay-zomaland-season-5s-mumbai-leg-wrapped-up-9953.html"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Established stage name; no canonical roster entry found.",
+      "life_status": "unknown",
+      "note": "Post-event recap lists Panjabi MC as a Day 2 performer.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "Panjabi MC",
+      "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "Impact",
+          "title": "Zomaland Mumbai leg wrapped",
+          "url": "https://www.impactonnet.com/more-from-impact/rupay-zomaland-season-5s-mumbai-leg-wrapped-up-9953.html"
+        }
+      ]
+    },
+    "pankaj-udhas": {
+      "events": [],
+      "excluded_reason": "Confirmed deceased; excluded from future booking research.",
+      "identity_confirmed": true,
+      "life_status": "deceased",
+      "reviewed_at": "2026-09-08",
+      "search_note": "Archived; historical search data retained for audit.",
+      "search_quality": "ambiguous",
+      "sources": [
+        {
+          "publisher": "Business Standard",
+          "title": "Pankaj Udhas dies at 72",
+          "url": "https://www.business-standard.com/entertainment/pankaj-udhas-dies-at-72-due-to-prolonged-illness-his-family-confirms-124022600721_1.html"
+        }
+      ]
+    },
+    "paradox-rapper": {
+      "events": [
+        {
+          "city": "Chandigarh",
+          "country": "India",
+          "date": "2024-09",
+          "date_precision": "month only; source gives no day",
+          "evidence_kind": "performed",
+          "name": "college gig",
+          "role": "not_verified",
+          "url": "https://rollingstoneindia.com/paradox-bade-dino-baad-songs-interview/"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Rolling Stone India identifies the artist as a New Delhi-origin rapper and MTV Hustle alum; this does not establish that Paradox Punch is the same entity.",
+      "life_status": "unknown",
+      "note": "Artist interview recalls performing the track at a college gig in Chandigarh in September 2024.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "Paradox rapper",
+      "search_note": "Qualified artist query; narrower than a bare name and not directly comparable with broad-name estimates. Still a search-interest proxy, not sales.",
+      "search_quality": "qualified",
+      "sources": [
+        {
+          "publisher": "Rolling Stone India",
+          "title": "Paradox's Bade Dino Baad",
+          "url": "https://rollingstoneindia.com/paradox-bade-dino-baad-songs-interview/"
+        }
+      ]
+    },
+    "prabh-deep": {
+      "events": [
+        {
+          "city": "Pune",
+          "country": "India",
+          "date": "2024-03-31",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "Jameson Connects Pune",
+          "role": "not_verified",
+          "url": "https://jamesonconnects.in/events/season-2/jam-stage-pune/"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Two-token Indian hip-hop artist identity; no canonical roster entry found.",
+      "life_status": "unknown",
+      "note": "Promoter recap says the Pune event featured performances by Prabh Deep, SickFlip, and Derric & Nida.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "Prabh Deep",
+      "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "Jameson Connects",
+          "title": "Jameson Connects Pune",
+          "url": "https://jamesonconnects.in/events/season-2/jam-stage-pune/"
+        }
+      ]
+    },
+    "prabha-atre": {
+      "events": [],
+      "excluded_reason": "Confirmed deceased; excluded from future booking research.",
+      "identity_confirmed": true,
+      "life_status": "deceased",
+      "reviewed_at": "2026-09-08",
+      "search_note": "Archived; historical search data retained for audit.",
+      "search_quality": "ambiguous",
+      "sources": [
+        {
+          "publisher": "Press Information Bureau, Government of India",
+          "title": "PM condoles demise of Dr Prabha Atre",
+          "url": "https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=1995909&lang=2&reg=48"
+        }
+      ]
+    },
+    "raftaar": {
+      "events": [
+        {
+          "city": "Mumbai",
+          "country": "India",
+          "date": "2025-03-09",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "Lollapalooza India 2025",
+          "role": "not_verified",
+          "url": "https://www.gettyimages.co.uk/detail/news-photo/raftaar-performs-at-lollapalooza-india-2025-on-march-9-2025-news-photo/2204176990"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Stage identity is clear, but the single-token term also has non-artist uses.",
+      "life_status": "unknown",
+      "note": "Getty editorial caption expressly states Raftaar performed at Lollapalooza India on this date.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "Raftaar rapper",
+      "search_note": "Qualified artist query; narrower than a bare name and not directly comparable with broad-name estimates. Still a search-interest proxy, not sales.",
+      "search_quality": "qualified",
+      "sources": [
+        {
+          "publisher": "Getty Images",
+          "title": "Raftaar performs at Lollapalooza India 2025",
+          "url": "https://www.gettyimages.co.uk/detail/news-photo/raftaar-performs-at-lollapalooza-india-2025-on-march-9-2025-news-photo/2204176990"
+        }
+      ]
+    },
+    "rahat-fateh-ali-khan": {
+      "events": [
+        {
+          "city": "Rotterdam",
+          "country": "Netherlands",
+          "date": "2025-10-12",
+          "date_precision": "day",
+          "evidence_kind": "unconfirmed",
+          "name": "RTM Stage",
+          "role": "not_verified",
+          "url": "https://www.livenation.com/artist/K8vZ9178uNf/rahat-fateh-ali-khan-events"
+        },
+        {
+          "city": "Karachi",
+          "country": "Pakistan",
+          "date": "2025-08-13",
+          "evidence_kind": "performed",
+          "name": "National Stadium Independence Day concert",
+          "url": "https://www.urdupoint.com/en/pakistan/marka-e-haq-music-concert-held-at-national-2031118.html"
+        }
+      ],
+      "exception_reason": "Explicit user-selected Pakistani live-artist exception; India-show requirement waived, foreign performance evidence still required.",
+      "identity_confirmed": true,
+      "identity_note": "Named Pakistani exception and distinct artist identity.",
+      "life_status": "unknown",
+      "note": "Recent foreign live performance confirmed; explicit user exception, not evidence of India ticket sales.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "Rahat Fateh Ali Khan",
+      "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "Associated Press of Pakistan via UrduPoint",
+          "title": "Post-event National Stadium concert report",
+          "url": "https://www.urdupoint.com/en/pakistan/marka-e-haq-music-concert-held-at-national-2031118.html"
+        },
+        {
+          "publisher": "Live Nation",
+          "title": "Rahat Fateh Ali Khan featured setlist",
+          "url": "https://www.livenation.com/artist/K8vZ9178uNf/rahat-fateh-ali-khan-events"
+        },
+        {
+          "publisher": "setlist.fm",
+          "title": "Rahat Fateh Ali Khan setlist",
+          "url": "https://www.setlist.fm/setlists/rahat-fateh-ali-khan-4bd61b46.html"
+        }
+      ]
+    },
+    "rahat-indori": {
+      "events": [],
+      "excluded_reason": "Confirmed deceased; excluded from future booking research.",
+      "identity_confirmed": true,
+      "life_status": "deceased",
+      "reviewed_at": "2026-09-08",
+      "search_note": "Archived; historical search data retained for audit.",
+      "search_quality": "ambiguous",
+      "sources": [
+        {
+          "publisher": "India Today",
+          "title": "Rahat Indori dies",
+          "url": "https://www.indiatoday.in/amp/lifestyle/people/story/rahat-indori-dies-of-cardiac-arrest-in-indore-after-testing-coronavirus-positive-1710109-2020-08-11"
+        }
+      ]
+    },
+    "rashid-khan": {
+      "events": [],
+      "excluded_reason": "Confirmed deceased classical musician; not a current bookable artist.",
+      "identity_confirmed": true,
+      "life_status": "deceased",
+      "reviewed_at": "2026-09-08",
+      "search_note": "Archived; do not confuse the classical musician with living namesakes such as the cricketer.",
+      "search_quality": "ambiguous",
+      "sources": [
+        {
+          "publisher": "Government of India",
+          "title": "Government condolence notice identifying the musician",
+          "url": "https://www.pmindia.gov.in/en/news_updates/pm-condoles-the-demise-of-ustad-rashid-khan/"
+        }
+      ]
+    },
+    "remembering-kk": {
+      "events": [],
+      "excluded_reason": "Memorial/event label, not a bookable artist.",
+      "identity_confirmed": true,
+      "life_status": "nonperformer",
+      "reviewed_at": "2026-09-08",
+      "search_note": "Archived; historical search data retained for audit.",
+      "search_quality": "ambiguous",
+      "sources": [
+        {
+          "publisher": "The Guardian",
+          "title": "Indian singer KK dies aged 53",
+          "url": "https://www.theguardian.com/music/2022/jun/01/indian-singer-kk-dies-aged-53-after-falling-ill-while-performing"
+        }
+      ]
+    },
+    "samay-raina": {
+      "attention_flags": [
+        {
+          "date": "2025-09-01",
+          "kind": "controversy_context",
+          "note": "Historical India's Got Latent controversy; not a new alert or current ticket forecast."
+        }
+      ],
+      "events": [
+        {
+          "city": "Mumbai",
+          "country": "India",
+          "date": "2025-08-29",
+          "evidence_kind": "performed",
+          "name": "Still Alive and Unfiltered",
+          "url": "https://timesofindia.indiatimes.com/entertainment/hindi/bollywood/news/samay-raina-gets-emotional-as-he-performs-for-25000-fans-in-mumbai-just-months-after-indias-got-latent-controversy-god-has-been-kind/articleshow/123618706.cms"
+        },
+        {
+          "city": "Mumbai",
+          "country": "India",
+          "date": "2025-08-30",
+          "evidence_kind": "performed",
+          "name": "Still Alive and Unfiltered",
+          "url": "https://timesofindia.indiatimes.com/entertainment/hindi/bollywood/news/samay-raina-gets-emotional-as-he-performs-for-25000-fans-in-mumbai-just-months-after-indias-got-latent-controversy-god-has-been-kind/articleshow/123618706.cms"
+        }
+      ],
+      "identity_confirmed": true,
+      "life_status": "unknown",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "Samay Raina",
+      "search_note": "Identity-specific query but controversy can drive attention unrelated to ticket buying.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "Times of India",
+          "title": "Samay Raina Mumbai comeback performances",
+          "url": "https://timesofindia.indiatimes.com/entertainment/hindi/bollywood/news/samay-raina-gets-emotional-as-he-performs-for-25000-fans-in-mumbai-just-months-after-indias-got-latent-controversy-god-has-been-kind/articleshow/123618706.cms"
+        }
+      ]
+    },
+    "seedhe-maut": {
+      "events": [
+        {
+          "city": "Chandigarh",
+          "country": "India",
+          "date": "2024-09-21",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "Jameson Connects Chandigarh Season 3",
+          "role": "not_verified",
+          "url": "https://jamesonconnects.in/events/jam-stage-chandigarh-season-3/"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Official site identifies the duo as Calm and Encore ABJ.",
+      "life_status": "unknown",
+      "note": "Promoter recap names Seedhe Maut among the artists who performed at Forest Hill Golf & Country Club Resort.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "Seedhe Maut",
+      "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "Jameson Connects",
+          "title": "Jameson Connects Chandigarh Season 3",
+          "url": "https://jamesonconnects.in/events/jam-stage-chandigarh-season-3/"
+        }
+      ]
+    },
+    "shinda-kahlon": {
+      "events": [
+        {
+          "city": "Delhi",
+          "country": "India",
+          "date": "2024-12-14",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "The Brownprint Tour",
+          "role": "not_verified",
+          "url": "https://www.indiatoday.in/amp/entertainment/music/story/honey-singh-jazzy-b-make-special-appearance-at-ap-dhillons-delhi-concert-2650077-2024-12-15"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Named performing artist in dated event coverage.",
+      "life_status": "unknown",
+      "note": "India Today says Kahlon appeared and performed with AP Dhillon.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "Shinda Kahlon",
+      "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "India Today",
+          "title": "AP Dhillon performs in Delhi",
+          "url": "https://www.indiatoday.in/amp/entertainment/music/story/honey-singh-jazzy-b-make-special-appearance-at-ap-dhillons-delhi-concert-2650077-2024-12-15"
+        }
+      ]
+    },
+    "shreya-ghoshal": {
+      "events": [
+        {
+          "city": "Kolkata",
+          "country": "India",
+          "date": "2025-03-22",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "TATA IPL 2025 opening ceremony",
+          "role": "not_verified",
+          "url": "https://www.iplt20.com/video/58763/kolkata-grooves-to-mesmerising-tunes-of-sensational-shreya-ghoshal-at-tata-ipl-2025-opening-ceremony"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Named performing artist in dated event coverage.",
+      "life_status": "unknown",
+      "note": "IPL published the performance video from the opening ceremony.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "Shreya Ghoshal",
+      "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "Indian Premier League",
+          "title": "Shreya Ghoshal at IPL 2025 opening ceremony",
+          "url": "https://www.iplt20.com/video/58763/kolkata-grooves-to-mesmerising-tunes-of-sensational-shreya-ghoshal-at-tata-ipl-2025-opening-ceremony"
+        }
+      ]
+    },
+    "shreya-priyam-roy": {
+      "events": [
+        {
+          "city": "Mumbai",
+          "country": "India",
+          "date": "2025-02-16",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "RuPay Zomaland Season 5",
+          "role": "not_verified",
+          "url": "https://www.impactonnet.com/more-from-impact/rupay-zomaland-season-5s-mumbai-leg-wrapped-up-9953.html"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Full billed name in post-event recap; normal identity research still needed.",
+      "life_status": "unknown",
+      "note": "Post-event recap lists Shreya Priyam Roy as a Day 2 performer.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "Shreya Priyam Roy",
+      "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "Impact",
+          "title": "Zomaland Mumbai leg wrapped",
+          "url": "https://www.impactonnet.com/more-from-impact/rupay-zomaland-season-5s-mumbai-leg-wrapped-up-9953.html"
+        }
+      ]
+    },
+    "sickflip": {
+      "events": [
+        {
+          "city": "Pune",
+          "country": "India",
+          "date": "2024-03-31",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "Jameson Connects Pune",
+          "role": "not_verified",
+          "url": "https://jamesonconnects.in/events/season-2/jam-stage-pune/"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Distinct stage name in promoter recap.",
+      "life_status": "unknown",
+      "note": "Promoter post-event recap names SickFlip as a performer.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "SickFlip",
+      "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "Jameson Connects",
+          "title": "Jameson Connects Pune",
+          "url": "https://jamesonconnects.in/events/season-2/jam-stage-pune/"
+        }
+      ]
+    },
+    "sidhu-moose-wala": {
+      "events": [],
+      "excluded_reason": "Confirmed deceased; excluded from future booking research.",
+      "identity_confirmed": true,
+      "life_status": "deceased",
+      "reviewed_at": "2026-09-08",
+      "search_note": "Archived; historical search data retained for audit.",
+      "search_quality": "ambiguous",
+      "sources": [
+        {
+          "publisher": "Government of Canada",
+          "title": "Question Period Note: Punjabi rapper Sidhu Moose Wala killed in India",
+          "url": "https://search.open.canada.ca/qpnotes/record/dfatd-maecd%2C00049-2022"
+        }
+      ]
+    },
+    "sonu-nigam": {
+      "events": [
+        {
+          "city": "Kota, Rajasthan",
+          "country": "India",
+          "date": "2024-10-27",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "Kota concert",
+          "role": "not_verified",
+          "url": "https://www.indiatoday.in/entertainment/music/story/watch-sonu-nigam-viral-video-from-kota-concert-singer-remains-unfazed-as-man-charges-at-him-on-stage-2624970-2024-10-29"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Named performing artist in dated event coverage.",
+      "life_status": "unknown",
+      "note": "India Today reported the performance and an on-stage disruption during it.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "Sonu Nigam",
+      "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "India Today",
+          "title": "Sonu Nigam performs in Kota",
+          "url": "https://www.indiatoday.in/entertainment/music/story/watch-sonu-nigam-viral-video-from-kota-concert-singer-remains-unfazed-as-man-charges-at-him-on-stage-2624970-2024-10-29"
+        }
+      ]
+    },
+    "sunidhi-chauhan": {
+      "events": [
+        {
+          "city": "Mumbai",
+          "country": "India",
+          "date": "2025-12-24",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "I Am Home India Tour opening show",
+          "role": "not_verified",
+          "url": "https://www.indiatoday.in/entertainment/music/story/sunidhi-chauhan-electrifying-mumbai-concert-praised-by-rohan-joshi-2841554-2025-12-25"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Named performing artist in dated event coverage.",
+      "life_status": "unknown",
+      "note": "Post-event reporting identifies the Mumbai concert as the tour launch. Attendance language in the source is not used as a market estimate.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "Sunidhi Chauhan",
+      "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "India Today",
+          "title": "Sunidhi Chauhan Mumbai concert",
+          "url": "https://www.indiatoday.in/entertainment/music/story/sunidhi-chauhan-electrifying-mumbai-concert-praised-by-rohan-joshi-2841554-2025-12-25"
+        }
+      ]
+    },
+    "t-ill-apes": {
+      "events": [
+        {
+          "city": "Bengaluru",
+          "country": "India",
+          "date": "2024-03-10",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "Jameson Connects Bengaluru",
+          "role": "not_verified",
+          "url": "https://jamesonconnects.in/events/season-2/jam-stage-bengaluru/"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Promoter's specific stylization is the only identity evidence in this pass.",
+      "life_status": "unknown",
+      "note": "Promoter recap says the Bengaluru event featured T.ill Apes.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "T.ill Apes",
+      "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "Jameson Connects",
+          "title": "Jameson Connects Bengaluru",
+          "url": "https://jamesonconnects.in/events/season-2/jam-stage-bengaluru/"
+        }
+      ]
+    },
+    "the-yellow-diary": {
+      "events": [
+        {
+          "city": "Navi Mumbai",
+          "country": "India",
+          "date": "2025-05-03",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "The Wonderment Tour",
+          "role": "not_verified",
+          "url": "https://yourstory.com/ys-life/indie-band-the-yellow-diary"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "The article identifies the band; a separate generic Yellow Diary record should not be independently measured without review.",
+      "life_status": "unknown",
+      "note": "Artist interview states the band opened for Rahman on 3 May, its first stadium performance.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "The Yellow Diary",
+      "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "YourStory",
+          "title": "The Yellow Diary Wonderment Tour profile",
+          "url": "https://yourstory.com/ys-life/indie-band-the-yellow-diary"
+        }
+      ]
+    },
+    "ustad-zakir-hussain": {
+      "events": [],
+      "excluded_reason": "Confirmed deceased classical musician; not a current bookable artist.",
+      "identity_confirmed": true,
+      "life_status": "deceased",
+      "reviewed_at": "2026-09-08",
+      "search_note": "Archived; do not confuse the classical musician with living namesakes such as the cricketer.",
+      "search_quality": "ambiguous",
+      "sources": [
+        {
+          "publisher": "Government of India",
+          "title": "Government condolence notice identifying the musician",
+          "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2084714&lang=2&reg=48"
+        }
+      ]
+    },
+    "vishal-shekhar": {
+      "events": [
+        {
+          "city": "Pune",
+          "country": "India",
+          "date": "2024-05",
+          "date_precision": "article published 12 May; exact show day not supplied",
+          "evidence_kind": "performed",
+          "name": "Pune concert",
+          "role": "not_verified",
+          "url": "https://timesofindia.indiatimes.com/videos/entertainment/events/pune/vishal-shekhar-enthralled-pune-audience/videoshow/110050122.cms"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Named performing artist in dated event coverage.",
+      "life_status": "unknown",
+      "note": "Times of India post-event video page says the duo performed in Pune.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "Vishal Shekhar",
+      "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "Times of India",
+          "title": "Vishal-Shekhar in Pune",
+          "url": "https://timesofindia.indiatimes.com/videos/entertainment/events/pune/vishal-shekhar-enthralled-pune-audience/videoshow/110050122.cms"
+        }
+      ]
+    },
+    "yashraj-rapper": {
+      "events": [
+        {
+          "city": "Mumbai",
+          "country": "India",
+          "date": "2024-02-15",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "G-Eazy India Tour",
+          "role": "guest_or_support",
+          "url": "https://www.mid-day.com/web-stories/american-rapper-g-eazy-performs-in-mumbai-2686"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Requires rapper qualifier: Yash Raj/Yashraj has significant non-artist ambiguity.",
+      "life_status": "unknown",
+      "note": "Mid-day's post-event coverage says Yashraj was among the acts that started the Mumbai show; a second report calls him a home-grown hip-hop support act.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "Yashraj rapper",
+      "search_note": "Qualified artist query; narrower than a bare name and not directly comparable with broad-name estimates. Still a search-interest proxy, not sales.",
+      "search_quality": "qualified",
+      "sources": [
+        {
+          "publisher": "Mid-day",
+          "title": "G-Eazy performs in Mumbai",
+          "url": "https://www.mid-day.com/web-stories/american-rapper-g-eazy-performs-in-mumbai-2686"
+        },
+        {
+          "publisher": "Bollywood Hungama",
+          "title": "G-Eazy Mumbai concert",
+          "url": "https://www.bollywoodhungama.com/news/international/rapper-g-eazy-enthralls-mumbai-crowd-performance-namaste-india-honour-privilege-grateful/"
+        }
+      ]
+    },
+    "yo-yo-honey-singh": {
+      "events": [
+        {
+          "city": "Delhi",
+          "country": "India",
+          "date": "2024-12-14",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "The Brownprint Tour",
+          "role": "not_verified",
+          "url": "https://www.indiatoday.in/amp/entertainment/music/story/honey-singh-jazzy-b-make-special-appearance-at-ap-dhillons-delhi-concert-2650077-2024-12-15"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Named performing artist in dated event coverage.",
+      "life_status": "unknown",
+      "note": "India Today says he appeared and performed with AP Dhillon; this does not establish a solo tour.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "Yo Yo Honey Singh",
+      "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "India Today",
+          "title": "AP Dhillon performs in Delhi",
+          "url": "https://www.indiatoday.in/amp/entertainment/music/story/honey-singh-jazzy-b-make-special-appearance-at-ap-dhillons-delhi-concert-2650077-2024-12-15"
+        }
+      ]
+    },
+    "zaeden": {
+      "events": [
+        {
+          "city": "Hyderabad",
+          "country": "India",
+          "date": "2025-01-25",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "McDowell's Soda Yaari Jam",
+          "role": "not_verified",
+          "url": "https://loudest.in/events/anuv-jain-zaeden-rock-hyderabad-at-mcdowells-soda-yaari-jam-18045.html"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Stage name identified in post-event coverage.",
+      "life_status": "unknown",
+      "note": "Post-event coverage identifies Zaeden as a headliner; the exact date is corroborated by pre-event coverage.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "Zaeden",
+      "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "Loudest",
+          "title": "Anuv Jain and Zaeden rock Hyderabad",
+          "url": "https://loudest.in/events/anuv-jain-zaeden-rock-hyderabad-at-mcdowells-soda-yaari-jam-18045.html"
+        },
+        {
+          "publisher": "Hans India",
+          "title": "Yaari Jam date and venue",
+          "url": "https://www.thehansindia.com/news/cities/hyderabad/anuv-jain-and-zaeden-set-to-perform-live-in-hyderabad-on-january-25-938752"
+        }
+      ]
+    },
+    "zakir-khan": {
+      "events": [
+        {
+          "city": "Delhi",
+          "country": "India",
+          "date": "2025-11-01/02",
+          "date_precision": "dates are stated by a post-event attendee/professional post; independently spot-check promoter source",
+          "evidence_kind": "unconfirmed",
+          "name": "Papa Yaar",
+          "role": "not_verified",
+          "url": "https://www.linkedin.com/posts/divya-bhatiapr_last-weekend-delhi-laughed-coughed-and-activity-7391300683548811265-VFV8"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Named performing artist in dated event coverage.",
+      "life_status": "unknown",
+      "note": "Post-event professional account says Khan brought Papa Yaar to Indira Gandhi Indoor Stadium on these dates.",
+      "reviewed_at": "2026-09-08",
+      "search_keyword": "Zakir Khan comedian",
+      "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "LinkedIn / Divya Bhatia",
+          "title": "Zakir Khan Papa Yaar post-event account",
+          "url": "https://www.linkedin.com/posts/divya-bhatiapr_last-weekend-delhi-laughed-coughed-and-activity-7391300683548811265-VFV8"
+        }
+      ]
+    }
+  },
+  "schema_version": 1,
+  "updated_at": "2026-09-08"
+}

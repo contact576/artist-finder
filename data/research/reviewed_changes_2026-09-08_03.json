@@ -1,0 +1,373 @@
+{
+  "id": "booking-research-2026-09-08-3",
+  "reviewed_at": "2026-09-08",
+  "policy": "Evidence-qualified shortlist; uncertainty is Review, never proof no performances occurred. Search metrics remain separate from performance evidence.",
+  "decisions": {
+    "gminxr": {
+      "artist": {
+        "name": "GMinxr",
+        "primary_genre": "djs",
+        "niche_tags": [
+          "djs"
+        ],
+        "measurement_keyword": "GMinxr",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Specific stage-name spelling in a post-event recap; confirm official profile before adding.",
+        "events": [
+          {
+            "date": "2025-02-16",
+            "country": "India",
+            "city": "Mumbai",
+            "name": "RuPay Zomaland Season 5",
+            "date_precision": "day",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://www.impactonnet.com/more-from-impact/rupay-zomaland-season-5s-mumbai-leg-wrapped-up-9953.html"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.impactonnet.com/more-from-impact/rupay-zomaland-season-5s-mumbai-leg-wrapped-up-9953.html",
+            "title": "Zomaland Mumbai leg wrapped",
+            "publisher": "Impact"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "GMinxr",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "Post-event recap lists GMinxr as a Day 2 performer."
+      }
+    },
+    "panjabi-mc": {
+      "artist": {
+        "name": "Panjabi MC",
+        "primary_genre": "punjabi_music",
+        "niche_tags": [
+          "punjabi_music"
+        ],
+        "measurement_keyword": "Panjabi MC",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Established stage name; no canonical roster entry found.",
+        "events": [
+          {
+            "date": "2025-02-16",
+            "country": "India",
+            "city": "Mumbai",
+            "name": "RuPay Zomaland Season 5",
+            "date_precision": "day",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://www.impactonnet.com/more-from-impact/rupay-zomaland-season-5s-mumbai-leg-wrapped-up-9953.html"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.impactonnet.com/more-from-impact/rupay-zomaland-season-5s-mumbai-leg-wrapped-up-9953.html",
+            "title": "Zomaland Mumbai leg wrapped",
+            "publisher": "Impact"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Panjabi MC",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "Post-event recap lists Panjabi MC as a Day 2 performer."
+      }
+    },
+    "shreya-priyam-roy": {
+      "artist": {
+        "name": "Shreya Priyam Roy",
+        "primary_genre": "comedy",
+        "niche_tags": [
+          "comedy"
+        ],
+        "measurement_keyword": "Shreya Priyam Roy",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Full billed name in post-event recap; normal identity research still needed.",
+        "events": [
+          {
+            "date": "2025-02-16",
+            "country": "India",
+            "city": "Mumbai",
+            "name": "RuPay Zomaland Season 5",
+            "date_precision": "day",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://www.impactonnet.com/more-from-impact/rupay-zomaland-season-5s-mumbai-leg-wrapped-up-9953.html"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.impactonnet.com/more-from-impact/rupay-zomaland-season-5s-mumbai-leg-wrapped-up-9953.html",
+            "title": "Zomaland Mumbai leg wrapped",
+            "publisher": "Impact"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Shreya Priyam Roy",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "Post-event recap lists Shreya Priyam Roy as a Day 2 performer."
+      }
+    },
+    "anuv-jain": {
+      "expected_current": {
+        "measurement_keyword": "Anuv Jain",
+        "name": "Anuv Jain",
+        "status": "candidate",
+        "primary_genre": "independent_music"
+      },
+      "artist": {
+        "name": "Anuv Jain",
+        "primary_genre": "independent_music",
+        "niche_tags": [
+          "independent_music"
+        ],
+        "measurement_keyword": "Anuv Jain",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "The two records require a duplicate/role review; the artist identity itself is clear in coverage.",
+        "events": [
+          {
+            "date": "2025-01-25",
+            "country": "India",
+            "city": "Hyderabad",
+            "name": "McDowell's Soda Yaari Jam",
+            "date_precision": "day",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://loudest.in/events/anuv-jain-zaeden-rock-hyderabad-at-mcdowells-soda-yaari-jam-18045.html"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://loudest.in/events/anuv-jain-zaeden-rock-hyderabad-at-mcdowells-soda-yaari-jam-18045.html",
+            "title": "Anuv Jain and Zaeden rock Hyderabad",
+            "publisher": "Loudest"
+          },
+          {
+            "url": "https://www.thehansindia.com/news/cities/hyderabad/anuv-jain-and-zaeden-set-to-perform-live-in-hyderabad-on-january-25-938752",
+            "title": "Yaari Jam date and venue",
+            "publisher": "Hans India"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Anuv Jain",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "Post-event coverage identifies Jain as a headliner; pre-event report supplies the exact date and venue."
+      }
+    },
+    "zaeden": {
+      "expected_current": {
+        "measurement_keyword": "Zaeden",
+        "name": "Zaeden",
+        "status": "candidate",
+        "primary_genre": "djs"
+      },
+      "artist": {
+        "name": "Zaeden",
+        "primary_genre": "independent_music",
+        "niche_tags": [
+          "independent_music"
+        ],
+        "measurement_keyword": "Zaeden",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Stage name identified in post-event coverage.",
+        "events": [
+          {
+            "date": "2025-01-25",
+            "country": "India",
+            "city": "Hyderabad",
+            "name": "McDowell's Soda Yaari Jam",
+            "date_precision": "day",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://loudest.in/events/anuv-jain-zaeden-rock-hyderabad-at-mcdowells-soda-yaari-jam-18045.html"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://loudest.in/events/anuv-jain-zaeden-rock-hyderabad-at-mcdowells-soda-yaari-jam-18045.html",
+            "title": "Anuv Jain and Zaeden rock Hyderabad",
+            "publisher": "Loudest"
+          },
+          {
+            "url": "https://www.thehansindia.com/news/cities/hyderabad/anuv-jain-and-zaeden-set-to-perform-live-in-hyderabad-on-january-25-938752",
+            "title": "Yaari Jam date and venue",
+            "publisher": "Hans India"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Zaeden",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "Post-event coverage identifies Zaeden as a headliner; the exact date is corroborated by pre-event coverage."
+      }
+    },
+    "the-yellow-diary": {
+      "expected_current": {
+        "measurement_keyword": "The Yellow Diary",
+        "name": "The Yellow Diary",
+        "status": "candidate",
+        "primary_genre": "live_bands"
+      },
+      "artist": {
+        "name": "The Yellow Diary",
+        "primary_genre": "live_bands",
+        "niche_tags": [
+          "live_bands"
+        ],
+        "measurement_keyword": "The Yellow Diary",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "The article identifies the band; a separate generic Yellow Diary record should not be independently measured without review.",
+        "events": [
+          {
+            "date": "2025-05-03",
+            "country": "India",
+            "city": "Navi Mumbai",
+            "name": "The Wonderment Tour",
+            "date_precision": "day",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://yourstory.com/ys-life/indie-band-the-yellow-diary"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://yourstory.com/ys-life/indie-band-the-yellow-diary",
+            "title": "The Yellow Diary Wonderment Tour profile",
+            "publisher": "YourStory"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "The Yellow Diary",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "Artist interview states the band opened for Rahman on 3 May, its first stadium performance."
+      }
+    },
+    "atif-aslam": {
+      "artist": {
+        "name": "Atif Aslam",
+        "primary_genre": "bollywood_playback",
+        "niche_tags": [
+          "bollywood_playback"
+        ],
+        "measurement_keyword": "Atif Aslam",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Named Pakistani exception; distinct artist identity.",
+        "events": [
+          {
+            "date": "2025-09-07",
+            "country": "Canada",
+            "city": "Toronto",
+            "name": "Scotiabank Arena concert",
+            "date_precision": "day",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://www.desiblitz.com/content/meesha-shafi-and-atif-aslam-share-the-stage-at-toronto-concert"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.desiblitz.com/content/meesha-shafi-and-atif-aslam-share-the-stage-at-toronto-concert",
+            "title": "Atif Aslam Toronto concert",
+            "publisher": "DESIblitz"
+          },
+          {
+            "url": "https://www.ticketmaster.com/atif-aslam-tickets/artist/1406012?page=1&tt_scene=anchor_view",
+            "title": "Atif Aslam Scotiabank Arena reviews",
+            "publisher": "Ticketmaster"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Atif Aslam",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "Independent post-event coverage confirms the Toronto concert; Ticketmaster attendee reviews and the historic venue page corroborate performance. India-linked repertoire is discussed in the reviews, not treated as demand proof.",
+        "exception_reason": "Explicit user-selected Pakistani live-artist exception; India-show requirement waived, foreign performance evidence still required."
+      }
+    },
+    "rahat-fateh-ali-khan": {
+      "expected_current": {
+        "measurement_keyword": "Rahat Fateh Ali Khan",
+        "name": "Rahat Fateh Ali Khan",
+        "status": "candidate",
+        "primary_genre": "sufi_ghazal"
+      },
+      "artist": {
+        "name": "Rahat Fateh Ali Khan",
+        "primary_genre": "sufi_ghazal",
+        "niche_tags": [
+          "sufi_ghazal"
+        ],
+        "measurement_keyword": "Rahat Fateh Ali Khan",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Named Pakistani exception and distinct artist identity.",
+        "events": [
+          {
+            "date": "2025-10-12",
+            "country": "Netherlands",
+            "city": "Rotterdam",
+            "name": "RTM Stage",
+            "date_precision": "day",
+            "evidence_kind": "unconfirmed",
+            "role": "not_verified",
+            "url": "https://www.livenation.com/artist/K8vZ9178uNf/rahat-fateh-ali-khan-events"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.livenation.com/artist/K8vZ9178uNf/rahat-fateh-ali-khan-events",
+            "title": "Rahat Fateh Ali Khan featured setlist",
+            "publisher": "Live Nation"
+          },
+          {
+            "url": "https://www.setlist.fm/setlists/rahat-fateh-ali-khan-4bd61b46.html",
+            "title": "Rahat Fateh Ali Khan setlist",
+            "publisher": "setlist.fm"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Rahat Fateh Ali Khan",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "Provisional: dated third-party setlist needs independent performed-event confirmation.",
+        "exception_reason": "Explicit user-selected Pakistani live-artist exception; India-show requirement waived, foreign performance evidence still required."
+      }
+    }
+  }
+}

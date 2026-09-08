@@ -8,3 +8,7 @@ data/source_probe.json
 .vercel/
 __pycache__/
 *.pyc
+out/
+output/
+.playwright-cli/
+.codex-*.patch

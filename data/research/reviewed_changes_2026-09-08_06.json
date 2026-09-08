@@ -1,0 +1,189 @@
+{
+  "id": "booking-research-2026-09-08-6",
+  "reviewed_at": "2026-09-08",
+  "policy": "Evidence-qualified shortlist; uncertainty is Review, never proof no performances occurred. Search metrics remain separate from performance evidence.",
+  "decisions": {
+    "remembering-kk": {
+      "expected_current": {
+        "measurement_keyword": "Remembering Kk",
+        "name": "Remembering Kk",
+        "status": "candidate",
+        "primary_genre": "other"
+      },
+      "archive": true,
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "nonperformer",
+        "excluded_reason": "Memorial/event label, not a bookable artist.",
+        "sources": [
+          {
+            "title": "Indian singer KK dies aged 53",
+            "publisher": "The Guardian",
+            "url": "https://www.theguardian.com/music/2022/jun/01/indian-singer-kk-dies-aged-53-after-falling-ill-while-performing"
+          }
+        ],
+        "events": [],
+        "search_quality": "ambiguous",
+        "search_note": "Archived; historical search data retained for audit."
+      }
+    },
+    "sidhu-moose-wala": {
+      "expected_current": {
+        "measurement_keyword": "Sidhu Moose Wala",
+        "name": "Sidhu Moose Wala",
+        "status": "candidate",
+        "primary_genre": "punjabi_music"
+      },
+      "archive": true,
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "deceased",
+        "excluded_reason": "Confirmed deceased; excluded from future booking research.",
+        "sources": [
+          {
+            "title": "Question Period Note: Punjabi rapper Sidhu Moose Wala killed in India",
+            "publisher": "Government of Canada",
+            "url": "https://search.open.canada.ca/qpnotes/record/dfatd-maecd%2C00049-2022"
+          }
+        ],
+        "events": [],
+        "search_quality": "ambiguous",
+        "search_note": "Archived; historical search data retained for audit."
+      }
+    },
+    "pankaj-udhas": {
+      "expected_current": {
+        "measurement_keyword": "Pankaj Udhas",
+        "name": "Pankaj Udhas",
+        "status": "candidate",
+        "primary_genre": "devotional"
+      },
+      "archive": true,
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "deceased",
+        "excluded_reason": "Confirmed deceased; excluded from future booking research.",
+        "sources": [
+          {
+            "title": "Pankaj Udhas dies at 72",
+            "publisher": "Business Standard",
+            "url": "https://www.business-standard.com/entertainment/pankaj-udhas-dies-at-72-due-to-prolonged-illness-his-family-confirms-124022600721_1.html"
+          }
+        ],
+        "events": [],
+        "search_quality": "ambiguous",
+        "search_note": "Archived; historical search data retained for audit."
+      }
+    },
+    "prabha-atre": {
+      "expected_current": {
+        "measurement_keyword": "Prabha Atre",
+        "name": "Prabha Atre",
+        "status": "candidate",
+        "primary_genre": "indian_classical"
+      },
+      "archive": true,
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "deceased",
+        "excluded_reason": "Confirmed deceased; excluded from future booking research.",
+        "sources": [
+          {
+            "title": "PM condoles demise of Dr Prabha Atre",
+            "publisher": "Press Information Bureau, Government of India",
+            "url": "https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=1995909&lang=2&reg=48"
+          }
+        ],
+        "events": [],
+        "search_quality": "ambiguous",
+        "search_note": "Archived; historical search data retained for audit."
+      }
+    },
+    "rahat-indori": {
+      "expected_current": {
+        "measurement_keyword": "Rahat Indori",
+        "name": "Rahat Indori",
+        "status": "candidate",
+        "primary_genre": "storytelling_poetry"
+      },
+      "archive": true,
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "deceased",
+        "excluded_reason": "Confirmed deceased; excluded from future booking research.",
+        "sources": [
+          {
+            "title": "Rahat Indori dies",
+            "publisher": "India Today",
+            "url": "https://www.indiatoday.in/amp/lifestyle/people/story/rahat-indori-dies-of-cardiac-arrest-in-indore-after-testing-coronavirus-positive-1710109-2020-08-11"
+          }
+        ],
+        "events": [],
+        "search_quality": "ambiguous",
+        "search_note": "Archived; historical search data retained for audit."
+      }
+    },
+    "samay-raina": {
+      "expected_current": {
+        "measurement_keyword": "Samay Raina",
+        "name": "Samay Raina",
+        "status": "candidate",
+        "primary_genre": "comedy"
+      },
+      "artist": {
+        "name": "Samay Raina",
+        "primary_genre": "comedy",
+        "niche_tags": [
+          "comedy"
+        ],
+        "measurement_keyword": "Samay Raina",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "events": [
+          {
+            "date": "2025-08-29",
+            "country": "India",
+            "city": "Mumbai",
+            "name": "Still Alive and Unfiltered",
+            "evidence_kind": "performed",
+            "url": "https://timesofindia.indiatimes.com/entertainment/hindi/bollywood/news/samay-raina-gets-emotional-as-he-performs-for-25000-fans-in-mumbai-just-months-after-indias-got-latent-controversy-god-has-been-kind/articleshow/123618706.cms"
+          },
+          {
+            "date": "2025-08-30",
+            "country": "India",
+            "city": "Mumbai",
+            "name": "Still Alive and Unfiltered",
+            "evidence_kind": "performed",
+            "url": "https://timesofindia.indiatimes.com/entertainment/hindi/bollywood/news/samay-raina-gets-emotional-as-he-performs-for-25000-fans-in-mumbai-just-months-after-indias-got-latent-controversy-god-has-been-kind/articleshow/123618706.cms"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://timesofindia.indiatimes.com/entertainment/hindi/bollywood/news/samay-raina-gets-emotional-as-he-performs-for-25000-fans-in-mumbai-just-months-after-indias-got-latent-controversy-god-has-been-kind/articleshow/123618706.cms",
+            "title": "Samay Raina Mumbai comeback performances",
+            "publisher": "Times of India"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Samay Raina",
+        "search_note": "Identity-specific query but controversy can drive attention unrelated to ticket buying.",
+        "attention_flags": [
+          {
+            "kind": "controversy_context",
+            "date": "2025-09-01",
+            "note": "Historical India's Got Latent controversy; not a new alert or current ticket forecast."
+          }
+        ]
+      }
+    }
+  }
+}

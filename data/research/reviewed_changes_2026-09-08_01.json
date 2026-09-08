@@ -1,0 +1,360 @@
+{
+  "id": "booking-research-2026-09-08-1",
+  "reviewed_at": "2026-09-08",
+  "policy": "Evidence-qualified shortlist; uncertainty is Review, never proof no performances occurred. Search metrics remain separate from performance evidence.",
+  "decisions": {
+    "hanumankind": {
+      "artist": {
+        "name": "Hanumankind",
+        "primary_genre": "hip_hop_rap",
+        "niche_tags": [
+          "hip_hop_rap"
+        ],
+        "measurement_keyword": "Hanumankind",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Distinct Indian rapper stage name; no canonical roster entry found.",
+        "events": [
+          {
+            "date": "2025-11-21",
+            "country": "India",
+            "city": "Vagator, Goa",
+            "name": "Royal Enfield MotoVerse 2025",
+            "date_precision": "inferred from the 2025-11-23 report calling it Friday night",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://www.hindustantimes.com/entertainment/music/you-see-me-walking-those-steps-baby-hanumankind-performs-in-goa-3-months-after-successful-knee-surgery-101763892229645-amp.html"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://mirchi.in/stories/music/hanumankind-is-back-rapper-performs-in-goa-after-knee-surgery/153195406",
+            "title": "Hanumankind Goa return performance",
+            "publisher": "Mirchi"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Hanumankind",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "Post-event reporting says he took the stage at MotoVerse in Goa, his first performance after knee surgery."
+      }
+    },
+    "raftaar": {
+      "artist": {
+        "name": "Raftaar",
+        "primary_genre": "hip_hop_rap",
+        "niche_tags": [
+          "hip_hop_rap"
+        ],
+        "measurement_keyword": "Raftaar rapper",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Stage identity is clear, but the single-token term also has non-artist uses.",
+        "events": [
+          {
+            "date": "2025-03-09",
+            "country": "India",
+            "city": "Mumbai",
+            "name": "Lollapalooza India 2025",
+            "date_precision": "day",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://www.gettyimages.co.uk/detail/news-photo/raftaar-performs-at-lollapalooza-india-2025-on-march-9-2025-news-photo/2204176990"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.gettyimages.co.uk/detail/news-photo/raftaar-performs-at-lollapalooza-india-2025-on-march-9-2025-news-photo/2204176990",
+            "title": "Raftaar performs at Lollapalooza India 2025",
+            "publisher": "Getty Images"
+          }
+        ],
+        "search_quality": "qualified",
+        "search_keyword": "Raftaar rapper",
+        "search_note": "Qualified artist query; narrower than a bare name and not directly comparable with broad-name estimates. Still a search-interest proxy, not sales.",
+        "note": "Getty editorial caption expressly states Raftaar performed at Lollapalooza India on this date."
+      }
+    },
+    "king-india": {
+      "artist": {
+        "name": "KING (King Rocco)",
+        "primary_genre": "hip_hop_rap",
+        "niche_tags": [
+          "hip_hop_rap"
+        ],
+        "measurement_keyword": "King Rocco",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Indian rapper/singer's stage identity is clear from the official event video.",
+        "events": [
+          {
+            "date": "2024-08-01",
+            "country": "India",
+            "city": "Mumbai",
+            "name": "YouTube Fanfest India 2024",
+            "date_precision": "day",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://www.youtube.com/watch?v=tAbK1zi2fNE"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.youtube.com/watch?v=tAbK1zi2fNE",
+            "title": "KING | YouTube Fanfest India 2024",
+            "publisher": "YouTube Fanfest"
+          }
+        ],
+        "search_quality": "qualified",
+        "search_keyword": "King Rocco",
+        "search_note": "Qualified artist query; narrower than a bare name and not directly comparable with broad-name estimates. Still a search-interest proxy, not sales.",
+        "note": "YouTube Fanfest's official upload says it is KING's live performance at Mumbai on 1 August 2024."
+      }
+    },
+    "seedhe-maut": {
+      "expected_current": {
+        "measurement_keyword": "Seedhe Maut",
+        "name": "Seedhe Maut",
+        "status": "candidate",
+        "primary_genre": "djs"
+      },
+      "artist": {
+        "name": "Seedhe Maut",
+        "primary_genre": "hip_hop_rap",
+        "niche_tags": [
+          "hip_hop_rap"
+        ],
+        "measurement_keyword": "Seedhe Maut",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Official site identifies the duo as Calm and Encore ABJ.",
+        "events": [
+          {
+            "date": "2024-09-21",
+            "country": "India",
+            "city": "Chandigarh",
+            "name": "Jameson Connects Chandigarh Season 3",
+            "date_precision": "day",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://jamesonconnects.in/events/jam-stage-chandigarh-season-3/"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://jamesonconnects.in/events/jam-stage-chandigarh-season-3/",
+            "title": "Jameson Connects Chandigarh Season 3",
+            "publisher": "Jameson Connects"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Seedhe Maut",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "Promoter recap names Seedhe Maut among the artists who performed at Forest Hill Golf & Country Club Resort."
+      }
+    },
+    "karan-aujla": {
+      "expected_current": {
+        "measurement_keyword": "Karan Aujla",
+        "name": "Karan Aujla",
+        "status": "candidate",
+        "primary_genre": "punjabi_music"
+      },
+      "artist": {
+        "name": "Karan Aujla",
+        "primary_genre": "punjabi_music",
+        "niche_tags": [
+          "punjabi_music"
+        ],
+        "measurement_keyword": "Karan Aujla",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Distinct Indo-Canadian Punjabi singer/rapper/songwriter identity.",
+        "events": [
+          {
+            "date": "2024-12-15",
+            "country": "India",
+            "city": "Gurugram",
+            "name": "It Was All A Dream India Tour",
+            "date_precision": "day",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://www.hindustantimes.com/htcity/karan-aujla-surprises-fans-by-dancing-to-salman-khan-s-song-badshah-varun-dhawan-make-a-cameo-at-his-concert-101734293014913-amp.html"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.hindustantimes.com/htcity/karan-aujla-surprises-fans-by-dancing-to-salman-khan-s-song-badshah-varun-dhawan-make-a-cameo-at-his-concert-101734293014913-amp.html",
+            "title": "Karan Aujla Gurugram concert",
+            "publisher": "Hindustan Times"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Karan Aujla",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "Post-event coverage identifies the city/date and concert activity."
+      }
+    },
+    "prabh-deep": {
+      "artist": {
+        "name": "Prabh Deep",
+        "primary_genre": "hip_hop_rap",
+        "niche_tags": [
+          "hip_hop_rap"
+        ],
+        "measurement_keyword": "Prabh Deep",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Two-token Indian hip-hop artist identity; no canonical roster entry found.",
+        "events": [
+          {
+            "date": "2024-03-31",
+            "country": "India",
+            "city": "Pune",
+            "name": "Jameson Connects Pune",
+            "date_precision": "day",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://jamesonconnects.in/events/season-2/jam-stage-pune/"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://jamesonconnects.in/events/season-2/jam-stage-pune/",
+            "title": "Jameson Connects Pune",
+            "publisher": "Jameson Connects"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Prabh Deep",
+        "search_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
+        "note": "Promoter recap says the Pune event featured performances by Prabh Deep, SickFlip, and Derric & Nida."
+      }
+    },
+    "divine": {
+      "expected_current": {
+        "measurement_keyword": "Divine",
+        "name": "Divine",
+        "status": "candidate",
+        "primary_genre": "punjabi_music"
+      },
+      "artist": {
+        "name": "DIVINE",
+        "primary_genre": "hip_hop_rap",
+        "niche_tags": [
+          "hip_hop_rap"
+        ],
+        "measurement_keyword": "DIVINE rapper",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Event coverage labels the performing act DIVINE; human identity review should confirm the Mumbai rapper before any genre correction.",
+        "events": [
+          {
+            "date": "2025-02-16",
+            "country": "India",
+            "city": "Mumbai",
+            "name": "RuPay Zomaland Season 5",
+            "date_precision": "day",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://www.impactonnet.com/more-from-impact/rupay-zomaland-season-5s-mumbai-leg-wrapped-up-9953.html"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.impactonnet.com/more-from-impact/rupay-zomaland-season-5s-mumbai-leg-wrapped-up-9953.html",
+            "title": "Zomaland Mumbai leg wrapped",
+            "publisher": "Impact"
+          },
+          {
+            "url": "https://www.district.in/events/divine/artist",
+            "title": "DIVINE (Vivian Fernandes) artist identity",
+            "publisher": "District"
+          }
+        ],
+        "search_quality": "qualified",
+        "search_keyword": "DIVINE rapper",
+        "search_note": "Qualified artist query; narrower than a bare name and not directly comparable with broad-name estimates. Still a search-interest proxy, not sales.",
+        "note": "Post-event recap lists DIVINE as a Day 2 performer."
+      }
+    },
+    "krsna-rapper": {
+      "artist": {
+        "name": "KR$NA",
+        "primary_genre": "hip_hop_rap",
+        "niche_tags": [
+          "hip_hop_rap"
+        ],
+        "measurement_keyword": "KR$NA rapper",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-09-08",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "Stage name requires qualifier; it must not be joined automatically to unrelated Krsnaa entities.",
+        "events": [
+          {
+            "date": "2025-03-09",
+            "country": "India",
+            "city": "Mumbai",
+            "name": "Lollapalooza India 2025, Perry's x H&M Stage",
+            "date_precision": "day",
+            "evidence_kind": "performed",
+            "role": "not_verified",
+            "url": "https://www.gettyimages.co.uk/editorial-images/entertainment/event/lollapalooza-india-2025/776224995"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.gettyimages.co.uk/editorial-images/entertainment/event/lollapalooza-india-2025/776224995",
+            "title": "KR$NA and Raftaar performing 9 March 2025",
+            "publisher": "Getty Images"
+          },
+          {
+            "url": "https://www.shazam.com/event/6e0e322d-cb82-4ee7-b51a-263779a828c2",
+            "title": "KR$NA past concert",
+            "publisher": "Shazam"
+          },
+          {
+            "url": "https://www.setlist.fm/setlist/krna/2025/mahalaxmi-race-course-perrys-x-handm-stage-mumbai-india-358896f.html",
+            "title": "KR$NA setlist at Lollapalooza India",
+            "publisher": "setlist.fm"
+          }
+        ],
+        "search_quality": "qualified",
+        "search_keyword": "KR$NA rapper",
+        "search_note": "Qualified artist query; narrower than a bare name and not directly comparable with broad-name estimates. Still a search-interest proxy, not sales.",
+        "note": "A past-concert listing and song-level setlist record identify a KR$NA set at the venue and date. This is credible but not first-party; independently spot-check before promotion."
+      }
+    }
+  }
+}

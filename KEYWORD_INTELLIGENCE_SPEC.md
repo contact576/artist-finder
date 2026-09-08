@@ -2,6 +2,12 @@
 
 ## Product decision
 
+September 2026 amendment: the default operator list is an evidence-qualified booking
+shortlist. See [BOOKING_RESEARCH.md](BOOKING_RESEARCH.md), which supersedes the earlier
+identity-only inclusion rule below. Search metrics remain separate from ticketing signals.
+Totals/gainers require verified identity, current booking eligibility and query-specific,
+geo-specific measurement quality. Favorites bypass identity and booking filters.
+
 The operator surface is a monthly search-intelligence dashboard. Ticketing-platform
 listings, room bands, stature, momentum, and the four ticketing lifecycle stages do not
 drive this dashboard. Existing scouting data is preserved, but it is not mixed into the
