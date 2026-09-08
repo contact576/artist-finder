@@ -287,6 +287,14 @@
       "new_value": true,
       "prior_value": false,
       "timestamp": "2026-09-08T19:24:51Z"
+    },
+    {
+      "action": "artist_favorited",
+      "artist_slug": "gulzar",
+      "changed": true,
+      "new_value": true,
+      "prior_value": false,
+      "timestamp": "2026-09-08T19:36:02Z"
     }
   ],
   "favorites": [
@@ -298,6 +306,7 @@
     "badshah",
     "biswa-kalyan-rath",
     "gaurav-kapoor",
+    "gulzar",
     "jasmine-sandlas",
     "jaspreet-singh",
     "kanan-gill",
