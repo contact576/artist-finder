@@ -271,6 +271,14 @@
       "new_value": true,
       "prior_value": false,
       "timestamp": "2026-09-08T19:24:16Z"
+    },
+    {
+      "action": "artist_favorited",
+      "artist_slug": "tanmay-bhat",
+      "changed": true,
+      "new_value": true,
+      "prior_value": false,
+      "timestamp": "2026-09-08T19:24:36Z"
     }
   ],
   "favorites": [
@@ -295,6 +303,7 @@
     "samay-raina",
     "sonu-nigam",
     "sunil-grover",
+    "tanmay-bhat",
     "vishal-dadlani",
     "vishal-shekhar"
   ],
