@@ -135,6 +135,14 @@
       "new_value": true,
       "prior_value": true,
       "timestamp": "2026-09-08T07:01:48Z"
+    },
+    {
+      "action": "artist_favorited",
+      "artist_slug": "sonu-nigam",
+      "changed": true,
+      "new_value": true,
+      "prior_value": false,
+      "timestamp": "2026-09-08T07:01:49Z"
     }
   ],
   "favorites": [
@@ -143,6 +151,7 @@
     "kunal-kamra",
     "pranit-more",
     "samay-raina",
+    "sonu-nigam",
     "vishal-shekhar"
   ],
   "schema_version": 1
