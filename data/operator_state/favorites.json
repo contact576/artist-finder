@@ -167,10 +167,19 @@
       "new_value": true,
       "prior_value": false,
       "timestamp": "2026-09-08T19:21:21Z"
+    },
+    {
+      "action": "artist_favorited",
+      "artist_slug": "gaurav-kapoor",
+      "changed": true,
+      "new_value": true,
+      "prior_value": false,
+      "timestamp": "2026-09-08T19:21:26Z"
     }
   ],
   "favorites": [
     "badshah",
+    "gaurav-kapoor",
     "jasmine-sandlas",
     "kunal-kamra",
     "pranit-more",
