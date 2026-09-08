@@ -26273,13 +26273,14 @@
       "languages": [
         "Various"
       ],
-      "last_reviewed": "2026-08-21",
+      "last_reviewed": "2026-09-08",
       "measurement_keyword": "Pentagram",
       "merged_into": null,
       "name": "Pentagram",
       "niche_tags": [
         "live_bands"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "live_bands",
       "regions": [
         "India"
@@ -26287,7 +26288,7 @@
       "research_state": "directory_candidate",
       "slug": "pentagram",
       "source": "researched_directory_candidate",
-      "status": "candidate",
+      "status": "inactive",
       "subcategory": "live bands",
       "verified_at": null
     },
