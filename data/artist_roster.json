@@ -9532,16 +9532,17 @@
         "url": null
       },
       "keyword_review_state": "pending",
-      "last_reviewed": null,
+      "last_reviewed": "2026-09-08",
       "measurement_keyword": "Dinner",
       "merged_into": null,
       "name": "Dinner",
       "niche_tags": [],
+      "operator_prior_status": "candidate",
       "primary_genre": "unknown",
       "research_state": "legacy_unreviewed",
       "slug": "dinner",
       "source": "legacy_watchlist_migration",
-      "status": "candidate",
+      "status": "inactive",
       "verified_at": null
     },
     "dino-james": {
