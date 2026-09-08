@@ -13215,13 +13215,14 @@
       "languages": [
         "Various"
       ],
-      "last_reviewed": "2026-08-21",
+      "last_reviewed": "2026-09-08",
       "measurement_keyword": "Gaurav Gera",
       "merged_into": null,
       "name": "Gaurav Gera",
       "niche_tags": [
         "comedy"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "comedy",
       "regions": [
         "India"
@@ -13229,7 +13230,7 @@
       "research_state": "directory_candidate",
       "slug": "gaurav-gera",
       "source": "researched_directory_candidate",
-      "status": "candidate",
+      "status": "inactive",
       "subcategory": "comedy",
       "verified_at": null
     },
