@@ -71,6 +71,14 @@
       "new_value": true,
       "prior_value": false,
       "timestamp": "2026-09-08T06:47:52Z"
+    },
+    {
+      "action": "artist_favorited",
+      "artist_slug": "jasmine-sandlas",
+      "changed": false,
+      "new_value": true,
+      "prior_value": true,
+      "timestamp": "2026-09-08T06:47:56Z"
     }
   ],
   "favorites": [
