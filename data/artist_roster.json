@@ -26558,13 +26558,14 @@
       "languages": [
         "Various"
       ],
-      "last_reviewed": "2026-08-21",
+      "last_reviewed": "2026-09-08",
       "measurement_keyword": "Pooja Bhatt",
       "merged_into": null,
       "name": "Pooja Bhatt",
       "niche_tags": [
         "storytelling_poetry"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "storytelling_poetry",
       "regions": [
         "India"
@@ -26572,7 +26573,7 @@
       "research_state": "directory_candidate",
       "slug": "pooja-bhatt",
       "source": "researched_directory_candidate",
-      "status": "candidate",
+      "status": "inactive",
       "subcategory": "storytelling poetry",
       "verified_at": null
     },
