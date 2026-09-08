@@ -17463,13 +17463,14 @@
       "languages": [
         "Various"
       ],
-      "last_reviewed": "2026-08-21",
+      "last_reviewed": "2026-09-08",
       "measurement_keyword": "Kaka",
       "merged_into": null,
       "name": "Kaka",
       "niche_tags": [
         "punjabi_music"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "punjabi_music",
       "regions": [
         "Punjab",
@@ -17478,7 +17479,7 @@
       "research_state": "directory_candidate",
       "slug": "kaka",
       "source": "researched_directory_candidate",
-      "status": "candidate",
+      "status": "inactive",
       "subcategory": "punjabi music",
       "verified_at": null
     },
