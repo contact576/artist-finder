@@ -22772,11 +22772,12 @@
         "Hindi",
         "English"
       ],
-      "last_reviewed": "2026-08-21",
+      "last_reviewed": "2026-09-08",
       "measurement_keyword": "Morgan Jay",
       "merged_into": null,
       "name": "Morgan Jay",
       "niche_tags": [],
+      "operator_prior_status": "verified",
       "primary_genre": "comedy",
       "regions": [
         "India"
@@ -22784,7 +22785,7 @@
       "research_state": "public_identity_review",
       "slug": "morgan-jay",
       "source": "legacy_watchlist_migration",
-      "status": "verified",
+      "status": "inactive",
       "subcategory": "comedy",
       "verified_at": "2026-08-21"
     },
