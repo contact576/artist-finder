@@ -15447,13 +15447,14 @@
         "Hindi",
         "English"
       ],
-      "last_reviewed": "2026-08-21",
+      "last_reviewed": "2026-09-08",
       "measurement_keyword": "Indian Ocean",
       "merged_into": null,
       "name": "Indian Ocean",
       "niche_tags": [
         "live_bands"
       ],
+      "operator_prior_status": "verified",
       "primary_genre": "live_bands",
       "regions": [
         "Delhi",
@@ -15462,7 +15463,7 @@
       "research_state": "public_identity_review",
       "slug": "indian-ocean",
       "source": "public_web_roster_review",
-      "status": "verified",
+      "status": "inactive",
       "subcategory": "Indian fusion rock",
       "verified_at": "2026-08-21"
     },
