@@ -20013,16 +20013,17 @@
         "url": null
       },
       "keyword_review_state": "pending",
-      "last_reviewed": null,
+      "last_reviewed": "2026-09-08",
       "measurement_keyword": "Lil Wayne",
       "merged_into": null,
       "name": "Lil Wayne",
       "niche_tags": [],
+      "operator_prior_status": "candidate",
       "primary_genre": "other",
       "research_state": "legacy_unreviewed",
       "slug": "lil-wayne",
       "source": "legacy_watchlist_migration",
-      "status": "candidate",
+      "status": "inactive",
       "verified_at": null
     },
     "lillete-dubey": {
