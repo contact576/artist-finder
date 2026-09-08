@@ -151,6 +151,14 @@
       "new_value": true,
       "prior_value": false,
       "timestamp": "2026-09-08T07:01:53Z"
+    },
+    {
+      "action": "artist_favorited",
+      "artist_slug": "sunil-grover",
+      "changed": true,
+      "new_value": true,
+      "prior_value": false,
+      "timestamp": "2026-09-08T19:21:16Z"
     }
   ],
   "favorites": [
@@ -160,6 +168,7 @@
     "pranit-more",
     "samay-raina",
     "sonu-nigam",
+    "sunil-grover",
     "vishal-dadlani",
     "vishal-shekhar"
   ],
