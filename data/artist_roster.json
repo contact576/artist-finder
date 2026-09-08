@@ -21458,13 +21458,14 @@
       "languages": [
         "Various"
       ],
-      "last_reviewed": "2026-08-21",
+      "last_reviewed": "2026-09-08",
       "measurement_keyword": "Mano",
       "merged_into": null,
       "name": "Mano",
       "niche_tags": [
         "bollywood_playback"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "bollywood_playback",
       "regions": [
         "India"
@@ -21472,7 +21473,7 @@
       "research_state": "directory_candidate",
       "slug": "mano",
       "source": "researched_directory_candidate",
-      "status": "candidate",
+      "status": "inactive",
       "subcategory": "bollywood playback",
       "verified_at": null
     },
