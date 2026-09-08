@@ -1,12 +1,13 @@
 """Local-only Artist Finder dashboard and operator API; no public binding or credential access."""
 from __future__ import annotations
-import argparse, http.client, json, os, secrets, subprocess, sys, tempfile, threading, time, uuid, webbrowser
+import argparse, hashlib, http.client, json, os, secrets, subprocess, sys, tempfile, threading, time, uuid, webbrowser
 from http import HTTPStatus
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path, PurePosixPath
 from urllib.parse import unquote, urlsplit, parse_qs
 
 HERE = Path(__file__).resolve().parent; BASE = HERE.parent; SCOUT = BASE / 'scout'; DEFAULT_DIRECTORY = BASE / 'out' / 'dashboard'; AUDIT_PATH = BASE / 'out' / 'operator_audit.json'; FAVORITES_PATH = BASE / 'out' / 'favorites.json'
+MAX_BODY_BYTES = 262_144
 sys.path.insert(0, str(SCOUT)); import roster  # noqa: E402
 
 class OperatorApp:
@@ -50,6 +51,28 @@ class OperatorApp:
                 finally:
                     if os.path.exists(tmp): os.unlink(tmp)
             return dict(slug=slug, favorite=favorite, previous_value=prior, changed=changed, count=len(favorites))
+    def set_favorites(self, slugs, favorite):
+        """Persist a validated artist set with one atomic favorites write."""
+        if not isinstance(favorite, bool): raise ValueError('favorite must be true or false')
+        registry = roster.load(self.roster_path); targets = roster.operator_validate_slugs(slugs, registry)
+        with self.lock:
+            try: data = json.loads(self.favorites_path.read_text(encoding='utf-8')) if self.favorites_path.exists() else {}
+            except (OSError, ValueError): data = {}
+            values = data.get('favorites', []) if isinstance(data, dict) else []
+            favorites = {item for item in values if isinstance(item, str)}
+            changed = [slug for slug in targets if (slug in favorites) != favorite]
+            if favorite: favorites.update(targets)
+            else: favorites.difference_update(targets)
+            if changed:
+                payload = dict(schema_version=1, favorites=sorted(favorites))
+                self.favorites_path.parent.mkdir(parents=True, exist_ok=True); fd, tmp = tempfile.mkstemp(prefix='.favorites.', suffix='.tmp', dir=self.favorites_path.parent)
+                try:
+                    with os.fdopen(fd, 'w', encoding='utf-8', newline='\n') as h: json.dump(payload, h, ensure_ascii=False, indent=2); h.write('\n'); h.flush(); os.fsync(h.fileno())
+                    os.replace(tmp, self.favorites_path)
+                finally:
+                    if os.path.exists(tmp): os.unlink(tmp)
+            return dict(favorite=favorite, requested_count=len(targets), changed_count=len(changed),
+                        changed_slugs=changed, favorites=sorted(favorites), count=len(favorites))
     def audit(self, action, slug=None, detail=None):
         row = dict(at=time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()), action=action, slug=slug, detail=detail or {})
         with self.lock:
@@ -108,7 +131,7 @@ def make_handler(app):
             if self.headers.get('Content-Type','').split(';',1)[0].lower() != 'application/json': self._error(HTTPStatus.UNSUPPORTED_MEDIA_TYPE,'application/json content type required'); return None
             try:
                 length=int(self.headers.get('Content-Length','0'))
-                if length < 2 or length > 32768: raise ValueError()
+                if length < 2 or length > MAX_BODY_BYTES: raise ValueError()
                 value=json.loads(self.rfile.read(length).decode('utf-8'))
                 if not isinstance(value,dict): raise ValueError()
                 return value
@@ -152,6 +175,17 @@ def make_handler(app):
                     with app.lock:
                         artist=roster.operator_add_artist(body.get('name'),body.get('category'),body.get('measurement_keyword'),body.get('evidence_url'),path=app.roster_path); app.rebuild_dashboard(); app.audit('artist_added',artist['slug'])
                     return self._json(201,dict(artist=artist,generated_at=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())))
+                if path == '/api/artists/bulk/favorite':
+                    value=app.set_favorites(body.get('slugs'), body.get('favorite'))
+                    targets=body.get('slugs') or []; digest=hashlib.sha256('\n'.join(targets).encode('utf-8')).hexdigest()
+                    app.audit('artists_bulk_favorited' if value['favorite'] else 'artists_bulk_unfavorited', detail=dict(requested_count=value['requested_count'], changed_count=value['changed_count'], target_slugs=targets[:100], target_list_truncated=len(targets)>100, target_digest=digest))
+                    return self._json(200,dict(**value,generated_at=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())))
+                if path == '/api/artists/bulk/status':
+                    with app.lock:
+                        value=roster.operator_set_status_bulk(body.get('slugs'),body.get('active'),path=app.roster_path); app.rebuild_dashboard()
+                        targets=body.get('slugs') or []; digest=hashlib.sha256('\n'.join(targets).encode('utf-8')).hexdigest()
+                        app.audit('artists_bulk_status_changed',detail=dict(active=value['active'],requested_count=value['requested_count'],changed_count=value['changed_count'],target_slugs=targets[:100],target_list_truncated=len(targets)>100,target_digest=digest))
+                    return self._json(200,dict(**value,generated_at=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())))
                 bits=path.split('/'); slug=bits[3] if len(bits)==5 else None
                 if slug and bits[-1]=='favorite':
                     value=app.set_favorite(slug, body.get('favorite'))
@@ -214,6 +248,8 @@ def _selftest():
         meta_status,meta=request('GET','/api/v1/meta'); token=meta.get('csrf_token')
         created_status,created=request('POST','/api/artists',dict(name='Fixture Artist',category='comedy',measurement_keyword='Fixture Artist'),token)
         slug=created.get('artist',{}).get('slug')
+        second_status,second=request('POST','/api/artists',dict(name='Second Fixture',category='comedy',measurement_keyword='Second Fixture'),token)
+        second_slug=second.get('artist',{}).get('slug')
         patch_status,patched=request('PATCH',f'/api/artists/{slug}',dict(name='Renamed Fixture',aliases=['Fixture Alias'],evidence_url='https://example.com/evidence',evidence_note='Public identity page.',keyword='Renamed Fixture Live',action='replace',category='devotional'),token)
         registry_before_favorite=json.dumps(roster.load(str(reg)), sort_keys=True)
         favorite_status,favorited=request('POST',f'/api/artists/{slug}/favorite',dict(favorite=True),token)
@@ -224,9 +260,20 @@ def _selftest():
         favorite_list_status,favorite_list=request('GET','/api/v1/favorites')
         restarted=OperatorApp(root, str(reg), audit, favorites, True)
         restart_favorites=restarted.favorites()
+        bulk_favorite_status,bulk_favorite=request('POST','/api/artists/bulk/favorite',dict(slugs=[slug,second_slug],favorite=True),token)
+        favorite_before_invalid=app.favorites()
+        invalid_bulk_favorite_status,_=request('POST','/api/artists/bulk/favorite',dict(slugs=[slug,'not-a-real-artist'],favorite=False),token)
+        invalid_bulk_favorite_atomic=app.favorites()==favorite_before_invalid
+        bulk_unfavorite_status,bulk_unfavorite=request('POST','/api/artists/bulk/favorite',dict(slugs=[slug,second_slug],favorite=False),token)
+        roster_unchanged=registry_before_favorite==json.dumps(roster.load(str(reg)), sort_keys=True)
+        status_before_invalid=json.dumps(roster.load(str(reg)),sort_keys=True)
+        invalid_bulk_status,_=request('POST','/api/artists/bulk/status',dict(slugs=[slug,'not-a-real-artist'],active=False),token)
+        invalid_bulk_status_atomic=json.dumps(roster.load(str(reg)),sort_keys=True)==status_before_invalid
+        bulk_archive_status,bulk_archive=request('POST','/api/artists/bulk/status',dict(slugs=[slug,second_slug],active=False),token)
+        bulk_restore_status,bulk_restore=request('POST','/api/artists/bulk/status',dict(slugs=[slug,second_slug],active=True),token)
         state_status,state=request('GET','/api/dashboard/status'); traversal,_=request('GET','/%2e%2e/secret')
-        saved=roster.load(str(reg))['artists'].get(slug) or {}; roster_unchanged=registry_before_favorite==json.dumps(roster.load(str(reg)), sort_keys=True); audit_rows=json.loads(audit.read_text(encoding='utf-8')).get('entries', []); job=app.begin_refresh()
-        checks=[('CSRF rejection',denied==403),('metadata exposes CSRF',meta_status==200 and bool(token)),('valid mutation succeeds',created_status==201),('PATCH edits and preserves slug',patch_status==200 and patched['artist']['slug']==slug and patched['artist']['name']=='Renamed Fixture' and 'Fixture Artist' in patched['artist']['aliases']),('PATCH persists candidate keyword review',saved.get('measurement_keyword')=='Renamed Fixture Live' and saved.get('keyword_review_state')=='pending' and saved.get('primary_genre')=='devotional' and saved.get('category_history')),('favorite validates and persists',favorite_status==200 and favorited['favorite'] and favorited['changed'] and favorites.is_file()),('duplicate favorite is idempotent',duplicate_status==200 and duplicate['favorite'] and not duplicate['changed']),('unknown favorite slug is rejected',invalid_status==400),('unfavorite persists',unfavorite_status==200 and not unfavorited['favorite'] and unfavorited['changed']),('favorite survives app reload',refavorite_status==200 and refavorited['favorite'] and favorite_list_status==200 and favorite_list['favorites']==[slug] and restart_favorites==[slug]),('favorite leaves analytics registry unchanged',roster_unchanged),('favorite audit records prior and new values',len([row for row in audit_rows if row['action'] in ('artist_favorited','artist_unfavorited')])==4 and all('prior_value' in row['detail'] and 'new_value' in row['detail'] for row in audit_rows if row['action'] in ('artist_favorited','artist_unfavorited'))),('sanitized status',state_status==200 and 'state' in state),('traversal rejected',traversal==403),('fixture refresh is no-write',job['state']=='success' and not (root/'dashboard-data.json').exists()),('atomic audit exists',audit.is_file())]
+        saved=roster.load(str(reg))['artists'].get(slug) or {}; audit_rows=json.loads(audit.read_text(encoding='utf-8')).get('entries', []); job=app.begin_refresh()
+        checks=[('CSRF rejection',denied==403),('metadata exposes CSRF',meta_status==200 and bool(token)),('valid mutation succeeds',created_status==201 and second_status==201),('PATCH edits and preserves slug',patch_status==200 and patched['artist']['slug']==slug and patched['artist']['name']=='Renamed Fixture' and 'Fixture Artist' in patched['artist']['aliases']),('PATCH persists candidate keyword review',saved.get('measurement_keyword')=='Renamed Fixture Live' and saved.get('keyword_review_state')=='pending' and saved.get('primary_genre')=='devotional' and saved.get('category_history')),('favorite validates and persists',favorite_status==200 and favorited['favorite'] and favorited['changed'] and favorites.is_file()),('duplicate favorite is idempotent',duplicate_status==200 and duplicate['favorite'] and not duplicate['changed']),('unknown favorite slug is rejected',invalid_status==400),('unfavorite persists',unfavorite_status==200 and not unfavorited['favorite'] and unfavorited['changed']),('favorite survives app reload',refavorite_status==200 and refavorited['favorite'] and favorite_list_status==200 and favorite_list['favorites']==[slug] and restart_favorites==[slug]),('bulk favorite uses one validated atomic response',bulk_favorite_status==200 and bulk_favorite['requested_count']==2 and bulk_favorite['changed_count']==1 and set(bulk_favorite['favorites'])=={slug,second_slug}),('invalid bulk favorite is all-or-nothing',invalid_bulk_favorite_status==400 and invalid_bulk_favorite_atomic),('bulk unfavorite persists both artists',bulk_unfavorite_status==200 and bulk_unfavorite['changed_count']==2 and bulk_unfavorite['favorites']==[]),('favorite leaves analytics registry unchanged',roster_unchanged),('bulk status rejects the whole invalid target set',invalid_bulk_status==400 and invalid_bulk_status_atomic),('bulk archive and restore are reversible',bulk_archive_status==200 and bulk_restore_status==200 and bulk_archive['changed_count']==2 and bulk_restore['changed_count']==2 and all(row['status']=='candidate' for row in bulk_restore['artists'])),('favorite audit records prior and new values',len([row for row in audit_rows if row['action'] in ('artist_favorited','artist_unfavorited')])==4 and all('prior_value' in row['detail'] and 'new_value' in row['detail'] for row in audit_rows if row['action'] in ('artist_favorited','artist_unfavorited'))),('bulk actions have bounded audit records',len([row for row in audit_rows if row['action'].startswith('artists_bulk_')])==4 and all('target_digest' in row['detail'] for row in audit_rows if row['action'].startswith('artists_bulk_'))),('sanitized status',state_status==200 and 'state' in state),('traversal rejected',traversal==403),('fixture refresh is no-write',job['state']=='success' and not (root/'dashboard-data.json').exists()),('atomic audit exists',audit.is_file())]
         ok=all(good for _,good in checks)
         for label,good in checks: print(f'  [{"ok " if good else "FAIL"}] {label}')
         print(f'\n  {"ALL CHECKS PASS" if ok else "SELF-TEST FAILED"}'); return 0 if ok else 1

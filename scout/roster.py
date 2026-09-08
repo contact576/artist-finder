@@ -27,6 +27,8 @@ STATUSES = ('candidate', 'verified', 'inactive', 'merged', 'rejected')
 ACTIVE_KINDS = ('artist', 'dj_night')
 RESEARCH_STATES = ('public_identity_review', 'directory_candidate', 'operator_candidate', 'identity_review_ambiguous', 'legacy_unreviewed')
 SEARCH_QUALITY_STATES = ('clean', 'qualified', 'ambiguous', 'unchecked')
+BULK_ARTIST_LIMIT = 2_000
+BULK_SLUG_LENGTH_LIMIT = 160
 
 
 def _read(path: str, default: Any) -> Any:
@@ -333,6 +335,41 @@ def operator_set_status(slug, active, data=None, save_now=True, path=None):
     if save_now: save(registry, path)
     return artist
 
+
+def operator_validate_slugs(slugs, data):
+    """Validate a complete bulk target before any artist is mutated."""
+    if not isinstance(slugs, list) or not slugs:
+        raise ValueError('slugs must be a non-empty list')
+    if len(slugs) > BULK_ARTIST_LIMIT:
+        raise ValueError(f'bulk actions are limited to {BULK_ARTIST_LIMIT} artists')
+    if any(not isinstance(slug, str) or not slug or len(slug) > BULK_SLUG_LENGTH_LIMIT for slug in slugs):
+        raise ValueError('every artist slug must be a valid string')
+    if len(set(slugs)) != len(slugs):
+        raise ValueError('artist slugs must be unique')
+    unknown = [slug for slug in slugs if slug not in data.get('artists', {})]
+    if unknown:
+        raise ValueError('unknown artist slug')
+    return list(slugs)
+
+
+def operator_set_status_bulk(slugs, active, data=None, save_now=True, path=None):
+    """Archive or restore a validated artist set with one durable save."""
+    registry = data if data is not None else load(path)
+    if not isinstance(active, bool):
+        raise ValueError('active must be boolean')
+    targets = operator_validate_slugs(slugs, registry)
+    artists, changed_slugs = [], []
+    for slug in targets:
+        prior = registry['artists'][slug].get('status')
+        artist = operator_set_status(slug, active, data=registry, save_now=False)
+        artists.append(artist)
+        if artist.get('status') != prior:
+            changed_slugs.append(slug)
+    if save_now:
+        save(registry, path)
+    return dict(artists=artists, active=active, requested_count=len(targets),
+                changed_count=len(changed_slugs), changed_slugs=changed_slugs)
+
 def operator_update_keyword(slug, keyword, action, previous_keyword=None, data=None, save_now=True, path=None):
     registry = data if data is not None else load(path); artist = registry['artists'].get(slug)
     if not artist: raise ValueError('unknown artist slug')
@@ -412,6 +449,19 @@ def _selftest() -> int:
         reviewed_at=None, note='Fixture legacy row.', url=None), first_seen='2026-08-21',
         verified_at=None, last_reviewed=None, merged_into=None, source='fixture',
         research_state='legacy_unreviewed', curated=False)
+    operator_add_artist('Operator Person', 'comedy', data=registry, save_now=False)
+    operator_add_artist('Second Operator', 'comedy', data=registry, save_now=False)
+    before_invalid_bulk = json.dumps(registry, sort_keys=True)
+    try:
+        operator_set_status_bulk(['operator-person', 'not-in-registry'], False,
+                                 data=registry, save_now=False)
+        invalid_bulk_rejected = False
+    except ValueError:
+        invalid_bulk_rejected = json.dumps(registry, sort_keys=True) == before_invalid_bulk
+    bulk_archived = operator_set_status_bulk(
+        ['operator-person', 'second-operator'], False, data=registry, save_now=False)
+    bulk_restored = operator_set_status_bulk(
+        ['operator-person', 'second-operator'], True, data=registry, save_now=False)
     checks = [
         ('generic keyword idea stays in review inbox',
          inbox['candidates'][model.slugify('bhajan_jamming-Bhajan Jamming')]['state'] == 'needs_review'),
@@ -423,15 +473,20 @@ def _selftest() -> int:
          len(measurement_artists(registry)) == 1),
         ('broad measurement includes researched candidates but excludes legacy phrases',
          [row['slug'] for row in measurement_artists(registry, include_candidates=True)] ==
-         ['example-performer', 'researched-candidate']),
+         ['example-performer', 'operator-person', 'researched-candidate', 'second-operator']),
         ('candidate import counted deterministically', result['added'] == 2),
-        ('operator add stays a candidate', operator_add_artist('Operator Person', 'comedy', data=registry, save_now=False)['status'] == 'candidate'),
+        ('operator add stays a candidate', registry['artists']['operator-person']['status'] == 'candidate'),
         ('operator add joins only broad next measurement pull', 'operator-person' not in [row['slug'] for row in measurement_artists(registry)] and 'operator-person' in [row['slug'] for row in measurement_artists(registry, include_candidates=True)]),
         ('operator category and keyword are validated', operator_set_category('operator-person', 'devotional', data=registry, save_now=False)['primary_genre'] == 'devotional' and operator_update_keyword('operator-person', 'Operator Person Live', 'replace', data=registry, save_now=False)['measurement_keyword'] == 'Operator Person Live' and registry['artists']['operator-person']['keyword_review_state'] == 'pending' and registry['artists']['operator-person']['category_history']),
         ('verified keyword replacement remains approved and measurable', operator_update_keyword('example-performer', 'Example Performer Live', 'replace', data=registry, save_now=False)['keyword_review_state'] == 'approved' and [row['slug'] for row in measurement_artists(registry)] == ['example-performer']),
         ('keyword variant is an alias, never a replacement', operator_update_keyword('example-performer', 'Example Performer Tickets', 'add', data=registry, save_now=False)['measurement_keyword'] == 'Example Performer Live' and registry['artists']['example-performer']['keyword_variants'] == ['Example Performer Tickets']),
         ('operator rename preserves slug and old alias', operator_edit_artist('operator-person', name='Renamed Operator', data=registry, save_now=False)['slug'] == 'operator-person' and 'Operator Person' in registry['artists']['operator-person']['aliases']),
         ('operator deactivation is reversible', operator_set_status('operator-person', False, data=registry, save_now=False)['status'] == 'inactive' and operator_set_status('operator-person', True, data=registry, save_now=False)['status'] == 'candidate'),
+        ('bulk status validates every target before mutation', invalid_bulk_rejected),
+        ('bulk archive and restore are one-save reversible operations',
+         bulk_archived['changed_count'] == 2 and bulk_restored['changed_count'] == 2
+         and all(registry['artists'][slug]['status'] == 'candidate'
+                 for slug in ('operator-person', 'second-operator'))),
         ('registry validates', validate(registry)),
     ]
     ok = True

@@ -55,7 +55,7 @@ DASHBOARD_ROOT = BASE / "out" / "dashboard"
 WORKFLOW_FILE = "artist-search-monthly.yml"
 FAVORITES_STATE_PATH = "data/operator_state/favorites.json"
 FAVORITES_AUDIT_LIMIT = 2_000
-MAX_BODY_BYTES = 32_768
+MAX_BODY_BYTES = 262_144
 SESSION_SECONDS = 8 * 60 * 60
 COOKIE_NAME = "artist_dashboard_session"
 STATIC_FILES = {
@@ -563,6 +563,49 @@ class DashboardApp:
                 last_error = exc
         raise last_error or GitHubConflict("Favorites changed remotely; please retry.")
 
+    def set_favorites(self, slugs: Any, favorite: Any) -> dict[str, Any]:
+        """Persist a validated artist set in one conflict-safe GitHub commit."""
+        if not isinstance(favorite, bool):
+            raise ValueError("favorite must be a boolean")
+        last_error: Exception | None = None
+        for _ in range(2):
+            roster_data, _ = self.github().get_roster()
+            targets = roster.operator_validate_slugs(slugs, roster_data)
+            valid_slugs = set(roster_data.get("artists", {}))
+            state, sha = self.github().get_favorites(valid_slugs)
+            values = set(state["favorites"])
+            changed = [slug for slug in targets if (slug in values) != favorite]
+            if favorite:
+                values.update(targets)
+            else:
+                values.difference_update(targets)
+            state["favorites"] = sorted(values)
+            state["audit"] = (state["audit"] + [{
+                "timestamp": _now_utc(),
+                "action": "artists_bulk_favorited" if favorite else "artists_bulk_unfavorited",
+                "requested_count": len(targets),
+                "changed_count": len(changed),
+                "target_slugs": targets[:100],
+                "target_list_truncated": len(targets) > 100,
+                "target_digest": hashlib.sha256("\n".join(targets).encode("utf-8")).hexdigest(),
+            }])[-FAVORITES_AUDIT_LIMIT:]
+            try:
+                self.github().commit_favorites(
+                    state, sha,
+                    f"artist favorites: bulk {'favorite' if favorite else 'unfavorite'} {len(targets)} artists",
+                )
+                return {
+                    "favorite": favorite,
+                    "requested_count": len(targets),
+                    "changed_count": len(changed),
+                    "changed_slugs": changed,
+                    "favorites": state["favorites"],
+                    "count": len(state["favorites"]),
+                }
+            except GitHubConflict as exc:
+                last_error = exc
+        raise last_error or GitHubConflict("Favorites changed remotely; please retry.")
+
 
 def _validate_favorites_state(value: Any, valid_slugs: set[str]) -> dict[str, Any]:
     if not isinstance(value, dict) or value.get("schema_version") != 1:
@@ -751,6 +794,15 @@ def make_handler(app: DashboardApp):
                     )
                     return self._json(HTTPStatus.CREATED, {"artist": artist,
                                                             "generated_at": _now_utc()})
+                if path == "/api/artists/bulk/favorite":
+                    return self._json(200, app.set_favorites(body.get("slugs"), body.get("favorite")))
+                if path == "/api/artists/bulk/status":
+                    result = app.mutate_roster(
+                        lambda data: roster.operator_set_status_bulk(
+                            body.get("slugs"), body.get("active"), data=data, save_now=False),
+                        "artist roster: bulk status update",
+                    )
+                    return self._json(200, {**result, "generated_at": _now_utc()})
                 parts = path.split("/")
                 if len(parts) == 5 and parts[:3] == ["", "api", "artists"]:
                     slug, action = parts[3], parts[4]
@@ -862,6 +914,7 @@ class _FakeGitHub:
         self.favorites_sha: str | None = None
         self.commits = 0
         self.roster_commits = 0
+        self.favorite_commits = 0
         self.dispatched: list[str] = []
 
     def get_roster(self) -> tuple[dict[str, Any], str]:
@@ -886,6 +939,7 @@ class _FakeGitHub:
             raise GitHubConflict("fixture favorite conflict")
         self.favorites = json.loads(json.dumps(data))
         self.commits += 1
+        self.favorite_commits += 1
         self.favorites_sha = f"favorite-fixture-{self.commits}"
         return self.favorites_sha
 
@@ -1031,6 +1085,21 @@ def _selftest() -> int:
         favorite_removed, _, favorite_removed_raw = request("POST", "/api/artists/fixture-artist/favorite", {"favorite": False}, cookie=cookie, csrf=csrf)
         favorite_invalid, _, _ = request("POST", "/api/artists/not-in-roster/favorite", {"favorite": True}, cookie=cookie, csrf=csrf)
         dashboard_after, dashboard_after_headers, dashboard_after_body = request("GET", "/api/dashboard", cookie=cookie, gzip_ok=True)
+        added_second, _, _ = request("POST", "/api/artists", {"name": "Second Fixture", "category": "comedy", "measurement_keyword": "Second Fixture"}, cookie=cookie, csrf=csrf)
+        favorite_commits_before_bulk = fake.favorite_commits
+        bulk_favorite, _, bulk_favorite_raw = request("POST", "/api/artists/bulk/favorite", {"slugs": ["fixture-artist", "second-fixture"], "favorite": True}, cookie=cookie, csrf=csrf)
+        favorites_before_invalid_bulk = json.dumps(fake.favorites, sort_keys=True)
+        bulk_favorite_invalid, _, _ = request("POST", "/api/artists/bulk/favorite", {"slugs": ["fixture-artist", "not-in-roster"], "favorite": False}, cookie=cookie, csrf=csrf)
+        bulk_favorite_invalid_atomic = json.dumps(fake.favorites, sort_keys=True) == favorites_before_invalid_bulk
+        bulk_unfavorite, _, bulk_unfavorite_raw = request("POST", "/api/artists/bulk/favorite", {"slugs": ["fixture-artist", "second-fixture"], "favorite": False}, cookie=cookie, csrf=csrf)
+        favorite_bulk_commit_count = fake.favorite_commits - favorite_commits_before_bulk
+        roster_before_invalid_bulk = json.dumps(fake.data, sort_keys=True)
+        roster_commits_before_bulk = fake.roster_commits
+        bulk_status_invalid, _, _ = request("POST", "/api/artists/bulk/status", {"slugs": ["fixture-artist", "not-in-roster"], "active": False}, cookie=cookie, csrf=csrf)
+        bulk_status_invalid_atomic = json.dumps(fake.data, sort_keys=True) == roster_before_invalid_bulk
+        bulk_archived, _, bulk_archived_raw = request("POST", "/api/artists/bulk/status", {"slugs": ["fixture-artist", "second-fixture"], "active": False}, cookie=cookie, csrf=csrf)
+        bulk_restored, _, bulk_restored_raw = request("POST", "/api/artists/bulk/status", {"slugs": ["fixture-artist", "second-fixture"], "active": True}, cookie=cookie, csrf=csrf)
+        roster_bulk_commit_count = fake.roster_commits - roster_commits_before_bulk
         keyword_changed, _, _ = request("POST", "/api/artists/fixture-artist/keywords",
                                         {"keyword": "Fixture Artist New", "action": "replace",
                                          "previous_keyword": "Fixture Artist"},
@@ -1046,6 +1115,10 @@ def _selftest() -> int:
         favorite_added_data = json.loads(favorite_added_raw)
         favorite_duplicate_data = json.loads(favorite_duplicate_raw)
         favorite_removed_data = json.loads(favorite_removed_raw)
+        bulk_favorite_data = json.loads(bulk_favorite_raw)
+        bulk_unfavorite_data = json.loads(bulk_unfavorite_raw)
+        bulk_archived_data = json.loads(bulk_archived_raw)
+        bulk_restored_data = json.loads(bulk_restored_raw)
         dashboard_data = json.loads(gzip.decompress(dash_body))
         dashboard_reload_data = json.loads(gzip.decompress(dashboard_reload_body))
         static_reload_data = json.loads(gzip.decompress(static_reload_body))
@@ -1070,6 +1143,8 @@ def _selftest() -> int:
              discovery_incomplete == "incomplete" and discovery_success == "success"),
             ("GitHub-backed add commits with aliases", added == 201 and fake.roster_commits >= 1
              and fake.data["artists"]["fixture-artist"]["aliases"] == ["Fixture Alias"]),
+            ("second artist is available for bulk operations", added_second == 201
+             and "second-fixture" in fake.data["artists"]),
             ("favorites begin empty", favorite_initial == 200 and favorite_initial_data == {"favorites": [], "count": 0}),
             ("favorite validates and persists", favorite_added == 200
              and favorite_added_data["changed"]
@@ -1085,9 +1160,23 @@ def _selftest() -> int:
              and favorite_removed_data["favorites"] == []
              and favorite_removed_data["count"] == 0),
             ("unknown favorite identifier is rejected", favorite_invalid == 400),
-            ("favorite audit records every valid mutation", len(fake.favorites["audit"]) == 3
-             and fake.favorites["audit"][0]["prior_value"] is False
-             and fake.favorites["audit"][-1]["new_value"] is False),
+            ("favorite audit records every valid single mutation",
+             len([row for row in fake.favorites["audit"] if row["action"] in ("artist_favorited", "artist_unfavorited")]) == 3
+             and fake.favorites["audit"][0]["prior_value"] is False),
+            ("bulk favorites commit once per valid request", bulk_favorite == 200
+             and bulk_unfavorite == 200 and favorite_bulk_commit_count == 2
+             and bulk_favorite_data["requested_count"] == 2
+             and bulk_favorite_data["changed_count"] == 2
+             and bulk_unfavorite_data["favorites"] == []),
+            ("invalid bulk favorites are all-or-nothing", bulk_favorite_invalid == 400
+             and bulk_favorite_invalid_atomic),
+            ("bulk status commits once and is reversible", bulk_archived == 200
+             and bulk_restored == 200 and roster_bulk_commit_count == 2
+             and bulk_archived_data["changed_count"] == 2
+             and bulk_restored_data["changed_count"] == 2
+             and all(row["status"] == "candidate" for row in bulk_restored_data["artists"])),
+            ("invalid bulk status is all-or-nothing", bulk_status_invalid == 400
+             and bulk_status_invalid_atomic),
             ("operator commits use the deployable bot identity",
              committed_sha == "committed-fixture-sha"
              and operator_commit_payload.get("author", {}).get("name") == "artist-search-refresh[bot]"

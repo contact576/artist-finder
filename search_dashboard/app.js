@@ -3,12 +3,13 @@
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
   const geoLabels = { in: 'India', us: 'USA', ca: 'Canada' };
-  const state = { data: null, geo: 'in', month: null, sort: 'latest', direction: -1, page: 1, pageSize: 25, lastTrigger: null, selectedSlug: null, refreshJobId: null, refreshStartedAt: null, refreshPromise: null, csrfToken: null, metaPromise: null, meta: null, favoriteSlugs: new Set(), favoritesLoaded: false, favoritePending: new Set(), favoriteMutations: new Map(), favoriteNextMutation: 0, favoriteLastResponse: 0, favoritesOnly: false, artistStatusPending: new Set(), eligibilityAvailable: false };
+  const state = { data: null, geo: 'in', month: null, sort: 'latest', direction: -1, page: 1, pageSize: 25, lastTrigger: null, selectedSlug: null, refreshJobId: null, refreshStartedAt: null, refreshPromise: null, csrfToken: null, metaPromise: null, meta: null, favoriteSlugs: new Set(), favoritesLoaded: false, favoritePending: new Set(), favoriteMutations: new Map(), favoriteNextMutation: 0, favoriteLastResponse: 0, favoritesOnly: false, artistStatusPending: new Set(), selectedSlugs: new Set(), lastSelectedSlug: null, bulkPending: false, eligibilityAvailable: false };
   const refreshStorageKey = 'artist-search-refresh-job';
   const refreshPollingTimeout = 40 * 60 * 1000;
 
   const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
   const fmt = value => value == null || Number.isNaN(Number(value)) ? '—' : Number(value).toLocaleString('en-US', { maximumFractionDigits: 0 });
+  const artistCount = value => `${fmt(value)} artist${Number(value) === 1 ? '' : 's'}`;
   const pct = value => value == null || Number.isNaN(Number(value)) ? '—' : `${value >= 0 ? '+' : ''}${(value * 100).toFixed(Math.abs(value) >= 1 ? 0 : 1)}%`;
   const yoyLabel = value => value == null || Number.isNaN(Number(value)) ? 'Unavailable' : pct(value);
   const selectedValue = value => value == null || Number.isNaN(Number(value)) ? 'Unavailable' : `${fmt(value)} measured`;
@@ -96,13 +97,13 @@
   function isFavorite(row) { return state.favoriteSlugs.has(row.slug); }
   function favoriteButton(row, extraClass = '') {
     const active = isFavorite(row);
-    const pending = state.favoritePending.has(row.slug);
+    const pending = state.bulkPending || state.favoritePending.has(row.slug);
     const action = pending ? 'Saving Favorite' : active ? 'Remove from Favorites' : 'Add to Favorites';
     return `<button type="button" class="favorite-toggle ${extraClass} ${active ? 'active' : ''} ${pending ? 'pending' : ''}" data-favorite="${escapeHtml(row.slug)}" aria-pressed="${active}" aria-busy="${pending}" aria-label="${action}: ${escapeHtml(row.name)}" title="${action}"${pending ? ' disabled' : ''}><span aria-hidden="true">${pending ? '…' : active ? '★' : '☆'}</span></button>`;
   }
   function rowStatusButton(row) {
     const restore = row.status === 'inactive';
-    const pending = state.artistStatusPending.has(row.slug);
+    const pending = state.bulkPending || state.artistStatusPending.has(row.slug);
     const action = restore ? 'Restore' : 'Archive';
     return `<button type="button" class="row-status-toggle ${restore ? 'restore' : 'archive'} ${pending ? 'pending' : ''}" data-row-status="${escapeHtml(row.slug)}" data-active="${restore}" aria-busy="${pending}" aria-label="${pending ? 'Saving' : action} artist: ${escapeHtml(row.name)}" title="${action} artist"${pending ? ' disabled' : ''}>${pending ? 'Saving…' : action}</button>`;
   }
@@ -331,6 +332,45 @@
     if (!series?.length) return '<span class="unknown">No series</span>';
     return `<canvas class="${full ? 'detail-chart' : 'spark'} ${extraClass}" data-series="${encodeURIComponent(JSON.stringify(series))}"${full ? ' data-full="true"' : ''} role="img" aria-label="${escapeHtml(label || (full ? 'Full available monthly search history' : '12-month search trend'))}"></canvas>`;
   }
+  function clearArtistSelection(render = true) {
+    state.selectedSlugs.clear(); state.lastSelectedSlug = null;
+    if (render) renderArtists();
+  }
+  function visibleArtistRows(rows = filteredArtists()) {
+    const start = (state.page - 1) * state.pageSize;
+    return rows.slice(start, start + state.pageSize);
+  }
+  function selectArtistRange(slug, checked, shiftKey) {
+    const rows = filteredArtists();
+    const current = rows.findIndex(row => row.slug === slug);
+    const anchor = rows.findIndex(row => row.slug === state.lastSelectedSlug);
+    if (shiftKey && current >= 0 && anchor >= 0) {
+      rows.slice(Math.min(current, anchor), Math.max(current, anchor) + 1).forEach(row => {
+        if (checked) state.selectedSlugs.add(row.slug); else state.selectedSlugs.delete(row.slug);
+      });
+    } else if (checked) state.selectedSlugs.add(slug);
+    else state.selectedSlugs.delete(slug);
+    state.lastSelectedSlug = slug;
+    renderArtists();
+  }
+  function renderBulkControls(visible) {
+    const rowsBySlug = new Map(state.data.artists.map(row => [row.slug, row]));
+    [...state.selectedSlugs].forEach(slug => { if (!rowsBySlug.has(slug)) state.selectedSlugs.delete(slug); });
+    const selected = [...state.selectedSlugs].map(slug => rowsBySlug.get(slug)).filter(Boolean);
+    const count = selected.length;
+    const bar = $('#bulk-action-bar'); bar.hidden = count === 0;
+    $('#bulk-selected-count').textContent = `${fmt(count)} selected`;
+    const favorite = $('#bulk-favorite'); const makeFavorite = !count || !selected.every(isFavorite);
+    favorite.dataset.favorite = String(makeFavorite); favorite.textContent = state.bulkPending ? 'Saving…' : makeFavorite ? 'Add to Favorites' : 'Remove from Favorites';
+    const status = $('#bulk-status'); const active = count > 0 && selected.every(row => row.status === 'inactive');
+    status.dataset.active = String(active); status.textContent = state.bulkPending ? 'Saving…' : active ? 'Restore selected' : 'Archive selected';
+    const mutationsPending = state.bulkPending || state.favoritePending.size > 0 || state.artistStatusPending.size > 0;
+    [favorite, status, $('#bulk-clear')].forEach(button => { button.disabled = !count || mutationsPending; });
+    const pageSelector = $('#select-page'); const selectedOnPage = visible.filter(row => state.selectedSlugs.has(row.slug)).length;
+    pageSelector.checked = visible.length > 0 && selectedOnPage === visible.length;
+    pageSelector.indeterminate = selectedOnPage > 0 && selectedOnPage < visible.length;
+    pageSelector.disabled = !visible.length || mutationsPending;
+  }
   function renderArtists() {
     const rows = filteredArtists();
     const pages = Math.max(1, Math.ceil(rows.length / state.pageSize));
@@ -346,10 +386,11 @@
       const yoyTone = m.yoy == null ? 'unknown' : m.yoy >= 0 ? 'positive' : 'negative';
       const eligibility = bookingEligibility(row);
       const eligibilityCell = state.eligibilityAvailable ? badge(eligibilityLabel(eligibility.status), eligibilityTone(eligibility.status)) : '<span class="unknown">Not assessed</span>';
-      return `<tr tabindex="0" data-open="${escapeHtml(row.slug)}" aria-label="Open details for ${escapeHtml(row.name)}"><td class="artist-actions-cell"><div class="row-actions">${favoriteButton(row)}${rowStatusButton(row)}</div></td><td><span class="artist-name"><strong>${escapeHtml(row.name)}</strong><small>${escapeHtml(row.measurement_keyword || 'Keyword pending')}${source.mapping_mode === 'close_variant' ? ' · close variant' : ''}</small></span></td><td>${escapeHtml(genreLabel(row.primary_genre))}</td><td>${badge(title(row.status), toneForStatus(row.status))}</td><td>${eligibilityCell}</td><td><strong>${selectedValue(m.latest)}</strong><small class="table-subline">${monthLabel(state.month)}</small></td><td class="${changeTone}">${m.absolute == null ? '—' : `${m.absolute >= 0 ? '+' : ''}${fmt(m.absolute)}`}</td><td class="${changeTone}">${pct(m.mom)}</td><td>${averageLabel(m.average3)}</td><td>${averageLabel(m.average6)}</td><td>${averageLabel(m.average12)}</td><td class="${yoyTone}">${yoyLabel(m.yoy)}</td><td>${badge(title(mapping.label), mapping.mode === 'exact' ? 'good' : mapping.mode === 'close_variant' ? 'warn' : 'neutral')}</td><td>${escapeHtml(String(fetched).slice(0, 10))}</td><td>${chartCanvas(m.series)}</td></tr>`;
-    }).join('') : `<tr class="empty-row"><td colspan="15"><div class="empty">${state.favoritesOnly ? 'No favorite artists match these filters. Use the star button to save an artist, or adjust the existing filters.' : 'No artists match these filters. Try All combined, another booking check, or a different roster scope.'}</div></td></tr>`;
+      const selected = state.selectedSlugs.has(row.slug);
+      return `<tr tabindex="0" data-open="${escapeHtml(row.slug)}" aria-label="Open details for ${escapeHtml(row.name)}"><td class="artist-select-cell"><input type="checkbox" data-select-artist="${escapeHtml(row.slug)}" aria-label="Select ${escapeHtml(row.name)}"${selected ? ' checked' : ''}${state.bulkPending ? ' disabled' : ''}></td><td class="artist-actions-cell"><div class="row-actions">${favoriteButton(row)}${rowStatusButton(row)}</div></td><td><span class="artist-name"><strong>${escapeHtml(row.name)}</strong><small>${escapeHtml(row.measurement_keyword || 'Keyword pending')}${source.mapping_mode === 'close_variant' ? ' · close variant' : ''}</small></span></td><td>${escapeHtml(genreLabel(row.primary_genre))}</td><td>${badge(title(row.status), toneForStatus(row.status))}</td><td>${eligibilityCell}</td><td><strong>${selectedValue(m.latest)}</strong><small class="table-subline">${monthLabel(state.month)}</small></td><td class="${changeTone}">${m.absolute == null ? '—' : `${m.absolute >= 0 ? '+' : ''}${fmt(m.absolute)}`}</td><td class="${changeTone}">${pct(m.mom)}</td><td>${averageLabel(m.average3)}</td><td>${averageLabel(m.average6)}</td><td>${averageLabel(m.average12)}</td><td class="${yoyTone}">${yoyLabel(m.yoy)}</td><td>${badge(title(mapping.label), mapping.mode === 'exact' ? 'good' : mapping.mode === 'close_variant' ? 'warn' : 'neutral')}</td><td>${escapeHtml(String(fetched).slice(0, 10))}</td><td>${chartCanvas(m.series)}</td></tr>`;
+    }).join('') : `<tr class="empty-row"><td colspan="16"><div class="empty">${state.favoritesOnly ? 'No favorite artists match these filters. Use the star button to save an artist, or adjust the existing filters.' : 'No artists match these filters. Try All combined, another booking check, or a different roster scope.'}</div></td></tr>`;
     $$('.sort').forEach(button => button.setAttribute('aria-sort', button.dataset.sort === state.sort ? (state.direction === 1 ? 'ascending' : 'descending') : 'none'));
-    renderPagination(pages); drawCharts($('#artist-body'));
+    renderPagination(pages); renderBulkControls(visible); drawCharts($('#artist-body'));
   }
   function renderPagination(pages) {
     const button = page => `<button type="button" data-page="${page}" class="${page === state.page ? 'active' : ''}" aria-label="Page ${page}"${page === state.page ? ' aria-current="page"' : ''}>${page}</button>`;
@@ -466,7 +507,7 @@
   }
   async function toggleFavorite(slug, trigger) {
     const row = state.data.artists.find(item => item.slug === slug);
-    if (!row || state.favoritePending.has(slug)) return;
+    if (!row || state.bulkPending || state.favoritePending.has(slug)) return;
     const favorite = !isFavorite(row);
     const mutation = ++state.favoriteNextMutation;
     state.favoritePending.add(slug);
@@ -532,7 +573,7 @@
   }
   async function updateArtistStatus(slug, active, trigger) {
     const row = state.data.artists.find(item => item.slug === slug);
-    if (!row || state.artistStatusPending.has(slug)) return;
+    if (!row || state.bulkPending || state.artistStatusPending.has(slug)) return;
     state.artistStatusPending.add(slug);
     renderArtists();
     showRefreshStatus(`${active ? 'Restoring' : 'Archiving'} ${row.name}…`, 'running');
@@ -547,6 +588,39 @@
       state.artistStatusPending.delete(slug);
       renderAll();
       if (trigger?.isConnected) trigger.disabled = false;
+    }
+  }
+  async function updateBulkFavorites(favorite) {
+    const slugs = [...state.selectedSlugs];
+    if (!slugs.length || state.bulkPending || state.favoritePending.size || state.artistStatusPending.size) return;
+    state.bulkPending = true; renderArtists();
+    showRefreshStatus(`${favorite ? 'Adding' : 'Removing'} ${artistCount(slugs.length)} ${favorite ? 'to' : 'from'} Favorites…`, 'running');
+    try {
+      const result = await apiRequest('/api/artists/bulk/favorite', { method: 'POST', body: JSON.stringify({ slugs, favorite }) });
+      state.favoriteSlugs = new Set(result.favorites || []);
+      clearArtistSelection(false);
+      showRefreshStatus(`${artistCount(result.changed_count)} ${favorite ? 'added to' : 'removed from'} Favorites.`, 'success');
+    } catch (error) {
+      showRefreshStatus(`Bulk Favorite action was not saved: ${error.message}`, 'error');
+    } finally {
+      state.bulkPending = false; renderAll();
+    }
+  }
+  async function updateBulkStatus(active) {
+    const slugs = [...state.selectedSlugs];
+    if (!slugs.length || state.bulkPending || state.favoritePending.size || state.artistStatusPending.size) return;
+    state.bulkPending = true; renderArtists();
+    showRefreshStatus(`${active ? 'Restoring' : 'Archiving'} ${artistCount(slugs.length)}…`, 'running');
+    try {
+      const result = await apiRequest('/api/artists/bulk/status', { method: 'POST', body: JSON.stringify({ slugs, active }) });
+      (result.artists || []).forEach(artist => mergeArtist(artist, false));
+      clearArtistSelection(false);
+      await refreshDashboardData();
+      showRefreshStatus(`${artistCount(result.changed_count)} ${active ? 'restored' : 'archived'}.`, 'success');
+    } catch (error) {
+      showRefreshStatus(`Bulk status action was not saved: ${error.message}`, 'error');
+    } finally {
+      state.bulkPending = false; renderAll();
     }
   }
   function genreOptions(select, selected = '') {
@@ -731,31 +805,31 @@
   }
   function renderAll() { renderEligibilityControl(); renderCategoryControls(); renderOverview(); renderComparison(); renderGenres(); renderRisers(); renderArtists(); renderCandidates(); renderHealth(); }
 
-  function resetAndRender() { state.page = 1; renderArtists(); }
+  function resetAndRender() { clearArtistSelection(false); state.page = 1; renderArtists(); }
 
   function bind() {
     $('#geo-toggle').addEventListener('click', event => {
       const button = event.target.closest('[data-geo]'); if (!button) return;
-      state.geo = button.dataset.geo; state.page = 1; renderAll();
+      clearArtistSelection(false); state.geo = button.dataset.geo; state.page = 1; renderAll();
     });
-    $('#month-select').addEventListener('change', event => { state.month = event.target.value; state.page = 1; renderAll(); });
+    $('#month-select').addEventListener('change', event => { clearArtistSelection(false); state.month = event.target.value; state.page = 1; renderAll(); });
     $('#minimum-select').addEventListener('change', renderRisers);
     $('#artist-search').addEventListener('input', resetAndRender);
-    $('#genre-filter').addEventListener('change', () => { state.page = 1; renderAll(); });
-    $('#status-filter').addEventListener('change', () => { state.page = 1; renderAll(); });
-    $('#eligibility-filter').addEventListener('change', () => { state.page = 1; renderAll(); });
+    $('#genre-filter').addEventListener('change', () => { clearArtistSelection(false); state.page = 1; renderAll(); });
+    $('#status-filter').addEventListener('change', () => { clearArtistSelection(false); state.page = 1; renderAll(); });
+    $('#eligibility-filter').addEventListener('change', () => { clearArtistSelection(false); state.page = 1; renderAll(); });
     $('#category-nav').addEventListener('click', event => {
       const button = event.target.closest('[data-genre]'); if (!button) return;
-      $('#genre-filter').value = button.dataset.genre; state.page = 1; renderAll(); $('#artists').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      clearArtistSelection(false); $('#genre-filter').value = button.dataset.genre; state.page = 1; renderAll(); $('#artists').scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
     $('#favorites-nav').addEventListener('click', () => {
-      state.favoritesOnly = !state.favoritesOnly; state.page = 1; renderAll(); $('#artists').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      clearArtistSelection(false); state.favoritesOnly = !state.favoritesOnly; state.page = 1; renderAll(); $('#artists').scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
     $('#review-nav').addEventListener('click', () => {
-      state.favoritesOnly = false; $('#status-filter').value = 'candidate'; $('#eligibility-filter').value = 'all'; state.page = 1; renderAll(); $('#artists').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      clearArtistSelection(false); state.favoritesOnly = false; $('#status-filter').value = 'candidate'; $('#eligibility-filter').value = 'all'; state.page = 1; renderAll(); $('#artists').scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
     $('#archive-nav').addEventListener('click', () => {
-      state.favoritesOnly = false; $('#status-filter').value = 'inactive'; $('#eligibility-filter').value = 'all'; state.page = 1; renderAll(); $('#artists').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      clearArtistSelection(false); state.favoritesOnly = false; $('#status-filter').value = 'inactive'; $('#eligibility-filter').value = 'all'; state.page = 1; renderAll(); $('#artists').scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
     $$('.sort').forEach(button => button.addEventListener('click', () => {
       const next = button.dataset.sort; state.direction = state.sort === next ? -state.direction : (next === 'name' ? 1 : -1); state.sort = next; resetAndRender();
@@ -764,6 +838,20 @@
     $('#next-page').addEventListener('click', () => { state.page += 1; renderArtists(); });
     $('#page-buttons').addEventListener('click', event => { const button = event.target.closest('[data-page]'); if (button) { state.page = Number(button.dataset.page); renderArtists(); } });
     $('#page-size').addEventListener('change', event => { state.pageSize = Number(event.target.value); state.page = 1; renderArtists(); });
+    $('#artist-body').addEventListener('click', event => {
+      const checkbox = event.target.closest('[data-select-artist]');
+      if (!checkbox) return;
+      event.stopPropagation(); selectArtistRange(checkbox.dataset.selectArtist, checkbox.checked, event.shiftKey);
+    });
+    $('#select-page').addEventListener('click', event => {
+      const visible = visibleArtistRows();
+      visible.forEach(row => { if (event.currentTarget.checked) state.selectedSlugs.add(row.slug); else state.selectedSlugs.delete(row.slug); });
+      if (visible.length) state.lastSelectedSlug = visible.at(-1).slug;
+      renderArtists();
+    });
+    $('#bulk-favorite').addEventListener('click', event => updateBulkFavorites(event.currentTarget.dataset.favorite === 'true'));
+    $('#bulk-status').addEventListener('click', event => updateBulkStatus(event.currentTarget.dataset.active === 'true'));
+    $('#bulk-clear').addEventListener('click', () => clearArtistSelection());
     document.addEventListener('click', event => {
       const favorite = event.target.closest('[data-favorite]');
       if (favorite) { event.preventDefault(); toggleFavorite(favorite.dataset.favorite, favorite); return; }
@@ -773,7 +861,7 @@
     });
     $('#artist-body').addEventListener('keydown', event => {
       const row = event.target.closest('[data-open]');
-      if (row && !event.target.closest('[data-favorite], [data-row-status]') && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); openDetail(row.dataset.open, row); }
+      if (row && !event.target.closest('[data-favorite], [data-row-status], [data-select-artist]') && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); openDetail(row.dataset.open, row); }
     });
     $('#refresh-data').addEventListener('click', startRefresh);
     $('#add-artist').addEventListener('click', () => openArtistEditor());
