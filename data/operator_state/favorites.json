@@ -111,13 +111,22 @@
       "new_value": true,
       "prior_value": true,
       "timestamp": "2026-09-08T06:49:12Z"
+    },
+    {
+      "action": "artist_favorited",
+      "artist_slug": "vishal-shekhar",
+      "changed": true,
+      "new_value": true,
+      "prior_value": false,
+      "timestamp": "2026-09-08T06:56:34Z"
     }
   ],
   "favorites": [
     "jasmine-sandlas",
     "kunal-kamra",
     "pranit-more",
-    "samay-raina"
+    "samay-raina",
+    "vishal-shekhar"
   ],
   "schema_version": 1
 }
