@@ -32478,13 +32478,14 @@
       "languages": [
         "Various"
       ],
-      "last_reviewed": "2026-08-21",
+      "last_reviewed": "2026-09-08",
       "measurement_keyword": "Scribe",
       "merged_into": null,
       "name": "Scribe",
       "niche_tags": [
         "live_bands"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "live_bands",
       "regions": [
         "India"
@@ -32492,7 +32493,7 @@
       "research_state": "directory_candidate",
       "slug": "scribe",
       "source": "researched_directory_candidate",
-      "status": "candidate",
+      "status": "inactive",
       "subcategory": "live bands",
       "verified_at": null
     },
