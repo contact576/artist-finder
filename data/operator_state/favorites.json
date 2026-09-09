@@ -335,6 +335,14 @@
       "new_value": true,
       "prior_value": false,
       "timestamp": "2026-09-09T11:07:56Z"
+    },
+    {
+      "action": "artist_favorited",
+      "artist_slug": "sami-yusuf",
+      "changed": true,
+      "new_value": true,
+      "prior_value": false,
+      "timestamp": "2026-09-09T11:10:36Z"
     }
   ],
   "favorites": [
@@ -361,6 +369,7 @@
     "ravi-gupta",
     "rohan-joshi",
     "samay-raina",
+    "sami-yusuf",
     "sonu-nigam",
     "sunidhi-chauhan",
     "sunil-grover",
