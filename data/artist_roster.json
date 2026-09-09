@@ -25026,13 +25026,14 @@
       "languages": [
         "Various"
       ],
-      "last_reviewed": "2026-08-21",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Nusrat Fateh Ali Khan",
       "merged_into": null,
       "name": "Nusrat Fateh Ali Khan",
       "niche_tags": [
         "sufi_ghazal"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "sufi_ghazal",
       "regions": [
         "India"
@@ -25040,7 +25041,7 @@
       "research_state": "directory_candidate",
       "slug": "nusrat-fateh-ali-khan",
       "source": "researched_directory_candidate",
-      "status": "candidate",
+      "status": "inactive",
       "subcategory": "sufi ghazal",
       "verified_at": null
     },
