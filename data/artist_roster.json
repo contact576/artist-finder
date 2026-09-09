@@ -1055,13 +1055,14 @@
       "languages": [
         "Various"
       ],
-      "last_reviewed": "2026-08-21",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Advaita",
       "merged_into": null,
       "name": "Advaita",
       "niche_tags": [
         "live_bands"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "live_bands",
       "regions": [
         "India"
@@ -1069,7 +1070,7 @@
       "research_state": "directory_candidate",
       "slug": "advaita",
       "source": "researched_directory_candidate",
-      "status": "candidate",
+      "status": "inactive",
       "subcategory": "live bands",
       "verified_at": null
     },
@@ -6638,13 +6639,14 @@
       "languages": [
         "Various"
       ],
-      "last_reviewed": "2026-08-21",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "BLOT!",
       "merged_into": null,
       "name": "BLOT!",
       "niche_tags": [
         "djs"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "djs",
       "regions": [
         "India"
@@ -6652,7 +6654,7 @@
       "research_state": "directory_candidate",
       "slug": "blot",
       "source": "researched_directory_candidate",
-      "status": "candidate",
+      "status": "inactive",
       "subcategory": "djs",
       "verified_at": null
     },
@@ -13632,13 +13634,14 @@
       "languages": [
         "Various"
       ],
-      "last_reviewed": "2026-08-21",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Gini",
       "merged_into": null,
       "name": "Gini",
       "niche_tags": [
         "djs"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "djs",
       "regions": [
         "India"
@@ -13646,7 +13649,7 @@
       "research_state": "directory_candidate",
       "slug": "gini",
       "source": "researched_directory_candidate",
-      "status": "candidate",
+      "status": "inactive",
       "subcategory": "djs",
       "verified_at": null
     },
@@ -18845,13 +18848,14 @@
       },
       "keyword_review_state": "pending",
       "keyword_variants": [],
-      "last_reviewed": "2026-09-08",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Komorebi",
       "merged_into": null,
       "name": "Komorebi",
       "niche_tags": [
         "djs"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "djs",
       "research_state": "directory_candidate",
       "search_quality_keyword": null,
@@ -18859,7 +18863,7 @@
       "search_quality_state": "unchecked",
       "slug": "komorebi",
       "source": "ticketing_directory_2026-09-08",
-      "status": "candidate",
+      "status": "inactive",
       "verified_at": null
     },
     "korala-maan": {
@@ -23583,13 +23587,14 @@
       "languages": [
         "Various"
       ],
-      "last_reviewed": "2026-08-21",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Naseeruddin Shah",
       "merged_into": null,
       "name": "Naseeruddin Shah",
       "niche_tags": [
         "theatre_musicals"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "theatre_musicals",
       "regions": [
         "India"
@@ -23597,7 +23602,7 @@
       "research_state": "directory_candidate",
       "slug": "naseeruddin-shah",
       "source": "researched_directory_candidate",
-      "status": "candidate",
+      "status": "inactive",
       "subcategory": "theatre musicals",
       "verified_at": null
     },
@@ -23787,13 +23792,14 @@
       "languages": [
         "Various"
       ],
-      "last_reviewed": "2026-08-21",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "NDS",
       "merged_into": null,
       "name": "NDS",
       "niche_tags": [
         "djs"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "djs",
       "regions": [
         "India"
@@ -23801,7 +23807,7 @@
       "research_state": "directory_candidate",
       "slug": "nds",
       "source": "researched_directory_candidate",
-      "status": "candidate",
+      "status": "inactive",
       "subcategory": "djs",
       "verified_at": null
     },
@@ -30537,13 +30543,14 @@
       },
       "keyword_review_state": "pending",
       "keyword_variants": [],
-      "last_reviewed": "2026-09-08",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Royal Blood",
       "merged_into": null,
       "name": "Royal Blood",
       "niche_tags": [
         "live_bands"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "live_bands",
       "research_state": "directory_candidate",
       "search_quality_keyword": null,
@@ -30551,7 +30558,7 @@
       "search_quality_state": "unchecked",
       "slug": "royal-blood",
       "source": "ticketing_directory_2026-09-08",
-      "status": "candidate",
+      "status": "inactive",
       "verified_at": null
     },
     "rudimental-india": {
