@@ -2343,13 +2343,14 @@
       "languages": [
         "Various"
       ],
-      "last_reviewed": "2026-08-21",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Anand",
       "merged_into": null,
       "name": "Anand",
       "niche_tags": [
         "magic_mentalism"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "magic_mentalism",
       "regions": [
         "India"
@@ -2357,7 +2358,7 @@
       "research_state": "directory_candidate",
       "slug": "anand",
       "source": "researched_directory_candidate",
-      "status": "candidate",
+      "status": "inactive",
       "subcategory": "magic mentalism",
       "verified_at": null
     },
@@ -3318,13 +3319,14 @@
       "languages": [
         "Various"
       ],
-      "last_reviewed": "2026-08-21",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Anuradha Paudwal",
       "merged_into": null,
       "name": "Anuradha Paudwal",
       "niche_tags": [
         "devotional"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "devotional",
       "regions": [
         "India"
@@ -3332,7 +3334,7 @@
       "research_state": "directory_candidate",
       "slug": "anuradha-paudwal",
       "source": "researched_directory_candidate",
-      "status": "candidate",
+      "status": "inactive",
       "subcategory": "devotional",
       "verified_at": null
     },
