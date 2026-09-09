@@ -318,7 +318,9 @@
       "verified_at": null
     },
     "aakash-gupta": {
-      "aliases": [],
+      "aliases": [
+        "Akash Gupta"
+      ],
       "contamination_note": null,
       "contamination_status": "unchecked",
       "curated": true,
@@ -334,7 +336,7 @@
       "languages": [
         "Various"
       ],
-      "last_reviewed": "2026-08-21",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Aakash Gupta",
       "merged_into": null,
       "name": "Aakash Gupta",
@@ -477,27 +479,29 @@
       "verified_at": null
     },
     "aashish-solanki": {
-      "aliases": [],
+      "aliases": [
+        "Ashish Solanki"
+      ],
       "contamination_note": null,
       "contamination_status": "unchecked",
       "curated": false,
       "first_seen": "2026-08-21",
       "identity_evidence": {
-        "kind": "legacy_candidate",
-        "note": "Migrated from the prior scout; identity review is still required.",
+        "kind": "operator_candidate",
+        "note": "Matched to the operator-provided comedian list on 2026-09-09; public identity review remains required.",
         "reviewed_at": null,
         "url": null
       },
       "keyword_review_state": "pending",
-      "last_reviewed": null,
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Aashish Solanki",
       "merged_into": null,
       "name": "Aashish Solanki",
       "niche_tags": [],
       "primary_genre": "comedy",
-      "research_state": "legacy_unreviewed",
+      "research_state": "operator_candidate",
       "slug": "aashish-solanki",
-      "source": "legacy_watchlist_migration",
+      "source": "operator_tip",
       "status": "candidate",
       "verified_at": null
     },
@@ -746,8 +750,8 @@
       "curated": false,
       "first_seen": "2026-08-21",
       "identity_evidence": {
-        "kind": "legacy_candidate",
-        "note": "Migrated from the prior scout; identity review is still required.",
+        "kind": "operator_candidate",
+        "note": "Matched to the operator-provided comedian list on 2026-09-09; public identity review remains required.",
         "reviewed_at": null,
         "url": null
       },
@@ -758,9 +762,9 @@
       "name": "Abish Mathew",
       "niche_tags": [],
       "primary_genre": "comedy",
-      "research_state": "legacy_unreviewed",
+      "research_state": "operator_candidate",
       "slug": "abish-mathew",
-      "source": "legacy_watchlist_migration",
+      "source": "operator_tip",
       "status": "candidate",
       "verified_at": null
     },
@@ -1302,6 +1306,39 @@
       "subcategory": "comedy",
       "verified_at": null
     },
+    "aiyyo-shraddha": {
+      "aliases": [
+        "Shraddha Jain"
+      ],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": "2026-09-09",
+      "measurement_keyword": "Aiyyo Shraddha",
+      "merged_into": null,
+      "name": "Aiyyo Shraddha",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "aiyyo-shraddha",
+      "source": "operator_tip",
+      "status": "candidate",
+      "verified_at": null
+    },
     "ajinkya-galande": {
       "aliases": [],
       "contamination_note": "Ticketing identity and generic-name risk require review.",
@@ -1367,6 +1404,37 @@
       "source": "researched_directory_candidate",
       "status": "candidate",
       "subcategory": "indian classical",
+      "verified_at": null
+    },
+    "akash-mehta": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Akash Mehta",
+      "merged_into": null,
+      "name": "Akash Mehta",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "akash-mehta",
+      "source": "operator_tip",
+      "status": "candidate",
       "verified_at": null
     },
     "akhil-sachdeva": {
@@ -1530,6 +1598,37 @@
       "source": "researched_directory_candidate",
       "status": "inactive",
       "subcategory": "live bands",
+      "verified_at": null
+    },
+    "alexander-babu": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Alexander Babu",
+      "merged_into": null,
+      "name": "Alexander Babu",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "alexander-babu",
+      "source": "operator_tip",
+      "status": "candidate",
       "verified_at": null
     },
     "alisha-chinai": {
@@ -1886,7 +1985,9 @@
       "verified_at": null
     },
     "amit-tandon": {
-      "aliases": [],
+      "aliases": [
+        "Amit Tondon"
+      ],
       "category_history": [
         {
           "primary_genre": "storytelling_poetry",
@@ -1911,7 +2012,7 @@
         "Hindi",
         "English"
       ],
-      "last_reviewed": "2026-08-21",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Amit Tandon",
       "merged_into": null,
       "name": "Amit Tandon",
@@ -2448,26 +2549,35 @@
     },
     "angad-singh-ranyal": {
       "aliases": [],
+      "category_history": [
+        {
+          "category": "comedy",
+          "changed_at": "2026-09-09T16:37:03+05:30",
+          "previous_category": "djs"
+        }
+      ],
       "contamination_note": null,
       "contamination_status": "unchecked",
       "curated": false,
       "first_seen": "2026-08-21",
       "identity_evidence": {
-        "kind": "legacy_candidate",
-        "note": "Migrated from the prior scout; identity review is still required.",
+        "kind": "operator_candidate",
+        "note": "Matched to the operator-provided comedian list on 2026-09-09; public identity review remains required.",
         "reviewed_at": null,
         "url": null
       },
       "keyword_review_state": "pending",
-      "last_reviewed": null,
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Angad Singh Ranyal",
       "merged_into": null,
       "name": "Angad Singh Ranyal",
-      "niche_tags": [],
-      "primary_genre": "djs",
-      "research_state": "legacy_unreviewed",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
       "slug": "angad-singh-ranyal",
-      "source": "legacy_watchlist_migration",
+      "source": "operator_tip",
       "status": "candidate",
       "verified_at": null
     },
@@ -3144,7 +3254,9 @@
       "verified_at": null
     },
     "anubhav-singh-bassi": {
-      "aliases": [],
+      "aliases": [
+        "Bassi"
+      ],
       "category_history": [
         {
           "primary_genre": "storytelling_poetry",
@@ -3169,7 +3281,7 @@
         "Hindi",
         "English"
       ],
-      "last_reviewed": "2026-09-08",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Anubhav Singh Bassi",
       "merged_into": null,
       "name": "Anubhav Singh Bassi",
@@ -3569,6 +3681,37 @@
       "subcategory": "punjabi music",
       "verified_at": null
     },
+    "aparna-nancherla": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Aparna Nancherla",
+      "merged_into": null,
+      "name": "Aparna Nancherla",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "aparna-nancherla",
+      "source": "operator_tip",
+      "status": "candidate",
+      "verified_at": null
+    },
     "aparna-sanyal": {
       "aliases": [],
       "contamination_note": null,
@@ -3833,6 +3976,37 @@
       "source": "researched_directory_candidate",
       "status": "verified",
       "subcategory": "bollywood playback",
+      "verified_at": null
+    },
+    "arj-barker": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Arj Barker",
+      "merged_into": null,
+      "name": "Arj Barker",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "arj-barker",
+      "source": "operator_tip",
+      "status": "candidate",
       "verified_at": null
     },
     "arjan-dhillon": {
@@ -4324,6 +4498,37 @@
       "subcategory": "bollywood playback",
       "verified_at": null
     },
+    "ashish-bagrecha": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Ashish Bagrecha",
+      "merged_into": null,
+      "name": "Ashish Bagrecha",
+      "niche_tags": [
+        "storytelling_poetry"
+      ],
+      "primary_genre": "storytelling_poetry",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "ashish-bagrecha",
+      "source": "operator_tip",
+      "status": "candidate",
+      "verified_at": null
+    },
     "ashish-bhatt": {
       "aliases": [],
       "contamination_note": null,
@@ -4425,8 +4630,8 @@
       "curated": false,
       "first_seen": "2026-08-21",
       "identity_evidence": {
-        "kind": "legacy_candidate",
-        "note": "Migrated from the prior scout; identity review is still required.",
+        "kind": "operator_candidate",
+        "note": "Matched to the operator-provided comedian list on 2026-09-09; public identity review remains required.",
         "reviewed_at": null,
         "url": null
       },
@@ -4437,9 +4642,9 @@
       "name": "Ashish Vidyarthi",
       "niche_tags": [],
       "primary_genre": "comedy",
-      "research_state": "legacy_unreviewed",
+      "research_state": "operator_candidate",
       "slug": "ashish-vidyarthi",
-      "source": "legacy_watchlist_migration",
+      "source": "operator_tip",
       "status": "candidate",
       "verified_at": null
     },
@@ -7695,6 +7900,37 @@
       "subcategory": "sufi ghazal",
       "verified_at": null
     },
+    "chandan-prabhakar": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Chandan Prabhakar",
+      "merged_into": null,
+      "name": "Chandan Prabhakar",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "chandan-prabhakar",
+      "source": "operator_tip",
+      "status": "candidate",
+      "verified_at": null
+    },
     "chandan-shetty": {
       "aliases": [],
       "contamination_note": null,
@@ -8492,6 +8728,37 @@
       "search_quality_state": "unchecked",
       "slug": "dacalty",
       "source": "ticketing_directory_2026-09-08",
+      "status": "candidate",
+      "verified_at": null
+    },
+    "daniel-fernandes": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Daniel Fernandes",
+      "merged_into": null,
+      "name": "Daniel Fernandes",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "daniel-fernandes",
+      "source": "operator_tip",
       "status": "candidate",
       "verified_at": null
     },
@@ -13249,26 +13516,35 @@
     },
     "gaurav-gupta": {
       "aliases": [],
+      "category_history": [
+        {
+          "category": "comedy",
+          "changed_at": "2026-09-09T16:37:03+05:30",
+          "previous_category": "unknown"
+        }
+      ],
       "contamination_note": null,
       "contamination_status": "unchecked",
       "curated": false,
       "first_seen": "2026-08-21",
       "identity_evidence": {
-        "kind": "legacy_candidate",
-        "note": "Migrated from the prior scout; identity review is still required.",
+        "kind": "operator_candidate",
+        "note": "Matched to the operator-provided comedian list on 2026-09-09; public identity review remains required.",
         "reviewed_at": null,
         "url": null
       },
       "keyword_review_state": "pending",
-      "last_reviewed": null,
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Gaurav Gupta",
       "merged_into": null,
       "name": "Gaurav Gupta",
-      "niche_tags": [],
-      "primary_genre": "unknown",
-      "research_state": "legacy_unreviewed",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
       "slug": "gaurav-gupta",
-      "source": "legacy_watchlist_migration",
+      "source": "operator_tip",
       "status": "candidate",
       "verified_at": null
     },
@@ -14290,6 +14566,37 @@
       "subcategory": "comedy",
       "verified_at": null
     },
+    "gursimran-khamba": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Gursimran Khamba",
+      "merged_into": null,
+      "name": "Gursimran Khamba",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "gursimran-khamba",
+      "source": "operator_tip",
+      "status": "candidate",
+      "verified_at": null
+    },
     "guru-randhawa": {
       "aliases": [],
       "contamination_note": null,
@@ -14541,6 +14848,37 @@
       "subcategory": "sufi ghazal",
       "verified_at": null
     },
+    "hari-kondabolu": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Hari Kondabolu",
+      "merged_into": null,
+      "name": "Hari Kondabolu",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "hari-kondabolu",
+      "source": "operator_tip",
+      "status": "candidate",
+      "verified_at": null
+    },
     "hariprasad-chaurasia": {
       "aliases": [],
       "contamination_note": null,
@@ -14672,27 +15010,29 @@
       "verified_at": null
     },
     "harsh-gujral": {
-      "aliases": [],
+      "aliases": [
+        "Harsh Gujaral"
+      ],
       "contamination_note": null,
       "contamination_status": "unchecked",
       "curated": false,
       "first_seen": "2026-08-21",
       "identity_evidence": {
-        "kind": "legacy_candidate",
-        "note": "Migrated from the prior scout; identity review is still required.",
+        "kind": "operator_candidate",
+        "note": "Matched to the operator-provided comedian list on 2026-09-09; public identity review remains required.",
         "reviewed_at": null,
         "url": null
       },
       "keyword_review_state": "pending",
-      "last_reviewed": null,
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Harsh Gujral",
       "merged_into": null,
       "name": "Harsh Gujral",
       "niche_tags": [],
       "primary_genre": "comedy",
-      "research_state": "legacy_unreviewed",
+      "research_state": "operator_candidate",
       "slug": "harsh-gujral",
-      "source": "legacy_watchlist_migration",
+      "source": "operator_tip",
       "status": "candidate",
       "verified_at": null
     },
@@ -16650,6 +16990,37 @@
       "subcategory": "punjabi music",
       "verified_at": null
     },
+    "jeeveshu-ahluwalia": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Jeeveshu Ahluwalia",
+      "merged_into": null,
+      "name": "Jeeveshu Ahluwalia",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "jeeveshu-ahluwalia",
+      "source": "operator_tip",
+      "status": "candidate",
+      "verified_at": null
+    },
     "jenny-johal": {
       "aliases": [],
       "contamination_note": null,
@@ -17827,6 +18198,37 @@
       "subcategory": "sufi ghazal",
       "verified_at": null
     },
+    "kapil-sharma": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Kapil Sharma",
+      "merged_into": null,
+      "name": "Kapil Sharma",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "kapil-sharma",
+      "source": "operator_tip",
+      "status": "candidate",
+      "verified_at": null
+    },
     "karan-aujla": {
       "aliases": [],
       "contamination_note": "Distinct artist query reviewed for identity; search interest includes music/news and is not a ticket-demand measure.",
@@ -17979,6 +18381,37 @@
       "subcategory": "magic mentalism",
       "verified_at": null
     },
+    "karan-talwar": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Karan Talwar",
+      "merged_into": null,
+      "name": "Karan Talwar",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "karan-talwar",
+      "source": "operator_tip",
+      "status": "candidate",
+      "verified_at": null
+    },
     "karthik": {
       "aliases": [],
       "contamination_note": "Ticketing identity and generic-name risk require review.",
@@ -18008,6 +18441,37 @@
       "search_quality_state": "unchecked",
       "slug": "karthik",
       "source": "ticketing_directory_2026-09-08",
+      "status": "candidate",
+      "verified_at": null
+    },
+    "karthik-kumar": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Karthik Kumar",
+      "merged_into": null,
+      "name": "Karthik Kumar",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "karthik-kumar",
+      "source": "operator_tip",
       "status": "candidate",
       "verified_at": null
     },
@@ -18044,6 +18508,37 @@
       "source": "researched_directory_candidate",
       "status": "candidate",
       "subcategory": "live bands",
+      "verified_at": null
+    },
+    "karunesh-talwar": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Karunesh Talwar",
+      "merged_into": null,
+      "name": "Karunesh Talwar",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "karunesh-talwar",
+      "source": "operator_tip",
+      "status": "candidate",
       "verified_at": null
     },
     "kausar-munir": {
@@ -18531,6 +19026,37 @@
       "status": "verified",
       "subcategory": "garba and Gujarati folk",
       "verified_at": "2026-08-21"
+    },
+    "kiran-deol": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Kiran Deol",
+      "merged_into": null,
+      "name": "Kiran Deol",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "kiran-deol",
+      "source": "operator_tip",
+      "status": "candidate",
+      "verified_at": null
     },
     "kirtana-kalaimahan": {
       "aliases": [],
@@ -20677,6 +21203,39 @@
       "subcategory": "bollywood playback",
       "verified_at": null
     },
+    "maheep-singh": {
+      "aliases": [
+        "Mahip Singh"
+      ],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": "2026-09-09",
+      "measurement_keyword": "Maheep Singh",
+      "merged_into": null,
+      "name": "Maheep Singh",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "maheep-singh",
+      "source": "operator_tip",
+      "status": "candidate",
+      "verified_at": null
+    },
     "maithili-thakur": {
       "aliases": [],
       "contamination_note": null,
@@ -20919,6 +21478,37 @@
       "source": "researched_directory_candidate",
       "status": "candidate",
       "subcategory": "sufi ghazal",
+      "verified_at": null
+    },
+    "mallika-dua": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Mallika Dua",
+      "merged_into": null,
+      "name": "Mallika Dua",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "mallika-dua",
+      "source": "operator_tip",
+      "status": "candidate",
       "verified_at": null
     },
     "mallikarjun-mansur": {
@@ -22971,6 +23561,37 @@
       "subcategory": "theatre musicals",
       "verified_at": null
     },
+    "munawar-faruqui": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Munawar Faruqui",
+      "merged_into": null,
+      "name": "Munawar Faruqui",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "munawar-faruqui",
+      "source": "operator_tip",
+      "status": "candidate",
+      "verified_at": null
+    },
     "munjal-shroff": {
       "aliases": [],
       "contamination_note": null,
@@ -23329,6 +23950,37 @@
       "search_quality_state": "unchecked",
       "slug": "naman-anand",
       "source": "ticketing_directory_2026-09-08",
+      "status": "candidate",
+      "verified_at": null
+    },
+    "naman-arora": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Naman Arora",
+      "merged_into": null,
+      "name": "Naman Arora",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "naman-arora",
+      "source": "operator_tip",
       "status": "candidate",
       "verified_at": null
     },
@@ -24554,6 +25206,37 @@
       "subcategory": "comedy",
       "verified_at": null
     },
+    "nish-kumar": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Nish Kumar",
+      "merged_into": null,
+      "name": "Nish Kumar",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "nish-kumar",
+      "source": "operator_tip",
+      "status": "candidate",
+      "verified_at": null
+    },
     "nisha-upadhyay": {
       "aliases": [],
       "contamination_note": null,
@@ -24623,6 +25306,37 @@
       "status": "verified",
       "subcategory": "comedy",
       "verified_at": "2026-08-21"
+    },
+    "nishant-tanwar": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Nishant Tanwar",
+      "merged_into": null,
+      "name": "Nishant Tanwar",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "nishant-tanwar",
+      "source": "operator_tip",
+      "status": "candidate",
+      "verified_at": null
     },
     "nishanth-thyagarajan": {
       "aliases": [],
@@ -26538,6 +27252,37 @@
       "subcategory": "storytelling poetry",
       "verified_at": null
     },
+    "piyush-sharma": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Piyush Sharma",
+      "merged_into": null,
+      "name": "Piyush Sharma",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "piyush-sharma",
+      "source": "operator_tip",
+      "status": "candidate",
+      "verified_at": null
+    },
     "pizza-making-date": {
       "aliases": [],
       "contamination_note": null,
@@ -27015,8 +27760,8 @@
       "curated": false,
       "first_seen": "2026-08-21",
       "identity_evidence": {
-        "kind": "legacy_candidate",
-        "note": "Migrated from the prior scout; identity review is still required.",
+        "kind": "operator_candidate",
+        "note": "Matched to the operator-provided comedian list on 2026-09-09; public identity review remains required.",
         "reviewed_at": null,
         "url": null
       },
@@ -27027,9 +27772,9 @@
       "name": "Pranav Sharma",
       "niche_tags": [],
       "primary_genre": "comedy",
-      "research_state": "legacy_unreviewed",
+      "research_state": "operator_candidate",
       "slug": "pranav-sharma",
-      "source": "legacy_watchlist_migration",
+      "source": "operator_tip",
       "status": "candidate",
       "verified_at": null
     },
@@ -27273,7 +28018,9 @@
       "verified_at": "2026-08-21"
     },
     "praveen-kumar": {
-      "aliases": [],
+      "aliases": [
+        "Parveen Kumar"
+      ],
       "contamination_note": null,
       "contamination_status": "unchecked",
       "curated": true,
@@ -27289,7 +28036,7 @@
       "languages": [
         "Various"
       ],
-      "last_reviewed": "2026-08-21",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Praveen Kumar",
       "merged_into": null,
       "name": "Praveen Kumar",
@@ -28302,6 +29049,37 @@
       "subcategory": "storytelling poetry",
       "verified_at": null
     },
+    "rahgir": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Rahgir",
+      "merged_into": null,
+      "name": "Rahgir",
+      "niche_tags": [
+        "independent_music"
+      ],
+      "primary_genre": "independent_music",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "rahgir",
+      "source": "operator_tip",
+      "status": "candidate",
+      "verified_at": null
+    },
     "rahul-dua": {
       "aliases": [],
       "contamination_note": null,
@@ -28569,26 +29347,35 @@
     },
     "rajasekhar-mamidanna": {
       "aliases": [],
+      "category_history": [
+        {
+          "category": "comedy",
+          "changed_at": "2026-09-09T16:37:03+05:30",
+          "previous_category": "unknown"
+        }
+      ],
       "contamination_note": null,
       "contamination_status": "unchecked",
       "curated": false,
       "first_seen": "2026-08-21",
       "identity_evidence": {
-        "kind": "legacy_candidate",
-        "note": "Migrated from the prior scout; identity review is still required.",
+        "kind": "operator_candidate",
+        "note": "Matched to the operator-provided comedian list on 2026-09-09; public identity review remains required.",
         "reviewed_at": null,
         "url": null
       },
       "keyword_review_state": "pending",
-      "last_reviewed": null,
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Rajasekhar Mamidanna",
       "merged_into": null,
       "name": "Rajasekhar Mamidanna",
-      "niche_tags": [],
-      "primary_genre": "unknown",
-      "research_state": "legacy_unreviewed",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
       "slug": "rajasekhar-mamidanna",
-      "source": "legacy_watchlist_migration",
+      "source": "operator_tip",
       "status": "candidate",
       "verified_at": null
     },
@@ -28896,6 +29683,37 @@
       "source": "researched_directory_candidate",
       "status": "candidate",
       "subcategory": "theatre musicals",
+      "verified_at": null
+    },
+    "rajiv-thakur": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Rajiv Thakur",
+      "merged_into": null,
+      "name": "Rajiv Thakur",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "rajiv-thakur",
+      "source": "operator_tip",
+      "status": "candidate",
       "verified_at": null
     },
     "rakesh-barot": {
@@ -29431,6 +30249,37 @@
       "research_state": "legacy_unreviewed",
       "slug": "raunaq",
       "source": "legacy_watchlist_migration",
+      "status": "candidate",
+      "verified_at": null
+    },
+    "raunaq-rajani": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Raunaq Rajani",
+      "merged_into": null,
+      "name": "Raunaq Rajani",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "raunaq-rajani",
+      "source": "operator_tip",
       "status": "candidate",
       "verified_at": null
     },
@@ -30392,6 +31241,37 @@
       "search_quality_state": "unchecked",
       "slug": "rohan-phadke",
       "source": "ticketing_directory_2026-09-08",
+      "status": "candidate",
+      "verified_at": null
+    },
+    "romesh-ranganathan": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Romesh Ranganathan",
+      "merged_into": null,
+      "name": "Romesh Ranganathan",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "romesh-ranganathan",
+      "source": "operator_tip",
       "status": "candidate",
       "verified_at": null
     },
@@ -33207,6 +34087,37 @@
       "status": "candidate",
       "verified_at": null
     },
+    "sharon-verma": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Sharon Verma",
+      "merged_into": null,
+      "name": "Sharon Verma",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "sharon-verma",
+      "source": "operator_tip",
+      "status": "candidate",
+      "verified_at": null
+    },
     "sharry-mann": {
       "aliases": [],
       "contamination_note": null,
@@ -34015,6 +34926,37 @@
       "status": "candidate",
       "verified_at": null
     },
+    "shyam-rangeela": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Shyam Rangeela",
+      "merged_into": null,
+      "name": "Shyam Rangeela",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "shyam-rangeela",
+      "source": "operator_tip",
+      "status": "candidate",
+      "verified_at": null
+    },
     "shyam-sagar": {
       "aliases": [],
       "contamination_note": null,
@@ -34553,6 +35495,37 @@
       "subcategory": "storytelling poetry",
       "verified_at": null
     },
+    "sindhu-vee": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Sindhu Vee",
+      "merged_into": null,
+      "name": "Sindhu Vee",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "sindhu-vee",
+      "source": "operator_tip",
+      "status": "candidate",
+      "verified_at": null
+    },
     "sing-along": {
       "aliases": [],
       "contamination_note": null,
@@ -34862,6 +35835,37 @@
       "search_quality_state": "unchecked",
       "slug": "skywalkerz",
       "source": "ticketing_directory_2026-09-08",
+      "status": "candidate",
+      "verified_at": null
+    },
+    "smit-pandya": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Smit Pandya",
+      "merged_into": null,
+      "name": "Smit Pandya",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "smit-pandya",
+      "source": "operator_tip",
       "status": "candidate",
       "verified_at": null
     },
@@ -37659,26 +38663,35 @@
     },
     "swati-sachdeva": {
       "aliases": [],
+      "category_history": [
+        {
+          "category": "comedy",
+          "changed_at": "2026-09-09T16:37:03+05:30",
+          "previous_category": "djs"
+        }
+      ],
       "contamination_note": null,
       "contamination_status": "unchecked",
       "curated": false,
       "first_seen": "2026-08-21",
       "identity_evidence": {
-        "kind": "legacy_candidate",
-        "note": "Migrated from the prior scout; identity review is still required.",
+        "kind": "operator_candidate",
+        "note": "Matched to the operator-provided comedian list on 2026-09-09; public identity review remains required.",
         "reviewed_at": null,
         "url": null
       },
       "keyword_review_state": "pending",
-      "last_reviewed": null,
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Swati Sachdeva",
       "merged_into": null,
       "name": "Swati Sachdeva",
-      "niche_tags": [],
-      "primary_genre": "djs",
-      "research_state": "legacy_unreviewed",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
       "slug": "swati-sachdeva",
-      "source": "legacy_watchlist_migration",
+      "source": "operator_tip",
       "status": "candidate",
       "verified_at": null
     },
@@ -39103,6 +40116,37 @@
       "subcategory": "live bands",
       "verified_at": null
     },
+    "thiago-ventura": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Thiago Ventura",
+      "merged_into": null,
+      "name": "Thiago Ventura",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "thiago-ventura",
+      "source": "operator_tip",
+      "status": "candidate",
+      "verified_at": null
+    },
     "third-sovereign": {
       "aliases": [],
       "contamination_note": null,
@@ -40490,6 +41534,37 @@
       "status": "candidate",
       "verified_at": null
     },
+    "vanita-kharat": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Vanita Kharat",
+      "merged_into": null,
+      "name": "Vanita Kharat",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "vanita-kharat",
+      "source": "operator_tip",
+      "status": "candidate",
+      "verified_at": null
+    },
     "varsha-singh-dhanoa": {
       "aliases": [],
       "contamination_note": null,
@@ -40527,6 +41602,13 @@
     },
     "varun-grover": {
       "aliases": [],
+      "category_history": [
+        {
+          "category": "comedy",
+          "changed_at": "2026-09-09T16:37:03+05:30",
+          "previous_category": "storytelling_poetry"
+        }
+      ],
       "contamination_note": null,
       "contamination_status": "unchecked",
       "curated": true,
@@ -40542,15 +41624,14 @@
       "languages": [
         "Various"
       ],
-      "last_reviewed": "2026-08-21",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Varun Grover",
       "merged_into": null,
       "name": "Varun Grover",
       "niche_tags": [
-        "comedy",
-        "storytelling_poetry"
+        "comedy"
       ],
-      "primary_genre": "storytelling_poetry",
+      "primary_genre": "comedy",
       "regions": [
         "India"
       ],
@@ -41467,27 +42548,60 @@
       "verified_at": null
     },
     "vir-das": {
-      "aliases": [],
+      "aliases": [
+        "VirDas"
+      ],
       "contamination_note": null,
       "contamination_status": "unchecked",
       "curated": false,
       "first_seen": "2026-08-21",
       "identity_evidence": {
-        "kind": "legacy_candidate",
-        "note": "Migrated from the prior scout; identity review is still required.",
+        "kind": "operator_candidate",
+        "note": "Matched to the operator-provided comedian list on 2026-09-09; public identity review remains required.",
         "reviewed_at": null,
         "url": null
       },
       "keyword_review_state": "pending",
-      "last_reviewed": null,
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Vir Das",
       "merged_into": null,
       "name": "Vir Das",
       "niche_tags": [],
       "primary_genre": "comedy",
-      "research_state": "legacy_unreviewed",
+      "research_state": "operator_candidate",
       "slug": "vir-das",
-      "source": "legacy_watchlist_migration",
+      "source": "operator_tip",
+      "status": "candidate",
+      "verified_at": null
+    },
+    "viraj-ghelani": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-09",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added from the operator-provided candidate list on 2026-09-09; public identity and measurement-keyword review remain required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "Viraj Ghelani",
+      "merged_into": null,
+      "name": "Viraj Ghelani",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "viraj-ghelani",
+      "source": "operator_tip",
       "status": "candidate",
       "verified_at": null
     },
@@ -42926,5 +44040,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-09-08T16:45:03+05:30"
+  "updated_at": "2026-09-09T16:37:03+05:30"
 }
