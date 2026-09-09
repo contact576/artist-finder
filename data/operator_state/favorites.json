@@ -359,6 +359,14 @@
       "new_value": true,
       "prior_value": false,
       "timestamp": "2026-09-09T11:19:19Z"
+    },
+    {
+      "action": "artist_favorited",
+      "artist_slug": "anuv-jain",
+      "changed": true,
+      "new_value": true,
+      "prior_value": false,
+      "timestamp": "2026-09-09T11:19:21Z"
     }
   ],
   "favorites": [
@@ -367,6 +375,7 @@
     "amit-tandon",
     "anirban-dasgupta",
     "anubhav-singh-bassi",
+    "anuv-jain",
     "atif-aslam",
     "badshah",
     "biswa-kalyan-rath",
