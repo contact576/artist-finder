@@ -5078,13 +5078,14 @@
       },
       "keyword_review_state": "pending",
       "keyword_variants": [],
-      "last_reviewed": "2026-09-08",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Avenged Sevenfold",
       "merged_into": null,
       "name": "Avenged Sevenfold",
       "niche_tags": [
         "live_bands"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "live_bands",
       "research_state": "directory_candidate",
       "search_quality_keyword": null,
@@ -5092,7 +5093,7 @@
       "search_quality_state": "unchecked",
       "slug": "avenged-sevenfold",
       "source": "ticketing_directory_2026-09-08",
-      "status": "candidate",
+      "status": "inactive",
       "verified_at": null
     },
     "avial": {
@@ -7514,13 +7515,14 @@
       },
       "keyword_review_state": "pending",
       "keyword_variants": [],
-      "last_reviewed": "2026-09-08",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Caribou",
       "merged_into": null,
       "name": "Caribou",
       "niche_tags": [
         "djs"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "djs",
       "research_state": "directory_candidate",
       "search_quality_keyword": null,
@@ -7528,7 +7530,7 @@
       "search_quality_state": "unchecked",
       "slug": "caribou",
       "source": "ticketing_directory_2026-09-08",
-      "status": "candidate",
+      "status": "inactive",
       "verified_at": null
     },
     "celebrate-asha-ji": {
@@ -8659,13 +8661,14 @@
       },
       "keyword_review_state": "pending",
       "keyword_variants": [],
-      "last_reviewed": "2026-09-08",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Dawn",
       "merged_into": null,
       "name": "Dawn",
       "niche_tags": [
         "djs"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "djs",
       "research_state": "directory_candidate",
       "search_quality_keyword": null,
@@ -8673,7 +8676,7 @@
       "search_quality_state": "unchecked",
       "slug": "dawn",
       "source": "ticketing_directory_2026-09-08",
-      "status": "candidate",
+      "status": "inactive",
       "verified_at": null
     },
     "dear-zindagi-circle": {
@@ -11154,13 +11157,14 @@
       },
       "keyword_review_state": "pending",
       "keyword_variants": [],
-      "last_reviewed": "2026-09-08",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Dot.",
       "merged_into": null,
       "name": "Dot.",
       "niche_tags": [
         "independent_music"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "independent_music",
       "research_state": "directory_candidate",
       "search_quality_keyword": null,
@@ -11168,7 +11172,7 @@
       "search_quality_state": "unchecked",
       "slug": "dot",
       "source": "ticketing_directory_2026-09-08",
-      "status": "candidate",
+      "status": "inactive",
       "verified_at": null
     },
     "dot-mandala-art-milaap": {
@@ -11812,13 +11816,14 @@
       },
       "keyword_review_state": "pending",
       "keyword_variants": [],
-      "last_reviewed": "2026-09-08",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Everything Everything",
       "merged_into": null,
       "name": "Everything Everything",
       "niche_tags": [
         "live_bands"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "live_bands",
       "research_state": "directory_candidate",
       "search_quality_keyword": null,
@@ -11826,7 +11831,7 @@
       "search_quality_state": "unchecked",
       "slug": "everything-everything",
       "source": "ticketing_directory_2026-09-08",
-      "status": "candidate",
+      "status": "inactive",
       "verified_at": null
     },
     "experience-para-motor-flying": {
@@ -11869,13 +11874,14 @@
       },
       "keyword_review_state": "pending",
       "keyword_variants": [],
-      "last_reviewed": "2026-09-08",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Extreme",
       "merged_into": null,
       "name": "Extreme",
       "niche_tags": [
         "live_bands"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "live_bands",
       "research_state": "directory_candidate",
       "search_quality_keyword": null,
@@ -11883,7 +11889,7 @@
       "search_quality_state": "unchecked",
       "slug": "extreme",
       "source": "ticketing_directory_2026-09-08",
-      "status": "candidate",
+      "status": "inactive",
       "verified_at": null
     },
     "ez-riser": {
@@ -16939,13 +16945,14 @@
       },
       "keyword_review_state": "pending",
       "keyword_variants": [],
-      "last_reviewed": "2026-09-08",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Joker",
       "merged_into": null,
       "name": "Joker",
       "niche_tags": [
         "hip_hop_rap"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "hip_hop_rap",
       "research_state": "directory_candidate",
       "search_quality_keyword": null,
@@ -16953,7 +16960,7 @@
       "search_quality_state": "unchecked",
       "slug": "joker",
       "source": "ticketing_directory_2026-09-08",
-      "status": "candidate",
+      "status": "inactive",
       "verified_at": null
     },
     "jolly-mukherjee": {
@@ -17144,13 +17151,14 @@
       },
       "keyword_review_state": "pending",
       "keyword_variants": [],
-      "last_reviewed": "2026-09-08",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "JPEGMAFIA",
       "merged_into": null,
       "name": "JPEGMAFIA",
       "niche_tags": [
         "hip_hop_rap"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "hip_hop_rap",
       "research_state": "directory_candidate",
       "search_quality_keyword": null,
@@ -17158,7 +17166,7 @@
       "search_quality_state": "unchecked",
       "slug": "jpegmafia",
       "source": "ticketing_directory_2026-09-08",
-      "status": "candidate",
+      "status": "inactive",
       "verified_at": null
     },
     "jubin-nautiyal": {
@@ -17212,13 +17220,14 @@
       },
       "keyword_review_state": "pending",
       "keyword_variants": [],
-      "last_reviewed": "2026-09-08",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Jungle",
       "merged_into": null,
       "name": "Jungle",
       "niche_tags": [
         "live_bands"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "live_bands",
       "research_state": "directory_candidate",
       "search_quality_keyword": null,
@@ -17226,7 +17235,7 @@
       "search_quality_state": "unchecked",
       "slug": "jungle",
       "source": "ticketing_directory_2026-09-08",
-      "status": "candidate",
+      "status": "inactive",
       "verified_at": null
     },
     "juno-reactor": {
@@ -18292,13 +18301,14 @@
       },
       "keyword_review_state": "pending",
       "keyword_variants": [],
-      "last_reviewed": "2026-09-08",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "KDS",
       "merged_into": null,
       "name": "KDS",
       "niche_tags": [
         "hip_hop_rap"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "hip_hop_rap",
       "research_state": "directory_candidate",
       "search_quality_keyword": null,
@@ -18306,7 +18316,7 @@
       "search_quality_state": "unchecked",
       "slug": "kds",
       "source": "ticketing_directory_2026-09-08",
-      "status": "candidate",
+      "status": "inactive",
       "verified_at": null
     },
     "kelithee": {
@@ -20177,13 +20187,14 @@
       },
       "keyword_review_state": "pending",
       "keyword_variants": [],
-      "last_reviewed": "2026-09-08",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Long Distances",
       "merged_into": null,
       "name": "Long Distances",
       "niche_tags": [
         "live_bands"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "live_bands",
       "research_state": "directory_candidate",
       "search_quality_keyword": null,
@@ -20191,7 +20202,7 @@
       "search_quality_state": "unchecked",
       "slug": "long-distances",
       "source": "ticketing_directory_2026-09-08",
-      "status": "candidate",
+      "status": "inactive",
       "verified_at": null
     },
     "loose-yourself-to-dance": {
@@ -21853,13 +21864,14 @@
       },
       "keyword_review_state": "pending",
       "keyword_variants": [],
-      "last_reviewed": "2026-09-08",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Meduza",
       "merged_into": null,
       "name": "Meduza",
       "niche_tags": [
         "djs"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "djs",
       "research_state": "directory_candidate",
       "search_quality_keyword": null,
@@ -21867,7 +21879,7 @@
       "search_quality_state": "unchecked",
       "slug": "meduza",
       "source": "ticketing_directory_2026-09-08",
-      "status": "candidate",
+      "status": "inactive",
       "verified_at": null
     },
     "mega-jamming-session": {
@@ -26311,13 +26323,14 @@
       },
       "keyword_review_state": "pending",
       "keyword_variants": [],
-      "last_reviewed": "2026-09-08",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Perfect Strangers",
       "merged_into": null,
       "name": "Perfect Strangers",
       "niche_tags": [
         "live_bands"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "live_bands",
       "research_state": "directory_candidate",
       "search_quality_keyword": null,
@@ -26325,7 +26338,7 @@
       "search_quality_state": "unchecked",
       "slug": "perfect-strangers",
       "source": "ticketing_directory_2026-09-08",
-      "status": "candidate",
+      "status": "inactive",
       "verified_at": null
     },
     "perfume-making": {
@@ -27665,13 +27678,14 @@
       "languages": [
         "Various"
       ],
-      "last_reviewed": "2026-08-21",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Psychedelic",
       "merged_into": null,
       "name": "Psychedelic",
       "niche_tags": [
         "djs"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "djs",
       "regions": [
         "India"
@@ -27679,7 +27693,7 @@
       "research_state": "directory_candidate",
       "slug": "psychedelic",
       "source": "researched_directory_candidate",
-      "status": "candidate",
+      "status": "inactive",
       "subcategory": "djs",
       "verified_at": null
     },
@@ -30823,13 +30837,14 @@
       },
       "keyword_review_state": "pending",
       "keyword_variants": [],
-      "last_reviewed": "2026-09-08",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "SA",
       "merged_into": null,
       "name": "SA",
       "niche_tags": [
         "hip_hop_rap"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "hip_hop_rap",
       "research_state": "directory_candidate",
       "search_quality_keyword": null,
@@ -30837,7 +30852,7 @@
       "search_quality_state": "unchecked",
       "slug": "sa",
       "source": "ticketing_directory_2026-09-08",
-      "status": "candidate",
+      "status": "inactive",
       "verified_at": null
     },
     "sabri-brothers": {
@@ -34855,13 +34870,14 @@
       },
       "keyword_review_state": "pending",
       "keyword_variants": [],
-      "last_reviewed": "2026-09-08",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Smoke",
       "merged_into": null,
       "name": "Smoke",
       "niche_tags": [
         "hip_hop_rap"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "hip_hop_rap",
       "research_state": "directory_candidate",
       "search_quality_keyword": null,
@@ -34869,7 +34885,7 @@
       "search_quality_state": "unchecked",
       "slug": "smoke",
       "source": "ticketing_directory_2026-09-08",
-      "status": "candidate",
+      "status": "inactive",
       "verified_at": null
     },
     "smritir-sarani": {
@@ -42845,13 +42861,14 @@
       },
       "keyword_review_state": "pending",
       "keyword_variants": [],
-      "last_reviewed": "2026-09-08",
+      "last_reviewed": "2026-09-09",
       "measurement_keyword": "Zero",
       "merged_into": null,
       "name": "Zero",
       "niche_tags": [
         "live_bands"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "live_bands",
       "research_state": "directory_candidate",
       "search_quality_keyword": null,
@@ -42859,7 +42876,7 @@
       "search_quality_state": "unchecked",
       "slug": "zero",
       "source": "ticketing_directory_2026-09-08",
-      "status": "candidate",
+      "status": "inactive",
       "verified_at": null
     },
     "zubeen-garg": {
