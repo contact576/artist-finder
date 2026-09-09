@@ -351,6 +351,14 @@
       "new_value": true,
       "prior_value": false,
       "timestamp": "2026-09-09T11:10:40Z"
+    },
+    {
+      "action": "artist_favorited",
+      "artist_slug": "prateek-kuhad",
+      "changed": true,
+      "new_value": true,
+      "prior_value": false,
+      "timestamp": "2026-09-09T11:19:19Z"
     }
   ],
   "favorites": [
@@ -372,6 +380,7 @@
     "kunal-kamra",
     "madhur-virli",
     "pranit-more",
+    "prateek-kuhad",
     "rahat-fateh-ali-khan",
     "rahul-dua",
     "rahul-subramanian",
