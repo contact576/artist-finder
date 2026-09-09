@@ -303,6 +303,14 @@
       "new_value": true,
       "prior_value": false,
       "timestamp": "2026-09-09T10:49:03Z"
+    },
+    {
+      "action": "artist_favorited",
+      "artist_slug": "atif-aslam",
+      "changed": true,
+      "new_value": true,
+      "prior_value": false,
+      "timestamp": "2026-09-09T11:07:27Z"
     }
   ],
   "favorites": [
@@ -311,6 +319,7 @@
     "amit-tandon",
     "anirban-dasgupta",
     "anubhav-singh-bassi",
+    "atif-aslam",
     "badshah",
     "biswa-kalyan-rath",
     "gaurav-kapoor",
