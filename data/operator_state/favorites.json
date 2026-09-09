@@ -327,6 +327,14 @@
       "new_value": true,
       "prior_value": false,
       "timestamp": "2026-09-09T11:07:43Z"
+    },
+    {
+      "action": "artist_favorited",
+      "artist_slug": "himesh-reshammiya",
+      "changed": true,
+      "new_value": true,
+      "prior_value": false,
+      "timestamp": "2026-09-09T11:07:56Z"
     }
   ],
   "favorites": [
@@ -340,6 +348,7 @@
     "biswa-kalyan-rath",
     "gaurav-kapoor",
     "gulzar",
+    "himesh-reshammiya",
     "jasmine-sandlas",
     "jaspreet-singh",
     "kanan-gill",
