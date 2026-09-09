@@ -319,6 +319,14 @@
       "new_value": true,
       "prior_value": false,
       "timestamp": "2026-09-09T11:07:33Z"
+    },
+    {
+      "action": "artist_favorited",
+      "artist_slug": "sunidhi-chauhan",
+      "changed": true,
+      "new_value": true,
+      "prior_value": false,
+      "timestamp": "2026-09-09T11:07:43Z"
     }
   ],
   "favorites": [
@@ -345,6 +353,7 @@
     "rohan-joshi",
     "samay-raina",
     "sonu-nigam",
+    "sunidhi-chauhan",
     "sunil-grover",
     "tanmay-bhat",
     "vipul-goyal",
