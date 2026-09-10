@@ -391,6 +391,14 @@
       "new_value": true,
       "prior_value": false,
       "timestamp": "2026-09-10T18:46:31Z"
+    },
+    {
+      "action": "artist_favorited",
+      "artist_slug": "deep-vaidya",
+      "changed": true,
+      "new_value": true,
+      "prior_value": false,
+      "timestamp": "2026-09-10T18:46:58Z"
     }
   ],
   "favorites": [
@@ -404,6 +412,7 @@
     "badshah",
     "biswa-kalyan-rath",
     "chirayu-mistry",
+    "deep-vaidya",
     "gaurav-kapoor",
     "gulzar",
     "himesh-reshammiya",
