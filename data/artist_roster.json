@@ -39734,8 +39734,10 @@
         "url": null
       },
       "keyword_review_state": "pending",
-      "keyword_variants": [],
-      "last_reviewed": null,
+      "keyword_variants": [
+        "Lavari show, TCF Lavari, The Lavari Show"
+      ],
+      "last_reviewed": "2026-09-10",
       "measurement_keyword": "The Lavari Show",
       "merged_into": null,
       "name": "The Lavari Show",
