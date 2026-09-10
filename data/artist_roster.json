@@ -39721,6 +39721,37 @@
       "subcategory": "live bands",
       "verified_at": null
     },
+    "the-lavari-show": {
+      "aliases": [],
+      "contamination_note": null,
+      "contamination_status": "unchecked",
+      "curated": false,
+      "first_seen": "2026-09-10",
+      "identity_evidence": {
+        "kind": "operator_candidate",
+        "note": "Added through the local operator API; review required.",
+        "reviewed_at": null,
+        "url": null
+      },
+      "keyword_review_state": "pending",
+      "keyword_variants": [],
+      "last_reviewed": null,
+      "measurement_keyword": "The Lavari Show",
+      "merged_into": null,
+      "name": "The Lavari Show",
+      "niche_tags": [
+        "comedy"
+      ],
+      "primary_genre": "comedy",
+      "research_state": "operator_candidate",
+      "search_quality_keyword": null,
+      "search_quality_note": "Search query quality has not been reviewed.",
+      "search_quality_state": "unchecked",
+      "slug": "the-lavari-show",
+      "source": "local_operator",
+      "status": "candidate",
+      "verified_at": null
+    },
     "the-local-train": {
       "aliases": [],
       "contamination_note": null,
