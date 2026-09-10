@@ -367,6 +367,14 @@
       "new_value": true,
       "prior_value": false,
       "timestamp": "2026-09-09T11:19:21Z"
+    },
+    {
+      "action": "artist_favorited",
+      "artist_slug": "manan-desai",
+      "changed": true,
+      "new_value": true,
+      "prior_value": false,
+      "timestamp": "2026-09-10T18:45:52Z"
     }
   ],
   "favorites": [
@@ -388,6 +396,7 @@
     "kumar-sanu",
     "kunal-kamra",
     "madhur-virli",
+    "manan-desai",
     "pranit-more",
     "prateek-kuhad",
     "rahat-fateh-ali-khan",
