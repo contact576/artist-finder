@@ -375,6 +375,14 @@
       "new_value": true,
       "prior_value": false,
       "timestamp": "2026-09-10T18:45:52Z"
+    },
+    {
+      "action": "artist_favorited",
+      "artist_slug": "chirayu-mistry",
+      "changed": true,
+      "new_value": true,
+      "prior_value": false,
+      "timestamp": "2026-09-10T18:46:05Z"
     }
   ],
   "favorites": [
@@ -387,6 +395,7 @@
     "atif-aslam",
     "badshah",
     "biswa-kalyan-rath",
+    "chirayu-mistry",
     "gaurav-kapoor",
     "gulzar",
     "himesh-reshammiya",
