@@ -383,6 +383,14 @@
       "new_value": true,
       "prior_value": false,
       "timestamp": "2026-09-10T18:46:05Z"
+    },
+    {
+      "action": "artist_favorited",
+      "artist_slug": "om-bhatt",
+      "changed": true,
+      "new_value": true,
+      "prior_value": false,
+      "timestamp": "2026-09-10T18:46:31Z"
     }
   ],
   "favorites": [
@@ -406,6 +414,7 @@
     "kunal-kamra",
     "madhur-virli",
     "manan-desai",
+    "om-bhatt",
     "pranit-more",
     "prateek-kuhad",
     "rahat-fateh-ali-khan",
