@@ -1,0 +1,448 @@
+{
+  "id": "booking-research-2026-10-02-monthly-rotation-1",
+  "reviewed_at": "2026-10-02",
+  "policy": "Evidence-qualified shortlist; only a dated actually performed India event inside the rolling three-year window qualifies. Search estimates remain separate from attendance and booking demand.",
+  "decisions": {
+    "prateek-kuhad": {
+      "expected_current": {
+        "name": "Prateek Kuhad",
+        "primary_genre": "independent_music",
+        "measurement_keyword": "Prateek Kuhad",
+        "status": "candidate"
+      },
+      "artist": {
+        "name": "Prateek Kuhad",
+        "primary_genre": "independent_music",
+        "niche_tags": [
+          "independent_music"
+        ],
+        "measurement_keyword": "Prateek Kuhad",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-10-02",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "The named singer-songwriter is shown performing a dated Delhi set in post-event coverage.",
+        "events": [
+          {
+            "date": "2025-11-08",
+            "date_precision": "day",
+            "country": "India",
+            "city": "Delhi",
+            "name": "Nykaaland at NSIC Ground",
+            "evidence_kind": "performed",
+            "role": "headline",
+            "url": "https://timesofindia.indiatimes.com/entertainment/events/delhi/delhiites-sing-along-with-prateek-kuhad-at-a-moonlit-concert/articleshow/125199728.cms"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://timesofindia.indiatimes.com/entertainment/events/delhi/delhiites-sing-along-with-prateek-kuhad-at-a-moonlit-concert/articleshow/125199728.cms",
+            "title": "Delhiites sing along with Prateek Kuhad at a moonlit concert",
+            "publisher": "The Times of India"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Prateek Kuhad",
+        "search_note": "Distinct artist query. Google estimates can include recorded-music and news interest and are not ticket sales.",
+        "note": "The 9 November report describes the prior Saturday's completed Delhi performance, including the set and audience response. It proves one performance, not attendance or sustained touring draw."
+      }
+    },
+    "jasmine-sandlas": {
+      "expected_current": {
+        "name": "Jasmine Sandlas",
+        "primary_genre": "punjabi_music",
+        "measurement_keyword": "Jasmine Sandlas",
+        "status": "candidate"
+      },
+      "artist": {
+        "name": "Jasmine Sandlas",
+        "primary_genre": "punjabi_music",
+        "niche_tags": [
+          "punjabi_music"
+        ],
+        "measurement_keyword": "Jasmine Sandlas",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-10-02",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "The named Punjabi singer is identified in post-event reporting from her India tour.",
+        "events": [
+          {
+            "date": "2026-06-27",
+            "date_precision": "day",
+            "country": "India",
+            "city": "Hyderabad",
+            "name": "Dream Girl India Tour at Quake Arena",
+            "evidence_kind": "performed",
+            "role": "headline",
+            "url": "https://www.hindustantimes.com/entertainment/music/jasmine-sandlas-faces-backlash-after-hyderabad-show-as-fans-claim-she-arrived-3-hours-late-lipsynced-101782716053460.html"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.hindustantimes.com/entertainment/music/jasmine-sandlas-faces-backlash-after-hyderabad-show-as-fans-claim-she-arrived-3-hours-late-lipsynced-101782716053460.html",
+            "title": "Jasmine Sandlas faces backlash after Hyderabad show",
+            "publisher": "Hindustan Times"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Jasmine Sandlas",
+        "search_note": "Distinct artist query. Search changes may reflect music releases, news or controversy as well as concert curiosity.",
+        "note": "The report states that Sandlas performed at Hyderabad's Quake Arena on 27 June. Complaints reported around the event are not treated as attendance or demand evidence."
+      }
+    },
+    "talwiinder": {
+      "expected_current": {
+        "name": "Talwiinder",
+        "primary_genre": "punjabi_music",
+        "measurement_keyword": "Talwiinder",
+        "status": "candidate"
+      },
+      "artist": {
+        "name": "Talwiinder",
+        "primary_genre": "punjabi_music",
+        "niche_tags": [
+          "punjabi_music"
+        ],
+        "measurement_keyword": "Talwiinder",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-10-02",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "The official artist schedule and post-event coverage identify the same Delhi headline show.",
+        "events": [
+          {
+            "date": "2025-11-02",
+            "date_precision": "day",
+            "country": "India",
+            "city": "Delhi",
+            "name": "Late Halloween party",
+            "evidence_kind": "performed",
+            "role": "headline",
+            "url": "https://timesofindia.indiatimes.com/entertainment/events/delhi/talwiinder-rocks-delhi-with-unforgettable-late-halloween-bash/articleshow/125134040.cms"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://timesofindia.indiatimes.com/entertainment/events/delhi/talwiinder-rocks-delhi-with-unforgettable-late-halloween-bash/articleshow/125134040.cms",
+            "title": "Bandannas, beats and missfits: Talwiinder's late Halloween party with Delhiites",
+            "publisher": "The Times of India"
+          },
+          {
+            "url": "https://www.talwiinder.com/shows",
+            "title": "Official 2025 India show schedule",
+            "publisher": "Talwiinder"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Talwiinder",
+        "search_note": "Distinct stage-name query. Search estimates are not attendance or ticket sales.",
+        "note": "The official page dates the Delhi show to 2 November; the later report documents a completed 25-song live set."
+      }
+    },
+    "falguni-pathak": {
+      "expected_current": {
+        "name": "Falguni Pathak",
+        "primary_genre": "garba",
+        "measurement_keyword": "Falguni Pathak",
+        "status": "verified"
+      },
+      "artist": {
+        "name": "Falguni Pathak",
+        "primary_genre": "garba",
+        "niche_tags": [
+          "garba"
+        ],
+        "measurement_keyword": "Falguni Pathak",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-10-02",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "The named Garba performer is documented on stage at a dated Mumbai Navratri event.",
+        "events": [
+          {
+            "date": "2025-10-01",
+            "date_precision": "day",
+            "country": "India",
+            "city": "Mumbai",
+            "name": "Radiance Dandiya",
+            "evidence_kind": "performed",
+            "role": "headline",
+            "url": "https://www.livemint.com/news/trends/falguni-pathak-touches-nita-ambanis-feet-as-she-joins-her-on-stage-for-garba-on-navratri-watch-11759474382667.html"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.livemint.com/news/trends/falguni-pathak-touches-nita-ambanis-feet-as-she-joins-her-on-stage-for-garba-on-navratri-watch-11759474382667.html",
+            "title": "Falguni Pathak at Radiance Dandiya night",
+            "publisher": "Mint"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Falguni Pathak",
+        "search_note": "Distinct artist query. Seasonal Navratri interest can dominate search movement and is not a ticket-sales measure.",
+        "note": "Post-event coverage and the official venue video document Pathak on stage on the final Navratri night, 1 October 2025."
+      }
+    },
+    "papon": {
+      "expected_current": {
+        "name": "Papon",
+        "primary_genre": "sufi_ghazal",
+        "measurement_keyword": "Papon",
+        "status": "candidate"
+      },
+      "artist": {
+        "name": "Papon",
+        "primary_genre": "sufi_ghazal",
+        "niche_tags": [
+          "bollywood_playback",
+          "sufi_ghazal"
+        ],
+        "measurement_keyword": "Papon",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-10-02",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "The named singer is documented performing a completed Valentine's Day concert in Delhi.",
+        "events": [
+          {
+            "date": "2025-02-14",
+            "date_precision": "day",
+            "country": "India",
+            "city": "Delhi",
+            "name": "World Travel and Tourism Festival concert",
+            "evidence_kind": "performed",
+            "role": "headline",
+            "url": "https://www.indiatoday.in/entertainment/music/story/papons-valentines-day-special-show-retro-hits-to-soulful-music-moh-moh-ke-dhaage-to-bulleya-2681678-2025-02-18"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.indiatoday.in/entertainment/music/story/papons-valentines-day-special-show-retro-hits-to-soulful-music-moh-moh-ke-dhaage-to-bulleya-2681678-2025-02-18",
+            "title": "Magical evening at Papon's Valentine's Day special show",
+            "publisher": "India Today"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Papon",
+        "search_note": "The established stage name maps exactly in the current Google result. Search estimates are not attendance or ticket sales.",
+        "note": "Post-event coverage describes the 14 February set at Major Dhyan Chand National Stadium."
+      }
+    },
+    "raja-kumari": {
+      "expected_current": {
+        "name": "Raja Kumari",
+        "primary_genre": "hip_hop_rap",
+        "measurement_keyword": "Raja Kumari",
+        "status": "candidate"
+      },
+      "artist": {
+        "name": "Raja Kumari",
+        "primary_genre": "hip_hop_rap",
+        "niche_tags": [
+          "hip_hop_rap"
+        ],
+        "measurement_keyword": "Raja Kumari",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-10-02",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "The named rapper is documented as the headliner of a dated Kochi festival stage.",
+        "events": [
+          {
+            "date": "2025-12-06",
+            "date_precision": "day",
+            "country": "India",
+            "city": "Kochi",
+            "name": "OCHA x Spotify Rap 91 at Ocha Music Festival",
+            "evidence_kind": "performed",
+            "role": "headline",
+            "url": "https://www.musiculture.in/raja-kumari-headlines-ocha-x-spotify-rap-91-stage-at-ocha-music-festival-2025-in-kochi/"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.musiculture.in/raja-kumari-headlines-ocha-x-spotify-rap-91-stage-at-ocha-music-festival-2025-in-kochi/",
+            "title": "Raja Kumari headlines OCHA x Spotify Rap 91 stage",
+            "publisher": "MusiCulture"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Raja Kumari",
+        "search_note": "The current query maps exactly to the artist. Search estimates include music and news interest and are not ticket sales.",
+        "note": "The 7 December post-event report gives the 6 December date, venue, headline role and performed set."
+      }
+    },
+    "brodha-v": {
+      "expected_current": {
+        "name": "Brodha V",
+        "primary_genre": "hip_hop_rap",
+        "measurement_keyword": "Brodha V",
+        "status": "candidate"
+      },
+      "artist": {
+        "name": "Brodha V",
+        "primary_genre": "hip_hop_rap",
+        "niche_tags": [
+          "hip_hop_rap"
+        ],
+        "measurement_keyword": "Brodha V",
+        "status": "verified"
+      },
+      "review": {
+        "reviewed_at": "2026-10-02",
+        "identity_confirmed": true,
+        "life_status": "unknown",
+        "identity_note": "The host institution's post-event report identifies Brodha V as the main concert performer.",
+        "events": [
+          {
+            "date": "2026-03-27",
+            "date_precision": "day",
+            "country": "India",
+            "city": "Bengaluru",
+            "name": "QuantumX 2026",
+            "evidence_kind": "performed",
+            "role": "headline",
+            "url": "https://newhorizoncollegeofengineering.in/brodha-v-concert-during-quantumx-2026/"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://newhorizoncollegeofengineering.in/brodha-v-concert-during-quantumx-2026/",
+            "title": "Brodha V Concert during QuantumX 2026",
+            "publisher": "New Horizon College of Engineering"
+          }
+        ],
+        "search_quality": "clean",
+        "search_keyword": "Brodha V",
+        "search_note": "Distinct stage-name query. Search estimates are not attendance or ticket sales.",
+        "note": "The institution reports Brodha V taking the stage from 7:30 to 9:00 PM on 27 March 2026. Its crowd estimate is a host claim and is not imported as ticket or attendance data."
+      }
+    },
+    "zubeen-garg": {
+      "archive": true,
+      "expected_current": {
+        "name": "Zubeen Garg",
+        "primary_genre": "bollywood_playback",
+        "measurement_keyword": "Zubeen Garg",
+        "status": "candidate"
+      },
+      "review": {
+        "reviewed_at": "2026-10-02",
+        "identity_confirmed": true,
+        "life_status": "deceased",
+        "excluded_reason": "The Government of India records the singer's death on 19 September 2025; this is not a current bookable act.",
+        "sources": [
+          {
+            "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2168632&lang=2&reg=48",
+            "title": "Prime Minister condoles sudden demise of popular singer Zubeen Garg",
+            "publisher": "Press Information Bureau, Government of India"
+          }
+        ],
+        "events": [],
+        "search_quality": "clean",
+        "search_keyword": "Zubeen Garg",
+        "search_note": "Identity is clear, but posthumous interest cannot represent a bookable act.",
+        "note": "Archived reversibly while retaining all search history and any favorite state."
+      }
+    },
+    "surjit-bindrakhia": {
+      "archive": true,
+      "expected_current": {
+        "name": "Surjit Bindrakhia",
+        "primary_genre": "punjabi_music",
+        "measurement_keyword": "Surjit Bindrakhia",
+        "status": "candidate"
+      },
+      "review": {
+        "reviewed_at": "2026-10-02",
+        "identity_confirmed": true,
+        "life_status": "deceased",
+        "excluded_reason": "Contemporaneous Tribune reporting records the Punjabi singer's death in November 2003; this is not a current bookable act.",
+        "sources": [
+          {
+            "url": "https://apnaorg.com/wp/articles/singer-bindrakhia-dead/",
+            "title": "Singer Bindrakhia Dead",
+            "publisher": "Tribune News Service, archived by APNA"
+          }
+        ],
+        "events": [],
+        "search_quality": "clean",
+        "search_keyword": "Surjit Bindrakhia",
+        "search_note": "Identity is clear, but posthumous interest cannot represent a bookable act.",
+        "note": "Archived reversibly while retaining all search history and any favorite state."
+      }
+    },
+    "armaan-kohli": {
+      "archive": true,
+      "expected_current": {
+        "name": "Armaan Kohli",
+        "primary_genre": "bollywood_playback",
+        "measurement_keyword": "Armaan Kohli",
+        "status": "candidate"
+      },
+      "review": {
+        "reviewed_at": "2026-10-02",
+        "identity_confirmed": true,
+        "life_status": "nonperformer",
+        "excluded_reason": "The roster row resolves to film actor Armaan Kohli, not a verified live music or stand-up act.",
+        "sources": [
+          {
+            "url": "https://www.colorstv.com/us/character/armaan-kohli/",
+            "title": "Armaan Kohli profile",
+            "publisher": "Colors TV"
+          }
+        ],
+        "events": [],
+        "search_quality": "clean",
+        "search_keyword": "Armaan Kohli",
+        "search_note": "The query identifies the actor, which is the wrong entity type for this booking shortlist.",
+        "note": "Archived as a wrong-type roster record, not as a claim that the person never makes public appearances. Restore only with dated evidence for a relevant bookable stage act."
+      }
+    },
+    "sanjay-leela-bhansali": {
+      "archive": true,
+      "expected_current": {
+        "name": "Sanjay Leela Bhansali",
+        "primary_genre": "bollywood_playback",
+        "measurement_keyword": "Sanjay Leela Bhansali",
+        "status": "candidate"
+      },
+      "review": {
+        "reviewed_at": "2026-10-02",
+        "identity_confirmed": true,
+        "life_status": "nonperformer",
+        "excluded_reason": "The roster row resolves to a film director, producer, writer and composer, not a verified touring stage act.",
+        "sources": [
+          {
+            "url": "https://in.bookmyshow.com/person/sanjay-leela-bhansali/2816",
+            "title": "Sanjay Leela Bhansali person profile",
+            "publisher": "BookMyShow"
+          },
+          {
+            "url": "https://dff.nic.in/images/Documents/49_53Nfacatalogue-%20.pdf",
+            "title": "National Film Awards catalogue profile",
+            "publisher": "Directorate of Film Festivals, Government of India"
+          }
+        ],
+        "events": [],
+        "search_quality": "clean",
+        "search_keyword": "Sanjay Leela Bhansali",
+        "search_note": "The query identifies the filmmaker/composer, but no qualifying touring-performer identity is established.",
+        "note": "Archived as a wrong-type roster record. A future named conducted/composer concert can be reviewed and restored without losing history."
+      }
+    }
+  }
+}

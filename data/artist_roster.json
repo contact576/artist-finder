@@ -1256,8 +1256,7 @@
       "merged_into": null,
       "name": "Aishwarya Majmudar",
       "niche_tags": [
-        "garba",
-        "gujarati_folk_dayro"
+        "garba"
       ],
       "primary_genre": "gujarati_folk_dayro",
       "regions": [
@@ -4168,14 +4167,23 @@
       "niche_tags": [
         "bollywood_playback"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "bollywood_playback",
       "regions": [
         "India"
       ],
+      "research_history": [
+        {
+          "manifest_id": "booking-research-2026-10-02-monthly-rotation-1",
+          "previous_keyword": "Armaan Kohli",
+          "previous_status": "candidate",
+          "reviewed_at": "2026-10-02"
+        }
+      ],
       "research_state": "directory_candidate",
       "slug": "armaan-kohli",
       "source": "researched_directory_candidate",
-      "status": "candidate",
+      "status": "inactive",
       "subcategory": "bollywood playback",
       "verified_at": null
     },
@@ -7494,20 +7502,28 @@
     },
     "brodha-v": {
       "aliases": [],
-      "contamination_note": "Ticketing identity and generic-name risk require review.",
-      "contamination_status": "unchecked",
+      "contamination_note": "Distinct stage-name query. Search estimates are not attendance or ticket sales.",
+      "contamination_status": "reviewed",
       "curated": true,
-      "entity_type": "unknown",
+      "entity_type": "artist",
       "first_seen": "2026-09-08",
       "identity_evidence": {
-        "kind": "ticketing_directory_candidate",
-        "note": "Named in BookMyShow evidence for dB Night by Flowers — Cochin. Added from the 2026-09-08 India ticketing directory as a review candidate; the source does not prove ticket sales or North American demand.",
-        "reviewed_at": "2026-09-08",
-        "url": "https://in.bookmyshow.com/events/db-night-by-flowers-cochin/ET00371623"
+        "kind": "booking_research",
+        "note": "The host institution's post-event report identifies Brodha V as the main concert performer.",
+        "reviewed_at": "2026-10-02",
+        "url": "https://newhorizoncollegeofengineering.in/brodha-v-concert-during-quantumx-2026/"
       },
-      "keyword_review_state": "pending",
+      "identity_evidence_history": [
+        {
+          "kind": "ticketing_directory_candidate",
+          "note": "Named in BookMyShow evidence for dB Night by Flowers — Cochin. Added from the 2026-09-08 India ticketing directory as a review candidate; the source does not prove ticket sales or North American demand.",
+          "reviewed_at": "2026-09-08",
+          "url": "https://in.bookmyshow.com/events/db-night-by-flowers-cochin/ET00371623"
+        }
+      ],
+      "keyword_review_state": "approved",
       "keyword_variants": [],
-      "last_reviewed": "2026-09-08",
+      "last_reviewed": "2026-10-02",
       "measurement_keyword": "Brodha V",
       "merged_into": null,
       "name": "Brodha V",
@@ -7515,13 +7531,21 @@
         "hip_hop_rap"
       ],
       "primary_genre": "hip_hop_rap",
-      "research_state": "directory_candidate",
-      "search_quality_keyword": null,
+      "research_history": [
+        {
+          "manifest_id": "booking-research-2026-10-02-monthly-rotation-1",
+          "previous_keyword": "Brodha V",
+          "previous_status": "candidate",
+          "reviewed_at": "2026-10-02"
+        }
+      ],
+      "research_state": "public_identity_review",
+      "search_quality_keyword": "Brodha V",
       "search_quality_note": "Search query quality has not been reviewed.",
-      "search_quality_state": "unchecked",
+      "search_quality_state": "clean",
       "slug": "brodha-v",
       "source": "ticketing_directory_2026-09-08",
-      "status": "candidate",
+      "status": "verified",
       "verified_at": null
     },
     "bts-army-connect": {
@@ -12335,28 +12359,37 @@
     },
     "falguni-pathak": {
       "aliases": [],
-      "contamination_note": null,
-      "contamination_status": "unchecked",
+      "contamination_note": "Distinct artist query. Seasonal Navratri interest can dominate search movement and is not a ticket-sales measure.",
+      "contamination_status": "reviewed",
       "curated": true,
       "entity_type": "artist",
       "first_seen": "2026-08-21",
       "identity_evidence": {
-        "kind": "public_identity_review",
-        "note": "Official artist catalogue establishes the singer identity; included for garba/dandiya programming.",
-        "reviewed_at": "2026-08-21",
-        "url": "https://music.apple.com/us/artist/falguni-pathak/4030840"
+        "kind": "booking_research",
+        "note": "The named Garba performer is documented on stage at a dated Mumbai Navratri event.",
+        "reviewed_at": "2026-10-02",
+        "url": "https://www.livemint.com/news/trends/falguni-pathak-touches-nita-ambanis-feet-as-she-joins-her-on-stage-for-garba-on-navratri-watch-11759474382667.html"
       },
+      "identity_evidence_history": [
+        {
+          "kind": "public_identity_review",
+          "note": "Official artist catalogue establishes the singer identity; included for garba/dandiya programming.",
+          "reviewed_at": "2026-08-21",
+          "url": "https://music.apple.com/us/artist/falguni-pathak/4030840"
+        }
+      ],
       "keyword_review_state": "approved",
       "languages": [
         "Gujarati",
         "Hindi"
       ],
-      "last_reviewed": "2026-08-21",
+      "last_reviewed": "2026-10-02",
       "measurement_keyword": "Falguni Pathak",
       "merged_into": null,
       "name": "Falguni Pathak",
       "niche_tags": [
-        "garba"
+        "garba",
+        "gujarati_folk_dayro"
       ],
       "primary_genre": "garba",
       "regions": [
@@ -12364,7 +12397,17 @@
         "Mumbai",
         "India"
       ],
+      "research_history": [
+        {
+          "manifest_id": "booking-research-2026-10-02-monthly-rotation-1",
+          "previous_keyword": "Falguni Pathak",
+          "previous_status": "verified",
+          "reviewed_at": "2026-10-02"
+        }
+      ],
       "research_state": "public_identity_review",
+      "search_quality_keyword": "Falguni Pathak",
+      "search_quality_state": "clean",
       "slug": "falguni-pathak",
       "source": "public_web_roster_review",
       "status": "verified",
@@ -16468,22 +16511,30 @@
     },
     "jasmine-sandlas": {
       "aliases": [],
-      "contamination_note": null,
-      "contamination_status": "unchecked",
+      "contamination_note": "Distinct artist query. Search changes may reflect music releases, news or controversy as well as concert curiosity.",
+      "contamination_status": "reviewed",
       "curated": true,
       "entity_type": "artist",
       "first_seen": "2026-08-21",
       "identity_evidence": {
-        "kind": "directory_or_festival_candidate",
-        "note": "Canonical live-arts candidate from a category-level official festival/directory source. Not an individual identity verification.",
-        "reviewed_at": "2026-08-21",
-        "url": "https://eemaindia.com/pdf/final-eema-artiste-deck-july-2025.pdf"
+        "kind": "booking_research",
+        "note": "The named Punjabi singer is identified in post-event reporting from her India tour.",
+        "reviewed_at": "2026-10-02",
+        "url": "https://www.hindustantimes.com/entertainment/music/jasmine-sandlas-faces-backlash-after-hyderabad-show-as-fans-claim-she-arrived-3-hours-late-lipsynced-101782716053460.html"
       },
-      "keyword_review_state": "pending",
+      "identity_evidence_history": [
+        {
+          "kind": "directory_or_festival_candidate",
+          "note": "Canonical live-arts candidate from a category-level official festival/directory source. Not an individual identity verification.",
+          "reviewed_at": "2026-08-21",
+          "url": "https://eemaindia.com/pdf/final-eema-artiste-deck-july-2025.pdf"
+        }
+      ],
+      "keyword_review_state": "approved",
       "languages": [
         "Various"
       ],
-      "last_reviewed": "2026-08-21",
+      "last_reviewed": "2026-10-02",
       "measurement_keyword": "Jasmine Sandlas",
       "merged_into": null,
       "name": "Jasmine Sandlas",
@@ -16495,10 +16546,20 @@
         "Punjab",
         "India"
       ],
-      "research_state": "directory_candidate",
+      "research_history": [
+        {
+          "manifest_id": "booking-research-2026-10-02-monthly-rotation-1",
+          "previous_keyword": "Jasmine Sandlas",
+          "previous_status": "candidate",
+          "reviewed_at": "2026-10-02"
+        }
+      ],
+      "research_state": "public_identity_review",
+      "search_quality_keyword": "Jasmine Sandlas",
+      "search_quality_state": "clean",
       "slug": "jasmine-sandlas",
       "source": "researched_directory_candidate",
-      "status": "candidate",
+      "status": "verified",
       "subcategory": "punjabi music",
       "verified_at": null
     },
@@ -26414,22 +26475,30 @@
     },
     "papon": {
       "aliases": [],
-      "contamination_note": null,
-      "contamination_status": "unchecked",
+      "contamination_note": "The established stage name maps exactly in the current Google result. Search estimates are not attendance or ticket sales.",
+      "contamination_status": "reviewed",
       "curated": true,
       "entity_type": "artist",
       "first_seen": "2026-08-21",
       "identity_evidence": {
-        "kind": "directory_or_festival_candidate",
-        "note": "Canonical live-arts candidate from a category-level official festival/directory source. Not an individual identity verification.",
-        "reviewed_at": "2026-08-21",
-        "url": "https://utsav.gov.in/public/view-event/muzaffar-alis-jahan-e-khusrau-2"
+        "kind": "booking_research",
+        "note": "The named singer is documented performing a completed Valentine's Day concert in Delhi.",
+        "reviewed_at": "2026-10-02",
+        "url": "https://www.indiatoday.in/entertainment/music/story/papons-valentines-day-special-show-retro-hits-to-soulful-music-moh-moh-ke-dhaage-to-bulleya-2681678-2025-02-18"
       },
-      "keyword_review_state": "pending",
+      "identity_evidence_history": [
+        {
+          "kind": "directory_or_festival_candidate",
+          "note": "Canonical live-arts candidate from a category-level official festival/directory source. Not an individual identity verification.",
+          "reviewed_at": "2026-08-21",
+          "url": "https://utsav.gov.in/public/view-event/muzaffar-alis-jahan-e-khusrau-2"
+        }
+      ],
+      "keyword_review_state": "approved",
       "languages": [
         "Various"
       ],
-      "last_reviewed": "2026-08-21",
+      "last_reviewed": "2026-10-02",
       "measurement_keyword": "Papon",
       "merged_into": null,
       "name": "Papon",
@@ -26441,10 +26510,20 @@
       "regions": [
         "India"
       ],
-      "research_state": "directory_candidate",
+      "research_history": [
+        {
+          "manifest_id": "booking-research-2026-10-02-monthly-rotation-1",
+          "previous_keyword": "Papon",
+          "previous_status": "candidate",
+          "reviewed_at": "2026-10-02"
+        }
+      ],
+      "research_state": "public_identity_review",
+      "search_quality_keyword": "Papon",
+      "search_quality_state": "clean",
       "slug": "papon",
       "source": "researched_directory_candidate",
-      "status": "candidate",
+      "status": "verified",
       "subcategory": "sufi ghazal",
       "verified_at": null
     },
@@ -27880,22 +27959,30 @@
     },
     "prateek-kuhad": {
       "aliases": [],
-      "contamination_note": null,
-      "contamination_status": "unchecked",
+      "contamination_note": "Distinct artist query. Google estimates can include recorded-music and news interest and are not ticket sales.",
+      "contamination_status": "reviewed",
       "curated": true,
       "entity_type": "artist",
       "first_seen": "2026-08-21",
       "identity_evidence": {
-        "kind": "directory_or_festival_candidate",
-        "note": "Canonical live-arts candidate from a category-level official festival/directory source. Not an individual identity verification.",
-        "reviewed_at": "2026-08-21",
-        "url": "https://nh7.in/"
+        "kind": "booking_research",
+        "note": "The named singer-songwriter is shown performing a dated Delhi set in post-event coverage.",
+        "reviewed_at": "2026-10-02",
+        "url": "https://timesofindia.indiatimes.com/entertainment/events/delhi/delhiites-sing-along-with-prateek-kuhad-at-a-moonlit-concert/articleshow/125199728.cms"
       },
-      "keyword_review_state": "pending",
+      "identity_evidence_history": [
+        {
+          "kind": "directory_or_festival_candidate",
+          "note": "Canonical live-arts candidate from a category-level official festival/directory source. Not an individual identity verification.",
+          "reviewed_at": "2026-08-21",
+          "url": "https://nh7.in/"
+        }
+      ],
+      "keyword_review_state": "approved",
       "languages": [
         "Various"
       ],
-      "last_reviewed": "2026-08-21",
+      "last_reviewed": "2026-10-02",
       "measurement_keyword": "Prateek Kuhad",
       "merged_into": null,
       "name": "Prateek Kuhad",
@@ -27906,10 +27993,20 @@
       "regions": [
         "India"
       ],
-      "research_state": "directory_candidate",
+      "research_history": [
+        {
+          "manifest_id": "booking-research-2026-10-02-monthly-rotation-1",
+          "previous_keyword": "Prateek Kuhad",
+          "previous_status": "candidate",
+          "reviewed_at": "2026-10-02"
+        }
+      ],
+      "research_state": "public_identity_review",
+      "search_quality_keyword": "Prateek Kuhad",
+      "search_quality_state": "clean",
       "slug": "prateek-kuhad",
       "source": "researched_directory_candidate",
-      "status": "candidate",
+      "status": "verified",
       "subcategory": "independent music",
       "verified_at": null
     },
@@ -29276,20 +29373,28 @@
     },
     "raja-kumari": {
       "aliases": [],
-      "contamination_note": "Ticketing identity and generic-name risk require review.",
-      "contamination_status": "unchecked",
+      "contamination_note": "The current query maps exactly to the artist. Search estimates include music and news interest and are not ticket sales.",
+      "contamination_status": "reviewed",
       "curated": true,
-      "entity_type": "unknown",
+      "entity_type": "artist",
       "first_seen": "2026-09-08",
       "identity_evidence": {
-        "kind": "ticketing_directory_candidate",
-        "note": "Named in BookMyShow evidence for Ocha Music Festival 2025 — Day 1. Added from the 2026-09-08 India ticketing directory as a review candidate; the source does not prove ticket sales or North American demand.",
-        "reviewed_at": "2026-09-08",
-        "url": "https://in.bookmyshow.com/events/ocha-music-festival-volume-iii-2025/ET00468649"
+        "kind": "booking_research",
+        "note": "The named rapper is documented as the headliner of a dated Kochi festival stage.",
+        "reviewed_at": "2026-10-02",
+        "url": "https://www.musiculture.in/raja-kumari-headlines-ocha-x-spotify-rap-91-stage-at-ocha-music-festival-2025-in-kochi/"
       },
-      "keyword_review_state": "pending",
+      "identity_evidence_history": [
+        {
+          "kind": "ticketing_directory_candidate",
+          "note": "Named in BookMyShow evidence for Ocha Music Festival 2025 — Day 1. Added from the 2026-09-08 India ticketing directory as a review candidate; the source does not prove ticket sales or North American demand.",
+          "reviewed_at": "2026-09-08",
+          "url": "https://in.bookmyshow.com/events/ocha-music-festival-volume-iii-2025/ET00468649"
+        }
+      ],
+      "keyword_review_state": "approved",
       "keyword_variants": [],
-      "last_reviewed": "2026-09-08",
+      "last_reviewed": "2026-10-02",
       "measurement_keyword": "Raja Kumari",
       "merged_into": null,
       "name": "Raja Kumari",
@@ -29297,13 +29402,21 @@
         "hip_hop_rap"
       ],
       "primary_genre": "hip_hop_rap",
-      "research_state": "directory_candidate",
-      "search_quality_keyword": null,
+      "research_history": [
+        {
+          "manifest_id": "booking-research-2026-10-02-monthly-rotation-1",
+          "previous_keyword": "Raja Kumari",
+          "previous_status": "candidate",
+          "reviewed_at": "2026-10-02"
+        }
+      ],
+      "research_state": "public_identity_review",
+      "search_quality_keyword": "Raja Kumari",
       "search_quality_note": "Search query quality has not been reviewed.",
-      "search_quality_state": "unchecked",
+      "search_quality_state": "clean",
       "slug": "raja-kumari",
       "source": "ticketing_directory_2026-09-08",
-      "status": "candidate",
+      "status": "verified",
       "verified_at": null
     },
     "rajadhiraaj": {
@@ -32448,14 +32561,23 @@
       "niche_tags": [
         "bollywood_playback"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "bollywood_playback",
       "regions": [
         "India"
       ],
+      "research_history": [
+        {
+          "manifest_id": "booking-research-2026-10-02-monthly-rotation-1",
+          "previous_keyword": "Sanjay Leela Bhansali",
+          "previous_status": "candidate",
+          "reviewed_at": "2026-10-02"
+        }
+      ],
       "research_state": "directory_candidate",
       "slug": "sanjay-leela-bhansali",
       "source": "researched_directory_candidate",
-      "status": "candidate",
+      "status": "inactive",
       "subcategory": "bollywood playback",
       "verified_at": null
     },
@@ -38385,15 +38507,24 @@
       "niche_tags": [
         "punjabi_music"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "punjabi_music",
       "regions": [
         "Punjab",
         "India"
       ],
+      "research_history": [
+        {
+          "manifest_id": "booking-research-2026-10-02-monthly-rotation-1",
+          "previous_keyword": "Surjit Bindrakhia",
+          "previous_status": "candidate",
+          "reviewed_at": "2026-10-02"
+        }
+      ],
       "research_state": "directory_candidate",
       "slug": "surjit-bindrakhia",
       "source": "researched_directory_candidate",
-      "status": "candidate",
+      "status": "inactive",
       "subcategory": "punjabi music",
       "verified_at": null
     },
@@ -38975,22 +39106,30 @@
     },
     "talwiinder": {
       "aliases": [],
-      "contamination_note": null,
-      "contamination_status": "unchecked",
+      "contamination_note": "Distinct stage-name query. Search estimates are not attendance or ticket sales.",
+      "contamination_status": "reviewed",
       "curated": true,
       "entity_type": "artist",
       "first_seen": "2026-08-21",
       "identity_evidence": {
-        "kind": "directory_or_festival_candidate",
-        "note": "Canonical live-arts candidate from a category-level official festival/directory source. Not an individual identity verification.",
-        "reviewed_at": "2026-08-21",
-        "url": "https://eemaindia.com/pdf/final-eema-artiste-deck-july-2025.pdf"
+        "kind": "booking_research",
+        "note": "The official artist schedule and post-event coverage identify the same Delhi headline show.",
+        "reviewed_at": "2026-10-02",
+        "url": "https://timesofindia.indiatimes.com/entertainment/events/delhi/talwiinder-rocks-delhi-with-unforgettable-late-halloween-bash/articleshow/125134040.cms"
       },
-      "keyword_review_state": "pending",
+      "identity_evidence_history": [
+        {
+          "kind": "directory_or_festival_candidate",
+          "note": "Canonical live-arts candidate from a category-level official festival/directory source. Not an individual identity verification.",
+          "reviewed_at": "2026-08-21",
+          "url": "https://eemaindia.com/pdf/final-eema-artiste-deck-july-2025.pdf"
+        }
+      ],
+      "keyword_review_state": "approved",
       "languages": [
         "Various"
       ],
-      "last_reviewed": "2026-08-21",
+      "last_reviewed": "2026-10-02",
       "measurement_keyword": "Talwiinder",
       "merged_into": null,
       "name": "Talwiinder",
@@ -39002,10 +39141,20 @@
         "Punjab",
         "India"
       ],
-      "research_state": "directory_candidate",
+      "research_history": [
+        {
+          "manifest_id": "booking-research-2026-10-02-monthly-rotation-1",
+          "previous_keyword": "Talwiinder",
+          "previous_status": "candidate",
+          "reviewed_at": "2026-10-02"
+        }
+      ],
+      "research_state": "public_identity_review",
+      "search_quality_keyword": "Talwiinder",
+      "search_quality_state": "clean",
       "slug": "talwiinder",
       "source": "researched_directory_candidate",
-      "status": "candidate",
+      "status": "verified",
       "subcategory": "punjabi music",
       "verified_at": null
     },
@@ -44061,18 +44210,27 @@
       "niche_tags": [
         "bollywood_playback"
       ],
+      "operator_prior_status": "candidate",
       "primary_genre": "bollywood_playback",
       "regions": [
         "India"
       ],
+      "research_history": [
+        {
+          "manifest_id": "booking-research-2026-10-02-monthly-rotation-1",
+          "previous_keyword": "Zubeen Garg",
+          "previous_status": "candidate",
+          "reviewed_at": "2026-10-02"
+        }
+      ],
       "research_state": "directory_candidate",
       "slug": "zubeen-garg",
       "source": "researched_directory_candidate",
-      "status": "candidate",
+      "status": "inactive",
       "subcategory": "bollywood playback",
       "verified_at": null
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-09-09T16:37:03+05:30"
+  "updated_at": "2026-10-02T15:44:57+05:30"
 }
