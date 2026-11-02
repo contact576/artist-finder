@@ -68,6 +68,40 @@
         }
       ]
     },
+    "andrea-jeremiah": {
+      "events": [
+        {
+          "city": "Chennai",
+          "country": "India",
+          "date": "2025-03-29",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "KYN Live at YMCA Grounds",
+          "role": "headline",
+          "url": "https://www.livechennai.com/detailnews.asp?catid=162&newsid=73988"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "The dated KYN Live schedule and post-event report identify the playback singer's completed Chennai set.",
+      "life_status": "unknown",
+      "note": "The post-event report describes Andrea Jeremiah's completed set and names a performed song; the dated schedule establishes 29 March.",
+      "reviewed_at": "2026-11-02",
+      "search_keyword": "Andrea Jeremiah",
+      "search_note": "Distinct performer query. Search interest can include acting and recorded music, so it is not a concert-demand measure.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "Live Chennai",
+          "title": "Chennai grooves at the KYN Live fusion music concert",
+          "url": "https://www.livechennai.com/detailnews.asp?catid=162&newsid=73988"
+        },
+        {
+          "publisher": "Live Chennai",
+          "title": "Kynhood presents KYN Live",
+          "url": "https://www.livechennai.com/detailnews.asp?catid=51&newsid=73941"
+        }
+      ]
+    },
     "anubhav-singh-bassi": {
       "events": [
         {
@@ -236,6 +270,40 @@
         }
       ]
     },
+    "asal-kolaar": {
+      "events": [
+        {
+          "city": "Chennai",
+          "country": "India",
+          "date": "2025-03-29",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "KYN Live at YMCA Grounds",
+          "role": "headline",
+          "url": "https://www.livechennai.com/detailnews.asp?catid=162&newsid=73988"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "The dated KYN Live schedule and post-event report identify the Tamil rapper's completed Chennai set.",
+      "life_status": "unknown",
+      "note": "The 31 March post-event report describes Asal Kolaar's completed set; the dated schedule establishes 29 March. The organizer's crowd claim is not treated as audited attendance.",
+      "reviewed_at": "2026-11-02",
+      "search_keyword": "Asal Kolaar",
+      "search_note": "Distinct stage-name query. Search estimates are not attendance or ticket sales.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "Live Chennai",
+          "title": "Chennai grooves at the KYN Live fusion music concert",
+          "url": "https://www.livechennai.com/detailnews.asp?catid=162&newsid=73988"
+        },
+        {
+          "publisher": "Live Chennai",
+          "title": "Kynhood presents KYN Live",
+          "url": "https://www.livechennai.com/detailnews.asp?catid=51&newsid=73941"
+        }
+      ]
+    },
     "atif-aslam": {
       "events": [
         {
@@ -268,6 +336,40 @@
           "publisher": "Ticketmaster",
           "title": "Atif Aslam Scotiabank Arena reviews",
           "url": "https://www.ticketmaster.com/atif-aslam-tickets/artist/1406012?page=1&tt_scene=anchor_view"
+        }
+      ]
+    },
+    "babbu-maan": {
+      "events": [
+        {
+          "city": "Delhi",
+          "country": "India",
+          "date": "2025-12-07",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "AP Dhillon One of One India Tour at Indira Gandhi Arena",
+          "role": "support",
+          "url": "https://www.hindustantimes.com/htcity/htcity-delhi-junction/delhi-gets-dhillon-fied-as-ap-dhillon-takes-over-indira-gandhi-arena-101765253024092.html"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Post-event coverage identifies the Punjabi singer joining AP Dhillon on a dated Delhi arena stage.",
+      "life_status": "unknown",
+      "note": "Hindustan Times documents Babbu Maan performing Saaun Di Jhadi during the completed 7 December arena show. This is current stage evidence, but it is a guest appearance rather than a solo-tour signal.",
+      "reviewed_at": "2026-11-02",
+      "search_keyword": "Babbu Maan",
+      "search_note": "Distinct artist query. Search estimates are not attendance or ticket sales.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "Hindustan Times",
+          "title": "Delhi gets Dhillon-fied as AP Dhillon takes over Indira Gandhi Arena",
+          "url": "https://www.hindustantimes.com/htcity/htcity-delhi-junction/delhi-gets-dhillon-fied-as-ap-dhillon-takes-over-indira-gandhi-arena-101765253024092.html"
+        },
+        {
+          "publisher": "Hindustan Times",
+          "title": "AP Dhillon is excited to party with Delhiites on Sunday",
+          "url": "https://www.hindustantimes.com/htcity/leisure/ap-dhillon-is-excited-to-party-with-delhiites-on-sunday-they-never-want-the-show-to-end-101764925372989.html"
         }
       ]
     },
@@ -771,6 +873,69 @@
         }
       ]
     },
+    "kunal-kamra": {
+      "events": [
+        {
+          "city": "Mumbai",
+          "country": "India",
+          "date": "2025-02-02",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "Naya Bharat at The Habitat",
+          "role": "headline",
+          "url": "https://www.livemint.com/news/india/kunal-kamras-naya-bharat-show-audience-summoned-by-mumbai-police-what-does-law-say-11743509075426.html"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Post-event reporting identifies the named comedian, the exact date and the completed Mumbai performance.",
+      "life_status": "unknown",
+      "note": "Mint records attendees from Kamra's 2 February 2025 Naya Bharat show at The Habitat. The later police controversy proves the performance occurred; it does not prove attendance, sales or touring draw.",
+      "reviewed_at": "2026-11-02",
+      "search_keyword": "Kunal Kamra",
+      "search_note": "The query identifies the comedian, but the large search rise can be dominated by political controversy and must not be treated as ticket demand.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "Mint",
+          "title": "Kunal Kamra's Naya Bharat show audience summoned by Mumbai Police",
+          "url": "https://www.livemint.com/news/india/kunal-kamras-naya-bharat-show-audience-summoned-by-mumbai-police-what-does-law-say-11743509075426.html"
+        }
+      ]
+    },
+    "paal-dabba": {
+      "events": [
+        {
+          "city": "Chennai",
+          "country": "India",
+          "date": "2025-03-29",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "KYN Live at YMCA Grounds",
+          "role": "headline",
+          "url": "https://www.livechennai.com/detailnews.asp?catid=162&newsid=73988"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "The dated KYN Live schedule and post-event report identify the Tamil rapper's completed Chennai set.",
+      "life_status": "unknown",
+      "note": "The 31 March post-event report describes Paal Dabba's completed set; the dated schedule establishes 29 March. The organizer's crowd claim is not treated as audited attendance.",
+      "reviewed_at": "2026-11-02",
+      "search_keyword": "Paal Dabba",
+      "search_note": "Distinct stage-name query. Search estimates are not attendance or ticket sales.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "Live Chennai",
+          "title": "Chennai grooves at the KYN Live fusion music concert",
+          "url": "https://www.livechennai.com/detailnews.asp?catid=162&newsid=73988"
+        },
+        {
+          "publisher": "Live Chennai",
+          "title": "Kynhood presents KYN Live",
+          "url": "https://www.livechennai.com/detailnews.asp?catid=51&newsid=73941"
+        }
+      ]
+    },
     "panjabi-mc": {
       "events": [
         {
@@ -874,6 +1039,40 @@
         }
       ]
     },
+    "parmish-verma": {
+      "events": [
+        {
+          "city": "Faridabad",
+          "country": "India",
+          "date": "2024-10-25",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "Diwali Bash at World Street by Omaxe",
+          "role": "headline",
+          "url": "https://www.livehindustan.com/ncr/faridabad/story-diwali-carnival-in-faridabad-a-musical-extravaganza-with-parmish-verma-and-sunanda-sharma-201729962973331.html"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Dated local reporting identifies the Punjabi singer performing at the completed Faridabad event.",
+      "life_status": "unknown",
+      "note": "Hindustan reports that Parmish Verma performed on the Friday night event; the dated event page fixes that Friday as 25 October 2024. Organizer attendance claims are deliberately not used.",
+      "reviewed_at": "2026-11-02",
+      "search_keyword": "Parmish Verma",
+      "search_note": "Distinct artist query. Google estimates include recorded-music and news interest and are not ticket sales.",
+      "search_quality": "clean",
+      "sources": [
+        {
+          "publisher": "Hindustan",
+          "title": "Diwali carnival in Faridabad with Parmish Verma and Sunanda Sharma",
+          "url": "https://www.livehindustan.com/ncr/faridabad/story-diwali-carnival-in-faridabad-a-musical-extravaganza-with-parmish-verma-and-sunanda-sharma-201729962973331.html"
+        },
+        {
+          "publisher": "Delhi Events",
+          "title": "Diwali Bash ft. Parmish Verma and Sunanda Sharma",
+          "url": "https://www.delhievents.com/2024/10/music-diwali-parmish-verma-sunanda-sharma-world-street-omaxe-faridabad.html"
+        }
+      ]
+    },
     "prabh-deep": {
       "events": [
         {
@@ -916,6 +1115,40 @@
           "publisher": "Press Information Bureau, Government of India",
           "title": "PM condoles demise of Dr Prabha Atre",
           "url": "https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=1995909&lang=2&reg=48"
+        }
+      ]
+    },
+    "pradeep-kumar-singer": {
+      "events": [
+        {
+          "city": "Chennai",
+          "country": "India",
+          "date": "2025-03-29",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "KYN Live at YMCA Grounds",
+          "role": "headline",
+          "url": "https://www.livechennai.com/detailnews.asp?catid=162&newsid=73988"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "The dated KYN Live schedule and post-event report identify the contemporary playback singer's completed Chennai set.",
+      "life_status": "unknown",
+      "note": "The post-event report describes Pradeep Kumar's completed set and names performed songs; the dated schedule establishes 29 March. The qualified query is essential to avoid generic-name contamination.",
+      "reviewed_at": "2026-11-02",
+      "search_keyword": "Pradeep Kumar singer",
+      "search_note": "The bare name is highly ambiguous, including a deceased Hindi actor, so the measurement keyword is qualified for the contemporary singer.",
+      "search_quality": "qualified",
+      "sources": [
+        {
+          "publisher": "Live Chennai",
+          "title": "Chennai grooves at the KYN Live fusion music concert",
+          "url": "https://www.livechennai.com/detailnews.asp?catid=162&newsid=73988"
+        },
+        {
+          "publisher": "Live Chennai",
+          "title": "Kynhood presents KYN Live",
+          "url": "https://www.livechennai.com/detailnews.asp?catid=51&newsid=73941"
         }
       ]
     },
@@ -1355,6 +1588,40 @@
         }
       ]
     },
+    "sunanda-sharma": {
+      "events": [
+        {
+          "city": "Faridabad",
+          "country": "India",
+          "date": "2024-10-25",
+          "date_precision": "day",
+          "evidence_kind": "performed",
+          "name": "Diwali Bash at World Street by Omaxe",
+          "role": "headline",
+          "url": "https://www.livehindustan.com/ncr/faridabad/story-diwali-carnival-in-faridabad-a-musical-extravaganza-with-parmish-verma-and-sunanda-sharma-201729962973331.html"
+        }
+      ],
+      "identity_confirmed": true,
+      "identity_note": "Dated local reporting identifies the Punjabi singer performing at the completed Faridabad event.",
+      "life_status": "unknown",
+      "note": "Hindustan reports that Sunanda Sharma performed at the completed event; the dated listing fixes it to 25 October 2024. The qualified keyword prevents the different classical vocalist from being treated as the same person.",
+      "reviewed_at": "2026-11-02",
+      "search_keyword": "Sunanda Sharma Punjabi singer",
+      "search_note": "The unqualified name is shared with an Indian classical vocalist, so the measurement query is explicitly qualified for the Punjabi singer.",
+      "search_quality": "qualified",
+      "sources": [
+        {
+          "publisher": "Hindustan",
+          "title": "Diwali carnival in Faridabad with Parmish Verma and Sunanda Sharma",
+          "url": "https://www.livehindustan.com/ncr/faridabad/story-diwali-carnival-in-faridabad-a-musical-extravaganza-with-parmish-verma-and-sunanda-sharma-201729962973331.html"
+        },
+        {
+          "publisher": "Delhi Events",
+          "title": "Diwali Bash ft. Parmish Verma and Sunanda Sharma",
+          "url": "https://www.delhievents.com/2024/10/music-diwali-parmish-verma-sunanda-sharma-world-street-omaxe-faridabad.html"
+        }
+      ]
+    },
     "sunidhi-chauhan": {
       "events": [
         {
@@ -1685,5 +1952,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-10-02"
+  "updated_at": "2026-11-02"
 }

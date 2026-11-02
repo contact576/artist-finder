@@ -2521,6 +2521,44 @@
       "status": "candidate",
       "verified_at": null
     },
+    "andrea-jeremiah": {
+      "aliases": [],
+      "contamination_note": "Distinct performer query. Search interest can include acting and recorded music, so it is not a concert-demand measure.",
+      "contamination_status": "reviewed",
+      "curated": true,
+      "entity_type": "artist",
+      "first_seen": "2026-11-02",
+      "identity_evidence": {
+        "kind": "booking_research",
+        "note": "The dated KYN Live schedule and post-event report identify the playback singer's completed Chennai set.",
+        "reviewed_at": "2026-11-02",
+        "url": "https://www.livechennai.com/detailnews.asp?catid=162&newsid=73988"
+      },
+      "keyword_review_state": "approved",
+      "last_reviewed": "2026-11-02",
+      "measurement_keyword": "Andrea Jeremiah",
+      "merged_into": null,
+      "name": "Andrea Jeremiah",
+      "niche_tags": [
+        "bollywood_playback"
+      ],
+      "primary_genre": "bollywood_playback",
+      "research_history": [
+        {
+          "manifest_id": "booking-research-2026-11-02-monthly-rotation-1",
+          "previous_keyword": null,
+          "previous_status": null,
+          "reviewed_at": "2026-11-02"
+        }
+      ],
+      "research_state": "public_identity_review",
+      "search_quality_keyword": "Andrea Jeremiah",
+      "search_quality_state": "clean",
+      "slug": "andrea-jeremiah",
+      "source": "monthly_booking_research",
+      "status": "verified",
+      "verified_at": "2026-11-02"
+    },
     "andreas-konig": {
       "aliases": [],
       "contamination_note": null,
@@ -4405,20 +4443,28 @@
     },
     "asal-kolaar": {
       "aliases": [],
-      "contamination_note": "Ticketing identity and generic-name risk require review.",
-      "contamination_status": "unchecked",
+      "contamination_note": "Distinct stage-name query. Search estimates are not attendance or ticket sales.",
+      "contamination_status": "reviewed",
       "curated": true,
-      "entity_type": "unknown",
+      "entity_type": "artist",
       "first_seen": "2026-09-08",
       "identity_evidence": {
-        "kind": "ticketing_directory_candidate",
-        "note": "Named in BookMyShow evidence for Ocha Music Festival 2025 — Day 1. Added from the 2026-09-08 India ticketing directory as a review candidate; the source does not prove ticket sales or North American demand.",
-        "reviewed_at": "2026-09-08",
-        "url": "https://in.bookmyshow.com/events/ocha-music-festival-volume-iii-2025/ET00468649"
+        "kind": "booking_research",
+        "note": "The dated KYN Live schedule and post-event report identify the Tamil rapper's completed Chennai set.",
+        "reviewed_at": "2026-11-02",
+        "url": "https://www.livechennai.com/detailnews.asp?catid=162&newsid=73988"
       },
-      "keyword_review_state": "pending",
+      "identity_evidence_history": [
+        {
+          "kind": "ticketing_directory_candidate",
+          "note": "Named in BookMyShow evidence for Ocha Music Festival 2025 — Day 1. Added from the 2026-09-08 India ticketing directory as a review candidate; the source does not prove ticket sales or North American demand.",
+          "reviewed_at": "2026-09-08",
+          "url": "https://in.bookmyshow.com/events/ocha-music-festival-volume-iii-2025/ET00468649"
+        }
+      ],
+      "keyword_review_state": "approved",
       "keyword_variants": [],
-      "last_reviewed": "2026-09-08",
+      "last_reviewed": "2026-11-02",
       "measurement_keyword": "Asal Kolaar",
       "merged_into": null,
       "name": "Asal Kolaar",
@@ -4426,13 +4472,21 @@
         "hip_hop_rap"
       ],
       "primary_genre": "hip_hop_rap",
-      "research_state": "directory_candidate",
-      "search_quality_keyword": null,
+      "research_history": [
+        {
+          "manifest_id": "booking-research-2026-11-02-monthly-rotation-1",
+          "previous_keyword": "Asal Kolaar",
+          "previous_status": "candidate",
+          "reviewed_at": "2026-11-02"
+        }
+      ],
+      "research_state": "public_identity_review",
+      "search_quality_keyword": "Asal Kolaar",
       "search_quality_note": "Search query quality has not been reviewed.",
-      "search_quality_state": "unchecked",
+      "search_quality_state": "clean",
       "slug": "asal-kolaar",
       "source": "ticketing_directory_2026-09-08",
-      "status": "candidate",
+      "status": "verified",
       "verified_at": null
     },
     "asees-kaur": {
@@ -5715,22 +5769,30 @@
     },
     "babbu-maan": {
       "aliases": [],
-      "contamination_note": null,
-      "contamination_status": "unchecked",
+      "contamination_note": "Distinct artist query. Search estimates are not attendance or ticket sales.",
+      "contamination_status": "reviewed",
       "curated": true,
       "entity_type": "artist",
       "first_seen": "2026-08-21",
       "identity_evidence": {
-        "kind": "directory_or_festival_candidate",
-        "note": "Canonical live-arts candidate from a category-level official festival/directory source. Not an individual identity verification.",
-        "reviewed_at": "2026-08-21",
-        "url": "https://eemaindia.com/pdf/final-eema-artiste-deck-july-2025.pdf"
+        "kind": "booking_research",
+        "note": "Post-event coverage identifies the Punjabi singer joining AP Dhillon on a dated Delhi arena stage.",
+        "reviewed_at": "2026-11-02",
+        "url": "https://www.hindustantimes.com/htcity/htcity-delhi-junction/delhi-gets-dhillon-fied-as-ap-dhillon-takes-over-indira-gandhi-arena-101765253024092.html"
       },
-      "keyword_review_state": "pending",
+      "identity_evidence_history": [
+        {
+          "kind": "directory_or_festival_candidate",
+          "note": "Canonical live-arts candidate from a category-level official festival/directory source. Not an individual identity verification.",
+          "reviewed_at": "2026-08-21",
+          "url": "https://eemaindia.com/pdf/final-eema-artiste-deck-july-2025.pdf"
+        }
+      ],
+      "keyword_review_state": "approved",
       "languages": [
         "Various"
       ],
-      "last_reviewed": "2026-08-21",
+      "last_reviewed": "2026-11-02",
       "measurement_keyword": "Babbu Maan",
       "merged_into": null,
       "name": "Babbu Maan",
@@ -5742,10 +5804,20 @@
         "Punjab",
         "India"
       ],
-      "research_state": "directory_candidate",
+      "research_history": [
+        {
+          "manifest_id": "booking-research-2026-11-02-monthly-rotation-1",
+          "previous_keyword": "Babbu Maan",
+          "previous_status": "candidate",
+          "reviewed_at": "2026-11-02"
+        }
+      ],
+      "research_state": "public_identity_review",
+      "search_quality_keyword": "Babbu Maan",
+      "search_quality_state": "clean",
       "slug": "babbu-maan",
       "source": "researched_directory_candidate",
-      "status": "candidate",
+      "status": "verified",
       "subcategory": "punjabi music",
       "verified_at": null
     },
@@ -19994,22 +20066,30 @@
     },
     "kunal-kamra": {
       "aliases": [],
-      "contamination_note": null,
-      "contamination_status": "unchecked",
+      "contamination_note": "The query identifies the comedian, but the large search rise can be dominated by political controversy and must not be treated as ticket demand.",
+      "contamination_status": "reviewed",
       "curated": true,
       "entity_type": "artist",
       "first_seen": "2026-08-21",
       "identity_evidence": {
-        "kind": "directory_or_festival_candidate",
-        "note": "Canonical live-arts candidate from a category-level official festival/directory source. Not an individual identity verification.",
-        "reviewed_at": "2026-08-21",
-        "url": "https://nh7.in/"
+        "kind": "booking_research",
+        "note": "Post-event reporting identifies the named comedian, the exact date and the completed Mumbai performance.",
+        "reviewed_at": "2026-11-02",
+        "url": "https://www.livemint.com/news/india/kunal-kamras-naya-bharat-show-audience-summoned-by-mumbai-police-what-does-law-say-11743509075426.html"
       },
-      "keyword_review_state": "pending",
+      "identity_evidence_history": [
+        {
+          "kind": "directory_or_festival_candidate",
+          "note": "Canonical live-arts candidate from a category-level official festival/directory source. Not an individual identity verification.",
+          "reviewed_at": "2026-08-21",
+          "url": "https://nh7.in/"
+        }
+      ],
+      "keyword_review_state": "approved",
       "languages": [
         "Various"
       ],
-      "last_reviewed": "2026-08-21",
+      "last_reviewed": "2026-11-02",
       "measurement_keyword": "Kunal Kamra",
       "merged_into": null,
       "name": "Kunal Kamra",
@@ -20020,10 +20100,20 @@
       "regions": [
         "India"
       ],
-      "research_state": "directory_candidate",
+      "research_history": [
+        {
+          "manifest_id": "booking-research-2026-11-02-monthly-rotation-1",
+          "previous_keyword": "Kunal Kamra",
+          "previous_status": "candidate",
+          "reviewed_at": "2026-11-02"
+        }
+      ],
+      "research_state": "public_identity_review",
+      "search_quality_keyword": "Kunal Kamra",
+      "search_quality_state": "clean",
       "slug": "kunal-kamra",
       "source": "researched_directory_candidate",
-      "status": "candidate",
+      "status": "verified",
       "subcategory": "comedy",
       "verified_at": null
     },
@@ -26260,6 +26350,44 @@
       "subcategory": "magic mentalism",
       "verified_at": null
     },
+    "paal-dabba": {
+      "aliases": [],
+      "contamination_note": "Distinct stage-name query. Search estimates are not attendance or ticket sales.",
+      "contamination_status": "reviewed",
+      "curated": true,
+      "entity_type": "artist",
+      "first_seen": "2026-11-02",
+      "identity_evidence": {
+        "kind": "booking_research",
+        "note": "The dated KYN Live schedule and post-event report identify the Tamil rapper's completed Chennai set.",
+        "reviewed_at": "2026-11-02",
+        "url": "https://www.livechennai.com/detailnews.asp?catid=162&newsid=73988"
+      },
+      "keyword_review_state": "approved",
+      "last_reviewed": "2026-11-02",
+      "measurement_keyword": "Paal Dabba",
+      "merged_into": null,
+      "name": "Paal Dabba",
+      "niche_tags": [
+        "hip_hop_rap"
+      ],
+      "primary_genre": "hip_hop_rap",
+      "research_history": [
+        {
+          "manifest_id": "booking-research-2026-11-02-monthly-rotation-1",
+          "previous_keyword": null,
+          "previous_status": null,
+          "reviewed_at": "2026-11-02"
+        }
+      ],
+      "research_state": "public_identity_review",
+      "search_quality_keyword": "Paal Dabba",
+      "search_quality_state": "clean",
+      "slug": "paal-dabba",
+      "source": "monthly_booking_research",
+      "status": "verified",
+      "verified_at": "2026-11-02"
+    },
     "painting-tour-of-kerala": {
       "aliases": [],
       "contamination_note": null,
@@ -26767,22 +26895,30 @@
     },
     "parmish-verma": {
       "aliases": [],
-      "contamination_note": null,
-      "contamination_status": "unchecked",
+      "contamination_note": "Distinct artist query. Google estimates include recorded-music and news interest and are not ticket sales.",
+      "contamination_status": "reviewed",
       "curated": true,
       "entity_type": "artist",
       "first_seen": "2026-08-21",
       "identity_evidence": {
-        "kind": "directory_or_festival_candidate",
-        "note": "Canonical live-arts candidate from a category-level official festival/directory source. Not an individual identity verification.",
-        "reviewed_at": "2026-08-21",
-        "url": "https://eemaindia.com/pdf/final-eema-artiste-deck-july-2025.pdf"
+        "kind": "booking_research",
+        "note": "Dated local reporting identifies the Punjabi singer performing at the completed Faridabad event.",
+        "reviewed_at": "2026-11-02",
+        "url": "https://www.livehindustan.com/ncr/faridabad/story-diwali-carnival-in-faridabad-a-musical-extravaganza-with-parmish-verma-and-sunanda-sharma-201729962973331.html"
       },
-      "keyword_review_state": "pending",
+      "identity_evidence_history": [
+        {
+          "kind": "directory_or_festival_candidate",
+          "note": "Canonical live-arts candidate from a category-level official festival/directory source. Not an individual identity verification.",
+          "reviewed_at": "2026-08-21",
+          "url": "https://eemaindia.com/pdf/final-eema-artiste-deck-july-2025.pdf"
+        }
+      ],
+      "keyword_review_state": "approved",
       "languages": [
         "Various"
       ],
-      "last_reviewed": "2026-08-21",
+      "last_reviewed": "2026-11-02",
       "measurement_keyword": "Parmish Verma",
       "merged_into": null,
       "name": "Parmish Verma",
@@ -26794,10 +26930,20 @@
         "Punjab",
         "India"
       ],
-      "research_state": "directory_candidate",
+      "research_history": [
+        {
+          "manifest_id": "booking-research-2026-11-02-monthly-rotation-1",
+          "previous_keyword": "Parmish Verma",
+          "previous_status": "candidate",
+          "reviewed_at": "2026-11-02"
+        }
+      ],
+      "research_state": "public_identity_review",
+      "search_quality_keyword": "Parmish Verma",
+      "search_quality_state": "clean",
       "slug": "parmish-verma",
       "source": "researched_directory_candidate",
-      "status": "candidate",
+      "status": "verified",
       "subcategory": "punjabi music",
       "verified_at": null
     },
@@ -27799,6 +27945,44 @@
       "status": "candidate",
       "subcategory": "magic mentalism",
       "verified_at": null
+    },
+    "pradeep-kumar-singer": {
+      "aliases": [],
+      "contamination_note": "The bare name is highly ambiguous, including a deceased Hindi actor, so the measurement keyword is qualified for the contemporary singer.",
+      "contamination_status": "reviewed",
+      "curated": true,
+      "entity_type": "artist",
+      "first_seen": "2026-11-02",
+      "identity_evidence": {
+        "kind": "booking_research",
+        "note": "The dated KYN Live schedule and post-event report identify the contemporary playback singer's completed Chennai set.",
+        "reviewed_at": "2026-11-02",
+        "url": "https://www.livechennai.com/detailnews.asp?catid=162&newsid=73988"
+      },
+      "keyword_review_state": "approved",
+      "last_reviewed": "2026-11-02",
+      "measurement_keyword": "Pradeep Kumar singer",
+      "merged_into": null,
+      "name": "Pradeep Kumar",
+      "niche_tags": [
+        "bollywood_playback"
+      ],
+      "primary_genre": "bollywood_playback",
+      "research_history": [
+        {
+          "manifest_id": "booking-research-2026-11-02-monthly-rotation-1",
+          "previous_keyword": null,
+          "previous_status": null,
+          "reviewed_at": "2026-11-02"
+        }
+      ],
+      "research_state": "public_identity_review",
+      "search_quality_keyword": "Pradeep Kumar singer",
+      "search_quality_state": "qualified",
+      "slug": "pradeep-kumar-singer",
+      "source": "monthly_booking_research",
+      "status": "verified",
+      "verified_at": "2026-11-02"
     },
     "pramath-kiran": {
       "aliases": [],
@@ -38042,6 +38226,44 @@
       "subcategory": "comedy",
       "verified_at": null
     },
+    "sunanda-sharma": {
+      "aliases": [],
+      "contamination_note": "The unqualified name is shared with an Indian classical vocalist, so the measurement query is explicitly qualified for the Punjabi singer.",
+      "contamination_status": "reviewed",
+      "curated": true,
+      "entity_type": "artist",
+      "first_seen": "2026-11-02",
+      "identity_evidence": {
+        "kind": "booking_research",
+        "note": "Dated local reporting identifies the Punjabi singer performing at the completed Faridabad event.",
+        "reviewed_at": "2026-11-02",
+        "url": "https://www.livehindustan.com/ncr/faridabad/story-diwali-carnival-in-faridabad-a-musical-extravaganza-with-parmish-verma-and-sunanda-sharma-201729962973331.html"
+      },
+      "keyword_review_state": "approved",
+      "last_reviewed": "2026-11-02",
+      "measurement_keyword": "Sunanda Sharma Punjabi singer",
+      "merged_into": null,
+      "name": "Sunanda Sharma",
+      "niche_tags": [
+        "punjabi_music"
+      ],
+      "primary_genre": "punjabi_music",
+      "research_history": [
+        {
+          "manifest_id": "booking-research-2026-11-02-monthly-rotation-1",
+          "previous_keyword": null,
+          "previous_status": null,
+          "reviewed_at": "2026-11-02"
+        }
+      ],
+      "research_state": "public_identity_review",
+      "search_quality_keyword": "Sunanda Sharma Punjabi singer",
+      "search_quality_state": "qualified",
+      "slug": "sunanda-sharma",
+      "source": "monthly_booking_research",
+      "status": "verified",
+      "verified_at": "2026-11-02"
+    },
     "sunday-cage-party": {
       "aliases": [],
       "contamination_note": null,
@@ -44232,5 +44454,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-10-02T15:44:57+05:30"
+  "updated_at": "2026-11-02T15:38:15+05:30"
 }
